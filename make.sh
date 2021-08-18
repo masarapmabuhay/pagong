@@ -18,8 +18,9 @@
 # 1) https://www3.ntu.edu.sg/home/ehchua/programming/cpp/gcc_make.html;
 # last accessed: 20200930
 
-cp -r ./textures ./output/
-cp -r ./input ./output/
+#removed by Mike, 20210818
+#cp -r ./textures ./output/
+#cp -r ./input ./output/
 
 #rm *.o
 
@@ -53,5 +54,5 @@ g++ -c mainLinux.cpp
 #g++ -o ./output/UsbongStoryLinux mainLinux.o OpenGLCanvas.o MyDynamicObject.o RobotShip.o Font.o Beam.o Asteroid.o Level.o PolygonUtils.o CTargaImage.o Pilot.o UsbongUtils.o Button.o Ball.o Text.o Level2D.o -lGL -lGLU -lglut -lSDL2 -lSDL2_image
 g++ -o ./output/UsbongPagongLinux mainLinux.o -lGL -lGLU -lglut -lSDL2 -lSDL2_image
 
-#added by Mike, 20210220
-cp -r ./*.o ./objectFilesLinux/
+#added by Mike, 20210220; removed by Mike, 20210818
+#cp -r ./*.o ./objectFilesLinux/

@@ -983,17 +983,41 @@ SDL_Texture *loadTexture(char *filename)
 	return texture;
 }
 
+//Reference: http://wiki.libsdl.org/SDL_RenderCopy;
+//last accessed: 20210818
 //TO-DO: -reverify: this
 void draw(SDL_Texture *texture, int x, int y)
 {
+/* //edited by Mike, 20210818
 	SDL_Rect dest;
 	//note: not initialized?
 	dest.x = x;
 	dest.y = y;
 	
+	dest.w = iPilotWidth;
+	dest.h = iPilotHeight;
+*/	
 	//added by Mike, 20210818
 	int iPilotWidth=64;
 	int iPilotHeight=64;
+
+	
+  /* Rectangles for drawing which will specify source (inside the texture)
+  and target (on the screen) for rendering our textures. */
+  SDL_Rect SrcR;
+  SDL_Rect DestR;
+
+  SrcR.x = 0;
+  SrcR.y = 0;
+  SrcR.w = iPilotWidth;
+  SrcR.h = iPilotHeight;
+
+  DestR.x = myWindowWidthAsPixel / 2 - iPilotWidth / 2;
+  DestR.y = myWindowHeightAsPixel / 2 - iPilotHeight / 2;
+  DestR.w = iPilotWidth;
+  DestR.h = iPilotHeight;
+  	
+	
 /*	
 	SDL_Rect *myClip;
 	myClip->x=0;
@@ -1016,8 +1040,10 @@ void draw(SDL_Texture *texture, int x, int y)
 	int iDestWidth=dest.x+iPilotWidth;
 	int iDestHeight=dest.y+iPilotHeight;
 */		
-	//edited by Mike, 20210818
-	SDL_QueryTexture(texture, NULL, NULL, &dest.w, &dest.h);
+	//edited by Mike, 20210818; removed by Mike, 20210818
+	//SDL_QueryTexture(texture, NULL, NULL, &dest.w, &dest.h);
+	
+	
 //	SDL_QueryTexture(texture, NULL, NULL, &iDestWidth, &iDestHeight);
 //	SDL_QueryTexture(texture, NULL, NULL, &iDestWidth, &iDestHeight);
 
@@ -1035,9 +1061,12 @@ void draw(SDL_Texture *texture, int x, int y)
 //	SDL_RenderCopy(mySDLRenderer, texture, NULL, &dest);
 	SDL_RenderCopy(mySDLRenderer, texture, nullptr, &dest);
 */	
+	
+	//edited by Mike, 20210818
+	//SDL_RenderCopy(mySDLRenderer, texture, nullptr, &dest);
 
-	SDL_RenderCopy(mySDLRenderer, texture, nullptr, &dest);
-//	SDL_RenderPresent(mySDLRenderer);
+	SDL_RenderCopy(mySDLRenderer, texture, &SrcR, &DestR);
+	SDL_RenderPresent(mySDLRenderer);
 }
 
 int main(int argc, char *argv[])
