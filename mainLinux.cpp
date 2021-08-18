@@ -53,7 +53,9 @@
  * --> answers by: Mikepote, 20100408T1912
  * --> answers by: Santilli, Ciro, 20160316T2106
  *
- * 12) https://www.parallelrealities.co.uk/tutorials/shooter/shooter1.php;
+ * 12) https://www.parallelrealities.co.uk/tutorials/;
+ * --> last accessed: 20210818
+ * --> 12.1) https://www.parallelrealities.co.uk/tutorials/shooter/shooter1.php;
  * --> last accessed: 20210818
  *
  * 13) https://wiki.libsdl.org/SDL_SetRenderDrawColor;
@@ -968,7 +970,75 @@ void presentScene(void)
 	SDL_RenderPresent(mySDLRenderer);
 }
 
+//added by Mike, 20210818
+//TO-DO: -put: this in Pilot.cpp, et cetera
+SDL_Texture *loadTexture(char *filename)
+{
+	SDL_Texture *texture;
 
+	SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO, "Loading %s", filename);
+
+	texture = IMG_LoadTexture(mySDLRenderer, filename);
+
+	return texture;
+}
+
+//TO-DO: -reverify: this
+void draw(SDL_Texture *texture, int x, int y)
+{
+	SDL_Rect dest;
+	//note: not initialized?
+	dest.x = x;
+	dest.y = y;
+	
+	//added by Mike, 20210818
+	int iPilotWidth=64;
+	int iPilotHeight=64;
+/*	
+	SDL_Rect *myClip;
+	myClip->x=0;
+	myClip->y=0;
+	myClip->w=64;
+	myClip->h=64;
+	
+	dest.w = myClip->w;
+	dest.h = myClip->h;
+*/	
+	SDL_RenderClear(mySDLRenderer);
+	
+/*	
+	dest.w = iPilotWidth;
+	dest.h = iPilotHeight;
+*/	
+//	printf("dest.w: %i\n",dest.w);
+		
+/*	
+	int iDestWidth=dest.x+iPilotWidth;
+	int iDestHeight=dest.y+iPilotHeight;
+*/		
+	//edited by Mike, 20210818
+	SDL_QueryTexture(texture, NULL, NULL, &dest.w, &dest.h);
+//	SDL_QueryTexture(texture, NULL, NULL, &iDestWidth, &iDestHeight);
+//	SDL_QueryTexture(texture, NULL, NULL, &iDestWidth, &iDestHeight);
+
+	//scaled down image
+/*	
+	dest.w = iPilotWidth;
+	dest.h = iPilotHeight;
+*/
+	//Reference: https://www.willusher.io/sdl2%20tutorials/2013/08/27/lesson-5-clipping-sprite-sheets;
+	//last accessed: 20210818
+	//renderTexture(texture, mySDLRenderer, dest, &myClip);
+
+/*	//removed by Mike, 20210818
+//	SDL_RenderDrawRect(mySDLRenderer, &dest);
+//	SDL_RenderCopy(mySDLRenderer, texture, NULL, &dest);
+	SDL_RenderCopy(mySDLRenderer, texture, nullptr, &dest);
+*/	
+
+	SDL_RenderCopy(mySDLRenderer, texture, nullptr, &dest);
+//	SDL_RenderPresent(mySDLRenderer);
+}
 
 int main(int argc, char *argv[])
 {
@@ -976,6 +1046,21 @@ int main(int argc, char *argv[])
 //	memset(&App, 0, sizeof(App));
 
 	initSDL();
+	
+	//added by Mike, 20210818; edited by Mike, 20210818
+	//TO-DO: -add: in Pilot.cpp, et cetera
+/*	
+	player.x = 100;
+	player.y = 100;
+	player.texture = loadTexture("gfx/player.png");
+*/	
+
+/*
+	char* pilotTextureInput = (char*)"textures/imageSpriteExampleMikeWithoutBG.png";
+	SDL_Texture *texture = loadTexture(pilotTextureInput);
+*/
+	//solution to problem: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+	SDL_Texture *texture = loadTexture((char*)"textures/imageSpriteExampleMikeWithoutBG.png");
 
  	//removed by Mike, 20210818
 	//atexit(cleanup);
@@ -985,6 +1070,10 @@ int main(int argc, char *argv[])
 		prepareScene();
 
 		doInput();
+		
+		//added by Mike, 20210818
+//		draw(player.texture, player.x, player.y);
+		draw(texture, myWindowWidthAsPixel/2, myWindowHeightAsPixel/2);
 
 		presentScene();
 
