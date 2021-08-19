@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20200926
- * @date updated: 20210818
+ * @date updated: 20210819
  * @website address: http://www.usbong.ph
  *
  * References:
@@ -57,6 +57,10 @@
  * --> last accessed: 20210818
  * --> 12.1) https://www.parallelrealities.co.uk/tutorials/shooter/shooter1.php;
  * --> last accessed: 20210818
+ * --> 12.2) https://www.parallelrealities.co.uk/tutorials/shooter/shooter3.php;
+ * --> last accessed: 2021819
+ *
+ * TO-DO: -reverify: execution speed in 32-bit OS
  *
  * 13) https://wiki.libsdl.org/SDL_SetRenderDrawColor;
  * --> last accessed: 20210818
@@ -190,6 +194,10 @@ OpenGLCanvas *myOpenGLCanvas = NULL;
 //added by Mike, 20210818
 SDL_Window *mySDLWindow = NULL;
 SDL_Renderer *mySDLRenderer = NULL;
+
+//added by Mike, 20210819
+int iPilotX;
+int iPilotY;
 
 //added by Mike, 20210510
 //note: keys and mouseActionIds equal with that in OpenGLCanvas.cpp
@@ -936,6 +944,62 @@ void initSDL(void)
 	}
 }
 
+void doKeyDown(SDL_KeyboardEvent *event)
+{
+	if (event->repeat == 0)
+	{
+		if (event->keysym.scancode == SDL_SCANCODE_UP)
+		{
+			//app.up = 1;
+			iPilotY-=4;
+		}
+
+		if (event->keysym.scancode == SDL_SCANCODE_DOWN)
+		{
+			//app.down = 1;
+			iPilotY+=4;
+		}
+
+		if (event->keysym.scancode == SDL_SCANCODE_LEFT)
+		{
+//			app.left = 1;
+			iPilotX-=4;
+		}
+
+		if (event->keysym.scancode == SDL_SCANCODE_RIGHT)
+		{
+//			app.right = 1;
+			iPilotX+=4;
+		}
+	}
+}
+
+void doKeyUp(SDL_KeyboardEvent *event)
+{
+	if (event->repeat == 0)
+	{
+		if (event->keysym.scancode == SDL_SCANCODE_UP)
+		{
+//			app.up = 0;
+		}
+
+		if (event->keysym.scancode == SDL_SCANCODE_DOWN)
+		{
+//			app.down = 0;
+		}
+
+		if (event->keysym.scancode == SDL_SCANCODE_LEFT)
+		{
+//			app.left = 0;
+		}
+
+		if (event->keysym.scancode == SDL_SCANCODE_RIGHT)
+		{
+//			app.right = 0;
+		}
+	}
+}
+
 void doInput(void)
 {
 	SDL_Event event;
@@ -946,6 +1010,14 @@ void doInput(void)
 		{
 			case SDL_QUIT:
 				exit(0);
+				break;
+
+			case SDL_KEYDOWN:
+				doKeyDown(&event.key);
+				break;
+
+			case SDL_KEYUP:
+				doKeyUp(&event.key);
 				break;
 
 			default:
@@ -1012,8 +1084,8 @@ void draw(SDL_Texture *texture, int x, int y)
   SrcR.w = iPilotWidth;
   SrcR.h = iPilotHeight;
 
-  DestR.x = myWindowWidthAsPixel / 2 - iPilotWidth / 2;
-  DestR.y = myWindowHeightAsPixel / 2 - iPilotHeight / 2;
+  DestR.x = x; //myWindowWidthAsPixel / 2 - iPilotWidth / 2;
+  DestR.y = y; //myWindowHeightAsPixel / 2 - iPilotHeight / 2;
   DestR.w = iPilotWidth;
   DestR.h = iPilotHeight;
   	
@@ -1091,6 +1163,9 @@ int main(int argc, char *argv[])
 	//solution to problem: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
 	SDL_Texture *texture = loadTexture((char*)"textures/imageSpriteExampleMikeWithoutBG.png");
 
+	iPilotX=myWindowWidthAsPixel/2;
+	iPilotY=myWindowHeightAsPixel/2;
+
  	//removed by Mike, 20210818
 	//atexit(cleanup);
 
@@ -1102,7 +1177,9 @@ int main(int argc, char *argv[])
 		
 		//added by Mike, 20210818
 //		draw(player.texture, player.x, player.y);
-		draw(texture, myWindowWidthAsPixel/2, myWindowHeightAsPixel/2);
+		//edited by Mike, 20210819
+//		draw(texture, myWindowWidthAsPixel/2, myWindowHeightAsPixel/2);
+		draw(texture, iPilotX, iPilotY);
 
 		presentScene();
 
