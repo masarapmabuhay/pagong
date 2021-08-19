@@ -95,9 +95,11 @@
 #include <windows.h>
 //#include <winuser.h>
 
+/*	//removed by Mike, 20210819
 #include <GL/gl.h>
 #include <GL/glut.h> //added by Mike, 20200927
 #include <GL/glu.h> //added by Mike, 20200926
+*/
 
 //added by Mike, 20210816
 #ifdef _WIN32 //Windows machine
@@ -216,6 +218,7 @@ void EnableOpenGL (HWND hWnd, HDC *hDC, HGLRC *hRC);
 void DisableOpenGL (HWND hWnd, HDC hDC, HGLRC hRC);
 
 
+/* //removed by Mike, 20210819
 //added by Mike, 20200928; edited by Mike, 20200928
 //void display() { //Linux Machine
 void display(HDC hDC) { //Windows Machine
@@ -267,6 +270,7 @@ void display(HDC hDC) { //Windows Machine
 //   glFlush();  // Render now //Linux Machine
      SwapBuffers (hDC); //Windows Machine
 }
+*/
 
 //added by Mike, 20200930
 //TO-DO: -add: auto-generate set of instructions for Windows Machine using set from Linux Machine
@@ -547,7 +551,10 @@ void draw(SDL_Texture *texture, int x, int y)
 	//SDL_RenderCopy(mySDLRenderer, texture, nullptr, &dest);
 
 	SDL_RenderCopy(mySDLRenderer, texture, &SrcR, &DestR);
-	SDL_RenderPresent(mySDLRenderer);
+
+	//removed by Mike, 20210819
+	//executed in presentScene()
+//	SDL_RenderPresent(mySDLRenderer);
 }
 
 void update() {
@@ -734,6 +741,9 @@ myWindowHeightAsPixel = static_cast<int>(GetSystemMetrics(SM_CYSCREEN));
 	iPilotX=myWindowWidthAsPixel/2;
 	iPilotY=myWindowHeightAsPixel/2;
 	
+	printf("myWindowWidthAsPixel: %i\n",myWindowWidthAsPixel);
+	printf("myWindowHeightAsPixel: %i\n",myWindowHeightAsPixel);
+	
 	//added by Mike, 20210819
 	iCountTaoAnimationFrame=0;
 
@@ -755,10 +765,13 @@ myWindowHeightAsPixel = static_cast<int>(GetSystemMetrics(SM_CYSCREEN));
 		//edited by Mike, 20210819
 //		draw(texture, myWindowWidthAsPixel/2, myWindowHeightAsPixel/2);
 		draw(texture, iPilotX, iPilotY);
+//		draw(texture, 0, 0);
 
 		presentScene();
 
-		SDL_Delay(16);
+		//edited by Mike, 20210819
+		//SDL_Delay(16);
+		SDL_Delay(1);
 	}
 //-----	
 
