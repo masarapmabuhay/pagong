@@ -931,8 +931,18 @@ void initSDL(void)
 		printf("Couldn't initialize SDL: %s\n", SDL_GetError());
 		exit(1);
 	}
-
-	mySDLWindow = SDL_CreateWindow("Pagong Window", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, myWindowWidthAsPixel, myWindowHeightAsPixel, windowFlags);
+	
+	//includes window title bar	
+	SDL_DisplayMode mySDLDisplayMode;
+	SDL_GetCurrentDisplayMode(0, &mySDLDisplayMode);
+	
+	myWindowWidthAsPixel=mySDLDisplayMode.w;
+	myWindowHeightAsPixel=mySDLDisplayMode.h;
+	
+	
+//	mySDLWindow = SDL_CreateWindow("Pagong Window", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, myWindowWidthAsPixel, myWindowHeightAsPixel, windowFlags);
+	mySDLWindow = SDL_CreateWindow("Pagong Window", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, myWindowWidthAsPixel, myWindowHeightAsPixel, windowFlags | SDL_WINDOW_BORDERLESS);
+	
 
 	if (!mySDLWindow )
 	{
@@ -949,6 +959,9 @@ void initSDL(void)
 		printf("Failed to create renderer: %s\n", SDL_GetError());
 		exit(1);
 	}
+	
+	//removed by Mike, 20210819
+	//SDL_GetRendererOutputSize(mySDLRenderer, &myWindowWidthAsPixel, &myWindowHeightAsPixel);
 }
 
 void keyDown(SDL_KeyboardEvent *event)
