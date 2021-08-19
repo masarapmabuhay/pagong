@@ -199,6 +199,12 @@ SDL_Renderer *mySDLRenderer = NULL;
 int iPilotX;
 int iPilotY;
 
+int myKeysDown[10]; //note: includes KEY_J, KEY_L, KEY_I, KEY_K,
+
+//added by Mike, 20201226
+#define TRUE 1
+#define FALSE 0
+
 //added by Mike, 20210510
 //note: keys and mouseActionIds equal with that in OpenGLCanvas.cpp
 
@@ -944,58 +950,66 @@ void initSDL(void)
 	}
 }
 
-void doKeyDown(SDL_KeyboardEvent *event)
+void keyDown(SDL_KeyboardEvent *event)
 {
 	if (event->repeat == 0)
 	{
-		if (event->keysym.scancode == SDL_SCANCODE_UP)
+//		if (event->keysym.scancode == SDL_SCANCODE_UP)
+		if (event->keysym.scancode == SDL_SCANCODE_W)
 		{
-			//app.up = 1;
-			iPilotY-=4;
+//			iPilotY-=4;
+			myKeysDown[KEY_W] = TRUE;					
 		}
 
-		if (event->keysym.scancode == SDL_SCANCODE_DOWN)
+//		if (event->keysym.scancode == SDL_SCANCODE_DOWN)
+		if (event->keysym.scancode == SDL_SCANCODE_S)
 		{
-			//app.down = 1;
-			iPilotY+=4;
+//			iPilotY+=4;
+			myKeysDown[KEY_S] = TRUE;					
 		}
 
-		if (event->keysym.scancode == SDL_SCANCODE_LEFT)
+//		if (event->keysym.scancode == SDL_SCANCODE_LEFT)
+		if (event->keysym.scancode == SDL_SCANCODE_A)
 		{
-//			app.left = 1;
-			iPilotX-=4;
+//			iPilotX-=4;
+			myKeysDown[KEY_A] = TRUE;					
 		}
 
-		if (event->keysym.scancode == SDL_SCANCODE_RIGHT)
+//		if (event->keysym.scancode == SDL_SCANCODE_RIGHT)
+		if (event->keysym.scancode == SDL_SCANCODE_D)
 		{
-//			app.right = 1;
-			iPilotX+=4;
+//			iPilotX+=4;
+			myKeysDown[KEY_D] = TRUE;					
 		}
 	}
 }
 
-void doKeyUp(SDL_KeyboardEvent *event)
+void keyUp(SDL_KeyboardEvent *event)
 {
 	if (event->repeat == 0)
 	{
-		if (event->keysym.scancode == SDL_SCANCODE_UP)
+//		if (event->keysym.scancode == SDL_SCANCODE_UP)
+		if (event->keysym.scancode == SDL_SCANCODE_W)
 		{
-//			app.up = 0;
+			myKeysDown[KEY_W] = FALSE;					
 		}
 
-		if (event->keysym.scancode == SDL_SCANCODE_DOWN)
+//		if (event->keysym.scancode == SDL_SCANCODE_DOWN)
+		if (event->keysym.scancode == SDL_SCANCODE_S)
 		{
-//			app.down = 0;
+			myKeysDown[KEY_S] = FALSE;					
 		}
 
-		if (event->keysym.scancode == SDL_SCANCODE_LEFT)
+//		if (event->keysym.scancode == SDL_SCANCODE_LEFT)
+		if (event->keysym.scancode == SDL_SCANCODE_A)
 		{
-//			app.left = 0;
+			myKeysDown[KEY_A] = FALSE;					
 		}
 
-		if (event->keysym.scancode == SDL_SCANCODE_RIGHT)
+//		if (event->keysym.scancode == SDL_SCANCODE_RIGHT)
+		if (event->keysym.scancode == SDL_SCANCODE_D)
 		{
-//			app.right = 0;
+			myKeysDown[KEY_D] = FALSE;					
 		}
 	}
 }
@@ -1013,11 +1027,11 @@ void doInput(void)
 				break;
 
 			case SDL_KEYDOWN:
-				doKeyDown(&event.key);
+				keyDown(&event.key);
 				break;
 
 			case SDL_KEYUP:
-				doKeyUp(&event.key);
+				keyUp(&event.key);
 				break;
 
 			default:
@@ -1055,6 +1069,8 @@ SDL_Texture *loadTexture(char *filename)
 	return texture;
 }
 
+
+//TO-DO: -reverify: draw refresh rate
 //Reference: http://wiki.libsdl.org/SDL_RenderCopy;
 //last accessed: 20210818
 //TO-DO: -reverify: this
@@ -1141,6 +1157,28 @@ void draw(SDL_Texture *texture, int x, int y)
 	SDL_RenderPresent(mySDLRenderer);
 }
 
+void update() {
+		if (myKeysDown[KEY_W])
+		{
+			iPilotY-=4;
+		}
+
+		if (myKeysDown[KEY_S])
+		{
+			iPilotY+=4;
+		}
+
+		if (myKeysDown[KEY_A])
+		{
+			iPilotX-=4;
+		}
+
+		if (myKeysDown[KEY_D])
+		{
+			iPilotX+=4;
+		}
+}
+
 int main(int argc, char *argv[])
 {
  	//removed by Mike, 20210818
@@ -1174,6 +1212,9 @@ int main(int argc, char *argv[])
 		prepareScene();
 
 		doInput();
+		
+		update();
+		
 		
 		//added by Mike, 20210818
 //		draw(player.texture, player.x, player.y);
