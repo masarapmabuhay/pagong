@@ -142,6 +142,17 @@ OpenGLCanvas *myOpenGLCanvas = NULL;
 SDL_Window *mySDLWindow = NULL;
 SDL_Renderer *mySDLRenderer = NULL;
 
+//added by Mike, 20210819
+int iPilotX;
+int iPilotY;
+int iCountTaoAnimationFrame;
+
+int myKeysDown[10]; //note: includes KEY_J, KEY_L, KEY_I, KEY_K,
+
+//added by Mike, 20201226
+#define TRUE 1
+#define FALSE 0
+
 
 //added by Mike, 20201001
 enum Keys
@@ -289,7 +300,17 @@ void initSDL(void)
 		exit(1);
 	}
 
-	mySDLWindow = SDL_CreateWindow("Pagong Window", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, myWindowWidthAsPixel, myWindowHeightAsPixel, windowFlags);
+	//includes window title bar	
+	SDL_DisplayMode mySDLDisplayMode;
+	SDL_GetCurrentDisplayMode(0, &mySDLDisplayMode);
+	
+	myWindowWidthAsPixel=mySDLDisplayMode.w;
+	myWindowHeightAsPixel=mySDLDisplayMode.h;
+	
+	
+//	mySDLWindow = SDL_CreateWindow("Pagong Window", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, myWindowWidthAsPixel, myWindowHeightAsPixel, windowFlags);
+	mySDLWindow = SDL_CreateWindow("Pagong Window", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, myWindowWidthAsPixel, myWindowHeightAsPixel, windowFlags | SDL_WINDOW_BORDERLESS);
+	
 
 	if (!mySDLWindow )
 	{
@@ -306,6 +327,73 @@ void initSDL(void)
 		printf("Failed to create renderer: %s\n", SDL_GetError());
 		exit(1);
 	}
+	
+	//removed by Mike, 20210819
+	//SDL_GetRendererOutputSize(mySDLRenderer, &myWindowWidthAsPixel, &myWindowHeightAsPixel);
+}
+
+void keyDown(SDL_KeyboardEvent *event)
+{
+	if (event->repeat == 0)
+	{
+//		if (event->keysym.scancode == SDL_SCANCODE_UP)
+		if (event->keysym.scancode == SDL_SCANCODE_W)
+		{
+//			iPilotY-=4;
+			myKeysDown[KEY_W] = TRUE;					
+		}
+
+//		if (event->keysym.scancode == SDL_SCANCODE_DOWN)
+		if (event->keysym.scancode == SDL_SCANCODE_S)
+		{
+//			iPilotY+=4;
+			myKeysDown[KEY_S] = TRUE;					
+		}
+
+//		if (event->keysym.scancode == SDL_SCANCODE_LEFT)
+		if (event->keysym.scancode == SDL_SCANCODE_A)
+		{
+//			iPilotX-=4;
+			myKeysDown[KEY_A] = TRUE;					
+		}
+
+//		if (event->keysym.scancode == SDL_SCANCODE_RIGHT)
+		if (event->keysym.scancode == SDL_SCANCODE_D)
+		{
+//			iPilotX+=4;
+			myKeysDown[KEY_D] = TRUE;					
+		}
+	}
+}
+
+void keyUp(SDL_KeyboardEvent *event)
+{
+	if (event->repeat == 0)
+	{
+//		if (event->keysym.scancode == SDL_SCANCODE_UP)
+		if (event->keysym.scancode == SDL_SCANCODE_W)
+		{
+			myKeysDown[KEY_W] = FALSE;					
+		}
+
+//		if (event->keysym.scancode == SDL_SCANCODE_DOWN)
+		if (event->keysym.scancode == SDL_SCANCODE_S)
+		{
+			myKeysDown[KEY_S] = FALSE;					
+		}
+
+//		if (event->keysym.scancode == SDL_SCANCODE_LEFT)
+		if (event->keysym.scancode == SDL_SCANCODE_A)
+		{
+			myKeysDown[KEY_A] = FALSE;					
+		}
+
+//		if (event->keysym.scancode == SDL_SCANCODE_RIGHT)
+		if (event->keysym.scancode == SDL_SCANCODE_D)
+		{
+			myKeysDown[KEY_D] = FALSE;					
+		}
+	}
 }
 
 void doInput(void)
@@ -318,6 +406,14 @@ void doInput(void)
 		{
 			case SDL_QUIT:
 				exit(0);
+				break;
+
+			case SDL_KEYDOWN:
+				keyDown(&event.key);
+				break;
+
+			case SDL_KEYUP:
+				keyUp(&event.key);
 				break;
 
 			default:
@@ -355,6 +451,7 @@ SDL_Texture *loadTexture(char *filename)
 	return texture;
 }
 
+//TO-DO: -reverify: draw refresh rate
 //Reference: http://wiki.libsdl.org/SDL_RenderCopy;
 //last accessed: 20210818
 //TO-DO: -reverify: this
@@ -378,17 +475,29 @@ void draw(SDL_Texture *texture, int x, int y)
   and target (on the screen) for rendering our textures. */
   SDL_Rect SrcR;
   SDL_Rect DestR;
+  
+	iCountTaoAnimationFrame=(iCountTaoAnimationFrame)%3;                    																				    
 
-  SrcR.x = 0;
+  SrcR.x = 0+ iCountTaoAnimationFrame*iPilotWidth;
   SrcR.y = 0;
   SrcR.w = iPilotWidth;
   SrcR.h = iPilotHeight;
 
-  DestR.x = myWindowWidthAsPixel / 2 - iPilotWidth / 2;
-  DestR.y = myWindowHeightAsPixel / 2 - iPilotHeight / 2;
+  DestR.x = x; //myWindowWidthAsPixel / 2 - iPilotWidth / 2;
+  DestR.y = y; //myWindowHeightAsPixel / 2 - iPilotHeight / 2;
   DestR.w = iPilotWidth;
   DestR.h = iPilotHeight;
   	
+  int iCount;
+  for (iCount=0; iCount<iNumOfKeyTypes; iCount++) {
+		if (myKeysDown[iCount]==TRUE) {
+ 			iCountTaoAnimationFrame=iCountTaoAnimationFrame+1;																				
+ 			break;
+		}
+  }
+  if (iCount==iNumOfKeyTypes) {
+ 			iCountTaoAnimationFrame=0;																				
+  }
 	
 /*	
 	SDL_Rect *myClip;
@@ -439,6 +548,28 @@ void draw(SDL_Texture *texture, int x, int y)
 
 	SDL_RenderCopy(mySDLRenderer, texture, &SrcR, &DestR);
 	SDL_RenderPresent(mySDLRenderer);
+}
+
+void update() {
+		if (myKeysDown[KEY_W])
+		{
+			iPilotY-=4;
+		}
+
+		if (myKeysDown[KEY_S])
+		{
+			iPilotY+=4;
+		}
+
+		if (myKeysDown[KEY_A])
+		{
+			iPilotX-=4;
+		}
+
+		if (myKeysDown[KEY_D])
+		{
+			iPilotX+=4;
+		}
 }
 
 /* //removed by Mike, 20210819
@@ -552,9 +683,11 @@ myWindowHeightAsPixel = static_cast<int>(GetSystemMetrics(SM_CYSCREEN));
 		0, 0, myWindowWidthAsPixel, myWindowHeightAsPixel, 
 		NULL, NULL, hInstance, NULL); 
 
+/*	//removed by Mike, 20210819
     // enable OpenGL for the window
     EnableOpenGL (hWnd, &hDC, &hRC);
-    
+*/    
+
     //added by Mike, 20210714; removed by Mike, 20210714
     //note: we need to identify the screen's max width and height
     //we use myWindowWidth=static_cast<int>(GetSystemMetrics(SM_CXSCREEN));
@@ -598,6 +731,13 @@ myWindowHeightAsPixel = static_cast<int>(GetSystemMetrics(SM_CYSCREEN));
 	//solution to problem: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
 	SDL_Texture *texture = loadTexture((char*)"textures/imageSpriteExampleMikeWithoutBG.png");
 
+	iPilotX=myWindowWidthAsPixel/2;
+	iPilotY=myWindowHeightAsPixel/2;
+	
+	//added by Mike, 20210819
+	iCountTaoAnimationFrame=0;
+
+
  	//removed by Mike, 20210818
 	//atexit(cleanup);
 
@@ -606,8 +746,15 @@ myWindowHeightAsPixel = static_cast<int>(GetSystemMetrics(SM_CYSCREEN));
 		prepareScene();
 
 		doInput();
+
+		//added by Mike, 20210819
+		update();
 		
-		draw(texture, myWindowWidthAsPixel/2, myWindowHeightAsPixel/2);
+		//added by Mike, 20210818
+//		draw(player.texture, player.x, player.y);
+		//edited by Mike, 20210819
+//		draw(texture, myWindowWidthAsPixel/2, myWindowHeightAsPixel/2);
+		draw(texture, iPilotX, iPilotY);
 
 		presentScene();
 
