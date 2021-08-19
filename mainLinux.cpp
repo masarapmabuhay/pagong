@@ -198,6 +198,7 @@ SDL_Renderer *mySDLRenderer = NULL;
 //added by Mike, 20210819
 int iPilotX;
 int iPilotY;
+int iCountTaoAnimationFrame;
 
 int myKeysDown[10]; //note: includes KEY_J, KEY_L, KEY_I, KEY_K,
 
@@ -1094,8 +1095,10 @@ void draw(SDL_Texture *texture, int x, int y)
   and target (on the screen) for rendering our textures. */
   SDL_Rect SrcR;
   SDL_Rect DestR;
+  
+	iCountTaoAnimationFrame=(iCountTaoAnimationFrame)%3;                    																				    
 
-  SrcR.x = 0;
+  SrcR.x = 0+ iCountTaoAnimationFrame*iPilotWidth;
   SrcR.y = 0;
   SrcR.w = iPilotWidth;
   SrcR.h = iPilotHeight;
@@ -1105,6 +1108,16 @@ void draw(SDL_Texture *texture, int x, int y)
   DestR.w = iPilotWidth;
   DestR.h = iPilotHeight;
   	
+  int iCount;
+  for (iCount=0; iCount<iNumOfKeyTypes; iCount++) {
+		if (myKeysDown[iCount]==TRUE) {
+ 			iCountTaoAnimationFrame=iCountTaoAnimationFrame+1;																				
+ 			break;
+		}
+  }
+  if (iCount==iNumOfKeyTypes) {
+ 			iCountTaoAnimationFrame=0;																				
+  }
 	
 /*	
 	SDL_Rect *myClip;
@@ -1203,6 +1216,9 @@ int main(int argc, char *argv[])
 
 	iPilotX=myWindowWidthAsPixel/2;
 	iPilotY=myWindowHeightAsPixel/2;
+	
+	//added by Mike, 20210819
+	iCountTaoAnimationFrame=0;
 
  	//removed by Mike, 20210818
 	//atexit(cleanup);
