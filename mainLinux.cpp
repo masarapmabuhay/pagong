@@ -349,7 +349,8 @@ void keyDown(SDL_KeyboardEvent *event)
 		if (event->keysym.scancode == SDL_SCANCODE_W)
 		{
 //			iPilotY-=4;
-			myKeysDown[KEY_W] = TRUE;					
+			myKeysDown[KEY_W] = TRUE;		
+			myOpenGLCanvas->keyDown(KEY_W);			
 		}
 
 //		if (event->keysym.scancode == SDL_SCANCODE_DOWN)
@@ -357,6 +358,7 @@ void keyDown(SDL_KeyboardEvent *event)
 		{
 //			iPilotY+=4;
 			myKeysDown[KEY_S] = TRUE;					
+			myOpenGLCanvas->keyDown(KEY_S);			
 		}
 
 //		if (event->keysym.scancode == SDL_SCANCODE_LEFT)
@@ -364,6 +366,7 @@ void keyDown(SDL_KeyboardEvent *event)
 		{
 //			iPilotX-=4;
 			myKeysDown[KEY_A] = TRUE;					
+			myOpenGLCanvas->keyDown(KEY_A);			
 		}
 
 //		if (event->keysym.scancode == SDL_SCANCODE_RIGHT)
@@ -371,6 +374,7 @@ void keyDown(SDL_KeyboardEvent *event)
 		{
 //			iPilotX+=4;
 			myKeysDown[KEY_D] = TRUE;					
+			myOpenGLCanvas->keyDown(KEY_D);			
 		}
 	}
 }
@@ -382,25 +386,29 @@ void keyUp(SDL_KeyboardEvent *event)
 //		if (event->keysym.scancode == SDL_SCANCODE_UP)
 		if (event->keysym.scancode == SDL_SCANCODE_W)
 		{
-			myKeysDown[KEY_W] = FALSE;					
+			myKeysDown[KEY_W] = FALSE;		
+			myOpenGLCanvas->keyUp(KEY_W);									
 		}
 
 //		if (event->keysym.scancode == SDL_SCANCODE_DOWN)
 		if (event->keysym.scancode == SDL_SCANCODE_S)
 		{
 			myKeysDown[KEY_S] = FALSE;					
+			myOpenGLCanvas->keyUp(KEY_S);									
 		}
 
 //		if (event->keysym.scancode == SDL_SCANCODE_LEFT)
 		if (event->keysym.scancode == SDL_SCANCODE_A)
 		{
 			myKeysDown[KEY_A] = FALSE;					
+			myOpenGLCanvas->keyUp(KEY_A);									
 		}
 
 //		if (event->keysym.scancode == SDL_SCANCODE_RIGHT)
 		if (event->keysym.scancode == SDL_SCANCODE_D)
 		{
 			myKeysDown[KEY_D] = FALSE;					
+			myOpenGLCanvas->keyUp(KEY_D);									
 		}
 	}
 }
@@ -447,6 +455,7 @@ void presentScene(void)
 	SDL_RenderPresent(mySDLRenderer);
 }
 
+/*	//removed by Mike, 20210825
 //added by Mike, 20210818
 //TO-DO: -put: this in Pilot.cpp, et cetera
 SDL_Texture *loadTexture(char *filename)
@@ -459,30 +468,22 @@ SDL_Texture *loadTexture(char *filename)
 
 	return texture;
 }
+*/
 
-
+/* //removed by Mike, 20210825
 //TO-DO: -reverify: draw refresh rate
 //Reference: http://wiki.libsdl.org/SDL_RenderCopy;
 //last accessed: 20210818
 //TO-DO: -reverify: this
 void draw(SDL_Texture *texture, int x, int y)
 {
-/* //edited by Mike, 20210818
-	SDL_Rect dest;
-	//note: not initialized?
-	dest.x = x;
-	dest.y = y;
-	
-	dest.w = iPilotWidth;
-	dest.h = iPilotHeight;
-*/	
 	//added by Mike, 20210818
 	int iPilotWidth=64;
 	int iPilotHeight=64;
 
 	
-  /* Rectangles for drawing which will specify source (inside the texture)
-  and target (on the screen) for rendering our textures. */
+  // Rectangles for drawing which will specify source (inside the texture)
+  and target (on the screen) for rendering our textures.
   SDL_Rect SrcR;
   SDL_Rect DestR;
   
@@ -508,57 +509,17 @@ void draw(SDL_Texture *texture, int x, int y)
   if (iCount==iNumOfKeyTypes) {
  			iCountTaoAnimationFrame=0;																				
   }
-	
-/*	
-	SDL_Rect *myClip;
-	myClip->x=0;
-	myClip->y=0;
-	myClip->w=64;
-	myClip->h=64;
-	
-	dest.w = myClip->w;
-	dest.h = myClip->h;
-*/	
+
 	SDL_RenderClear(mySDLRenderer);
 	
-/*	
-	dest.w = iPilotWidth;
-	dest.h = iPilotHeight;
-*/	
-//	printf("dest.w: %i\n",dest.w);
-		
-/*	
-	int iDestWidth=dest.x+iPilotWidth;
-	int iDestHeight=dest.y+iPilotHeight;
-*/		
-	//edited by Mike, 20210818; removed by Mike, 20210818
-	//SDL_QueryTexture(texture, NULL, NULL, &dest.w, &dest.h);
-	
-	
-//	SDL_QueryTexture(texture, NULL, NULL, &iDestWidth, &iDestHeight);
-//	SDL_QueryTexture(texture, NULL, NULL, &iDestWidth, &iDestHeight);
-
-	//scaled down image
-/*	
-	dest.w = iPilotWidth;
-	dest.h = iPilotHeight;
-*/
-	//Reference: https://www.willusher.io/sdl2%20tutorials/2013/08/27/lesson-5-clipping-sprite-sheets;
-	//last accessed: 20210818
-	//renderTexture(texture, mySDLRenderer, dest, &myClip);
-
-/*	//removed by Mike, 20210818
-//	SDL_RenderDrawRect(mySDLRenderer, &dest);
-//	SDL_RenderCopy(mySDLRenderer, texture, NULL, &dest);
-	SDL_RenderCopy(mySDLRenderer, texture, nullptr, &dest);
-*/	
-	
-	//edited by Mike, 20210818
-	//SDL_RenderCopy(mySDLRenderer, texture, nullptr, &dest);
+	////scaled down image
+//	dest.w = iPilotWidth;
+//	dest.h = iPilotHeight;
 
 	SDL_RenderCopy(mySDLRenderer, texture, &SrcR, &DestR);
 	SDL_RenderPresent(mySDLRenderer);
 }
+*/
 
 void update() {
 		if (myKeysDown[KEY_W])
@@ -590,8 +551,11 @@ int main(int argc, char *argv[])
 	initSDL();
 	
 	myOpenGLCanvas = new OpenGLCanvas();  
-  myOpenGLCanvas->init(myWindowWidthAsPixel,myWindowHeightAsPixel);
-	
+	//edited by Mike, 20210825
+//  myOpenGLCanvas->init(myWindowWidthAsPixel,myWindowHeightAsPixel);
+  myOpenGLCanvas->init(myWindowWidthAsPixel,myWindowHeightAsPixel,mySDLRenderer);
+
+/* //removed by Mike, 20210825	
 	//solution to problem: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
 	SDL_Texture *texture = loadTexture((char*)"textures/imageSpriteExampleMikeWithoutBG.png");
 
@@ -621,6 +585,17 @@ int main(int argc, char *argv[])
 		presentScene();
 
 		SDL_Delay(16);
+	}
+*/
+	while (1) {
+		prepareScene();
+		doInput();
+			
+		myOpenGLCanvas->update();
+		myOpenGLCanvas->render();
+		
+		presentScene();
+		SDL_Delay(16);		
 	}
 
 	return 0;

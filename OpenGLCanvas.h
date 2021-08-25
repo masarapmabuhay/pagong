@@ -231,6 +231,12 @@ private:
     //std::vector<MyDynamicObject> items;
     std::vector<MyDynamicObject*> vMyDynamicObjectContainer;
 */
+		//added by Mike, 20210825
+		SDL_Renderer *mySDLRenderer;
+		SDL_Texture *texture;
+				
+		int iPilotX;
+		int iPilotY;				
 				
     char *infile;//= "Patches1.txt";
     char *outfile;
@@ -403,8 +409,9 @@ public:
     
     //edited by Mike, 20210517
     //    	bool init();
-    //edited by Mike, 20210725
-    bool init(int myWindowWidthAsPixelInput, int myWindowHeightAsPixelInput);
+    //edited by Mike, 20210725; edited again by Mike, 20210825
+//    bool init(int myWindowWidthAsPixelInput, int myWindowHeightAsPixelInput);
+    bool init(int myWindowWidthAsPixelInput, int myWindowHeightAsPixelInput, SDL_Renderer *mySDLRenderer);
     //bool init(float myWindowWidthAsPixelInput, float myWindowHeightAsPixelInput);
     
     bool shutdown();
@@ -419,6 +426,7 @@ public:
     void mouseMotionActionDown(int mouseActionId, int iXPos, int iYPos);
     
     //void Prepare(float dt);
+    void renderPrev(); //edited by Mike, 20210825    
     void render();
     void update();
     

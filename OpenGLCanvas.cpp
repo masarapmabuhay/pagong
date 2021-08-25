@@ -46,6 +46,9 @@
  * Syson, M., Camacho, R., Gonzales, D., Del Rosario, R., Vidal, E., et al.
  *
  */
+ 
+//added by Mike, 20210825
+//TO-DO: -reuse: with SDL + GL Commands, e.g. SDL_GL_CreateContext(...)
 
 //added by Mike, 20210701
 //note: reminded: of text system in select computer games, e.g. Dragon Quest,
@@ -81,6 +84,16 @@
 #include <GL/glu.h>
 #include <GL/glut.h> //added by Mike, 20210623
 #endif
+
+//added by Mike, 20210818
+#ifdef _WIN32 //Windows machine
+	#include <SDL.h>
+	#include <SDL_image.h>
+#else
+	#include <SDL2/SDL.h>
+	#include <SDL2/SDL_image.h>
+#endif
+
 
 #include <stdio.h>
 //#include <math.h>
@@ -214,10 +227,84 @@ OpenGLCanvas::~OpenGLCanvas()
 {
 }
 
-//edited by Mike, 20210725
-bool OpenGLCanvas::init(int myWindowWidthAsPixelInput, int myWindowHeightAsPixelInput)
+//added by Mike, 20210825
+//TO-DO: -put: this in Pilot.cpp, et cetera
+//SDL_Texture *loadTexture(char *filename)
+SDL_Texture *loadTexture(char *filename, SDL_Renderer *mySDLRendererInput)
+{
+	SDL_Texture *texture;
+
+	SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO, "Loading %s", filename);
+
+	texture = IMG_LoadTexture(mySDLRendererInput, filename);
+
+	return texture;
+}
+
+//TO-DO: -reverify: draw refresh rate
+//Reference: http://wiki.libsdl.org/SDL_RenderCopy;
+//last accessed: 20210818
+//TO-DO: -reverify: this
+//void draw(SDL_Texture *texture, int x, int y)
+void draw(SDL_Texture *texture, int x, int y, SDL_Renderer *mySDLRendererInput)
+{
+	//added by Mike, 20210818
+	int iPilotWidth=64;
+	int iPilotHeight=64;
+
+	
+  // Rectangles for drawing which will specify source (inside the texture)
+  //and target (on the screen) for rendering our textures.
+  SDL_Rect SrcR;
+  SDL_Rect DestR;
+  
+//	iCountTaoAnimationFrame=(iCountTaoAnimationFrame)%3;                    																				
+	int iCountTaoAnimationFrame=0;
+
+  SrcR.x = 0+ iCountTaoAnimationFrame*iPilotWidth;
+  SrcR.y = 0;
+  SrcR.w = iPilotWidth;
+  SrcR.h = iPilotHeight;
+
+  DestR.x = x; //myWindowWidthAsPixel / 2 - iPilotWidth / 2;
+  DestR.y = y; //myWindowHeightAsPixel / 2 - iPilotHeight / 2;
+  DestR.w = iPilotWidth;
+  DestR.h = iPilotHeight;
+  
+/* //removed by Mike, 20210825; note: fuction Not in OpenGLCanvas.h file  	
+  int iCount;
+  for (iCount=0; iCount<iNumOfKeyTypes; iCount++) {
+		if (myKeysDown[iCount]==TRUE) {
+ 			iCountTaoAnimationFrame=iCountTaoAnimationFrame+1;																				
+ 			break;
+		}
+  }
+  
+  if (iCount==iNumOfKeyTypes) {
+ 			iCountTaoAnimationFrame=0;																				
+  }
+*/
+	SDL_RenderClear(mySDLRendererInput);
+	
+	//scaled down image	
+////	dest.w = iPilotWidth;
+////	dest.h = iPilotHeight;
+
+	SDL_RenderCopy(mySDLRendererInput, texture, &SrcR, &DestR);
+	SDL_RenderPresent(mySDLRendererInput);
+}
+
+//edited by Mike, 20210725; edited again by Mike, 20210825
+//bool OpenGLCanvas::init(int myWindowWidthAsPixelInput, int myWindowHeightAsPixelInput)
+bool OpenGLCanvas::init(int myWindowWidthAsPixelInput, int myWindowHeightAsPixelInput, SDL_Renderer *mySDLRendererInput)
 //bool OpenGLCanvas::init(float myWindowWidthAsPixelInput, float myWindowHeightAsPixelInput)
 {
+	  //added by Mike, 20210825
+	  mySDLRenderer = mySDLRendererInput;
+
+		iPilotX=0;
+		iPilotY=0;	
+
     //added by Mike, 20201023
     myCanvasPosX=-3.2f;//0.0f;
     myCanvasPosY=-1.0f;//0.0f;
@@ -292,6 +379,18 @@ bool OpenGLCanvas::init(int myWindowWidthAsPixelInput, int myWindowHeightAsPixel
     //added by Mike, 20210626
     fMyWindowWidthAsPixelRatioToHeightPixel=1.0f;
     iMyWindowWidthAsPixelOffset=0; //added by Mike, 20210701
+    
+    
+ 	//added by Mike, 20210825	
+	//solution to problem: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+	//SDL_Texture *texture = loadTexture((char*)"textures/imageSpriteExampleMikeWithoutBG.png");
+//	texture = loadTexture((char*)"textures/imageSpriteExampleMikeWithoutBG.png");
+	texture = loadTexture((char*)"textures/imageSpriteExampleMikeWithoutBG.png", mySDLRenderer);
+
+	iPilotX=myWindowWidthAsPixel/2;
+	iPilotY=myWindowHeightAsPixel/2;
+    
+    
 
 /* //removed by Mike, 20210825            
     //added by Mike, 20210516
@@ -649,9 +748,11 @@ void OpenGLCanvas::keyDown(int keyCode)
 {
     myKeysDown[keyCode] = TRUE;
 
+/* //removed by Mike, 20210825
 	//added by Mike, 20210812
 	myKeysDown[KEY_W] = FALSE;
 	myKeysDown[KEY_S] = FALSE;
+*/
 
 /* //removed by Mike, 20210825
     myPilot->keyDown(keyCode);
@@ -807,6 +908,17 @@ void OpenGLCanvas::mouseActionUp(int iMouseActionId, int iXPos, int iYPos)
 }
 
 void OpenGLCanvas::render()
+{
+/*
+	iPilotX=0;
+	iPilotY=0;
+*/	
+//	draw(texture, iPilotX, iPilotY);
+	draw(texture, iPilotX, iPilotY, mySDLRenderer);
+
+}
+
+void OpenGLCanvas::renderPrev()
 {
     //added by Mike, 20201023
     //note: this is to be print-ready in newsletter
@@ -1249,6 +1361,29 @@ glEnable(GL_DEPTH_TEST);
 void OpenGLCanvas::update()
 {
     if (currentState==GAME_SCREEN) {
+    
+			//added by Mike, 20210825
+			//TO-DO: -update: this
+			if (myKeysDown[KEY_W])
+			{
+				iPilotY-=4;
+			}
+	
+			if (myKeysDown[KEY_S])
+			{
+				iPilotY+=4;
+			}
+	
+			if (myKeysDown[KEY_A])
+			{
+				iPilotX-=4;
+			}
+	
+			if (myKeysDown[KEY_D])
+			{
+				iPilotX+=4;
+			}    
+    
         //added by Mike, 20210606
         //TO-DO: -add: goal defender, e.g. animal as nature?
 /* //removed by Mike, 20210825
