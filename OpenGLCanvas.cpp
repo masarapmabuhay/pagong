@@ -89,11 +89,14 @@
 #ifdef _WIN32 //Windows machine
 	#include <SDL.h>
 	#include <SDL_image.h>
+//added by Mike, 20210825
+#elif defined(__APPLE__)
+    #include <SDL2/SDL.h>
+    #include <SDL2_image/SDL_image.h>
 #else
 	#include <SDL2/SDL.h>
 	#include <SDL2/SDL_image.h>
 #endif
-
 
 #include <stdio.h>
 //#include <math.h>
@@ -284,14 +287,17 @@ void draw(SDL_Texture *texture, int x, int y, SDL_Renderer *mySDLRendererInput)
  			iCountTaoAnimationFrame=0;																				
   }
 */
-	SDL_RenderClear(mySDLRendererInput);
+    //removed by Mike, 20210825
+//	SDL_RenderClear(mySDLRendererInput);
 	
 	//scaled down image	
 ////	dest.w = iPilotWidth;
 ////	dest.h = iPilotHeight;
 
 	SDL_RenderCopy(mySDLRendererInput, texture, &SrcR, &DestR);
-	SDL_RenderPresent(mySDLRendererInput);
+
+    //removed by Mike, 20210825
+//	SDL_RenderPresent(mySDLRendererInput);
 }
 
 //edited by Mike, 20210725; edited again by Mike, 20210825

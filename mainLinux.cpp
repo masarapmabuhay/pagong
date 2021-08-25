@@ -123,6 +123,10 @@
 #ifdef _WIN32 //Windows machine
 	#include <SDL.h>
 	#include <SDL_image.h>
+//added by Mike, 20210825
+#elif defined(__APPLE__)
+    #include <SDL2/SDL.h>
+    #include <SDL2_image/SDL_image.h>
 #else
 	#include <SDL2/SDL.h>
 	#include <SDL2/SDL_image.h>
@@ -595,8 +599,11 @@ int main(int argc, char *argv[])
 		myOpenGLCanvas->render();
 		
 		presentScene();
-		SDL_Delay(16);		
-	}
+        
+        //edited by Mike, 20210825
+//		SDL_Delay(16);
+		SDL_Delay(1);
+    }
 
 	return 0;
 }
