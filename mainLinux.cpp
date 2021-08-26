@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20200926
- * @date updated: 20210825
+ * @date updated: 20210826
  * @website address: http://www.usbong.ph
  *
  * References:
@@ -459,6 +459,50 @@ void presentScene(void)
 	SDL_RenderPresent(mySDLRenderer);
 }
 
+//added by Mike, 20210826
+void enable2D()
+{
+	glMatrixMode(GL_PROJECTION);
+	glPushMatrix();
+		glLoadIdentity();
+	
+		//glOrtho(0, WIDTH, HEIGHT, 0, -1, 1);
+		glOrtho(0, myWindowWidthAsPixel, myWindowHeightAsPixel, 0, -1, 1);
+	
+	
+		glDisable(GL_DEPTH_TEST);
+		glMatrixMode(GL_MODELVIEW);
+		glPushMatrix();
+			glLoadIdentity();
+}
+
+//added by Mike, 20210826
+void disable2D()
+{
+			glMatrixMode(GL_PROJECTION);
+		glPopMatrix();
+		glMatrixMode(GL_MODELVIEW);
+	glPopMatrix();
+	glEnable(GL_DEPTH_TEST);
+}
+
+//added by Mike, 20210826
+//TO-DO: -reverify: refresh rate to cause displayed parts of pixel texture to be incorrect
+//note: did NOT observe this with openGL + GLUT without SDL
+void displayOpenGLCanvas() {	
+	//TO-DO: -update: this
+	enable2D();
+		myOpenGLCanvas->render();
+	disable2D();
+		
+/*	//added by Mike, 20210821; edited by Mike, 20210821
+  SDL_GL_SwapBuffers();
+  SDL_UpdateWindowSurface(mySDLWindow);
+*/  
+  SDL_GL_SwapWindow(mySDLWindow);
+}
+
+
 /*	//removed by Mike, 20210825
 //added by Mike, 20210818
 //TO-DO: -put: this in Pilot.cpp, et cetera
@@ -596,13 +640,18 @@ int main(int argc, char *argv[])
 		doInput();
 			
 		myOpenGLCanvas->update();
+		
+/*	//edited by Mike, 20210826
 		myOpenGLCanvas->render();
+*/
+		displayOpenGLCanvas();
 		
 		presentScene();
         
-        //edited by Mike, 20210825
-//		SDL_Delay(16);
-		SDL_Delay(1);
+    //edited by Mike, 20210826
+    //TO-DO: -add: auto-identify delay input based on computer processor speed
+		SDL_Delay(16);
+			//SDL_Delay(1);
     }
 
 	return 0;
