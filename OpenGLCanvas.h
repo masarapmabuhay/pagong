@@ -234,6 +234,9 @@ private:
 		//added by Mike, 20210825
 		SDL_Renderer *mySDLRenderer;
 		SDL_Texture *texture;
+
+		//added by Mike, 20210826
+		GLuint openGLITexture;
 				
 		int iPilotX;
 		int iPilotY;				
@@ -398,6 +401,9 @@ public:
     /*		int myWindowWidthAsPixelOpenGLCanvas;
      int myWindowHeightAsPixelOpenGLCanvas;
      */
+     
+    //added by Mike, 20210826
+    int iTextureWidth, iTextureHeight;
           
     //added by Mike, 20210510
     int iStartPointX,

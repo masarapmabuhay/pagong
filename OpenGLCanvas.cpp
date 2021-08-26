@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20200926
- * @date updated: 20210825
+ * @date updated: 20210826
  * @website address: http://www.usbong.ph
  *
  * References:
@@ -244,6 +244,80 @@ SDL_Texture *loadTexture(char *filename, SDL_Renderer *mySDLRendererInput)
 	return texture;
 }
 
+//added by Mike, 20210826
+GLuint openGLLoadTexture(char *filename, int *textw, int *texth)
+{
+	SDL_Surface *surface;
+	GLenum textureFormat;
+	GLuint texture;
+	
+	surface = IMG_Load(filename);
+	
+	if (!surface){
+		return 0;
+	}
+
+//added by Mike, 20210824
+//TO-DO: -add: image frame clipping
+#if defined(__APPLE__)
+    switch (surface->format->BytesPerPixel) {
+        case 4:
+            if (SDL_BYTEORDER == SDL_BIG_ENDIAN)
+//                textureFormat = GL_BGRA;
+                textureFormat = GL_RGBA;
+            else
+//                textureFormat = GL_RGBA;
+                textureFormat = GL_BGRA;
+            break;
+        case 3:
+            if (SDL_BYTEORDER == SDL_BIG_ENDIAN)
+//                textureFormat = GL_BGR;
+                textureFormat = GL_RGB;
+            else
+//                textureFormat = GL_RGB;
+                textureFormat = GL_BGR;
+            break;
+    }
+#else
+    switch (surface->format->BytesPerPixel) {
+        case 4:
+            if (SDL_BYTEORDER == SDL_BIG_ENDIAN)
+                textureFormat = GL_BGRA;
+            else
+                textureFormat = GL_RGBA;
+            break;
+            
+        case 3:
+            if (SDL_BYTEORDER == SDL_BIG_ENDIAN)
+                textureFormat = GL_BGR;
+            else
+                textureFormat = GL_RGB;
+            break;
+    }
+#endif
+    
+	/* //edited by Mike, 20210824
+	//note: 4 frames per width and height of whole texture image file
+	*textw = surface->w;
+	*texth = surface->h;
+	*/
+	*textw = surface->w/4;
+	*texth = surface->h/4;
+	
+	
+	glGenTextures(1, &texture);
+	glBindTexture(GL_TEXTURE_2D, texture);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexImage2D(GL_TEXTURE_2D, 0, surface->format->BytesPerPixel, surface->w,
+	surface->h, 0, textureFormat, GL_UNSIGNED_BYTE, surface->pixels);
+	
+	SDL_FreeSurface(surface);
+	
+	return texture;	
+}
+
+	
 //TO-DO: -reverify: draw refresh rate
 //Reference: http://wiki.libsdl.org/SDL_RenderCopy;
 //last accessed: 20210818
@@ -298,6 +372,37 @@ void draw(SDL_Texture *texture, int x, int y, SDL_Renderer *mySDLRendererInput)
 
     //removed by Mike, 20210825
 //	SDL_RenderPresent(mySDLRendererInput);
+}
+
+//added by Mike, 20210826
+//TO-DO: -add: CAD tool to assist in identify excess markings in image file
+//-add: CAD tool to verify animating sequence
+void openGLDrawTexture(int x, int y, GLuint textureid, int textw, int texth)
+{
+	glBindTexture(GL_TEXTURE_2D, textureid);
+	glEnable(GL_TEXTURE_2D);
+	
+	float fTaoAnimationFrameOffset=0.0f;
+	float fTaoAnimationFrameOffsetYAxis=0.0f;
+
+	//added by Mike, 20210826
+//	glColor3f(1.0f, 1.0f, 1.0f); // white
+	
+	glBegin(GL_QUADS);
+		glTexCoord2f(0+fTaoAnimationFrameOffset, 0+fTaoAnimationFrameOffsetYAxis);
+		glVertex3f(x, y, 0);
+		
+		glTexCoord2f(0.25f+fTaoAnimationFrameOffset, 0+fTaoAnimationFrameOffsetYAxis);
+		glVertex3f(x + textw, y, 0);
+		
+		glTexCoord2f(0.25f+fTaoAnimationFrameOffset, fTaoAnimationFrameOffsetYAxis+0.25f);
+		glVertex3f(x + textw, y + texth, 0);
+		
+		glTexCoord2f(0+fTaoAnimationFrameOffset, fTaoAnimationFrameOffsetYAxis+0.25f);
+		glVertex3f(x, y + texth, 0);
+	glEnd();
+	
+	glDisable(GL_TEXTURE_2D);
 }
 
 //edited by Mike, 20210725; edited again by Mike, 20210825
@@ -391,8 +496,10 @@ bool OpenGLCanvas::init(int myWindowWidthAsPixelInput, int myWindowHeightAsPixel
 	//solution to problem: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
 	//SDL_Texture *texture = loadTexture((char*)"textures/imageSpriteExampleMikeWithoutBG.png");
 //	texture = loadTexture((char*)"textures/imageSpriteExampleMikeWithoutBG.png");
-	texture = loadTexture((char*)"textures/imageSpriteExampleMikeWithoutBG.png", mySDLRenderer);
-
+	//edited by Mike, 20210826
+	//texture = loadTexture((char*)"textures/imageSpriteExampleMikeWithoutBG.png", mySDLRenderer);
+	openGLITexture = openGLLoadTexture((char*)"textures/imageSpriteExampleMikeWithoutBG.png", &iTextureWidth, &iTextureHeight);
+	
 	iPilotX=myWindowWidthAsPixel/2;
 	iPilotY=myWindowHeightAsPixel/2;
     
@@ -915,13 +1022,18 @@ void OpenGLCanvas::mouseActionUp(int iMouseActionId, int iXPos, int iYPos)
 
 void OpenGLCanvas::render()
 {
+	//added by Mike, 20210826
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glLoadIdentity();
+	
 /*
 	iPilotX=0;
 	iPilotY=0;
 */	
 //	draw(texture, iPilotX, iPilotY);
-	draw(texture, iPilotX, iPilotY, mySDLRenderer);
-
+	//edited by Mike, 20210826
+	//draw(texture, iPilotX, iPilotY, mySDLRenderer);	
+	openGLDrawTexture(iPilotX, iPilotY, openGLITexture, iTextureWidth, iTextureHeight);	
 }
 
 void OpenGLCanvas::renderPrev()
@@ -1901,7 +2013,7 @@ void OpenGLCanvas::update()
                     //note: move beams based on direction where robot faces
                     if (i%2==0) {
                         //                	myBeam[i]->move(rotationAngle+4, myRobotShip->getXYZPos());
-                        myBeam[i]->move(rotationAngle+4, beamPosXyz);
+                        myBeam[i]->move(rotationAngle+4,/home/unit_member/Documents/USBONG/pagong-main beamPosXyz);
                     }
                     else {
                         //                	myBeam[i]->move(rotationAngle, myRobotShip->getXYZPos());

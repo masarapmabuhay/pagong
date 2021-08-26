@@ -343,6 +343,9 @@ void initSDL(void)
 	
 	//removed by Mike, 20210819
 	//SDL_GetRendererOutputSize(mySDLRenderer, &myWindowWidthAsPixel, &myWindowHeightAsPixel);
+	
+	//added by Mike, 20210826
+	SDL_GL_CreateContext(mySDLWindow);
 }
 
 void keyDown(SDL_KeyboardEvent *event)
@@ -636,7 +639,8 @@ int main(int argc, char *argv[])
 	}
 */
 	while (1) {
-		prepareScene();
+		//removed by Mike, 20210826
+//		prepareScene();
 		doInput();
 			
 		myOpenGLCanvas->update();
@@ -645,12 +649,14 @@ int main(int argc, char *argv[])
 		myOpenGLCanvas->render();
 */
 		displayOpenGLCanvas();
-		
-		presentScene();
+	
+		//removed by Mike, 20210826		
+//		presentScene();
         
     //edited by Mike, 20210826
     //TO-DO: -add: auto-identify delay input based on computer processor speed
-		SDL_Delay(16);
+    //removed by Mike, 20210826
+//		SDL_Delay(16);
 			//SDL_Delay(1);
     }
 
