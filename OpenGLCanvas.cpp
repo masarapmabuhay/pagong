@@ -230,6 +230,7 @@ OpenGLCanvas::~OpenGLCanvas()
 {
 }
 
+/* //removed by Mike, 20210826
 //added by Mike, 20210825
 //TO-DO: -put: this in Pilot.cpp, et cetera
 //SDL_Texture *loadTexture(char *filename)
@@ -243,6 +244,7 @@ SDL_Texture *loadTexture(char *filename, SDL_Renderer *mySDLRendererInput)
 
 	return texture;
 }
+*/
 
 //added by Mike, 20210826
 GLuint openGLLoadTexture(char *filename, int *textw, int *texth)
@@ -469,9 +471,11 @@ bool OpenGLCanvas::init(int myWindowWidthAsPixelInput, int myWindowHeightAsPixel
     myWindowWidthAsPixel = (int)myWindowWidthAsPixelInput;
     myWindowHeightAsPixel = (int)myWindowHeightAsPixelInput;
 
+/* //removed by Mike, 20210826
   	//added by Mike, 20210809    
     printf("HALLO: myWindowWidthAsPixel: %i\n",myWindowWidthAsPixel);
     printf(">>: myWindowHeightAsPixel: %i\n",myWindowHeightAsPixel);
+*/
        
     iRowCountMax=10;
     iColumnCountMax=18;
@@ -480,7 +484,9 @@ bool OpenGLCanvas::init(int myWindowWidthAsPixelInput, int myWindowHeightAsPixel
     fGridSquareWidth = (myWindowWidthAsPixel*(1.0))/iColumnCountMax; //example: 136.60
     fGridSquareHeight = (myWindowHeightAsPixel*(1.0))/iRowCountMax; //example: 76.80
     
+/* //removed by Mike, 20210826    
     printf("OpenGLCanvas.cpp; fGridSquareWidth: %f",fGridSquareWidth);
+*/
 
 /*    
     printf("fGridSquareWidth: %f\n",fGridSquareWidth);

@@ -11,7 +11,7 @@
 # @company: USBONG
 # @author: SYSON, MICHAEL B.
 # @date created: 20200930
-# @last updated: 20210825
+# @last updated: 20210826
 # @website address: http://www.usbong.ph
 #
 # Reference:
@@ -24,17 +24,22 @@
 
 #rm *.o
 
+#note: sequence
+
 g++ -c mainLinux.cpp
 g++ -c OpenGLCanvas.cpp
-#g++ -c MyDynamicObject.cpp
+g++ -c UsbongUtils.cpp
+g++ -c PolygonUtils.cpp
+g++ -c MyDynamicObject.cpp
+g++ -c Level2D.cpp
+g++ -c Pilot.cpp
+
 #g++ -c RobotShip.cpp
 #g++ -c Font.cpp
 #g++ -c Beam.cpp
 #g++ -c Asteroid.cpp
 #g++ -c Level.cpp
-#g++ -c PolygonUtils.cpp
 #g++ -c CTargaImage.cpp
-#g++ -c Pilot.cpp
 #g++ -c UsbongUtils.cpp
 #g++ -c Button.cpp
 #g++ -c Ball.cpp
@@ -53,7 +58,9 @@ g++ -c OpenGLCanvas.cpp
 #edited by Mike, 20210818
 #g++ -o ./output/UsbongStoryLinux mainLinux.o OpenGLCanvas.o MyDynamicObject.o RobotShip.o Font.o Beam.o Asteroid.o Level.o PolygonUtils.o CTargaImage.o Pilot.o UsbongUtils.o Button.o Ball.o Text.o Level2D.o -lGL -lGLU -lglut -lSDL2 -lSDL2_image
 
-g++ -o ./output/UsbongPagongLinux mainLinux.o OpenGLCanvas.o -lGL -lGLU -lglut -lSDL2 -lSDL2_image
+#edited by Mike, 20210826
+#g++ -o ./output/UsbongPagongLinux mainLinux.o OpenGLCanvas.o -lGL -lGLU -lglut -lSDL2 -lSDL2_image
+g++ -o ./output/UsbongPagongLinux mainLinux.o OpenGLCanvas.o UsbongUtils.o PolygonUtils.o MyDynamicObject.o Level2D.o Pilot.o -lGL -lGLU -lglut -lSDL2 -lSDL2_image
 
 #added by Mike, 20210220; removed by Mike, 20210818
 #cp -r ./*.o ./objectFilesLinux/

@@ -655,8 +655,7 @@ int main(int argc, char *argv[])
         
     //edited by Mike, 20210826
     //TO-DO: -add: auto-identify delay input based on computer processor speed
-    //removed by Mike, 20210826
-//		SDL_Delay(16);
+		SDL_Delay(16);
 			//SDL_Delay(1);
     }
 

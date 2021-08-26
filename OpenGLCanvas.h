@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20200929
- * @date updated: 20210825
+ * @date updated: 20210826
  * @website address: http://www.usbong.ph
  *
  * Acknowledgments:
@@ -41,6 +41,18 @@
  #endif
  */
 
+//added by Mike, 20210818
+#ifdef _WIN32 //Windows machine
+	#include <SDL.h>
+	#include <SDL_image.h>
+//added by Mike, 20210825
+#elif defined(__APPLE__)
+    #include <SDL2/SDL.h>
+    #include <SDL2_image/SDL_image.h>
+#else
+	#include <SDL2/SDL.h>
+	#include <SDL2/SDL_image.h>
+#endif
 
 //#include "CTargaImage.h"
 
