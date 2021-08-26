@@ -11,7 +11,7 @@
 # @company: USBONG
 # @author: SYSON, MICHAEL B.
 # @date created: 20200930
-# @last updated: 20210825
+# @last updated: 20210826
 # @website address: http://www.usbong.ph
 #
 # Reference:
@@ -24,10 +24,10 @@
 # --> https://www.libsdl.org/projects/SDL_image/; last accessed: 20210823
 #
 
-g++ -c mainLinux.cpp OpenGLCanvas.cpp -I/Library/Frameworks/SDL2.framework/Headers -I/Library/Frameworks/SDL2_image.framework/Headers -F/Library/Frameworks
+g++ -c mainLinux.cpp OpenGLCanvas.cpp UsbongUtils.cpp PolygonUtils.cpp MyDynamicObject.cpp Level2D.cpp Pilot.cpp -I/Library/Frameworks/SDL2.framework/Headers -I/Library/Frameworks/SDL2_image.framework/Headers -F/Library/Frameworks
 
 #linux Machine
 #g++ -o ./output/UsbongHalimbawaLinux mainLinuxHalimbawa.o -lGL -lGLU -lglut -lSDL2 -lSDL2_image
 
 #macOS Machine
-g++ -framework SDL2 -F/Library/Frameworks -framework SDL2_image -framework OpenGL -framework GLUT -o ./output/UsbongPagongMac mainLinux.o OpenGLCanvas.o
+g++ -framework SDL2 -F/Library/Frameworks -framework SDL2_image -framework OpenGL -framework GLUT -o ./output/UsbongPagongMac mainLinux.o OpenGLCanvas.o UsbongUtils.o PolygonUtils.o MyDynamicObject.o Level2D.o Pilot.o

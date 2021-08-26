@@ -208,63 +208,6 @@ GLboolean Level2D::test_pow2(GLushort i)
         return GL_FALSE;
 }
 
-//TO-DO: -put: in MyDynamicObject
-//Note: [Warning] deprecated conversion from string constant to 'char*' [-Wwrite-strings]
-void Level2D::load_tga(char *filename)
-{
-    TARGA_HEADER targa;
-    FILE *file;
-    GLubyte *data;
-    GLuint i;
-    
-    file = fopen(filename, "rb");
-    if (file == NULL)
-        return;
-    
-    /* test validity of targa file */
-  //edited by Mike, 20210816
-    if (fread(&targa, 1, sizeof(targa), file) != sizeof(targa) ||
-        targa.id_field_length != 0 || targa.color_map_type != 0 ||
-        targa.image_type_code != 2 || ! test_pow2(targa.width) ||
-        ! test_pow2(targa.height) || targa.image_pixel_size != 32 ||
-        targa.image_descriptor != 8)
-        
-/*
-    if (fread(&targa, 1, sizeof(targa), file) != sizeof(targa) ||
-        targa.id_field_length != 0 || targa.color_map_type != 0 ||
-        targa.image_type_code != 2 || ! test_pow2(targa.width) ||
-        ! test_pow2(targa.height) || targa.image_pixel_size != 24 ||
-        targa.image_descriptor != 8)
-*/        
-    {
-        fclose(file);
-        free(data);
-        return;
-    }
-    
-    /* read targa file into memory */
-    data = (GLubyte *) malloc(targa.width * targa.height * 4);
-    if (fread(data, targa.width * targa.height * 4, 1, file) != 1)
-    {
-        fclose(file);
-        return;
-    }
-    
-    /* swap texture bytes so that BGRA becomes RGBA */
-    for (i = 0; i < targa.width * targa.height * 4; i += 4)
-    {
-        GLbyte swap = data[i];
-        data[i] = data[i + 2];
-        data[i + 2] = swap;
-    }
-    
-    /* build OpenGL texture */
-    fclose(file);
-    gluBuild2DMipmaps(GL_TEXTURE_2D, GL_RGBA, targa.width, targa.height,
-                      GL_RGBA, GL_UNSIGNED_BYTE, data);
-    free(data);
-}
-
 //edited by Mike, 20201001
 //Level2D::RobotShip(): MyDynamicObject(0,0,300)
 //edited by Mike, 20201115
@@ -377,45 +320,6 @@ Level2D::Level2D(float xPos, float yPos, float zPos, float fWindowWidth, float f
     myYPos=yPos;
     myZPos=zPos;
     
-    
-    /*	//edited by Mike, 20210517
-     //added by Mike, 20210514
-     myYPos=0.0f;
-     /*        if (mdo->getCurrentFacing()==FACING_UP) {
-        	mdo->setYPosAsPixel(iTileYPos +this->getHeightAsPixel()+1);
-        }
-        else if (mdo->getCurrentFacing()==FACING_DOWN) {
-        	mdo->setYPosAsPixel(iTileYPos -mdo->getHeightAsPixel()-1);
-        }        
-        else if (mdo->getCurrentFacing()==FACING_LEFT) {
-        	mdo->setXPosAsPixel(iTileXPos +this->getWidthAsPixel()+1);    	
-        }
-        else if (mdo->getCurrentFacing()==FACING_RIGHT) {
-        	mdo->setXPosAsPixel(iTileXPos -mdo->getHeightAsPixel()-1);      	
-        }      
-     //note: position: 3,3; width, height; count starts at 0
-     //edited by Mike, 20210502
-     //    myXPos=0.0f+myWidth*3;
-     //edited by Mike, 20210503
-     //    myXPos=0.0f-myWidth*10;
-     //edited by Mike, 20210514
-     //    myXPos=0.0f-myWidth*9;
-     //    myXPos=0.0f;
-     myXPos=320.0f;
-     
-     //edited by Mike, 2020116
-     //    myYPos=0.0f+myHeight*3;
-     //added by Mike, 20210503
-     //myZPos updated again in another location
-     //edited by Mike, 20210514
-     //	myZPos=0.0f+myHeight*3;
-     myZPos=0.0f;
-     */
-    
-/*    //added by Mike, 20201115; edited by Mike, 20210815
-    myWindowWidth=windowWidth;
-    myWindowHeight=windowHeight;
-*/
     fMyWindowWidth=fWindowWidth;
     fMyWindowHeight=fWindowHeight;
     
@@ -517,8 +421,10 @@ Level2D::Level2D(float xPos, float yPos, float zPos, float fWindowWidth, float f
     rotationStep=10.0;//1.0f;
     thrust=0.0f;
     thrustMax=0.8f;
+/* //removed by Mike, 20210826
     xVel;
     yVel;
+*/
     //edited by Mike, 20201001
     maxXVel=0.04f;//1.0f;
     maxYVel=0.04f;//1.0f;
@@ -1788,27 +1694,7 @@ bool Level2D::hitByAtTile(MyDynamicObject* mdo, std::string sTileId, int iTileXP
 //TO-DO: -reverify: this
 //observation: with Move upward Command, position in y-axis goes to top of tile with FACING_RIGHT
                    }
-                        
-/*
- //escalator down; slide down
-                        mdo->setYPosAsPixel(mdo->getYAsPixel()+1);
-                        mdo->setXPosAsPixel(mdo->getXAsPixel()-1);
-*/
-                        
-/*
-/*
- mdo->setYPosAsPixel(mdo->getYAsPixel()+(1+mdo->getStepX()*0.02f*fStepDashMultiplier)/cos(iTileAngle));
- mdo->setXPosAsPixel(mdo->getXAsPixel()-(1+mdo->getStepY()*0.02f*fStepDashMultiplier)/sin(iTileAngle));
- */
-/*
-                        mdo->setYPosAsPixel(mdo->getYAsPixel()+mdo->getStepY()*1.70f);
-                        mdo->setXPosAsPixel(mdo->getXAsPixel()-mdo->getStepX()*1.22f);
-*/
-
-/*  //edited by Mike, 20210807
-                mdo->setYPosAsPixel(mdo->getYAsPixel()+mdo->getStepY()*(1+(mdo->getStepX()*0.02f*fStepDashMultiplier)/cos(iTileAngle)));
-                mdo->setXPosAsPixel(mdo->getXAsPixel()-mdo->getStepY()*(1+(mdo->getStepY()*0.02f*fStepDashMultiplier)/sin(iTileAngle)));
-*/
+        
                         mdo->setYPosAsPixel(mdo->getYAsPixel()+mdo->getStepY()*(1+(mdo->getStepX()*0.02f*fStepDashMultiplier)/cos(iTileAngle))+1);
                         mdo->setXPosAsPixel(mdo->getXAsPixel()-mdo->getStepY()*(1+(mdo->getStepY()*0.02f*fStepDashMultiplier)/sin(iTileAngle))-1);
                         

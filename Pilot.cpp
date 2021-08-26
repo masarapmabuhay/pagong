@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B. 
  * @date created: 20200930
- * @date updated: 20210825
+ * @date updated: 20210826
  * @website address: http://www.usbong.ph
  *
  * Reference: 
@@ -76,7 +76,7 @@
 	#include <SDL_image.h>
 #else
 	#include <SDL2/SDL.h>
-	#include <SDL2/SDL_image.h>
+	#include <SDL2_image/SDL_image.h>
 #endif
 
 
@@ -197,62 +197,6 @@ GLboolean Pilot::test_pow2(GLushort i)
         return GL_TRUE;
     else
         return GL_FALSE;
-}
-
-//TO-DO: -put: in MyDynamicObject
-//Note: [Warning] deprecated conversion from string constant to 'char*' [-Wwrite-strings]
-void Pilot::load_tga(char *filename)
-{
-    TARGA_HEADER targa;
-    FILE *file;
-    GLubyte *data;
-    GLuint i;
-
-    file = fopen(filename, "rb");
-    if (file == NULL)
-        return;
-
-    /* test validity of targa file */
-  	//edited by Mike, 20210821
-    if (fread(&targa, 1, sizeof(targa), file) != sizeof(targa) ||
-        targa.id_field_length != 0 || targa.color_map_type != 0 ||
-        targa.image_type_code != 2 || ! test_pow2(targa.width) ||
-        ! test_pow2(targa.height) || targa.image_pixel_size != 32 ||
-        targa.image_descriptor != 8)
-/*        
-    if (fread(&targa, 1, sizeof(targa), file) != sizeof(targa) ||
-        targa.id_field_length != 0 || targa.color_map_type != 0 ||
-        targa.image_type_code != 2 || ! test_pow2(targa.width) ||
-        ! test_pow2(targa.height) || targa.image_pixel_size != 8 ||
-        targa.image_descriptor != 8)
-*/        
-    {
-        fclose(file);
-        free(data);
-        return;
-    }
-
-    /* read targa file into memory */
-    data = (GLubyte *) malloc(targa.width * targa.height * 4);
-    if (fread(data, targa.width * targa.height * 4, 1, file) != 1)
-    {
-        fclose(file);
-        return;
-    }
-
-    /* swap texture bytes so that BGRA becomes RGBA */
-    for (i = 0; i < targa.width * targa.height * 4; i += 4)
-    {
-        GLbyte swap = data[i];
-        data[i] = data[i + 2];
-        data[i + 2] = swap;
-    }
-
-    /* build OpenGL texture */
-    fclose(file);
-    gluBuild2DMipmaps(GL_TEXTURE_2D, GL_RGBA, targa.width, targa.height,
-                      GL_RGBA, GL_UNSIGNED_BYTE, data);
-    free(data);
 }
 
 //added by Mike, 20210823
@@ -926,8 +870,10 @@ Pilot::Pilot(float xPos, float yPos, float zPos, float fWindowWidth, float fWind
     rotationStep=10.0;//1.0f;    
     thrust=0.0f;
     thrustMax=0.8f;
+/* //removed by Mike, 20210826
     xVel;
     yVel;
+*/
     //edited by Mike, 20201001
     maxXVel=0.04f;//1.0f;
     maxYVel=0.04f;//1.0f;
@@ -2175,7 +2121,7 @@ void Pilot::drawPilotObjectGlowFade()
         	//glTranslatef(0.002f*iDirection, 0.002f, 0.0f);
 //					if ((iGlowFadeEffectCount==0) and (iCount==0)){
 
-            if ((iGlowFadeEffectCount==0)){
+            if (iGlowFadeEffectCount==0){
 //        		glTranslatef(0.002f*iDirection, 0.002f, 0.0f);
         		glTranslatef(0.002f*iDirection, 0.002f, 0.0f);
             }
@@ -3247,248 +3193,6 @@ void Pilot::drawPilotObjectWith3DVertexPositions()
 	glPopMatrix(); //added by Mike, 20210422	
 }
 
-void Pilot::updatePrev(float dt)
-{
-    switch (currentState)
-    {
-           case INITIALIZING_STATE:
-           case MOVING_STATE:      
-				switch(currentMovingState) {
-		           case WALKING_MOVING_STATE:
-		           		//added by Mike, 20201227; edited by Mike, 20201229
-						//TO-DO: -reverify: that angles are correct in WALKING_STATE
-						//TO-DO: -reverify: sequence of upper and lower arms 
-						if ((armAngles[LEFT]==0) && (armAngles[RIGHT]==0)) {
-							armAngles[LEFT] = 8.3f;
-							armAngles[RIGHT] = -10.0f*3-5.0f;
-							legAngles[LEFT] = 0.0f;
-							legAngles[RIGHT] = 0.0f;		    
-							
-							//added by Mike, 20201229
-							armStates[0] == FORWARD_STATE;        
-							armStates[1] == BACKWARD_STATE;        
-						}
-		           		
-		           	
-		                //note: Code structure taken from Dave Astle and Kevin Hawkins's code 
-		                //("Beginning OpenGL Game Programming", Chapter 4)
-		                //-Mike, Dec. 21, 2006
-		            	// if leg is moving forward, increase angle, else decrease angle
-		            	for (char side = 0; side < 2; side++)
-		            	{
-		            		// arms
-/* 	//edited by Mike, 20201204							
-		            		if (armStates[side] == FORWARD_STATE)
-		            			armAngles[side] += 25.0f * dt;//20.0f * dt;
-		            		else
-		            			armAngles[side] -= 30.0f * dt;//20.0f * dt;
-*/
-		            		if (armStates[side] == FORWARD_STATE)
-		            			armAngles[side] += 8.3f * dt;//20.0f * dt;
-		            		else
-		            			armAngles[side] -= 10.0f * dt;//20.0f * dt;
-							
-		            		// change state if exceeding angles
-		            		if (armAngles[side] >= 25.0f) //15.0f
-		            			armStates[side] = BACKWARD_STATE;
-		            		else if (armAngles[side] <= -45.0f) //15.0f
-		            			armStates[side] = FORWARD_STATE;
-		            
-		            		// legs
-/*							//edited by Mike, 20201204
-							if (legStates[side] == FORWARD_STATE)
-		            			legAngles[side] += 15.0f * dt;
-		            		else
-		            			legAngles[side] -= 15.0f * dt;
-*/
-							if (legStates[side] == FORWARD_STATE)
-		            			legAngles[side] += 5.0f * dt;
-		            		else
-		            			legAngles[side] -= 5.0f * dt;
-							
-		            		// change state if exceeding angles
-		            		if (legAngles[side] >= 15.0f) //15.0f
-		            			legStates[side] = BACKWARD_STATE;
-		            		else if (legAngles[side] <= -15.0f)
-		            			legStates[side] = FORWARD_STATE;		
-		            	}                
-		                break;
-
-		            //added by Mike, 20210121
-		            case ATTACKING_MOVING_STATE:
-		            	if (bIsExecutingPunch) {
-		            		if (iPunchAnimationCount<MAX_PUNCHING_ANIMATION_COUNT) {
-								//edited by Mike, 20210122
-		            			//iPunchAnimationCount+=1;
-								if ((iPunchAnimationCountDelay)%2==0) {
-									iPunchAnimationCount+=1;
-									//added by Mike, 20210123
-									iPunchAnimationCountDelay=0;
-								}
-								iPunchAnimationCountDelay+=1;
-							}
-/*							else {
-								if (iPunchAnimationCountDelay<5) {
-									iPunchAnimationCountDelay+=1;
-								}
-							}
-*/
-							//added by Mike, 20210123
-							//+added: no continuous punch via hold punch button
-							else {
-								//edited by Mike, 20210123; edited again by Mike, 20210124
-								if (iPunchAnimationCountDelay<0) { //<5
-								}
-								else {
-									//edited by Mike, 20210123
-		    						if (myKeysDown[KEY_U]==FALSE) {  
-										bIsExecutingPunch=false;
-										iPunchAnimationCount=0;
-										iPunchAnimationCountDelay=0;
-
-										//added by Mike, 20210124
-								   		armAngles[RIGHT]=0.0f;
-										armAngles[LEFT]=0.0f;
-									} 
-								}
-								iPunchAnimationCountDelay+=1;
-							}
-						}
-						
-						//added by Mike, 20210124
-						if (bIsExecutingDefend) {
-    						if (myKeysDown[KEY_H]==FALSE) {  
-								bIsExecutingDefend=false;
-
-								//added by Mike, 20210124
-						   		armAngles[RIGHT]=0.0f;
-								armAngles[LEFT]=0.0f;
-							} 
-						}						
-		            	break;
-		                
-		            default: //STANDING STATE		            
-		              break;//do nothing    
-				}
-
-/* //removed by Mike, 20210126				
-				//added by Mike, 20210126
-				if (myKeysDown[KEY_RIGHT]==FALSE) {
-					bIsDashReady=false;
-					bIsExecutingDash=false;				
-				}
-*/
-
-				//added by Mike, 20210126; edited by Mike, 20210128
-//				if (myKeysDown[KEY_RIGHT]==FALSE) {
-				if (myKeysDown[KEY_D]==FALSE) {
-//					if (iInputWaitCount<MAX_WAIT_COUNT) {
-					if (iInputWaitCountArray[KEY_D]<MAX_WAIT_COUNT) {
-//						iInputWaitCount+=1;
-						iInputWaitCountArray[KEY_D]+=1;
-					}
-				}
-				if (myKeysDown[KEY_A]==FALSE) {
-					if (iInputWaitCountArray[KEY_A]<MAX_WAIT_COUNT) {
-						iInputWaitCountArray[KEY_A]+=1;
-					}
-				}
-/*	//removed by Mike, 20210812				
-				if (myKeysDown[KEY_W]==FALSE) {
-					if (iInputWaitCountArray[KEY_W]<MAX_WAIT_COUNT) {
-						iInputWaitCountArray[KEY_W]+=1;
-					}
-				}
-				if (myKeysDown[KEY_S]==FALSE) {
-					if (iInputWaitCountArray[KEY_S]<MAX_WAIT_COUNT) {
-						iInputWaitCountArray[KEY_S]+=1;
-					}
-				}
-*/
-				
-				//TO-DO: -add: these
-           		//added by Mike, 20201001
-           		rotationAngle=0; //TO-DO: -update: this
-           		
-//                if (isMovingForward)
-//                { 
-  					//removed by Mike, 20201014
-                    /* rotationAngle in degrees, convert to radians */
-                    //im not yet sure why, but i have to deduct 90 to rotationAngle
-//                    rotationAngleRad = (rotationAngle) * 3.141593f / 180.0f;
-
-/*                  //removed by Mike, 20201001
-                    yAccel = (cos(rotationAngleRad)*thrust);
-                    xAccel = -(sin(rotationAngleRad)*thrust);
-*/
-
-/*
-                   rotationAngle+=1;
-                   char str[700];                                       
-                   sprintf(str,"xAccel: %f",xAccel);
-                   MessageBox(NULL, str, "Welcome!", MB_OK);
-*/
-
-/*
-					//added by Mike, 20201001                   
-					//TO-DO: -update: max acceleration
-                    if (yAccel>0.01f) {
-						thrust=0.01f;                    
-					}
-                    if (xAccel>0.01f) {
-						thrust=0.01f;                    
-					}
-*/
-
-/*					//removed by Mike, 20201001
-                    xVel=xAccel;
-                    yVel=yAccel;
-*/                    
-                    
-/*					//removed by Mike, 20201014                    
-                    if (xVel > maxXVel) xVel = maxXVel;
-                    else if (xVel < -maxXVel) xVel = -maxXVel;
-                    if (yVel > maxYVel) yVel = maxYVel;
-                    else if (yVel < -maxYVel) yVel = -maxYVel;
-                    myXPos+=xVel;
-                    myYPos+=yVel;
-                   
-				    //note: deaccelerate 
-                    if (thrust>0)
-                      thrust-=0.02f; //0.01f
-                    else thrust=0;
-*/                                        
-
-/* //removed by Mike, 20210424			
-				//Note: Use these with update to OpenGLCanvas
-           		//wrap the world 
-           		//edited by Mike, 20201116
-//           		if (myXPos <= 0.0f) myXPos = 20-myWidth/8; //if left side
-           		if (myXPos <= 0.0f) myXPos = myWindowWidth/100-myWidth/8; //if left side
-           		else if (myXPos >= myWindowWidth/100) myXPos = 0.0f+myWidth/8; //if right side
-
-           		if (myZPos >= myWindowHeight/100) myZPos = 0.0f+myHeight/8; //if bottom side
-           		//edited by Mike, 20201116
-//           		else if (myZPos <= 0.0f) myZPos = 20-myHeight/8; //if top side
-           		else if (myZPos <= 0.0f) myZPos = myWindowHeight/100-myHeight/8; //if top side
-*/           		           		
-
-/*
-          char str[700];                                       
-          sprintf(str,"myXPos: %f",myXPos);
-          MessageBox(NULL, str, "Welcome!", MB_OK);
-*/
-//                   isMovingForward=0; 
-//                }
-                break;
-            case IN_TITLE_STATE:                
-                  rotationAngle+=5;//rotationStep;
-                break;
-            default: //STANDING STATE
-              break;//do nothing    
-    }
-}
-
 //added by Mike, 20210423; edited by Mike, 20210807
 //TO-DO: -update: this
 void Pilot::update(float dt)
@@ -4008,7 +3712,7 @@ void Pilot::move(int key)
 //          bIsExecutingPunch=true;
 		            
 		  //added by Mike, 20210122; edited by Mike, 202101213
-		  if ((iPunchAnimationCount==0)){// or (iPunchAnimationCount>=MAX_PUNCH_ANIMATION_COUNT)) {		  	
+		  if (iPunchAnimationCount==0){// or (iPunchAnimationCount>=MAX_PUNCH_ANIMATION_COUNT)) {
             bIsExecutingPunch=true;
 		  }
 		             
@@ -4380,7 +4084,7 @@ void Pilot::move(int key)
 		  //added by Mike, 20210611
 			case KEY_K:
                 //added by Mike, 20210613
-                if ((iKickAnimationCount==0)){// or (iPunchAnimationCount>=MAX_PUNCH_ANIMATION_COUNT)) {
+                if (iKickAnimationCount==0){// or (iPunchAnimationCount>=MAX_PUNCH_ANIMATION_COUNT)) {
                     bIsExecutingKick=true;
                 }
            
