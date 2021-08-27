@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B. 
  * @date created: 20200930
- * @date updated: 20210826
+ * @date updated: 20210827
  * @website address: http://www.usbong.ph
  *
  * Acknowledgments:
@@ -152,6 +152,13 @@ private:
     float myYPos;
     float myZPos;
 */    
+
+		//added by Mike, 20210825
+		SDL_Renderer *mySDLRenderer;
+		SDL_Texture *texture;
+
+		//added by Mike, 20210826
+		GLuint openGLITexture;
 
 	//added by Mike, 20210505
     float myOpponentXPos;
@@ -554,6 +561,7 @@ public:
 //	void setOpenGLCanvas(OpenGLCanvas* c);
 	
     virtual void hitBy(MyDynamicObject* mdo);
+
 
 	//added by Mike, 20201016
     virtual void destroy();

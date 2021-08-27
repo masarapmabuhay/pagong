@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20200929
- * @date updated: 20210826
+ * @date updated: 20210827
  * @website address: http://www.usbong.ph
  *
  * Acknowledgments:
@@ -163,12 +163,14 @@
 #define FACING_LEFT_AND_DOWN 6
 #define FACING_RIGHT_AND_DOWN 7
 
+//added by Mike, 20210827
+class Level2D;
+class Pilot;
+
 /* //removed by Mike, 20210825
 class MyDynamicObject; //added by Mike, 20201213
 
 class RobotShip;
-//added by Mike, 20201207
-class Pilot;
 
 //added by Mike, 20210514
 class Button;
@@ -184,7 +186,7 @@ class Asteroid;
 class UsbongUtils;
 
 class Level; //added by Mike, 20201118
-class Level2D; //added by Mike, 20210703
+
 
 class Ball; //added by Mike, 20210524
 */
@@ -195,9 +197,12 @@ private:
 /* //removed by Mike, 20210825
     RobotShip *myRobotShip,
     *myRobotShipPlayer2;
-    
-    //added by Mike, 20201207
+*/    
+    //added by Mike, 20210827
+    Level2D *myLevel2D;
     Pilot *myPilot;
+
+/* //removed by Mike, 20210825
     Pilot *myPilotPartner; //added by Mike, 20210530
     
     //added by Mike, 20210502

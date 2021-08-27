@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20200930
- * @date updated: 20210826
+ * @date updated: 20210827
  * @website address: http://www.usbong.ph
  *
  * Acknowledgments:
@@ -52,6 +52,17 @@
  printf("In Linux");
  #endif
  */
+
+//added by Mike, 20210827
+#if defined(__APPLE__)
+	#include <OpenGL/gl.h>
+	#include <OpenGL/glu.h>
+	//#include <GLUT/glut.h>
+#else
+	#include <GL/gl.h>
+	#include <GL/glu.h>
+	//#include <GL/glut.h>
+#endif
 
 #include <stdlib.h>
 //removed by Mike, 20201226
@@ -123,7 +134,7 @@ private:
         
     //removed by Mike, 20210523
     //	UsbongUtils *myUsbongUtils; //added by Mike, 202105017
-    
+        
 public:
     float myXPos;
     float myYPos;
@@ -485,6 +496,9 @@ public:
          */
     }
     
+    //added by Mike, 20210827
+		GLuint openGLLoadTexture(char *filename, float *fTextWidth, float *fTextHeight);
+        
     //added by Mike, 20201016
     virtual void destroy();
 };

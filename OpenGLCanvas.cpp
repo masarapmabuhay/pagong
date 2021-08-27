@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20200926
- * @date updated: 20210826
+ * @date updated: 20210827
  * @website address: http://www.usbong.ph
  *
  * References:
@@ -103,12 +103,15 @@
 
 #include "OpenGLCanvas.h"
 
+//added by Mike, 20210827
+#include "Level2D.h"
+#include "Pilot.h" 
+
 /* //removed by Mike, 20210825
 //added by Mike, 20201001
 #include "RobotShip.h"
 
 //added by Mike, 20201207
-//#include "Pilot.h" //removed by Mike, 20210601
 
 //added by Mike, 20210514
 //note: add this here in the .cpp file
@@ -122,9 +125,6 @@
 
 //added by Mike, 20201010
 #include "Font.h"
-
-//added by Mike, 20210703
-#include "Level2D.h"
 
 //added by Mike, 20210516
 #include "UsbongUtils.h"
@@ -246,6 +246,7 @@ SDL_Texture *loadTexture(char *filename, SDL_Renderer *mySDLRendererInput)
 }
 */
 
+/* //removed by Mike, 20210826
 //added by Mike, 20210826
 GLuint openGLLoadTexture(char *filename, int *textw, int *texth)
 {
@@ -298,11 +299,6 @@ GLuint openGLLoadTexture(char *filename, int *textw, int *texth)
     }
 #endif
     
-	/* //edited by Mike, 20210824
-	//note: 4 frames per width and height of whole texture image file
-	*textw = surface->w;
-	*texth = surface->h;
-	*/
 	*textw = surface->w/4;
 	*texth = surface->h/4;
 	
@@ -317,63 +313,6 @@ GLuint openGLLoadTexture(char *filename, int *textw, int *texth)
 	SDL_FreeSurface(surface);
 	
 	return texture;	
-}
-
-	
-//TO-DO: -reverify: draw refresh rate
-//Reference: http://wiki.libsdl.org/SDL_RenderCopy;
-//last accessed: 20210818
-//TO-DO: -reverify: this
-//void draw(SDL_Texture *texture, int x, int y)
-void draw(SDL_Texture *texture, int x, int y, SDL_Renderer *mySDLRendererInput)
-{
-	//added by Mike, 20210818
-	int iPilotWidth=64;
-	int iPilotHeight=64;
-
-	
-  // Rectangles for drawing which will specify source (inside the texture)
-  //and target (on the screen) for rendering our textures.
-  SDL_Rect SrcR;
-  SDL_Rect DestR;
-  
-//	iCountTaoAnimationFrame=(iCountTaoAnimationFrame)%3;                    																				
-	int iCountTaoAnimationFrame=0;
-
-  SrcR.x = 0+ iCountTaoAnimationFrame*iPilotWidth;
-  SrcR.y = 0;
-  SrcR.w = iPilotWidth;
-  SrcR.h = iPilotHeight;
-
-  DestR.x = x; //myWindowWidthAsPixel / 2 - iPilotWidth / 2;
-  DestR.y = y; //myWindowHeightAsPixel / 2 - iPilotHeight / 2;
-  DestR.w = iPilotWidth;
-  DestR.h = iPilotHeight;
-  
-/* //removed by Mike, 20210825; note: fuction Not in OpenGLCanvas.h file  	
-  int iCount;
-  for (iCount=0; iCount<iNumOfKeyTypes; iCount++) {
-		if (myKeysDown[iCount]==TRUE) {
- 			iCountTaoAnimationFrame=iCountTaoAnimationFrame+1;																				
- 			break;
-		}
-  }
-  
-  if (iCount==iNumOfKeyTypes) {
- 			iCountTaoAnimationFrame=0;																				
-  }
-*/
-    //removed by Mike, 20210825
-//	SDL_RenderClear(mySDLRendererInput);
-	
-	//scaled down image	
-////	dest.w = iPilotWidth;
-////	dest.h = iPilotHeight;
-
-	SDL_RenderCopy(mySDLRendererInput, texture, &SrcR, &DestR);
-
-    //removed by Mike, 20210825
-//	SDL_RenderPresent(mySDLRendererInput);
 }
 
 //added by Mike, 20210826
@@ -406,6 +345,7 @@ void openGLDrawTexture(int x, int y, GLuint textureid, int textw, int texth)
 	
 	glDisable(GL_TEXTURE_2D);
 }
+*/
 
 //edited by Mike, 20210725; edited again by Mike, 20210825
 //bool OpenGLCanvas::init(int myWindowWidthAsPixelInput, int myWindowHeightAsPixelInput)
@@ -497,18 +437,10 @@ bool OpenGLCanvas::init(int myWindowWidthAsPixelInput, int myWindowHeightAsPixel
     fMyWindowWidthAsPixelRatioToHeightPixel=1.0f;
     iMyWindowWidthAsPixelOffset=0; //added by Mike, 20210701
     
-    
- 	//added by Mike, 20210825	
-	//solution to problem: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
-	//SDL_Texture *texture = loadTexture((char*)"textures/imageSpriteExampleMikeWithoutBG.png");
-//	texture = loadTexture((char*)"textures/imageSpriteExampleMikeWithoutBG.png");
-	//edited by Mike, 20210826
-	//texture = loadTexture((char*)"textures/imageSpriteExampleMikeWithoutBG.png", mySDLRenderer);
-	openGLITexture = openGLLoadTexture((char*)"textures/imageSpriteExampleMikeWithoutBG.png", &iTextureWidth, &iTextureHeight);
-	
+/* //removed by Mike, 20210827	
 	iPilotX=myWindowWidthAsPixel/2;
 	iPilotY=myWindowHeightAsPixel/2;
-    
+*/    
     
 
 /* //removed by Mike, 20210825            
@@ -519,12 +451,6 @@ bool OpenGLCanvas::init(int myWindowWidthAsPixelInput, int myWindowHeightAsPixel
     
 //    printf("OpenGLCanvas.cpp myWindowWidthAsPixel: %f\n",myWindowWidthAsPixel);
     
-    
-    /*  //removed by Mike, 20210712
-     //added by Mike, 20210211
-     myLevel = new Level();
-     myLevel->setupLevel(LEVEL_TEXTURE); //FONT_TEXTURE);
-     */
     
     //added by Mike, 20210517; edited by Mike, 20210606
     /*    myWindowWidthAsPixel = myWindowWidth;
@@ -552,17 +478,19 @@ bool OpenGLCanvas::init(int myWindowWidthAsPixelInput, int myWindowHeightAsPixel
     //edited by Mike, 20210710
     //    myRobotShip->setOpenGLCanvas(this, fGridSquareWidth);
     myRobotShip->setOpenGLCanvas(this, fGridSquareWidth, fGridSquareHeight);
+*/
+
+ 		myLevel2D = new Level2D(0.0f,0.0f,0.0f,myWindowWidthAsPixelInput,myWindowHeightAsPixelInput);    
+    //note: width and height not equal due to Window
+    //to cause square tile to NOT be square
+    myLevel2D->setOpenGLCanvas(this, fGridSquareWidth, fGridSquareHeight);
+    myLevel2D->setupLevel(LEVEL_2D_TEXTURE);
        
-    myPilot = new Pilot(myWindowWidthAsPixel/3,myWindowHeightAsPixel-myWindowHeightAsPixel/2,0.0f,
-    										myWindowWidthAsPixel,myWindowHeightAsPixel);
-
-
-    //edited by Mike, 20210710
-    //    myPilot->setOpenGLCanvas(this, fGridSquareWidth);.
-    myPilot->setOpenGLCanvas(this, fGridSquareWidth, fGridSquareHeight);
-    
+    myPilot = new Pilot(myWindowWidthAsPixel/2,myWindowHeightAsPixel/2,0.0f,myWindowWidthAsPixel,myWindowHeightAsPixel);
+    myPilot->setOpenGLCanvas(this, fGridSquareWidth, fGridSquareHeight);    
     myPilot->setAsPlayer1(); //added by Mike, 20210601    
-    
+
+/*  
     //added by Mike, 20210530; edited by Mike, 20210605
     //edited by Mike, 20210606
     //    myPilotPartner = new Pilot(100.0f,0.0f,220.0f,myLevel->getMaxXAxisViewport()*fGridSquareWidth,myLevel->getMaxZAxisViewport()*fGridSquareHeight);
@@ -1032,14 +960,13 @@ void OpenGLCanvas::render()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glLoadIdentity();
 	
-/*
-	iPilotX=0;
-	iPilotY=0;
-*/	
 //	draw(texture, iPilotX, iPilotY);
 	//edited by Mike, 20210826
 	//draw(texture, iPilotX, iPilotY, mySDLRenderer);	
+/* //removed by Mike, 20210827
 	openGLDrawTexture(iPilotX, iPilotY, openGLITexture, iTextureWidth, iTextureHeight);	
+*/
+	myPilot->draw();
 }
 
 void OpenGLCanvas::renderPrev()
@@ -1358,10 +1285,9 @@ glPushMatrix();
 glLoadIdentity();    
 */
 //--
-/*
-  		//TO-DO: -reverify: this  
+
     	myPilot->draw();
-*/    	
+    	
 /*//disable
 glMatrixMode(GL_PROJECTION);
 glPopMatrix();
@@ -1479,35 +1405,11 @@ glEnable(GL_DEPTH_TEST);
 }
 
 
-
 //added by Mike, 20210510
 //TO-DO: -update: this
 void OpenGLCanvas::update()
 {
     if (currentState==GAME_SCREEN) {
-    
-			//added by Mike, 20210825
-			//TO-DO: -update: this
-			if (myKeysDown[KEY_W])
-			{
-				iPilotY-=4;
-			}
-	
-			if (myKeysDown[KEY_S])
-			{
-				iPilotY+=4;
-			}
-	
-			if (myKeysDown[KEY_A])
-			{
-				iPilotX-=4;
-			}
-	
-			if (myKeysDown[KEY_D])
-			{
-				iPilotX+=4;
-			}    
-    
         //added by Mike, 20210606
         //TO-DO: -add: goal defender, e.g. animal as nature?
 /* //removed by Mike, 20210825
@@ -1567,21 +1469,21 @@ void OpenGLCanvas::update()
 /* //removed by Mike, 20210825        
             //TO-DO: -update: this
             myRobotShip->move(-1); //IDLE_MOVING_STATE
-            
+*/            
             //added by Mike, 20210423
             myPilot->move(-1);
-*/            
         }
 
-/* //removed by Mike, 20210825                
        	//added by Mike, 20210111; edited by Mike, 20210121
        	//robotship; defend command
         if(myKeysDown[KEY_H] == TRUE)
         {
+/* //removed by Mike, 20210825        
             myRobotShip->move(KEY_H);
             myPilot->move(KEY_H);            
+*/                        
         }
-        
+/* //removed by Mike, 20210825                
        	//added by Mike, 20210121
        	//robotship; punch command
         if(myKeysDown[KEY_U] == TRUE)
@@ -1608,25 +1510,16 @@ void OpenGLCanvas::update()
             //removed by Mike, 20210502
             //            myRobotShip->move(KEY_S);
         }
-       	//edited by Mike, 20201013
-        //else if(myKeysDown[KEY_RIGHT] == TRUE)
-        //edited by Mike, 20201014
-        //else if(myKeysDown[KEY_D] == TRUE)
-        //    	if(myKeysDown[KEY_D] == TRUE)
-        //edited by Mike, 20210128
-        //    	if(myKeysDown[KEY_RIGHT] == TRUE)
-        //edited by Mike, 20210129
-        //    	if ((myKeysDown[KEY_RIGHT] == TRUE) || (myKeysDown[KEY_D] == TRUE))
+*/        
         if (myKeysDown[KEY_D] == TRUE)
         {
-            //added by Mike, 20201001
-            //edited by Mike, 20201115; edited again by Mike, 20210128
-            //            myRobotShip->move(KEY_RIGHT);
+/* //removed by Mike, 20210825        
             myRobotShip->move(KEY_D);
-                        
+*/                        
             //added by Mike, 20210423
             myPilot->move(KEY_D);
-            
+  
+/* //removed by Mike, 20210825                    
             //added by Mike, 20210524
             //      myPilotPlayer2->move(KEY_W);
             myPilotPlayer2->setToWalkingMovingState();
@@ -1634,7 +1527,7 @@ void OpenGLCanvas::update()
             //added by Mike, 20210530
             myPilotPartner->setToWalkingMovingState();
             myPilotPlayer2Partner->setToWalkingMovingState();
-            
+*/            
             //removed by Mike, 20200929
             //			sound->play_sound_clip(thrust);
         }
@@ -1652,16 +1545,17 @@ void OpenGLCanvas::update()
         //else if(myKeysDown[KEY_A] == TRUE)
         if(myKeysDown[KEY_A] == TRUE)
         {
+/* //removed by Mike, 20210825                
             //added by Mike, 20201001
             //edited by Mike, 20201115
             //edited by Mike, 20210129
-            //            myRobotShip->move(KEY_LEFT);
-            
+            //            myRobotShip->move(KEY_LEFT);            
             myRobotShip->move(KEY_A);
-            
+*/            
             //added by Mike, 20210423
             myPilot->move(KEY_A);
-            
+
+/* //removed by Mike, 20210825                    
             //added by Mike, 20210524
             //      myPilotPlayer2->move(KEY_W);
             myPilotPlayer2->setToWalkingMovingState();
@@ -1669,7 +1563,7 @@ void OpenGLCanvas::update()
             //added by Mike, 20210530
             myPilotPartner->setToWalkingMovingState();
             myPilotPlayer2Partner->setToWalkingMovingState();
-            
+*/            
             
             //removed by Mike, 20201026
             /////			myCanvasPosX+=myCanvasStepX;
@@ -1682,7 +1576,7 @@ void OpenGLCanvas::update()
         //TO-DO: -reverify: rotation angle
         
         //TO-DO: -reverify beam start position during firing
-        
+/* //removed by Mike, 20210825                
         //added by Mike, 20210207
         //note: add this diagonal set of instructions first
         //diagonal weapon attack

@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B. 
  * @date created: 20200930
- * @date updated: 20210826
+ * @date updated: 20210827
  * @website address: http://www.usbong.ph
  *
  * Reference: 
@@ -214,304 +214,46 @@ val *= 2;
 return val;
 }
 
-
-//added by Mike, 20210816
-//TO-DO: -put: in MyDynamicObject
-//Note: [Warning] deprecated conversion from string constant to 'char*' [-Wwrite-strings]
-//TO-DO: -reverify: this; www.stackoverflow.com
-//edited by Mike, 20210821
-//void Pilot::load_png(char *filename)
-//Reference: https://discourse.libsdl.org/t/sdlsurface-to-opengl-texture/15597/2;
-//last accessed: 20210823
-//TO-DO: -reverify: this
-void Pilot::load_pngPrev(char *filename, unsigned int glITextureObject)
-//void Pilot::load_png(char *filename, GLuint glITextureObject)
+//added by Mike, 20210826
+//TO-DO: -add: CAD tool to assist in identify excess markings in image file
+//-add: CAD tool to verify animating sequence
+void openGLDrawTexture(int x, int y, GLuint textureid, int textw, int texth)
 {
-/* //removed by Mike, 20210822
-	//edited by Mike, 20210822
-//	GLuint texture;
-	GLuint texture = MIKE_TEXTURE_A;
-*/
-	GLuint textureId = MIKE_TEXTURE_A;
+	glBindTexture(GL_TEXTURE_2D, textureid);
+	glEnable(GL_TEXTURE_2D);
 	
-	SDL_Surface *surfacePart1;
-	surfacePart1 = IMG_Load(filename);
-/*
-	SDL_Surface *surface;
-	surface = IMG_Load(filename);
-*/	
+	float fTaoAnimationFrameOffset=0.0f;
+	float fTaoAnimationFrameOffsetYAxis=0.0f;
+
+	//added by Mike, 20210826
+//	glColor3f(1.0f, 1.0f, 1.0f); // white
 	
-//SDL_DisplayFormatAlpha(surface);
-
-/*	//edited by Mike, 20210823	
-	SDL_Surface *surface = SDL_ConvertSurfaceFormat(
-    surfacePart1, SDL_PIXELFORMAT_ARGB8888, 0);
-*/    
-    
-    
-   
-SDL_Surface *converted = SDL_CreateRGBSurface(0, surfacePart1->w, surfacePart1->h, 24, 0x0000FF, 0x00FF00, 0xFF0000, 0x000000);
-SDL_BlitSurface(surfacePart1, NULL, converted, NULL);
-
-//added by Mike, 20210823; edited by Mike, 20210826
-int iMode = (int) NULL;
-
-	if(converted->format->BytesPerPixel == 3) {
-		iMode = GL_RGB;
-	}
-	else if(converted->format->BytesPerPixel == 4) {
-		iMode = GL_RGBA; 
-		//printf(">>DITO\n");
-	}
-
-
-//GLuint textureID;
-glGenTextures(1, &textureId);
-glBindTexture(GL_TEXTURE_2D, textureId);
-//glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, pot(converted->w), pot(converted->h), 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
-//glTexImage2D(GL_TEXTURE_2D, 0, iMode, converted->w, converted->h, 0, iMode, GL_UNSIGNED_BYTE, NULL);
-glTexImage2D(GL_TEXTURE_2D, 0, iMode, pot(converted->w), pot(converted->h), 0, iMode, GL_UNSIGNED_BYTE, NULL);
-
-glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, converted->w, converted->h, iMode, GL_UNSIGNED_BYTE, converted->pixels);
-glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    
-    
-
-/* //removed by Mike, 20210822
-	//edited by Mike, 20210822	
-	glGenTextures(1,&texture);
-	glBindTexture(GL_TEXTURE_2D, texture);
-*/
+	glBegin(GL_QUADS);
+		glTexCoord2f(0+fTaoAnimationFrameOffset, 0+fTaoAnimationFrameOffsetYAxis);
+		glVertex3f(x, y, 0);
+		
+		glTexCoord2f(0.25f+fTaoAnimationFrameOffset, 0+fTaoAnimationFrameOffsetYAxis);
+		glVertex3f(x + textw, y, 0);
+		
+		glTexCoord2f(0.25f+fTaoAnimationFrameOffset, fTaoAnimationFrameOffsetYAxis+0.25f);
+		glVertex3f(x + textw, y + texth, 0);
+		
+		glTexCoord2f(0+fTaoAnimationFrameOffset, fTaoAnimationFrameOffsetYAxis+0.25f);
+		glVertex3f(x, y + texth, 0);
+	glEnd();
 	
-/*
-//	glGenTextures(1,&glITextureObject); //MIKE_TEXTURE_A
-	glBindTexture(GL_TEXTURE_2D, MIKE_TEXTURE_A); //glITextureObject);	
-*/
-
-/* //removed by Mike, 20210823
-	//added by Mike, 20210822
-	//TO-DO: -reverify: this
-	//https://stackoverflow.com/questions/13867219/opengl-renders-texture-all-white;
-	//last accessed: 20210822
-	glGenTextures(1, &texture);
-//    printf("\ntexture = %u", textures);
-    glBindTexture(GL_TEXTURE_2D, texture);
-    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);	
-*/    
-     
-    
-    
-
-/*	
-glTexParameterf(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameterf(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexParameterf(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_CLAMP_TO_EDGE);
-    glTexParameterf(GL_TEXTURE_2D,GL_TEXTURE_WRAP_T,GL_CLAMP_TO_EDGE);	
-*/
-	
-/* //removed by Mike, 20210823	
-int iMode = NULL;
-
-	if(surface->format->BytesPerPixel == 3) {
-		iMode = GL_RGB;
-	}
-	else if(surface->format->BytesPerPixel == 4) {
-		iMode = GL_RGBA; 
-		//printf(">>DITO\n");
-	}
-*/
-	
-//printf(">>>iMode: %i\n",iMode);
-
-//glTexImage2D(GL_TEXTURE_2D, 0, Mode, image->w, image->h, 0, Mode, GL_UNSIGNED_BYTE, image->pixels);
-
-/* //removed by Mike, 20210823
- //edited by Mike, 20210823
-	glTexImage2D(GL_TEXTURE_2D, 0, iMode, surface->w, surface->h, 
-				 0, iMode, GL_UNSIGNED_BYTE, surface->pixels);
-*/
-
-				 
-/*	
-	gluBuild2DMipmaps(GL_TEXTURE_2D, iMode, surface->w, surface->h, 
-					  iMode, GL_UNSIGNED_BYTE, surface->pixels);
-*/					  				 
-				 
-/*
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, surface->w, surface->h, 
-				 0, GL_RGBA, GL_UNSIGNED_BYTE, surface->pixels);
-*/
-
-/*				 
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_BGRA,surface->w, surface->h, 
-				 0, GL_RGBA, GL_UNSIGNED_BYTE, surface->pixels);
-*/
-/*	gluBuild2DMipmaps(GL_TEXTURE_2D, GL_RGBA, surface->w, surface->h, 
-					  GL_RGBA, GL_UNSIGNED_BYTE, surface->pixels);
-*/					  
-/*
-	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
-*/	
-	//edited by Mike, 20210823
-//	SDL_FreeSurface(surface);	
-	SDL_FreeSurface(converted);	
-
-	SDL_FreeSurface(surfacePart1);
-	
-	
-
-/*    gluBuild2DMipmaps(GL_TEXTURE_2D, GL_RGBA, targa.width, targa.height,
-                      GL_RGBA, GL_UNSIGNED_BYTE, data);
-*/                      
-}
-
-//added by Mike, 20210824
-//void Pilot::load_png(char *filename, unsigned int glITextureObject)
-void Pilot::load_png(char *filename, GLuint glITextureObject)
-{
-SDL_Surface *surface;
-GLenum textureFormat;
-//GLuint texture;
-
-GLuint textureId = glITextureObject; //MIKE_TEXTURE_A;
-
-surface = IMG_Load(filename);
-
-if (!surface){
-//printf(">>>>> !surface\n");
-	return; //0;
-}
-
-//added by Mike, 20210824
-//TO-DO: -add: image frame clipping
-#if defined(__APPLE__)
-    switch (surface->format->BytesPerPixel) {
-        case 4:
-            if (SDL_BYTEORDER == SDL_BIG_ENDIAN)
-//                textureFormat = GL_BGRA;
-                textureFormat = GL_RGBA;
-            else
-//                textureFormat = GL_RGBA;
-                textureFormat = GL_BGRA;
-            break;
-        case 3:
-            if (SDL_BYTEORDER == SDL_BIG_ENDIAN)
-//                textureFormat = GL_BGR;
-                textureFormat = GL_RGB;
-            else
-//                textureFormat = GL_RGB;
-                textureFormat = GL_BGR;
-            break;
-    }
-#else
-    switch (surface->format->BytesPerPixel) {
-        case 4:
-            if (SDL_BYTEORDER == SDL_BIG_ENDIAN)
-                textureFormat = GL_BGRA;
-            else
-                textureFormat = GL_RGBA;
-            break;
-            
-        case 3:
-            if (SDL_BYTEORDER == SDL_BIG_ENDIAN)
-                textureFormat = GL_BGR;
-            else
-                textureFormat = GL_RGB;
-            break;
-    }
-#endif
-    
-/*
-*textw = surface->w;
-*texth = surface->h;
-*/
-
-printf(">>surface->w: %i; surface->h: %i\n",surface->w,surface->h);
-
-//glGenTextures(1, &textureId);
-glBindTexture(GL_TEXTURE_2D, textureId);
-glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-glTexImage2D(GL_TEXTURE_2D, 0, surface->format->BytesPerPixel, surface->w,
-surface->h, 0, textureFormat, GL_UNSIGNED_BYTE, surface->pixels);
-
-SDL_FreeSurface(surface);
-
-
-//return texture;
-	
+	glDisable(GL_TEXTURE_2D);
 }
 
 //added by Mike, 20210423
 void Pilot::setup()
 {
-	//removed by Mike, 20201010
-	//due to blank output
-    //glEnable(GL_DEPTH_TEST);
+//    openGLLoadTexture(char *filename, int *textw, int *texth)((char*)"textures/imageSpriteExampleMikeWithoutBG.png", MIKE_TEXTURE_A);	
+	//edited by Mike, 20210827
+//	openGLITexture = openGLLoadTexture((char*)"textures/imageSpriteExampleMikeWithoutBG.png", &iTextureWidth, &iTextureHeight);	
+	//TO-DO: -update: myWidth and myHeight to quickly identify as float
+	openGLITexture = openGLLoadTexture((char*)"textures/imageSpriteExampleMikeWithoutBG.png", &myWidth, &myHeight);	
 
-    // select texture 1
-    //removed by Mike, 20210822
-//	glBindTexture(GL_TEXTURE_2D, MIKE_TEXTURE_A);
-	
-    /* create OpenGL texture out of targa file */
-	//edited by Mike, 20210420
-//    load_tga("textures/armor.tga");	
-	//edited by Mike, 20210821
-//  load_tga("textures/imageSpriteExampleMikeWithoutBG.tga");	
-//    load_png("textures/imageSpriteExampleMikeWithoutBG.png");	
-    load_png((char*)"textures/imageSpriteExampleMikeWithoutBG.png", MIKE_TEXTURE_A);	
-
-/*	
-	// set texture parameters
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
-
-////	//edited by Mike, 20210723; this is due to displayed image is blurred
-//    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
-//                    GL_LINEAR_MIPMAP_NEAREST);                    
-//    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-////
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
-                    GL_NEAREST);                    
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-*/
-
-/*
-    // select texture 1
-	glBindTexture(GL_TEXTURE_2D, MIKE_TEXTURE_B);
-	
-    // create OpenGL texture out of targa file
-    load_tga("textures/armor.tga");	
-	
-	// set texture parameters
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
-                    GL_LINEAR_MIPMAP_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-			
-    // select texture 1
-	glBindTexture(GL_TEXTURE_2D, MIKE_TEXTURE_C);
-	
-    // create OpenGL texture out of targa file
-    load_tga("textures/armor.tga");	
-	
-	// set texture parameters
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
-                    GL_LINEAR_MIPMAP_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);	
-*/
-	
-    // unselect texture myFontTextureObject
-    glBindTexture(GL_TEXTURE_2D, 0);
-
-    // setup alpha blending
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    glEnable(GL_BLEND);
 }
 
 //added by Mike, 20210522
@@ -538,225 +280,25 @@ Pilot::Pilot(float xPos, float yPos, float zPos, float fWindowWidth, float fWind
 	iShieldEffectCount=0;
 	iGlowEffectCount=0;
 	iGlowFadeEffectCount=0;
-
-//    myXPos=0.0;
-//    myYPos=0.0;
-    //myYPos=300.0;
-//    myZPos=300.0;
-/*    
-    stepX=0.01;
-    stepY=0.01;
-    stepZ=0.01;
-*/    
-/*	//edited by Mike, 20201023
-	//added by Mike, 20201001
-    stepX=0.03;
-    stepY=0.03;
-*/
-/*	//edited by Mike, 20201116
-    stepX=0.1;
-    stepY=0.1;
-*/
-	
-    //edited by Mike, 20201025
-	//edited again by Mike, 20210114
-	//reverified double step due to double the size of Window	
-	//4096x4096; update in main.cpp
-	//OpenGLCanvas update sleep delay, instead of step
-/*	//edited by Mike, 20210116
-    stepX=0.3;
-    stepY=0.3;
-    stepZ=0.3;
-*/
-	//edited by Mike, 20210505
-	//note: if set to 0.3; noticeable zoom-in, zoom-out cycling movement due to quick speed
-	//observed: Samurai Spirits IV's created world executes such camera eye movement
-	//that becomes noticeable with background zoom-in, zoom-out via cycling movement
-	//edited by Mike, 20210522
-/*	
-//    stepX=0.3;
-    stepX=0.2;
-	
-    stepY=0.3;
-    stepZ=0.3;
-*/
-/* //edited by Mike, 20210523
-    stepX=0.4;	
-    stepY=0.4;
-    stepZ=0.4;
-*/
-    /* //edited by Mike, 20210605
-    stepX=0.4*4;
-    stepY=0.4*4;
-    stepZ=0.4*4;
-*/
-/* //edited by Mike, 20210725
-    //note: we use integer with myXPos, et cetera
-    stepX=0.5*4;
-    stepY=0.5*4;
-    stepZ=0.5*4;
-*/
-    //note: we use integer with myXPos, et cetera
-    //added by Mike, 20210725
-    //execute *2; Sonic the Hedgehog? due to speed and image blurs?
-    //sticks to wall to cause acceleration effect?
     
-   //edited by Mike, 20210726
-/*   //due to we add to pixel position, instead of vertex position
-    stepX=0.5*4*2;
-    stepY=0.5*4*2;
-    stepZ=0.5*4*2;
-*/
-    
-/*	  //removed by Mike, 20210726
-		//TO-DO: -add: auto-compute grid tile
-    stepX=32;
-    stepY=32;
-    stepZ=32;
-*/
-    
-    invincibleCounter=0;
-    currentDeathFrame=0;
-
-	//edited by Mike, 20201001
-/*  myWidth=2.0f;//1.5;
-    myHeight=2.0f;//1.5;
-*/    
-/*	//edited by Mike, 20201023
-    myWidth=0.1f;
-    myHeight=0.1f;
-*/
-
-	//edited by Mike, 20201201    
-	//TO-DO: -update: this
-/*	myWidth=1.0f;
-    myHeight=1.0f;
-*/
-	
-/* //edited by Mike, 20210522	
-	myWidth=1.4f;
-    myHeight=1.4f;
-*/
-		//edited by Mike, 20210723
-	//TO-DO: -add: auto-identify tile width and height
-/*
-		myWidth=4.0f;
-    myHeight=4.0f;
-*/  
-    
-  //added by Mike, 20210523; edited by Mike, 20210527
-  //note: these are for size of whole image, i.e. not clipped to be only select parts
-/*	myWidthAsPixel=128; //64*2
-  myHeightAsPixel=64*4;
-*/  
-/*
-	myWidthAsPixel=128; //64*2
-  myHeightAsPixel=192; //64*3
-*/
-/*	//removed by Mike, 20210528
-	myWidthAsPixelMax=64*8;
-	myHeightAsPixelMax=64*4;
-*/
-	
-//note:	glScalef(0.2f/2, 0.4f/2, 1.0f);			
-	//added by Mike, 20210527; edited by Mike, 20210611
-/*	myWidthAsPixel=128*0.2/2;
-    myHeightAsPixel=192*0.4/2;
-*/
-
-		//edited by Mike, 20210723
-	//TO-DO: -add: auto-identify tile width and height
-/*
-    myWidthAsPixel=64;
-    myHeightAsPixel=64;
-*/
-/* //edited by Mike, 20210725
-    myWidthAsPixel=64+32;
-    //edited by Mike, 20210725
-//    myHeightAsPixel=64*2+32;
-    myHeightAsPixel=64+32;
-*/
-/*
-    myWidthAsPixel=16;
-    myHeightAsPixel=16;
-*/
-
-/*
-//removed by Mike, 20210729
-    //TO-DO: -add: auto-set width and height based on grid tile
-    //note: we use image texture scale COMMANDS, et cetera
-    //edited by Mike, 20210729
-    //add offset due to non-transparent sprite image smaller than tile size
-    myWidthAsPixel=71;
-    myHeightAsPixel=80;
-*/
-    
-	  //added by Mike, 20210726
-		//TO-DO: -add: auto-compute grid tile
-/*	//removed by Mike, 20210727		
-    stepX=myWidthAsPixel;// 32;
-    stepY=myHeightAsPixel; //32;
-    stepZ=myWidthAsPixel; //32
-*/
-
-/*	//removed by Mike, 20210528
-//added by Mike, 20210528
-	myWidthAsPixel=64;
-    myHeightAsPixel=64;
-*/
-    
+  invincibleCounter=0;
+  currentDeathFrame=0;
+  
 	//added by Mike, 20210523
 	//edited by Mike, 202105028
 	myXPos=xPos;
-    myYPos=0.0f;
-    myZPos=zPos;
-  	
-/*
-	myXPos=0.0f;
-	myYPos=0.0f;
-  myZPos=0.0f;
-*/
-    
-	//TO-DO: -update: this
-	//note: float xPos as parameter to int myXPosAsPixel not correct output	
-/* //edited by Mike, 20210523	
-	myXPosAsPixel=320;//xPos; //320;//(int)xPos;
-	myYPosAsPixel=320;//yPos; //(int)yPos;
-	myZPosAsPixel=0.0f; //(int)zPos;    
-*/
-
-/* //edited by Mike, 20210726
-	//note: we use zPos for the yPosAsPixel
-	myXPosAsPixel=xPos; //320;//(int)xPos;
-	myYPosAsPixel=zPos;//yPos; //(int)yPos;
-	myZPosAsPixel=0.0f;//(int)zPos;    
-*/
+	//edited by Mike, 20210827
+  myYPos=yPos;//0.0f;
+ 
+  myZPos=zPos;
+  
 	myXPosAsPixel=xPos;
 	myYPosAsPixel=yPos;
 	myZPosAsPixel=zPos;
 
-
-/* //removed by Mike, 20210523
-//	myXPos=0.0f;
-	myXPos=xPos;
-	
-    //edited by Mike, 2020116
-//    myYPos=0.0f+myHeight*3;
-
-	//added by Mike, 20210503
-	//myZPos updated again in another location
-	//edited by Mike, 20210521	
-//    myZPos=0.0f+myHeight*3;
-    myZPos=0.0f;
-*/
-	
-/*	//added by Mike, 20201115; edited by Mike, 20210815
-	myWindowWidth=windowWidth;
-	myWindowHeight=windowHeight;
-*/
 	fMyWindowWidth=fWindowWidth;
 	fMyWindowHeight=fWindowHeight;
-	
+
 /*	
 	printf(">>Pilot.cpp: myWindowWidth: %i\n",myWindowWidth);
 	printf(">>Pilot.cpp: myWindowHeight: %i\n",myWindowHeight);
@@ -774,85 +316,15 @@ Pilot::Pilot(float xPos, float yPos, float zPos, float fWindowWidth, float fWind
   fGridSquareWidth = fMyWindowWidth/iColumnCountMax; //example: 136.60
   fGridSquareHeight = fMyWindowHeight/iRowCountMax; //example: 76.80
 	
-	  //added by Mike, 20210726
-		//note: auto-compute based on grid tile
-		//TO-DO: -add: acceleration
-	//edited by Mike, 20210728		
-/*	
-  	stepX=fGridSquareWidth/8;
-    stepY=fGridSquareHeight/8;
-    stepZ=fGridSquareWidth/8;
-*/
   	//edited by Mike, 20210807	
   	stepX=fGridSquareWidth/10;
-//  	stepX=fGridSquareWidth/10*2;
-
-  	//edited by Mike, 20210807	
     stepY=fGridSquareHeight/10;
-//    stepY=fGridSquareHeight/10*2;
-
     stepZ=fGridSquareWidth/10;
-	
-/*
-  	stepX=fGridSquareWidth/9;
-    stepY=fGridSquareHeight/9;
-    stepZ=fGridSquareWidth/9;
-*/
-
-	//added by Mike, 20210729
-    //auto-set width and height based on grid tile
-    //note: we use image texture scale COMMANDS, et cetera
-    //add offset due to non-transparent sprite image smaller than tile size
-/*    iOffsetXPosAsPixel=16;
-    iOffsetYPosAsPixel=16;
-*/    
-/*
-    iOffsetXPosAsPixel=0;
-    iOffsetYPosAsPixel=0;
-*/
-
-/* //removed by Mike, 20210730
-    //edited by Mike, 20210729;
-    //TO-DO: -reverify: setXPosAsPixel(...) after collision detected with tile; not centered?
-    //-reverify: with another machine; previously iOffsetXPosAsPixel=12; OK in Linux machine due to window screen width and height?
-//    iOffsetXPosAsPixel=12;
-    iOffsetXPosAsPixel=20;
-    iOffsetYPosAsPixel=12;
-*/
-    
-/*    
-    myWidthAsPixel=fGridSquareWidth-iOffsetXPosAsPixel;
-    myHeightAsPixel=fGridSquareHeight-iOffsetYPosAsPixel;
-*/	
+		
     myWidthAsPixel=fGridSquareWidth;
     myHeightAsPixel=fGridSquareHeight;
 
-    //edited by Mike, 20210730;
-    //TO-DO: -reverify: setXPosAsPixel(...) after collision detected with tile; not centered?
-    //-reverify: with another machine; previously iOffsetXPosAsPixel=12; OK in Linux machine due to window screen width and height?
-//    iOffsetXPosAsPixel=12;
-
-/*  //note: execution crash problem in Windows 7 machine; 
-	//due to multiply by fraction to output integer, i.e. whole number?
-	//OK Compile & Run after Rebuild All Command
-	iOffsetXPosAsPixel=fGridSquareWidth*0.28;
-    iOffsetYPosAsPixel=fGridSquareHeight*0.15;	
-*/
-/*  execution crash problem in Windows 7 machine; 
-    iOffsetXPosAsPixel=fGridSquareWidth*28/100;
-    iOffsetYPosAsPixel=fGridSquareHeight*15/100;	
-
-    iOffsetXPosAsPixel=20;
-    iOffsetYPosAsPixel=12;	
-
-	iOffsetXPosAsPixel=30;
-    iOffsetYPosAsPixel=12;	
-*/
-	//OK Compile & Run after Rebuild All Command
-//    iOffsetXPosAsPixel=fGridSquareWidth*28/100;
-//    iOffsetYPosAsPixel=fGridSquareHeight*15/100;	
-
-	iOffsetXPosAsPixel=fGridSquareWidth*0.28;
+		iOffsetXPosAsPixel=fGridSquareWidth*0.28;
     iOffsetYPosAsPixel=fGridSquareHeight*0.15;	
 
 
@@ -995,201 +467,8 @@ void Pilot::draw()
 //added by Mike, 20210423
 void Pilot::drawPilotAsQuadWithTexture()
 {
-	//edited by Mike, 20210523
-    //glTranslatef(myXPos, myYPos, myZPos);
-//	printf(">> myXPos:%f, myYPos:%f, myZPos:%f;\n",myXPos,myYPos,myZPos);
-		
-/* //removed by Mike, 20210725
-	//TO-DO: -update: this
-	myXPosAsPixel=(int)myXPos;
-	//edited by Mike, 20210725
-*/
-/* //removed by Mike, 20210608
-void Pilot::drawPilotObjectPrevLargeTexture() 
-{	
-	//added by Mike, 20210422	
-	glPushMatrix();
-		//added by Mike, 20210420
-		glColor3f(1.0f, 1.0f, 1.0f); // white
-//		glColor3f(1.0f, 0.0f, 0.0f); // red
-	
-		glEnable(GL_TEXTURE_2D);
-		glBindTexture(GL_TEXTURE_2D, MIKE_TEXTURE_A);		
-		
-		//added by Mike, 20210523
-		glRotatef(180, 1.0f, 0.0f, 0.0f);
-		
-		//edited by Mike, 20210515
-//		fButtonAnimationFrameOffset=0;
-	
-		//added by Mike, 20210516; removed to after glScale(...) by Mike, 20210516		
-		//due to instructions to auto-draw quad using triangles
-//		glTranslatef(0.2f, 0.2f, 0.0f);
-	
-		//TO-DO: -verify: scaled texture object if equal with pixel width and height size
-		//use autoConvertFromPixelToVertexPointX, et cetera if exact
-		
-		//window width and height; 640x640pixels
-		//whole texture image sheet 512x256pixels
-		//button size: 64x16pixels
-//		glScalef(0.25f, 0.4f, 1.0f);		
-		//edited by Mike, 20210523
-//		glScalef(0.20f, 0.4f, 1.0f);		
-//glScalef(3.2f, 3.2f, 3.2f);		
-		glScalef(0.2f/2, 0.4f/2, 1.0f);		
-		
-		//added by Mike, 20210516
-		//due to instructions to auto-draw quad using triangles
-		glTranslatef(1.0f, 0.5f, 0.0f);		
-	
-if ((currentFacingState==FACING_RIGHT) || (currentFacingState==FACING_RIGHT_AND_UP) || (currentFacingState==FACING_RIGHT_AND_DOWN)) {
-        //added by Mike, 20210424
-        //notes: use folding paper to assist in quickly identifying location, e.g. texture coordinates
-        //set vertex positions clock-wise
-        //      glRotatef(45, 0.0f, 1.0f, 0.0f); //slanted to wall facing left
-        glBegin(GL_TRIANGLES);
-        //triangle#6 //back face left part
-        glNormal3f(0.0000,0.0000,-1.0000);
-        //edited by Mike, 20210424
-        //			glTexCoord2f(0.0+fTaoAnimationFrameOffset,0.0);	//A1; face left
-        glTexCoord2f(0.25+fTaoAnimationFrameOffset,0.0); //B2
-//        glVertex3f(-1.000000,4.000000,-1.000000); //A1
-        glVertex3f(-1.000000,1.000000,-1.000000); //A1
-        
-        glNormal3f(0.0000,0.0000,-1.0000);
-        //edited by Mike, 20210424
-        //			glTexCoord2f(0.25+fTaoAnimationFrameOffset,1.0); //B1; face left
-        glTexCoord2f(0.0+fTaoAnimationFrameOffset,1.0);	//C2
-        glVertex3f(1.000000,-1.000000,-1.000000); //B1
-        
-        glNormal3f(0.0000,0.0000,-1.0000);
-        //edited by Mike, 20210424
-        //			glTexCoord2f(0.0+fTaoAnimationFrameOffset,1.0);	//C1; face left
-        glTexCoord2f(0.25+fTaoAnimationFrameOffset,1.0); //B1
-        glVertex3f(-1.000000,-1.000000,-1.000000); //C1
-        
-        //triangle#12 //back face right part
-        glNormal3f(0.0000,0.0000,-1.0000);
-        //edited by Mike, 20210424
-        //			glTexCoord2f(0.0+fTaoAnimationFrameOffset,0.0);	//A2; face lefT
 
-        glTexCoord2f(0.25+fTaoAnimationFrameOffset,0.0); //B2
-//        glVertex3f(-1.000000,4.000000,-1.000000); //A2
-        glVertex3f(-1.000000,1.000000,-1.000000); //A2
-        
-        glNormal3f(0.0000,0.0000,-1.0000);
-        //edited by Mike, 20210424
-        //			glTexCoord2f(0.25+fTaoAnimationFrameOffset,0.0); //B2; face left
-        glTexCoord2f(0.0+fTaoAnimationFrameOffset,0.0);	//A1
-//        glVertex3f(1.000000,4.000000,-1.000000); //B2
-        glVertex3f(1.000000,1.000000,-1.000000); //B2
-        
-        glNormal3f(0.0000,0.0000,-1.0000);
-        //edited by Mike, 20210424
-        //			glTexCoord2f(0.25+fTaoAnimationFrameOffset,1.0); //C2; face left
-        glTexCoord2f(0.0+fTaoAnimationFrameOffset,1.0);	//C1
-        glVertex3f(1.000000,-1.000000,-1.000000); //C2
-        glEnd();
-    }
-    else {
-        glBegin(GL_TRIANGLES);
-        //triangle#6 //back face left part
-        glNormal3f(0.0000,0.0000,-1.0000);
-        glTexCoord2f(0.0+fTaoAnimationFrameOffset,0.0);
-//        glVertex3f(-1.000000,4.000000,-1.000000); //A1
-        glVertex3f(-1.000000,1.000000,-1.000000); //A1
-        
-        glNormal3f(0.0000,0.0000,-1.0000);
-        //edited by Mike, 20210420
-        //	glTexCoord2f(1.0+iTaoAnimationFrameOffset,1.0);
-        //	glTexCoord2f(0.5+fTaoAnimationFrameOffset,1.0);
-        glTexCoord2f(0.25+fTaoAnimationFrameOffset,1.0);
-        glVertex3f(1.000000,-1.000000,-1.000000); //B1
-        
-        glNormal3f(0.0000,0.0000,-1.0000);
-        glTexCoord2f(0.0+fTaoAnimationFrameOffset,1.0);
-        glVertex3f(-1.000000,-1.000000,-1.000000); //C1
-        
-        
-        //triangle#12 //back face right part
-        glNormal3f(0.0000,0.0000,-1.0000);
-        glTexCoord2f(0.0+fTaoAnimationFrameOffset,0.0);
-//        glVertex3f(-1.000000,4.000000,-1.000000); //A2
-        glVertex3f(-1.000000,1.000000,-1.000000); //A2
-        
-        glNormal3f(0.0000,0.0000,-1.0000);
-        //edited by Mike, 20210420
-        //	glTexCoord2f(1.0+iTaoAnimationFrameOffset,0.0);
-        //	glTexCoord2f(0.5+fTaoAnimationFrameOffset,0.0);
-        glTexCoord2f(0.25+fTaoAnimationFrameOffset,0.0);
-//        glVertex3f(1.000000,4.000000,-1.000000); //B2
-        glVertex3f(1.000000,1.000000,-1.000000); //B2
-        
-        glNormal3f(0.0000,0.0000,-1.0000);
-        //edited by Mike, 20210420	
-        //	glTexCoord2f(1.0+iTaoAnimationFrameOffset,1.0);
-        //	glTexCoord2f(0.5+fTaoAnimationFrameOffset,1.0);
-        glTexCoord2f(0.25+fTaoAnimationFrameOffset,1.0);	
-        glVertex3f(1.000000,-1.000000,-1.000000); //C2	
-        glEnd();
-    }
-    	
-	
-		glDisable(GL_TEXTURE_2D);
-		glBindTexture(GL_TEXTURE_2D, 0);
-	glPopMatrix(); //added by Mike, 20210422
-}
-*/
-
-/* //removed by Mike, 20210727
-//    myYPosAsPixel=(int)myZPos;
-    myYPosAsPixel=(int)myYPos;
-*/    
-    
-/*    
-	//added by Mike, 20210523
-	//printf("myYPos: %f",myYPos);
-	printf(">>Pilot.cpp; myXPosAsPixel: %i\n",myXPosAsPixel);
-	printf(">>Pilot.cpp; myYPosAsPixel: %i\n",myYPosAsPixel);
-*/
-
-	//edited by Mike, 20210523
-//    glTranslatef(myUsbongUtils->autoConvertFromPixelToVertexPointX(myXPosAsPixel), myUsbongUtils->autoConvertFromPixelToVertexPointY(myYPosAsPixel), myZPosAsPixel);
     glTranslatef(myUsbongUtils->autoConvertFromPixelToVertexPointX(myXPosAsPixel), myUsbongUtils->autoConvertFromPixelToVertexPointY(myYPosAsPixel), 0);
-		
-	
-//    printf(">>\n");
-    
-/* //removed by Mike, 20210521	
-	glScalef(1.2f, 1.2f, 1.2f); //noticeable vertical movement; reverify scale to trans ratio	
-	
-	float fDistanceBetweenPlayer1And2 = sqrt((getX()-myOpponentXPos)*(getX()-myOpponentXPos));
-	printf("fDistanceBetweenPlayer1And2: %f",fDistanceBetweenPlayer1And2);
-
-	float fScale=1.0f+(1.0f-(fDistanceBetweenPlayer1And2/20.0f));
-
-	//edited by Mike, 20210506IN_TITLE_STATE
-	if (fScale>2.0f) {
-		fScale=2.0f;
-	}
-		
-  	//noticeable vertical movement		
-	else if (fScale<1.2f) {
-		fScale=1.2f;
-	}
-
-	//note: ratio: 1.0f : 0.375f; 2.0f : 0.75f
-	//where: 1.0f = scale
-	//0.375f = trans
-	float fTrans= fScale*0.375f;
-//		float fTrans= fScale*0.25f;
-
-	printf("fScale: %f",fScale);		
-
-	glScalef(fScale, fScale, fScale);			
-	glTranslatef(0.0f, 0.0f, -fTrans); //negative to move backward in z-axis
-*/	
-	
 	
     switch (currentState)
     {
@@ -1350,9 +629,19 @@ printf(">>>>>>>>>>>>>>> ATTACK DITO");
 //    glPopMatrix();	// pop back to original coordinate system
 }
 
+//added by Mike, 20210827
+void Pilot::drawPilotObject()
+{
+	//added by Mike, 20210826
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glLoadIdentity();
+	
+	openGLDrawTexture(myXPos, myYPos, openGLITexture, myWidth, myHeight);		
+}
+
 //added by Mike, 20210727
 //TO-DO: -reverify: this
-void Pilot::drawPilotObject()
+void Pilot::drawPilotObjectPrev()
 {
     
     glBindTexture(GL_TEXTURE_2D, MIKE_TEXTURE_A);

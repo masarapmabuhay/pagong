@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B. 
  * @date created: 20200930
- * @date updated: 20210826
+ * @date updated: 20210827
  * @website address: http://www.usbong.ph
  *
  * Acknowledgments:
@@ -52,6 +52,21 @@
     printf("In Linux");
 #endif
 */
+
+//added by Mike, 20210821; edited by Mike, 20210827
+//note: reverifying: use of SDL Image + OpenGL, without GLUT
+#ifdef _WIN32 //Windows machine
+	#include <SDL.h>
+	#include <SDL_image.h>
+//added by Mike, 20210825
+#elif defined(__APPLE__)
+    #include <SDL2/SDL.h>
+    #include <SDL2_image/SDL_image.h>
+#else
+	#include <SDL2/SDL.h>
+	#include <SDL2/SDL_image.h>
+#endif
+
 
 #include <stdio.h>
 
@@ -410,4 +425,78 @@ void MyDynamicObject::destroy()
 	}
 	delete [] explosionParticle;
 */
+}
+
+//added by Mike, 20210826; edited by Mike, 20210827
+//GLuint openGLLoadTexture(char *filename, int *textw, int *texth)
+GLuint MyDynamicObject::openGLLoadTexture(char *filename, float *fTextWidth, float *fTextHeight)
+{
+	SDL_Surface *surface;
+	GLenum textureFormat;
+	GLuint texture;
+	
+	surface = IMG_Load(filename);
+	
+	if (!surface){
+		return 0;
+	}
+
+//added by Mike, 20210824
+//TO-DO: -add: image frame clipping
+#if defined(__APPLE__)
+    switch (surface->format->BytesPerPixel) {
+        case 4:
+            if (SDL_BYTEORDER == SDL_BIG_ENDIAN)
+//                textureFormat = GL_BGRA;
+                textureFormat = GL_RGBA;
+            else
+//                textureFormat = GL_RGBA;
+                textureFormat = GL_BGRA;
+            break;
+        case 3:
+            if (SDL_BYTEORDER == SDL_BIG_ENDIAN)
+//                textureFormat = GL_BGR;
+                textureFormat = GL_RGB;
+            else
+//                textureFormat = GL_RGB;
+                textureFormat = GL_BGR;
+            break;
+    }
+#else
+    switch (surface->format->BytesPerPixel) {
+        case 4:
+            if (SDL_BYTEORDER == SDL_BIG_ENDIAN)
+                textureFormat = GL_BGRA;
+            else
+                textureFormat = GL_RGBA;
+            break;
+            
+        case 3:
+            if (SDL_BYTEORDER == SDL_BIG_ENDIAN)
+                textureFormat = GL_BGR;
+            else
+                textureFormat = GL_RGB;
+            break;
+    }
+#endif
+    
+	/* //edited by Mike, 20210824
+	//note: 4 frames per width and height of whole texture image file
+	*textw = surface->w;
+	*texth = surface->h;
+	*/
+	*fTextWidth = surface->w/4;
+	*fTextHeight = surface->h/4;
+	
+	
+	glGenTextures(1, &texture);
+	glBindTexture(GL_TEXTURE_2D, texture);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexImage2D(GL_TEXTURE_2D, 0, surface->format->BytesPerPixel, surface->w,
+	surface->h, 0, textureFormat, GL_UNSIGNED_BYTE, surface->pixels);
+	
+	SDL_FreeSurface(surface);
+	
+	return texture;	
 }
