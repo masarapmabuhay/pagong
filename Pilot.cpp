@@ -227,7 +227,9 @@ void openGLDrawTexture(int x, int y, GLuint textureId, int textw, int texth)
 
 	//added by Mike, 20210826
 //	glColor3f(1.0f, 1.0f, 1.0f); // white
-	
+
+	//added by Mike, 20210827
+	//set vertex counter-clock-wise
 	glBegin(GL_QUADS);
 		glTexCoord2f(0+fTaoAnimationFrameOffset, 0+fTaoAnimationFrameOffsetYAxis);
 		glVertex3f(x, y, 0);

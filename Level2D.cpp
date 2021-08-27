@@ -585,108 +585,6 @@ float* Level2D::getXYZPos()
  }
  */
 
-//added by Mike, 20210617
-void Level2D::drawPressNextSymbol()
-{
-    //	  glScalef(0.20f, 0.4f, 1.0f);
-    //    glTranslatef(1.0f, 0.5f, 0.0f);
-    
-    glDisable(GL_TEXTURE_2D);
-    glBindTexture(GL_TEXTURE_2D, 0);
-    
-    glPushMatrix();
-    
-    //note: 640x640; window width x height
-    //edited by Mike, 20210702
-    //    glTranslatef(myUsbongUtils->autoConvertFromPixelToVertexPointX(320), myUsbongUtils->autoConvertFromPixelToVertexPointY(555), 0.0f); //-myZPosAsPixel);
-    
-    /* //removed by Mike, 20210708
-     //y-axis origin from bottom
-     //add 0.06f as bottom padding
-     //    glTranslatef(myUsbongUtils->autoConvertFromPixelToVertexPointX(myWindowWidth/2), myUsbongUtils->autoConvertFromPixelToVertexPointY(myWindowHeight*0.80f)+0.1f, 0.0f);
-     glTranslatef(myUsbongUtils->autoConvertFromPixelToVertexPointX(myWindowWidth/2), myUsbongUtils->autoConvertFromPixelToVertexPointY(myWindowHeight*0.80f)+0.06f, 0.0f);
-     */
-    
-    /*
-     //added by Mike, 20210708
-     //TO-DO: -reverify: with another Machine Window
-     //set object anchor to top-left
-     //added by Mike, 20210708
-     #if defined(__APPLE__)		//note: *2; where 2 = rowCount
-     //note: +0.01 in y-axis due to thickness of grid line; TO-DO: -reverify: this using another machine
-     //    glTranslatef((0.033f+0.006f)*2, 0.0f-0.01f, 0.0f);
-     //    glTranslatef(0.0f+0.006f, 0.0f-0.01f, 0.0f);
-     //    glTranslatef((-0.01f), 0.0f-0.01f, 0.0f);
-     #else
-    	glTranslatef(+0.02f, 0.0f, 0.0f);
-     #endif
-     //    glTranslatef(-1.0f/2, -1.0f/2, 0.0f);
-     //    glTranslatef(1.0f, 0.0f, 0.0f);
-     glTranslatef(0.06f, 0.0f, 0.0f);
-     glTranslatef(0.55f, 0.0f, 0.0f);
-     */
-    //TO-DO: -add: auto-compute translate value, e.g. 0.04f
-    //    glTranslatef(0.04f, 0.0f, 0.0f);
-    //note: 0.033f = 0.06f*0.55f; //due to scale Commands
-    //note: +0.006 in x-axis due to thickness of grid line; TO-DO: -reverify: this using another machine
-    //note: *2; where 2 = rowCount
-    //note: there exists thickness of grid line
-    //    glTranslatef(-0.06f*0.55f*3, 0.0f, 0.0f);
-    
-    
-    //edited by Mike, 20210708
-    glRotatef(45.0f, 0.0f, 0.0f, 1.0f);
-    //    glRotatef(90.0f, 0.0f, 0.0f, 1.0f);
-    
-    //edited by Mike, 20210702; edited by Mike, 20210708
-    glScalef(0.06f, 0.06f, 1.0f);
-    //	  glScalef(0.06f, 0.06f*0.55f, 1.0f);
-    //	  glScalef(0.06f*0.55f, 0.06f*0.55f, 1.0f);
-    
-    //iRowCountMax: 18; iColumnCountMax: 10;
-    //10/18=0.55...;
-    
-    //note: we can identify patterns in the instructions to execute
-    //3D techniques, e.g. scale; via the Open Graphics Library (OpenGL)
-    //note: multiple scale Commands = multiplication Commands
-    //example variation#1:
-    //glScalef(0.06f, 0.06f, 1.0f);
-    //glScalef(0.55f, 0.55f, 1.0f);
-    //example variation#2; 0.06f*0.55f
-    //glScalef(0.06f*0.55f, 0.06f*0.55f, 1.0f);
-    
-    glScalef(0.55f, 0.55f, 1.0f);
-    //	  glScalef(0.055f, 0.055f, 1.0f);
-    
-    glColor3f(1.0f,0.0f,0.0f); //red
-    
-    glBegin(GL_TRIANGLES);
-    //counter-clockwise sequence to auto-draw front face
-    //front face left part; triangle at 3rd quadrant; angle: right
-    glVertex3f(-1.000000,1.000000,0.000000); //A1
-    glVertex3f(-1.000000,-1.000000,0.000000); //C1
-    glVertex3f(1.000000,-1.000000,0.000000); //B1
-    glEnd();
-    
-    /*
-     //note: use of 3D techniques, e.g. translate, rotate, scale,
-     //adds to development time, due to display output verification;
-     //fast computers speed-up development time
-     
-     //added by Mike, 20210708
-     glBegin(GL_TRIANGLES);
-    	//counter-clockwise sequence to auto-draw front face
-    	//front face left part; triangle at 3rd quadrant; angle: right
-    	glVertex3f(0.000000,1.000000,0.000000); //A1
-    	glVertex3f(-2.000000,-1.000000,0.000000); //C1
-    	glVertex3f(1.000000,-1.000000,0.000000); //B1
-     glEnd();
-     */
-    
-    glPopMatrix();
-}
-
-
 //edited by Mike, 20210712
 void Level2D::drawTileAsQuadWithoutTexture()
 {
@@ -874,7 +772,9 @@ void Level2D::drawTileAsQuadWithTexture(std::string sTileId)
     float fTileSideXAxis = 0.0625f;
 
     //from bottom; anchor; start fTy at 1.0f
-    float fTileSideYAxis = -0.0625f;
+    //edited by Mike, 20210827
+//    float fTileSideYAxis = -0.0625f;
+    float fTileSideYAxis = 0.0625f;
 
 		//added by Mike, 20210724
 		//TO-DO: -add: animation sequence based on sTileId
@@ -898,6 +798,7 @@ void Level2D::drawTileAsQuadWithTexture(std::string sTileId)
         glEnd();
     }
     else {
+/* //removed by Mike, 20210827    
       //note: 3rd quadrant; counter clock-wise
       glBegin(GL_QUADS); // Each set of 4 vertices form a quad
     	  glVertex3f(0.0f, 0.0f, 0.0f);   	
@@ -905,9 +806,11 @@ void Level2D::drawTileAsQuadWithTexture(std::string sTileId)
     	  glVertex3f(0.0f-fGridTileWidthVertexPosition, 0.0f-fGridTileHeightVertexPosition, 0.0f);    	
     	  glVertex3f(0.0f, 0.0f-fGridTileHeightVertexPosition, 0.0f);
    	  glEnd();
+*/   	  
     }
         
 //-----		
+/*
     glBegin(GL_QUADS); // Each set of 4 vertices form a quad
       glTexCoord2f(fTx + fTileSideXAxis, fTy);
       glVertex3f(0.0f, 0.0f, 0.0f);
@@ -921,6 +824,22 @@ void Level2D::drawTileAsQuadWithTexture(std::string sTileId)
       glTexCoord2f(fTx + fTileSideXAxis, fTy + fTileSideYAxis);
       glVertex3f(0.0f, 0.0f-fGridTileHeightVertexPosition, 0.0f);
     glEnd();
+*/    
+	//added by Mike, 20210827
+	//set vertex counter-clock-wise
+	glBegin(GL_QUADS);
+    glTexCoord2f(fTx + fTileSideXAxis, fTy);
+		glVertex3f(0.0f, 0.0f, 0);
+		
+    glTexCoord2f(fTx, fTy);
+		glVertex3f(0.0f + fGridTileWidthVertexPosition, 0.0f, 0);
+		
+    glTexCoord2f(fTx, fTy + fTileSideYAxis);
+		glVertex3f(0.0f + fGridTileWidthVertexPosition, 0.0f + fGridTileHeightVertexPosition, 0);
+		
+    glTexCoord2f(fTx + fTileSideXAxis, fTy + fTileSideYAxis);
+		glVertex3f(0.0f, 0.0f + fGridTileHeightVertexPosition, 0);
+	glEnd();    
     
     glDisable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D, 0);
