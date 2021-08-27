@@ -69,16 +69,19 @@
 //#include <GL/glut.h>
 #endif
 
-//added by Mike, 20210821
+//added by Mike, 20210821; edited by Mike, 20210826
 //note: reverifying: use of SDL Image + OpenGL, without GLUT
 #ifdef _WIN32 //Windows machine
 	#include <SDL.h>
 	#include <SDL_image.h>
+//added by Mike, 20210825
+#elif defined(__APPLE__)
+    #include <SDL2/SDL.h>
+    #include <SDL2_image/SDL_image.h>
 #else
 	#include <SDL2/SDL.h>
-	#include <SDL2_image/SDL_image.h>
+	#include <SDL2/SDL_image.h>
 #endif
-
 
 //added by Mike, 20210820
 //TO-DO: -reverify: http://www.nongnu.org/pngpp/doc/0.2.9/;
