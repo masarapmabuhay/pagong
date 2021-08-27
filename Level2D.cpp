@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20200926
- * @date updated: 20210826
+ * @date updated: 20210827
  * @website address: http://www.usbong.ph
  *
  * Reference:
@@ -386,15 +386,7 @@ Level2D::Level2D(float xPos, float yPos, float zPos, float fWindowWidth, float f
     
     printf("Level2D.cpp; fGridSquareWidth: %f",fGridSquareWidth); //75.888885, instead of 75.000000
     
-    //added by Mike, 20210814
-/*    
-    fGridSquareWidth=fGridSquareWidth+(fGridSquareWidth/iColumnCountMax*1.0);
-    fGridSquareHeight=fGridSquareHeight+(fGridSquareHeight/iRowCountMax*1.0);
-*/    
-/*
-    fGridSquareWidth=fGridSquareWidth+100;//5;
-    fGridSquareHeight=fGridSquareHeight+100;//5;
-*/    
+ 
     //auto-set width and height based on grid tile
     myWidthAsPixel=fGridSquareWidth;
     myHeightAsPixel=fGridSquareHeight;    
@@ -495,14 +487,18 @@ Level2D::Level2D(float xPos, float yPos, float zPos, float fWindowWidth, float f
     //    readInputText("inputLevel1.csv");
     read((char*)"inputLevel1.csv");
     
-    //edited by Mike, 20210707
-    setupLevel(LEVEL_2D_TEXTURE); //LEVEL_TEXTURE
+    //edited by Mike, 20210707; removed by Mike, 20210827
+//    setupLevel(LEVEL_2D_TEXTURE); //LEVEL_TEXTURE
+		openGLITexture = openGLLoadTexture((char*)"textures/level2D.png", &fMyWindowWidth, &fMyWindowHeight);	
+
 }
 
 Level2D::~Level2D()
 {
 }
 
+//added by Mike, 20210827
+//TO-DO: -remove: this
 void Level2D::setupLevel(int myLevelTextureObject)
 {
     //removed by Mike, 20201010
@@ -772,13 +768,20 @@ void Level2D::drawTileAsQuadWithoutTexture()
 void Level2D::drawTileAsQuadWithTexture(std::string sTileId)
 {
 
+	//added by Mike, 20210827
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glLoadIdentity();
+
+
 		//added by Mike, 20210803
 		sTileId = myUsbongUtils->autoDeleteQuotationMark(sTileId);
 //std::cout << "sTileId: " << sTileId << "\n";
 
-    
-    glBindTexture(GL_TEXTURE_2D, iLevelTextureObject);
+    //edited by Mike, 20210827
+    //glBindTexture(GL_TEXTURE_2D, iLevelTextureObject);
+		glBindTexture(GL_TEXTURE_2D, openGLITexture);
     glEnable(GL_TEXTURE_2D);
+    	    
     
     //added by Mike, 20210809
     glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
@@ -796,56 +799,9 @@ void Level2D::drawTileAsQuadWithTexture(std::string sTileId)
     
     glPushMatrix();
 
-/*	//removed by Mike, 20210724    
-    //  glColor3f(0.0f, 0.0f, 0.0f); //set to default, i.e. black
-    //edited by Mike, 20210717
-    //  	glColor3f(1.0f, 0.0f, 0.0f); //red
-    glColor3f(1.0f, 1.0f, 1.0f); //set to default, i.e. white
-*/
-    
-    //TO-DO: -add: tile with auto-drawn pattern; without using image texture object
-    //  	printf (">>>>>>>>>>>>>>>>>>>>>>>>>>>> HALLO");
-    
-//      	printf (">>> fGridSquareWidth: %f; fGridSquareHeight: %f",fGridSquareWidth,fGridSquareHeight);
-    
-/* //edited by Mike, 20210723; due to insufficient texture pixel for the tile    
     float fGridTileWidthVertexPosition = myUsbongUtils->autoConvertFromPixelToVertexGridTileWidth(fGridSquareWidth);
     float fGridTileHeightVertexPosition = myUsbongUtils->autoConvertFromPixelToVertexGridTileHeight(fGridSquareHeight);
-*/
-
-//edited by Mike, 20210725
-/*
-    float fGridTileWidthVertexPosition = myUsbongUtils->autoConvertFromPixelToVertexGridTileWidth(fGridSquareWidth+1);
-    float fGridTileHeightVertexPosition = myUsbongUtils->autoConvertFromPixelToVertexGridTileHeight(fGridSquareHeight+1);
-*/
-/*
-    printf(">>Level2D; fGridSquareWidth: %f",fGridSquareWidth); //example: 71.111115
-    printf(">>Level2D; fGridSquareHeight: %f",fGridSquareHeight); //example: 80.000000
-*/
-/*
-    float fGridTileWidthVertexPosition = myUsbongUtils->autoConvertFromPixelToVertexGridTileWidth(fGridSquareWidth);
-    float fGridTileHeightVertexPosition = myUsbongUtils->autoConvertFromPixelToVertexGridTileHeight(fGridSquareHeight);
-*/
-    
-/*  //edited by Mike, 20210815; //TO-DO: -reverify: this with another computer monitor width and height
-    float fGridTileWidthVertexPosition = myUsbongUtils->autoConvertFromPixelToVertexGridTileWidth(fGridSquareWidth+1);
-    float fGridTileHeightVertexPosition = myUsbongUtils->autoConvertFromPixelToVertexGridTileHeight(fGridSquareHeight+1);
-*/
-    float fGridTileWidthVertexPosition = myUsbongUtils->autoConvertFromPixelToVertexGridTileWidth(fGridSquareWidth);
-    float fGridTileHeightVertexPosition = myUsbongUtils->autoConvertFromPixelToVertexGridTileHeight(fGridSquareHeight);
-    
-/*
-    float fGridTileWidthVertexPosition = myUsbongUtils->autoConvertFromPixelToVertexGridTileWidth(fGridSquareWidth+2);
-    float fGridTileHeightVertexPosition = myUsbongUtils->autoConvertFromPixelToVertexGridTileHeight(fGridSquareHeight+2);
-*/
-    
-		//TO-DO: -reverify: this
-		//edited by Mike, 20210720
-//    fGridTileWidthVertexPosition = fGridTileWidthVertexPosition*2.0f; //removed by Mike, 20210720
-//	  fGridTileHeightVertexPosition = fGridTileHeightVertexPosition*4.0f;//4.0f;
- 
-//    printf(">>>Level2D.cpp fGridTileWidthVertexPosition: %f; fGridTileHeightVertexPosition: %f",fGridTileWidthVertexPosition,fGridTileHeightVertexPosition);
- 
+   
     //added by Mike, 20210713
     //get positive value
     if (fGridTileWidthVertexPosition<0) {
@@ -863,36 +819,16 @@ void Level2D::drawTileAsQuadWithTexture(std::string sTileId)
     //10/3 = 3.3333... cause of problem?
     //added by Mike, 20210717
     //note: partly border visible occurs in Linux machine;
-    //due to instructions that I wrote
-    
-#if defined(__APPLE__)
-    //edited by Mike, 20210815
-    //note: right border of tile only partly visible
-//    fGridTileWidthVertexPosition=fGridTileWidthVertexPosition+0.0006f;
-    
-    //1280x800; width x height;
-//    glTranslatef(-7.0f/fMyWindowWidth, 6.5f/fMyWindowHeight, 0.0f);
-//    glTranslatef(-1.0f/fGridSquareWidth, 1.0f/fGridSquareHeight, 0.0f);
-//    glTranslatef(-(fGridSquareWidth-((int)fGridSquareWidth))/fGridSquareWidth, 0.0f, 0.0f);
-//    glTranslatef(-(fGridSquareWidth-((int)fGridSquareWidth))/fMyWindowWidth, 0.0f, 0.0f);
-    
-#endif
-    
+    //due to instructions that I wrote    
         
     //added by Mike, 20210720; edited by Mike, 20210814
     fGridTileWidthVertexPosition=1.0f-fGridTileWidthVertexPosition;
 //    fGridTileWidthVertexPosition=1.0f-(fGridTileWidthVertexPosition)+1.0/18;  
     fGridTileHeightVertexPosition=1.0f-fGridTileHeightVertexPosition; //note: +, instead of -
 
-		//added by Mike, 20210813
-//    fGridTileWidthVertexPosition=fGridTileWidthVertexPosition+0.1f;
-//    glTranslatef(fGridTileWidthVertexPosition/18.0f, 0.0f, 0.0f);
-    
     //note: vertex position sequence to be auto-drawn
     //counter-clockwise sequence to auto-draw front face
 
-
-    
     //add this due to 3rd quadrant
     //size of tile width: 0.1f
     //		glTranslatef(-0.1f-0.05f, 0.0f, 0.0f);
@@ -901,72 +837,15 @@ void Level2D::drawTileAsQuadWithTexture(std::string sTileId)
 
     //edited by Mike, 20210801
     glTranslatef(0.0f, fGridTileHeightVertexPosition, 0.0f);
-//    glTranslatef(0.0f, -fGridTileHeightVertexPosition, 0.0f);
-//    glTranslatef(0.0f, fGridTileHeightVertexPosition*2, 0.0f);
-//    glTranslatef(fGridTileWidthVertexPosition, fGridTileHeightVertexPosition, 0.0f);
-
-    //added by Mike, 20210717
-    //		glRotatef(180, 1.0f, 0.0f, 0.0f);
     
     float fTx = 0.0f;
     float fTy = 0.0f;
     
-    //added by Mike, 20210719
-    //dash delimiter
-    //example: 1-1 = A1, i.e. Column A Row 1
-//    char *ch = strtok(sTileId, "-"); //note: error due to sTileId NOT classified to be char*
-//    std::vector<std::string> vString = std::strtok(sTileId, "-");
-		//note: sTileId includes quotation marks
-		//example: "0-0"		
-
-		//TO-DO: -update: this		
-/*		
-		char *ch = strdup(sTileId.c_str());
-		char *cStarToken = strtok(ch, "-");
-		free(ch);
-*/		
-		
-//		char *cStarToken="10";
-
-//		printf(">>ch: %s\n",ch);
-
-//note: outputs
-//sCurrentLevelMapContainer[iRowCount][iColumnCount]: "1-0"
-//>>ch: � FQ�U
-
-//TO-DO: -add: auto-replace quotation marks, et cetera
-/*		
-	char *cStarToken="";
-	
-	cStarToken[0]=sTileId[1];
-	cStarToken[1]=sTileId[3];
-*/	
-
-		
-//		printf(">>cStarToken[0]: %i; cStarToken[1]: %i\n",(cStarToken[0]-'0'),(cStarToken[1]-'0'));
-//		printf(">>cStarToken[0]: %i; cStarToken[1]: %i\n",(cStarToken[0]),(cStarToken[1]));
-		
-/*		
-    fTx = 0.0f+0.0625f*((int)cStarToken[0][1]); //column
-    fTy = 0.0f+0.0625f*((int)cStarToken[1][0]); //row    
-*/
-/*
-    fTx = 0.0f+0.0625f*(cStarToken[0]-'0'); //column
-    fTy = 0.0f+0.0625f*(cStarToken[1]-'0'); //row    
-*/
-
-/*	//edited by Mike, 20210720
-    fTx = 0.0f+0.0625f*((sTileId[1]-'0')); //column
-    fTy = 0.0f+0.0625f*(sTileId[3]-'0'); //row
-*/
-
     //added by Mike, 20210725; removed by Mike, 20210725
     //sTileId="0-0";
 //    std::cout << "sTileId: " << sTileId << "\n";
 		
 	  fTx = 0.0f+0.0625f*(myUsbongUtils->autoIdentifyColumnInputInLevelMapContainer(sTileId)); //column
-//	  fTx = 0.0f+2*2*0.0625f*(myUsbongUtils->autoIdentifyColumnInputInLevelMapContainer(sTileId)); //column
-//	  fTx = 0.0f+2*0.0625f*(myUsbongUtils->autoIdentifyColumnInputInLevelMapContainer(sTileId)); //column
 		
 		//edited by Mike, 20210721    
     //texture y-axis; start from bottom; anchor
@@ -981,8 +860,6 @@ void Level2D::drawTileAsQuadWithTexture(std::string sTileId)
 		//16.0f due to tile x16 to be height max
 		//0.0625f*16.0f=1.0f
     fTy = 1.0f-0.0625f*(myUsbongUtils->autoIdentifyRowInputInLevelMapContainer(sTileId)); //row    
-//    fTy = 1.0f-2*2*0.0625f*(myUsbongUtils->autoIdentifyRowInputInLevelMapContainer(sTileId)); //row    
-//    fTy = 1.0f-2*0.0625f*(myUsbongUtils->autoIdentifyRowInputInLevelMapContainer(sTileId)); //row    
 
 /*    	
 		printf(">>>%i\n",(myUsbongUtils->autoIdentifyColumnInputInLevelMapContainer(sTileId)));
@@ -995,41 +872,14 @@ void Level2D::drawTileAsQuadWithTexture(std::string sTileId)
   	//added by Mike, 20210814
   	//note: texture coordinates
     float fTileSideXAxis = 0.0625f;
-//    float fTileSideXAxis = 0.07f;
-    
-//    glTranslatef(0.01f, 0.0f, 0.0f);
-    
-    
-//    float fTileSideXAxis = 0.0625f*2*2;
-//    float fTileSideXAxis = 0.0625f*2;
 
     //from bottom; anchor; start fTy at 1.0f
     float fTileSideYAxis = -0.0625f;
-//    float fTileSideYAxis = -0.0625f*2*2;
-//    float fTileSideYAxis = -0.0625f*2;
- 
-		//printf("fGridTileWidthVertexPosition: %f\n",fGridTileWidthVertexPosition);
-//    	glColor3f(1.0f, 0.0f, 0.0f); //red
 
-    
-    //added by Mike, 20210801; TO-DO: -update: this
-    //due flipped vertically
-//    glRotatef(240, 0.0f, 0.0f, 1.0f);
-//    glRotatef(180, 0.0f, 1.0f, 0.0f);
-//    glRotatef(180, 0.0f, 0.0f, 1.0f);
-    
 		//added by Mike, 20210724
 		//TO-DO: -add: animation sequence based on sTileId
 		//background color of tile
 //-----
-/*
-    glDisable(GL_TEXTURE_2D);
-    glBindTexture(GL_TEXTURE_2D, 0);
-*/
-    
-    //TO-DO: -reverify: cause of not auto-drawn;
-    //TO-DO: -fix: auto-drawn flipped horizontal texture image
-    //added by Mike, 20210803
 
     glColor3f(1.0f, 1.0f, 1.0f); //set to default, i.e. white
     //    glColor3f(1.0f, 0.0f, 0.0f); //red
@@ -1040,15 +890,7 @@ void Level2D::drawTileAsQuadWithTexture(std::string sTileId)
 
     //edited by Mike, 20210803
     //triangle tile with 90degrees angle
-    if (sTileId.compare("0-2") == 0) {//True
-    
-/*  //flipped horizontally from original texture image
-        glBegin(GL_TRIANGLES);
-            glVertex3f(0.0f-fGridTileWidthVertexPosition, 0.0f, 0.0f);
-            glVertex3f(0.0f-fGridTileWidthVertexPosition, 0.0f-fGridTileHeightVertexPosition, 0.0f);
-            glVertex3f(0.0f, 0.0f-fGridTileHeightVertexPosition, 0.0f);
-        glEnd();
-*/
+    if (sTileId.compare("0-2") == 0) {//True    
         glBegin(GL_TRIANGLES);
           glVertex3f(0.0f, 0.0f, 0.0f);
           glVertex3f(0.0f-fGridTileWidthVertexPosition, 0.0f-fGridTileHeightVertexPosition, 0.0f);
@@ -1066,22 +908,6 @@ void Level2D::drawTileAsQuadWithTexture(std::string sTileId)
     }
         
 //-----		
-
-/*  //flipped horizontally from original image texture
-    glBegin(GL_QUADS); // Each set of 4 vertices form a quad
-    	glTexCoord2f(fTx, fTy);
-    	glVertex3f(0.0f, 0.0f, 0.0f);
-    	
-    	glTexCoord2f(fTx + fTileSideXAxis, fTy);
-    	glVertex3f(0.0f-fGridTileWidthVertexPosition, 0.0f, 0.0f);
-    	
-    	glTexCoord2f(fTx + fTileSideXAxis, fTy + fTileSideYAxis);
-    	glVertex3f(0.0f-fGridTileWidthVertexPosition, 0.0f-fGridTileHeightVertexPosition, 0.0f);
-    	
-    	glTexCoord2f(fTx, fTy + fTileSideYAxis);
-    	glVertex3f(0.0f, 0.0f-fGridTileHeightVertexPosition, 0.0f);
-    glEnd();
-*/
     glBegin(GL_QUADS); // Each set of 4 vertices form a quad
       glTexCoord2f(fTx + fTileSideXAxis, fTy);
       glVertex3f(0.0f, 0.0f, 0.0f);
@@ -1104,57 +930,9 @@ void Level2D::drawTileAsQuadWithTexture(std::string sTileId)
 
 //added by Mike, 20210708; edited by Mike, 20210712
 //TO-DO: -add: function with tile patterns
-//note: we use drawLevelWithTextureUsingInputFile(...)
-void Level2D::drawLevelWithTexture()
-{
-    /*	//removed by Mike, 20210712
-     //added by Mike, 20210705
-     #if defined(__APPLE__)
-     #else
-    	glTranslatef(+0.02f, 0.0f, 0.0f);
-     #endif
-     */
-    
-    glPushMatrix();
-    //    printf(">>>myUsbongUtils->autoConvertFromPixelToVertexPointX(0): %f\n",myUsbongUtils->autoConvertFromPixelToVertexPointdrawTileAsQuadWithTextureX(0));
-    
-    //added by Mike, 20210712
-    //add +1.0f due to 3rd quadrant in the draw function
-    //incorrect output if multiple glTranslate(...) Commands
-    //    	glTranslatef(myUsbongUtils->autoConvertFromPixelToVertexPointX(0+fGridSquareWidth*1.0f), 0.0f, 0.0f);
-    
-    //column 1; start at 0; note +1.0f to be 2.0f due to 3rd quadrant in drawTileAsQuadWithoutTexture(...)
-    glTranslatef(myUsbongUtils->autoConvertFromPixelToVertexPointX(0.0f+fGridSquareWidth*(1.0f+1.0f)), myUsbongUtils->autoConvertFromPixelToVertexPointY(0.0f+fGridSquareHeight*0.0f), 0.0f);
-    
-    //edited by Mike, 20210710
-    //drawPressNextSymbol();
-    //edited by Mike, 20210717
-    //    	drawTileAsQuadWithoutTexture();
-
-		//edited by Mike, 20210719
-//    drawTileAsQuadWithTexture();
-//      drawTileAsQuadWithTexture(sCurrentLevelMapContainer[iRowCount][iColumnCount]);
-
-    glPopMatrix();
-    
-}
-
-//added by Mike, 20210708; edited by Mike, 20210712
-//TO-DO: -add: function with tile patterns
 //TO-DO: -update: this
 void Level2D::drawLevelWithTextureUsingInputFile()
 {
-    /* //removed by Mike, 20210712
-     glPushMatrix();
-     //column 1; start at 0; note +1.0f to be 2.0f due to 3rd quadrant in drawTileAsQuadWithoutTexture(...)
-    	glTranslatef(myUsbongUtils->autoConvertFromPixelToVertexPointX(0.0f+fGridSquareWidth*(1.0f+1.0f)), myUsbongUtils->autoConvertFromPixelToVertexPointY(0.0f+fGridSquareHeight*0.0f), 0.0f);
-     
-    	//edited by Mike, 20210710
-    	//drawPressNextSymbol();
-    	drawTileAsQuadWithoutTexture();
-     glPopMatrix();
-     */
-    
     /*
      for (int iRowCountToSetDefault=0; iRowCountToSetDefault<MAX_TEXT_CHAR_ROW_RAM; iRowCountToSetDefault++) {
      	for (int iColumnCount=0; iColumnCount<MAX_TEXT_CHAR_COLUMN; iColumnCount++) {
@@ -1190,13 +968,12 @@ void Level2D::drawLevelWithTextureUsingInputFile()
 /*                	glTranslatef(myUsbongUtils->autoConvertFromPixelToVertexPointX(0.0f+fGridSquareWidth*(iColumnCount+1.0f)), myUsbongUtils->autoConvertFromPixelToVertexPointY(0.0f+fGridSquareHeight*(iRowCount+1.0f)), 0.0f);
 */
                 
-/*  //edited by Mike, 20210815; TO-DO: -verify: this with another computer monitor width and height
-                	glTranslatef(myUsbongUtils->autoConvertFromPixelToVertexPointX(0.0f+(fGridSquareWidth+1)*(iColumnCount+1.0f)), myUsbongUtils->autoConvertFromPixelToVertexPointY(0.0f+(fGridSquareHeight+1)*(iRowCount+1.0f)), 0.0f);
-*/
                 glTranslatef(myUsbongUtils->autoConvertFromPixelToVertexPointX(0.0f+(fGridSquareWidth)*(iColumnCount+1.0f)), myUsbongUtils->autoConvertFromPixelToVertexPointY(0.0f+(fGridSquareHeight)*(iRowCount+1.0f)), 0.0f);
  										
  										//edited by Mike, 20210719
-//                		drawTileAsQuadWithTexture();
+//                	drawTileA	glBindTexture(GL_TEXTURE_2D, textureid);
+										glEnable(GL_TEXTURE_2D);
+//	drawTileAsQuadWithTexture();
 //note: incorrect output if we use printf(...) with std::string as input to %s
                 
                 //added by Mike, 20210725

@@ -966,6 +966,15 @@ void OpenGLCanvas::render()
 /* //removed by Mike, 20210827
 	openGLDrawTexture(iPilotX, iPilotY, openGLITexture, iTextureWidth, iTextureHeight);	
 */
+
+	//TO-DO: -reverify: this
+//	int iLeftMarginColumnCount=3;
+
+  glPushMatrix();
+//    glTranslatef(-2.0f/iColumnCountMax*iLeftMarginColumnCount, 0.0f, 0.0f);
+    myLevel2D->draw();
+  glPopMatrix();
+    
 	myPilot->draw();
 }
 
@@ -1242,15 +1251,13 @@ void OpenGLCanvas::renderPrev()
 	//note: noticeable increased speed using laptop computer 
 	//with processor Intel(R) CPU T2130 @1.86GHZ
 	//32-bit OS; 3GB RAM
-/* //removed by Mike, 20210825    	
     glPushMatrix();
     //    	glScalef(fMyWindowWidthAsPixelRatioToHeightPixel,1.0f,1.0f);
     
     	glTranslatef(-2.0f/iColumnCountMax*iLeftMarginColumnCount, 0.0f, 0.0f);
     
-    	myLevel2D->draw();
+//    	myLevel2D->draw();
     glPopMatrix();
-*/    
     //-----
 
     
@@ -1412,10 +1419,10 @@ void OpenGLCanvas::update()
     if (currentState==GAME_SCREEN) {
         //added by Mike, 20210606
         //TO-DO: -add: goal defender, e.g. animal as nature?
-/* //removed by Mike, 20210825
+ //removed by Mike, 20210825
 				//added by Mike, 20210807
         myPilot->update(1); //dt
-*/
+
 /* //removed by Mike, 20210825       
         //edited by Mike, 20201014
         //        for(i=0; i<MAX_BEAMS; i++) {
@@ -1480,22 +1487,25 @@ void OpenGLCanvas::update()
         {
 /* //removed by Mike, 20210825        
             myRobotShip->move(KEY_H);
-            myPilot->move(KEY_H);            
-*/                        
+*/
+            myPilot->move(KEY_H);                                    
         }
-/* //removed by Mike, 20210825                
+
+/* //removed by Mike, 20210827
        	//added by Mike, 20210121
        	//robotship; punch command
         if(myKeysDown[KEY_U] == TRUE)
         {
             myRobotShip->move(KEY_U);
         }
+*/
         
        	//edited by Mike, 20201013; edited again by Mike, 20210128
        	//edited by Mike, 20210130
         //    	if ((myKeysDown[KEY_UP] == TRUE) || (myKeysDown[KEY_W] == TRUE))
         if (myKeysDown[KEY_W] == TRUE)
         {
+            myPilot->move(KEY_W);       
             //removed by Mike, 20200929
             //			sound->play_sound_clip(thrust);
         }
@@ -1505,12 +1515,14 @@ void OpenGLCanvas::update()
         if(myKeysDown[KEY_S] == TRUE)
             //    	else if(myKeysDown[KEY_S] == TRUE)
         {
+            myPilot->move(KEY_S);               
+        
             //edited by Mike, 20201115; edited again by Mike, 20210128
             //myRobotShip->move(KEY_DOWN);
             //removed by Mike, 20210502
             //            myRobotShip->move(KEY_S);
         }
-*/        
+       
         if (myKeysDown[KEY_D] == TRUE)
         {
 /* //removed by Mike, 20210825        
@@ -1980,7 +1992,6 @@ void OpenGLCanvas::update()
         }
 */
         
-/* //removed by Mike, 20210825       
         //edited by Mike, 20210727
         //note: we verify if we continue with step, hit collision
         //if so, we do not add step to position
@@ -2007,7 +2018,6 @@ void OpenGLCanvas::update()
         else if (myPilot->getYAsPixel()+myPilot->getHeightAsPixel() +myPilot->getStepY() > myWindowHeightAsPixel) {
             myPilot->setYPosAsPixel(myWindowHeightAsPixel-myPilot->getHeightAsPixel()-myPilot->getStepY());
         }
-*/        
     }
     else if (currentState==TITLE_SCREEN)
     {

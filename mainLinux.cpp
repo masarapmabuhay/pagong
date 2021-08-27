@@ -643,9 +643,7 @@ int main(int argc, char *argv[])
 //		prepareScene();
 		doInput();
 	
-		//removed by Mike, 20210827
-		//TO-DO: -add: this; need to add Level2D.cpp first		
-//		myOpenGLCanvas->update();
+		myOpenGLCanvas->update();
 		
 /*	//edited by Mike, 20210826
 		myOpenGLCanvas->render();

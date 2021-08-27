@@ -64,6 +64,20 @@
 	//#include <GL/glut.h>
 #endif
 
+
+//added by Mike, 20210827
+//note: reverifying: use of SDL Image + OpenGL, without GLUT
+#ifdef _WIN32 //Windows machine
+	#include <SDL.h>
+	#include <SDL_image.h>
+#elif defined(__APPLE__)
+  #include <SDL2/SDL.h>
+  #include <SDL2_image/SDL_image.h>
+#else
+	#include <SDL2/SDL.h>
+	#include <SDL2/SDL_image.h>
+#endif
+
 #include <stdlib.h>
 //removed by Mike, 20201226
 //#include <stdio.h> //added by Mike, 20201226
@@ -134,7 +148,7 @@ private:
         
     //removed by Mike, 20210523
     //	UsbongUtils *myUsbongUtils; //added by Mike, 202105017
-        
+                
 public:
     float myXPos;
     float myYPos;
@@ -210,6 +224,11 @@ public:
     float fGridSquareWidth;
     float fGridSquareHeight;
     OpenGLCanvas *myOpenGLCanvas;
+
+		//added by Mike, 20210827
+		SDL_Renderer *mySDLRenderer;
+		SDL_Texture *texture;
+		GLuint openGLITexture;
     
     //added by Mike, 20210725
     Level2D *myLevel2D;

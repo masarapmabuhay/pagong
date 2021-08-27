@@ -151,14 +151,16 @@ private:
     float myXPos;
     float myYPos;
     float myZPos;
-*/    
-
+*/
+    
+/*	//removed by Mike, 20210827
 		//added by Mike, 20210825
 		SDL_Renderer *mySDLRenderer;
 		SDL_Texture *texture;
 
 		//added by Mike, 20210826
 		GLuint openGLITexture;
+*/
 
 	//added by Mike, 20210505
     float myOpponentXPos;

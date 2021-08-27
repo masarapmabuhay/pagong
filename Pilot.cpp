@@ -217,9 +217,9 @@ return val;
 //added by Mike, 20210826
 //TO-DO: -add: CAD tool to assist in identify excess markings in image file
 //-add: CAD tool to verify animating sequence
-void openGLDrawTexture(int x, int y, GLuint textureid, int textw, int texth)
+void openGLDrawTexture(int x, int y, GLuint textureId, int textw, int texth)
 {
-	glBindTexture(GL_TEXTURE_2D, textureid);
+	glBindTexture(GL_TEXTURE_2D, textureId);
 	glEnable(GL_TEXTURE_2D);
 	
 	float fTaoAnimationFrameOffset=0.0f;
@@ -636,7 +636,7 @@ void Pilot::drawPilotObject()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glLoadIdentity();
 	
-	openGLDrawTexture(myXPos, myYPos, openGLITexture, myWidth, myHeight);		
+	openGLDrawTexture(myXPosAsPixel, myYPosAsPixel, openGLITexture, myWidth, myHeight);		
 }
 
 //added by Mike, 20210727
@@ -2610,38 +2610,6 @@ void Pilot::update(float dt)
 */
 
            		rotationAngle=0; //TO-DO: -update: this
-
-/* //removed by Mike, 20210424						
-				//Note: Use these with update to OpenGLCanvas
-           		//wrap the world 
-           		if (myXPos <= 0.0f) myXPos = myWindowWidth/100-myWidth/8; //if left side
-           		else if (myXPos >= myWindowWidth/100) myXPos = 0.0f+myWidth/8; //if right side
-
-           		if (myZPos >= myWindowHeight/100) myZPos = 0.0f+myHeight/8; //if bottom side
-           		else if (myZPos <= 0.0f) myZPos = myWindowHeight/100-myHeight/8; //if top side
-*/           		           		
-			
-
-				//added by Mike, 20210503
-				//Note: Use these with update to OpenGLCanvas
-				//max world 
-/*			
-           		if (myXPos <= 15.0f) myXPos = 0-15.0f; //if left side
-           		else if (myXPos >= myWindowWidth/1fGridTileWidthVertexPosition00) myXPos = 0.0f+myWidth/8; //if right side
-*/			
-/*	//removed by Mike, 20210504
-			printf(">> myXPos: %f\n",myXPos);
-			printf(">> stepX: %f\n",stepX);
-				//TO-DO: -update: instructions to do not execute step if already at border
-*/				
-/*			
-           		if ((myXPos-stepX) <= -20.70f) myXPos = 0.0f-21.0f+stepX; //+myWidth+stepX; //if left side
-           		else if (myXPos >= myWindowWidth/100) myXPos = 0.0f+myWidth/8; //if right side
-*/
-/*	//removed by Mike, 20210504			
-           		if ((myXPos-stepX) <= -21.0f) myXPos = 0.0f-21.0f+stepX; //if left side
-           		else if (myXPos+stepX >= 4.0f) myXPos = 0.0f+4.0f-stepX; //if right side
-*/
 				break;
             case IN_TITLE_STATE:                
                   rotationAngle+=5;//rotationStep;
@@ -3038,7 +3006,6 @@ void Pilot::move(int key)
 		  }			
           break;
 
-/* //removed by Mike, 20210806
 //	 case KEY_UP: //removed by Mike, 20210130
      case KEY_W:
        //added by Mike, 20210111
@@ -3122,10 +3089,8 @@ void Pilot::move(int key)
 		   //edited by Mike, 20210812
            return;
 //           break;
-*/
 
-/* //removed by Mike, 20210806          
-//     case KEY_DOWN:  //removed by Mike, 20210130
+ //     case KEY_DOWN:  //removed by Mike, 20210130
      case KEY_S: //added by Mike, 20210128
 				//added by Mike, 20210111
 				if (bIsExecutingPunch) {
@@ -3180,7 +3145,6 @@ void Pilot::move(int key)
         //added by Mike, 20210806; edited by Mike, 20210812
            return;
 //			break;
-            */
 			
 			
 //     case KEY_LEFT: //removed by Mike, 20210130
