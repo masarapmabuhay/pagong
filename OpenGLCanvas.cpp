@@ -484,7 +484,9 @@ bool OpenGLCanvas::init(int myWindowWidthAsPixelInput, int myWindowHeightAsPixel
     //note: width and height not equal due to Window
     //to cause square tile to NOT be square
     myLevel2D->setOpenGLCanvas(this, fGridSquareWidth, fGridSquareHeight);
-    myLevel2D->setupLevel(LEVEL_2D_TEXTURE);
+
+    //removed by Mike, 20210828
+    //myLevel2D->setupLevel(LEVEL_2D_TEXTURE);
        
     myPilot = new Pilot(myWindowWidthAsPixel/2,myWindowHeightAsPixel/2,0.0f,myWindowWidthAsPixel,myWindowHeightAsPixel);
     myPilot->setOpenGLCanvas(this, fGridSquareWidth, fGridSquareHeight);    

@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20200926
- * @date updated: 20210827
+ * @date updated: 20210828
  * @website address: http://www.usbong.ph
  *
  * Reference:
@@ -280,8 +280,12 @@ Level2D::Level2D(float xPos, float yPos, float zPos, float fWindowWidth, float f
      */
     //added by Mike, 20210517
     //TO-DO: -update: this
+/*	//edited by Mike, 20210828    
     myWidth=1.4f;
     myHeight=1.4f;
+*/
+    myWidth=16.0f;
+    myHeight=16.0f;
     
     //added by Mike, 20210517
     //TO-DO: -add: auto-identify object width and height
@@ -489,12 +493,44 @@ Level2D::Level2D(float xPos, float yPos, float zPos, float fWindowWidth, float f
     
     //edited by Mike, 20210707; removed by Mike, 20210827
 //    setupLevel(LEVEL_2D_TEXTURE); //LEVEL_TEXTURE
-		openGLITexture = openGLLoadTexture((char*)"textures/level2D.png", &fMyWindowWidth, &fMyWindowHeight);	
-
+		openGLITexture = openGLLoadTexture((char*)"textures/level2D.png", &fMyWindowWidth, &fMyWindowHeight);
 }
 
 Level2D::~Level2D()
 {
+}
+
+//added by Mike, 20210826
+//TO-DO: -add: CAD tool to assist in identify excess markings in image file
+//-add: CAD tool to verify animating sequence
+void Level2D::openGLDrawTexture(int x, int y, GLuint textureId, int textw, int texth)
+{
+	glBindTexture(GL_TEXTURE_2D, openGLITexture); //textureId);
+	glEnable(GL_TEXTURE_2D);
+	
+	float fTaoAnimationFrameOffset=0.0f;
+	float fTaoAnimationFrameOffsetYAxis=0.0f;
+
+	//added by Mike, 20210826
+//	glColor3f(1.0f, 1.0f, 1.0f); // white
+
+	//added by Mike, 20210827
+	//set vertex counter-clock-wise
+	glBegin(GL_QUADS);
+		glTexCoord2f(0+fTaoAnimationFrameOffset, 0+fTaoAnimationFrameOffsetYAxis);
+		glVertex3f(x, y, 0);
+		
+		glTexCoord2f(0.0625f+fTaoAnimationFrameOffset, 0+fTaoAnimationFrameOffsetYAxis);
+		glVertex3f(x + textw, y, 0);
+		
+		glTexCoord2f(0.0625f+fTaoAnimationFrameOffset, fTaoAnimationFrameOffsetYAxis+0.0625f);
+		glVertex3f(x + textw, y + texth, 0);
+		
+		glTexCoord2f(0+fTaoAnimationFrameOffset, fTaoAnimationFrameOffsetYAxis+0.0625f);
+		glVertex3f(x, y + texth, 0);
+	glEnd();
+	
+	glDisable(GL_TEXTURE_2D);
 }
 
 //added by Mike, 20210827
@@ -577,14 +613,6 @@ float* Level2D::getXYZPos()
     return myXYZ;
 }
 
-/* //removed by Mike, 20201217
- //added by Mike, 20201213
- void Level2D::draw()
- {
-	drawRobotShip();
- }
- */
-
 //edited by Mike, 20210712
 void Level2D::drawTileAsQuadWithoutTexture()
 {
@@ -659,11 +687,11 @@ void Level2D::drawTileAsQuadWithoutTexture()
     glPopMatrix();
 }
 
-//edited by Mike, 20210716; edited by Mike, 20210719
+//edited by Mike, 20210716; edited by Mike, 20210828
 //void Level2D::drawTileAsQuadWithTexture()
 //edited by Mike, 20210720
 //void Level2D::drawTileAsQuadWithTexture(std::string sTileId)
-void Level2D::drawTileAsQuadWithTexture(std::string sTileId)
+void Level2D::drawTileAsQuadWithTexturePrev(std::string sTileId)
 {
 
 	//added by Mike, 20210827
@@ -774,7 +802,7 @@ void Level2D::drawTileAsQuadWithTexture(std::string sTileId)
     //from bottom; anchor; start fTy at 1.0f
     //edited by Mike, 20210827
 //    float fTileSideYAxis = -0.0625f;
-    float fTileSideYAxis = 0.0625f;
+    float fTileSideYAxis = -0.0625f;
 
 		//added by Mike, 20210724
 		//TO-DO: -add: animation sequence based on sTileId
@@ -798,7 +826,6 @@ void Level2D::drawTileAsQuadWithTexture(std::string sTileId)
         glEnd();
     }
     else {
-/* //removed by Mike, 20210827    
       //note: 3rd quadrant; counter clock-wise
       glBegin(GL_QUADS); // Each set of 4 vertices form a quad
     	  glVertex3f(0.0f, 0.0f, 0.0f);   	
@@ -806,11 +833,10 @@ void Level2D::drawTileAsQuadWithTexture(std::string sTileId)
     	  glVertex3f(0.0f-fGridTileWidthVertexPosition, 0.0f-fGridTileHeightVertexPosition, 0.0f);    	
     	  glVertex3f(0.0f, 0.0f-fGridTileHeightVertexPosition, 0.0f);
    	  glEnd();
-*/   	  
     }
         
 //-----		
-/*
+
     glBegin(GL_QUADS); // Each set of 4 vertices form a quad
       glTexCoord2f(fTx + fTileSideXAxis, fTy);
       glVertex3f(0.0f, 0.0f, 0.0f);
@@ -824,7 +850,7 @@ void Level2D::drawTileAsQuadWithTexture(std::string sTileId)
       glTexCoord2f(fTx + fTileSideXAxis, fTy + fTileSideYAxis);
       glVertex3f(0.0f, 0.0f-fGridTileHeightVertexPosition, 0.0f);
     glEnd();
-*/    
+/*    
 	//added by Mike, 20210827
 	//set vertex counter-clock-wise
 	glBegin(GL_QUADS);
@@ -840,11 +866,30 @@ void Level2D::drawTileAsQuadWithTexture(std::string sTileId)
     glTexCoord2f(fTx + fTileSideXAxis, fTy + fTileSideYAxis);
 		glVertex3f(0.0f, 0.0f + fGridTileHeightVertexPosition, 0);
 	glEnd();    
-    
+*/    
     glDisable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D, 0);
     
     glPopMatrix();
+}
+
+//edited by Mike, 20210716; edited by Mike, 20210828
+//void Level2D::drawTileAsQuadWithTexture()
+//edited by Mike, 20210720
+//void Level2D::drawTileAsQuadWithTexture(std::string sTileId)
+	//TO-DO: -update: this
+void Level2D::drawTileAsQuadWithTexture(std::string sTileId)
+{
+	//added by Mike, 20210826
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glLoadIdentity();
+	
+	myXPosAsPixel=0;
+	myYPosAsPixel=0;
+	myWidth=16;
+	myHeight=16;
+	
+	openGLDrawTexture(myXPosAsPixel, myYPosAsPixel, openGLITexture, myWidth, myHeight);
 }
 
 //added by Mike, 20210708; edited by Mike, 20210712
@@ -861,6 +906,9 @@ void Level2D::drawLevelWithTextureUsingInputFile()
      }
      */
     //TO-DO: -update: this
+    
+    drawTileAsQuadWithTexture("0-0");
+    return;
     
     //edited by Mike, 20210724
     iRowCountMax=10;
@@ -889,6 +937,10 @@ void Level2D::drawLevelWithTextureUsingInputFile()
                 
                 glTranslatef(myUsbongUtils->autoConvertFromPixelToVertexPointX(0.0f+(fGridSquareWidth)*(iColumnCount+1.0f)), myUsbongUtils->autoConvertFromPixelToVertexPointY(0.0f+(fGridSquareHeight)*(iRowCount+1.0f)), 0.0f);
  										
+/* 										
+printf("autoConvertFromPixelToVertexPointX: %f",(myUsbongUtils->autoConvertFromPixelToVertexPointX(0.0f+(fGridSquareWidth)*(iColumnCount+1.0f)))); 										
+printf("autoConvertFromPixelToVertexPointY: %f",myUsbongUtils->autoConvertFromPixelToVertexPointY(0.0f+(fGridSquareHeight)*(iRowCount+1.0f))); 										
+*/ 										
  										//edited by Mike, 20210719
 //                	drawTileA	glBindTexture(GL_TEXTURE_2D, textureid);
 										glEnable(GL_TEXTURE_2D);
@@ -1180,22 +1232,11 @@ bool Level2D::isLevel2DCollideWith(MyDynamicObject* mdo)
 										//note: no -1 in iColumnCount due to not draw function
                     if (mdo->collideWithLevel2DTileRectAsPixel(0.0f+fGridSquareWidth*(iColumnCount),0.0f+fGridSquareHeight*(iRowCount), fGridSquareWidth, fGridSquareHeight)) {
 
-        						//this->hitBy(mdo);
-
                                 //added by Mike, 20210725; added by Mike, 20210806
                                return this->hitByAtTile(mdo, sCurrentLevelMapContainer[iRowCount][iColumnCount],
                                 					0.0f+fGridSquareWidth*(iColumnCount), //note: no -1 in iColumnCount
                                 					0.0f+fGridSquareHeight*(iRowCount));
-                        
-                        
-//                        return true;
-                        
-                                //removed by Mike, 20210725
- //       						mdo->hitBy(this);
-                        
-                                //removed by Mike, 20210803
-                                //return true;
-       						}       																										
+  									}
 		        }
 		   }
 		}
@@ -1780,229 +1821,6 @@ void Level2D::read(char *inputFilename) {
             printf("\n");
         }
         fclose(file);
-    }
-}
-
-//added by Mike, 20210614
-//note: error occurs if excess rows > 1
-//TO-DO: -fix: this
-void Level2D::readInputText(char *inputFilename) {
-    int c;
-    FILE *file;
-    
-    //TO-DO: update: this
-    //	char** iCurrentLevelMapContainer = new char[100][100];
-    int iRowCount=0;
-    int iColumnCount=0;
-    
-    //TO-DO: -update: this
-    /*	int MAX_TEXT_CHAR_ROW=2;
-     int MAX_TEXT_CHAR_COLUMN=8;
-     */
-    
-    //edited by Mike, 20210618
-    for (iRowCount=0; iRowCount<MAX_TEXT_CHAR_ROW; iRowCount++) {
-        //    for (iRowCount=0; iRowCount<MAX_TEXT_CHAR_ROW_RAM; iRowCount++) {
-        for (iColumnCount=0; iColumnCount<MAX_TEXT_CHAR_COLUMN; iColumnCount++) {
-            //edited by Mike, 20210616
-            //sCurrentTextContainer[iRowCount][iColumnCount]=(char*)"-1";//'G';
-            //edited by Mike, 20210617
-            //            cCurrentTextContainer[iRowCount][iColumnCount]='\n';
-            //            cCurrentTextContainer[iRowCount][iColumnCount]='\0';
-            
-            //added by Mike, 20210617
-            iCurrentMaxColumnCountPerRowContainer[iRowCount]=1;
-        }
-    }
-    
-    //added by Mike, 20210618
-    for (iRowCount=0; iRowCount<MAX_TEXT_CHAR_ROW_RAM; iRowCount++) {
-        for (iColumnCount=0; iColumnCount<MAX_TEXT_CHAR_COLUMN; iColumnCount++) {
-            cCurrentTextContainer[iRowCount][iColumnCount]='\0';
-        }
-    }
-    
-    
-    
-    /*
-     //added by Mike, 20210618
-     for (iRowCount=0; iRowCount<MAX_TEXT_CHAR_ROW_RAM; iRowCount++) {
-     for (iColumnCount=0; iColumnCount<MAX_TEXT_CHAR_COLUMN; iColumnCount++) {
-     iCurrentMaxColumnCountPerRowContainer[iRowCount]=1;
-     }
-     }
-     */
-    
-    iRowCount=0;
-    iColumnCount=0;
-    
-    //added by Mike, 20210617
-    iTextCurrentMaxRowCount=1;
-    
-    //added by Mike, 20210618
-    iRowCountPageNumber=0; //start at zero
-    
-				
-    //noted by Mike, 20201210
-    //note: if concatenated string exceeds size, "stack smashing detected"; terminated; Aborted (core dumped)
-    //I prefer to set a size, instead of dynamically allocate due to increasing likelihood of memory leaks
-    //where memory leaks = not deallocated storage in memory, albeit not used by software application
-    //identifying not deallocated storage in memory becomes more difficult with increasing use
-    //edited by Mike, 20210615
-    //	char input[MAX_TEXT_CHAR_COLUMN]; //max size
-    //TO-DO: -update: this; if total size of the input filename > total size of container, in macOS abort trap 6 error
-    char input[100]; //max size in Char of input filename
-    
-    char inputTextLine[MAX_TEXT_CHAR_COLUMN]; //max size
-    char tempInputTextLine[MAX_TEXT_CHAR_COLUMN]; //max size
-    
-    //added by Mike, 20210618
-    //TO-DO: -add: auto-notify Unit member if input over max
-    
-    strcpy(input, "input/");
-    strcat(input, inputFilename); //already includes .txt
-    //	strcat(input,".txt");
-    
-    //	printf("dito: %s",input);
-    
-    //	file = fopen("input/"+inputFilename, "r"); //.txt file
-    //	file = fopen("input/inputHalimbawa.txt", "r"); //.txt file
-    file = fopen(input, "r"); //.txt file
-    
-    //TO-DO: -reverify: tile positions
-    int iCount=0;
-    
-    strcpy(tempInputTextLine,""); //added by Mike, 20210615
-    
-    if (file) {
-        //edited by Mike, 20210210
-        //		while ((c = getc(file)) != EOF) {
-        //edited by Mike, 20210516
-        //		while (fgets (input, MAX_TEXT_CHAR_COLUMN, file)) { /* read each line of input */
-        while (fgets (inputTextLine, MAX_TEXT_CHAR_COLUMN, file)) { /* read each line of input */
-            
-            //	putchar(c);
-            
-            /*	//removed by Mike, 20210210
-             char sRow[2] = {(char)c};
-             */
-            //delimited using new line
-            /*			char *chRow = strtok(sRow, "\n");
-             */
-            
-            //            printf(">>> input: %s\n",input);
-            //			sscanf (input, "%s", inputTextLine);
-            
-            //			iCount=0;
-            //input text per line
-            //			printf("%i;\n",iCount);
-            //			printf("%i;",iCount);
-            
-            iCount=iCount+1;
-            
-            //added by Mike, 20210208
-            iColumnCount=0;
-            
-            //removed by Mike, 20210210
-            /*
-             //			char s[2] = {0};
-             //			*s = c;
-             //edited by Mike, 20210209
-             //				char s[2] = {c};
-             //				char s[2] = {itoa(c)};
-             char s[2] = {(char)c};
-             
-             //delimited using comma
-             char *ch = strtok(s, ",");
-             */
-            //edited by Mike, 20210616
-            //TO-DO: -verify: add tool for computer to notify Unit member if max characters per row already exceeded
-            //at present, 19 characters including space
-            //TO-DO: -add: auto-put excess characters in next row
-            //TO-DO: -fix: text background image texture file after scale up
-            //TO-DO: -add: remaining Font characters
-            //TO-DO: -update: Font characters to use handwritting
-            //TO-DO: -reverify: max rows due to text length long in Filipino language
-            //TO-DO: -add: auto-write text per character
-            //TO-DO: -add: auto-pause for text with several rows
-            strcpy(tempInputTextLine,inputTextLine);
-            
-            printf(">>> inputTextLine: %s\n",inputTextLine);
-            
-            
-            /* 	//edited by Mike, 20210616
-             //note: add "-1" for empty
-             //otherwise, comma as column is skipped
-             //edited by Mike, 20210615
-             //			char *ch = strtok(tempInputTextLine, ",");
-             char *ch = strtok(tempInputTextLine, "\n");
-             
-             while (ch != NULL) {
-             //				printf("%i,",iColumnCount);
-             MAX_TEXT_CHAR_ROW_RAM
-             //TO-DO: use String, instead of char
-             //TO-DO: -reverify: output due to "G" not put in container
-             //				sCurrentLevelMapContainer[iRowCount][iColumnCount]=&ch;
-             sCurrentTextContainer[iRowCount][iColumnCount]=ch;
-             //				printf("%i:",iColumnCount);
-             //				printf("%s,",ch);
-             
-             iColumnCount=iColumnCount+1;
-             
-             //edited by Mike, 20210615
-             //				  ch = strtok(NULL, ",");
-             ch = strtok(NULL, "\n");
-             }
-             
-             */
-            
-            //added by Mike, 20210617
-            /*            if (cCurrentTextContainer[iRowCount][iCharCount]=='\0') {
-             break;
-             }
-             */
-            
-            //added by Mike, 20210617
-            //TO-DO: -add: trim to input text line
-            
-            int iCharCount;
-            for (iCharCount=0; iCharCount<strlen(tempInputTextLine); iCharCount++) {
-                cCurrentTextContainer[iRowCount][iCharCount]=tempInputTextLine[iCharCount];
-                
-                printf("cCurrentTextContainer[%i][%i]: %c",iRowCount, iCharCount, tempInputTextLine[iCharCount]);
-            }
-            //added by Mike, 20210617
-            cCurrentTextContainer[iRowCount][iCharCount]='\n';
-            
-            
-            
-            iColumnCount=iColumnCount+1;
-            
-            //removed by Mike, 20210617
-            //edited by Mike, 20210311
-            //			if (iRowCount<100) {
-            //edited by Mike, 20210321
-            //			if (iRowCount<160) {
-            //edited by Mike, 20210618
-            //            if (iRowCount<MAX_TEXT_CHAR_ROW) {
-            if (iRowCount<MAX_TEXT_CHAR_ROW_RAM) {
-                iRowCount=iRowCount+1;
-                
-                //TO-DO: -notify: Unit member if over MAX_TEXT_CHAR_ROW_RAM
-            }
-            else {
-                iRowCount=0;
-            }
-            
-            //removed by Mike, 20210617
-            //            iTextCurrentMaxRowCount=iTextCurrentMaxRowCount+1;
-            
-            printf("\n");
-        }
-        fclose(file);
-        
-        //added by Mike, 20210615
-        //        free(tempInputTextLine);
     }
 }
 

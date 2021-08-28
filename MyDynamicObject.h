@@ -517,6 +517,10 @@ public:
     
     //added by Mike, 20210827
 		GLuint openGLLoadTexture(char *filename, float *fTextWidth, float *fTextHeight);
+    
+    //added by Mike, 20210828
+    virtual void openGLDrawTexture(int x, int y, GLuint textureId, int textw, int texth) {
+    }
         
     //added by Mike, 20201016
     virtual void destroy();

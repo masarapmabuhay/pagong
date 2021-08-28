@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B. 
  * @date created: 20200930
- * @date updated: 20210827
+ * @date updated: 20210828
  * @website address: http://www.usbong.ph
  *
  * Reference: 
@@ -217,9 +217,9 @@ return val;
 //added by Mike, 20210826
 //TO-DO: -add: CAD tool to assist in identify excess markings in image file
 //-add: CAD tool to verify animating sequence
-void openGLDrawTexture(int x, int y, GLuint textureId, int textw, int texth)
+void Pilot::openGLDrawTexture(int x, int y, GLuint textureId, int textw, int texth)
 {
-	glBindTexture(GL_TEXTURE_2D, textureId);
+	glBindTexture(GL_TEXTURE_2D, openGLITexture); //textureId);
 	glEnable(GL_TEXTURE_2D);
 	
 	float fTaoAnimationFrameOffset=0.0f;
