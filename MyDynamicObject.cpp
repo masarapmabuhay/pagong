@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B. 
  * @date created: 20200930
- * @date updated: 20210829
+ * @date updated: 20210830
  * @website address: http://www.usbong.ph
  *
  * Acknowledgments:
@@ -498,11 +498,34 @@ GLuint MyDynamicObject::openGLLoadTexture(char *filename, float *fTextWidth, flo
     *fTextWidth = surface->w/fCountTotalFrames; //4;
     *fTextHeight = surface->h/fCountTotalFrames; //4;
 	
-	
 	glGenTextures(1, &texture);
 	glBindTexture(GL_TEXTURE_2D, texture);
+    
+/* //edited by Mike, 20210830
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+*/
+/*	//edited by Mike, 20210722; this is due to displayed image is blurred
+     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
+     GL_LINEAR_MIPMAP_NEAREST);
+     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+*/
+    // set texture parameters
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+    
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
+                    GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    
+    // unselect texture myFontTextureObject
+//    glBindTexture(GL_TEXTURE_2D, 0);
+    
+    // setup alpha blending
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glEnable(GL_BLEND);
+    
+    
 	glTexImage2D(GL_TEXTURE_2D, 0, surface->format->BytesPerPixel, surface->w,
 	surface->h, 0, textureFormat, GL_UNSIGNED_BYTE, surface->pixels);
 	

@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B. 
  * @date created: 20200930
- * @date updated: 20210828
+ * @date updated: 20210830
  * @website address: http://www.usbong.ph
  *
  * Acknowledgments:
@@ -562,8 +562,10 @@ public:
 	//removed by Mike, 20210522
 //	void setOpenGLCanvas(OpenGLCanvas* c);
 		
-    //added by Mike, 20210828
-    virtual void openGLDrawTexture(int x, int y, GLuint textureId, int textw, int texth);
+    //added by Mike, 20210828; edited by Mike, 20210830
+//    virtual void openGLDrawTexture(int x, int y, GLuint textureId, int textw, int texth);
+    virtual void openGLDrawTexture(float x, float y, float textw, float texth);
+    
 	
     virtual void hitBy(MyDynamicObject* mdo);
 

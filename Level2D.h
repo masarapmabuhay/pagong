@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20210613
- * @date updated: 20210829
+ * @date updated: 20210830
  * @website address: http://www.usbong.ph
  *
  * Acknowledgments:
@@ -397,10 +397,9 @@ public:
     virtual void draw() {
         //edited by Mike, 20210712
 //        drawLevelWithTexture();
-				//edited by Mike, 20210828
-				//TO-DO: -update: this
-//				drawLevelWithTextureUsingInputFile();
-				drawTileAsQuadWithTexture("0-0");
+				//edited by Mike, 20210830
+				drawLevelWithTextureUsingInputFile();
+//				drawTileAsQuadWithTexture("0-0");
     }
         
     //added by Mike, 20210703
@@ -431,8 +430,10 @@ public:
     void keyDown(int keyCode);	
     void keyUp(int keyCode);	
         
-    //added by Mike, 20210828
-    virtual void openGLDrawTexture(int x, int y, GLuint textureId, int textw, int texth);
+    //added by Mike, 20210828; edited by Mike, 20210830
+/*    virtual void openGLDrawTexture(int x, int y, GLuint textureId, int textw, int texth);
+*/
+    virtual void openGLDrawTexture(float x, float y, float textw, float texth);
     
     /*	//removed by Mike, 20210522	
      void setOpenGLCanvas(OpenGLCanvas* c);

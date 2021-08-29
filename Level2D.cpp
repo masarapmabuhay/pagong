@@ -496,7 +496,7 @@ Level2D::Level2D(float xPos, float yPos, float zPos, float fWindowWidth, float f
 //    setupLevel(LEVEL_2D_TEXTURE); //LEVEL_TEXTURE
     //removed by Mike, 20210829
     //TO-DO: -reverify: cause of segmentation fault
-   openGLITexture = openGLLoadTexture((char*)"textures/level2D.png", &fMyWindowWidth, &fMyWindowHeight);
+    openGLITexture = openGLLoadTexture((char*)"textures/level2D.png", &fMyWindowWidth, &fMyWindowHeight);
 //    printf("openGLITexture: %i",openGLITexture);
 }
 
@@ -507,7 +507,11 @@ Level2D::~Level2D()
 //added by Mike, 20210826
 //TO-DO: -add: CAD tool to assist in identify excess markings in image file
 //-add: CAD tool to verify animating sequence
-void Level2D::openGLDrawTexture(int x, int y, GLuint textureId, int textw, int texth)
+//edited by Mike, 20210830
+//void Level2D::openGLDrawTexture(int x, int y, GLuint textureId, int textw, int texth)
+//TO-DO: -update: to use hungarian in the containers, e.g. float fX;
+//reminder: we use floating point type, instead of integer to receive exact values after computing as input the screen width and height 
+void Level2D::openGLDrawTexture(float x, float y, float textw, float texth)
 {
 	glBindTexture(GL_TEXTURE_2D, openGLITexture); //textureId);
 	glEnable(GL_TEXTURE_2D);
@@ -516,9 +520,7 @@ void Level2D::openGLDrawTexture(int x, int y, GLuint textureId, int textw, int t
     
 	float fTaoAnimationFrameOffset=0.0f;
 	float fTaoAnimationFrameOffsetYAxis=0.0f;
-
-//    printf(">>> DITO!!!");
-    
+ 
 	//added by Mike, 20210826
 //	glColor3f(1.0f, 1.0f, 1.0f); // white
 
@@ -537,7 +539,7 @@ void Level2D::openGLDrawTexture(int x, int y, GLuint textureId, int textw, int t
 		glTexCoord2f(0+fTaoAnimationFrameOffset, fTaoAnimationFrameOffsetYAxis+0.0625f);
 		glVertex3f(x, y + texth, 0);
 	glEnd();
-	
+
 	glDisable(GL_TEXTURE_2D);
 }
 
@@ -891,19 +893,52 @@ void Level2D::drawTileAsQuadWithTexture(std::string sTileId)
 	//added by Mike, 20210826
 //	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //removed by Mike, 20210829
 	glLoadIdentity();
-	
-    myXPosAsPixel=300; //0;
-    myYPosAsPixel=300;//0;
+    
+    //added by Mike, 20210830; removed by Mike, 20210830
+//    glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+    
+    
+/*  //edited by Mike, 20210830
+    myXPosAsPixel=0;//300; //0;
+    myYPosAsPixel=0;//300;//0;
+*/
     //note: we increase the size value to make texture larger than the actual pixel size in the image file
     //TO-DO: -reverify: larger image to be blurred
+    //edited by Mike, 20210830
+    myWidth=fGridSquareWidth; //64; //16;
+    myHeight=fGridSquareHeight; //64; //16;
+
+//    glTranslatef(myUsbongUtils->autoConvertFromPixelToVertexPointX(myXPosAsPixel), myUsbongUtils->autoConvertFromPixelToVertexPointY(myYPosAsPixel), 0);
+
+    //TO-DO: -remove: openGLITexture in input parameter of function
+    //edited by Mike, 20210830
+//	openGLDrawTexture(myXPosAsPixel, myYPosAsPixel, openGLITexture, myWidth, myHeight);
+    openGLDrawTexture(myXPos, myYPos, myWidth, myHeight);
+}
+
+/*//removed by Mike, 20210830
+void Level2D::drawTileAsQuadWithTexture(std::string sTileId)
+{
+    //added by Mike, 20210826
+    //	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //removed by Mike, 20210829
+    glLoadIdentity();
+    
+    
+    myXPosAsPixel=300; //0;
+    myYPosAsPixel=300;//0;
+    
+    //note: we increase the size value to make texture larger than the actual pixel size in the image file
+    //TO-DO: -reverify: larger image to be blurred
+    //edited by Mike, 20210830
     myWidth=64; //16;
     myHeight=64; //16;
     
     glTranslatef(myUsbongUtils->autoConvertFromPixelToVertexPointX(myXPosAsPixel), myUsbongUtils->autoConvertFromPixelToVertexPointY(myYPosAsPixel), 0);
     
     //TO-DO: -remove: openGLITexture in input parameter of function
-	openGLDrawTexture(myXPosAsPixel, myYPosAsPixel, openGLITexture, myWidth, myHeight);
+    openGLDrawTexture(myXPosAsPixel, myYPosAsPixel, openGLITexture, myWidth, myHeight);
 }
+*/
 
 //added by Mike, 20210708; edited by Mike, 20210712
 //TO-DO: -add: function with tile patterns
@@ -918,11 +953,14 @@ void Level2D::drawLevelWithTextureUsingInputFile()
      	}
      }
      */
+    
+/* //removed by Mike, 20210830
     //TO-DO: -update: this
     glPushMatrix();
         drawTileAsQuadWithTexture("0-0");
     glPopMatrix();
     return;
+*/
     
     //edited by Mike, 20210724
     iRowCountMax=10;
@@ -948,13 +986,23 @@ void Level2D::drawLevelWithTextureUsingInputFile()
   								//note: collision detection OK; updated: drawing of tile x and y positions
 /*                	glTranslatef(myUsbongUtils->autoConvertFromPixelToVertexPointX(0.0f+fGridSquareWidth*(iColumnCount+1.0f)), myUsbongUtils->autoConvertFromPixelToVertexPointY(0.0f+fGridSquareHeight*(iRowCount+1.0f)), 0.0f);
 */
-                
+           
+/* //edited by Mike, 20210830; TO-DO: -reverify: origin now at TOP-LEFT, instead of Center
                 glTranslatef(myUsbongUtils->autoConvertFromPixelToVertexPointX(0.0f+(fGridSquareWidth)*(iColumnCount+1.0f)), myUsbongUtils->autoConvertFromPixelToVertexPointY(0.0f+(fGridSquareHeight)*(iRowCount+1.0f)), 0.0f);
- 										
-/* 										
+*/
+/*
+                printf(">>fGridSquareWidth: %f",fGridSquareWidth);
+                printf("; fGridSquareHeight: %f",fGridSquareHeight);
+*/
+//                glTranslatef(0.0f+(fGridSquareWidth)*(iColumnCount+1.0f), 0.0f+(fGridSquareHeight)*(iRowCount+1.0f), 0.0f);
+                myXPos=0.0f+(fGridSquareWidth)*(iColumnCount);//+1.0f);
+                myYPos=0.0f+(fGridSquareHeight)*(iRowCount);//+1.0f);
+                
+/*
 printf("autoConvertFromPixelToVertexPointX: %f",(myUsbongUtils->autoConvertFromPixelToVertexPointX(0.0f+(fGridSquareWidth)*(iColumnCount+1.0f)))); 										
-printf("autoConvertFromPixelToVertexPointY: %f",myUsbongUtils->autoConvertFromPixelToVertexPointY(0.0f+(fGridSquareHeight)*(iRowCount+1.0f))); 										
-*/ 										
+printf("autoConvertFromPixelToVertexPointY: %f",myUsbongUtils->autoConvertFromPixelToVertexPointY(0.0f+(fGridSquareHeight)*(iRowCount+1.0f))); 					
+*/
+ 										
  										//edited by Mike, 20210719
 //                	drawTileA	glBindTexture(GL_TEXTURE_2D, textureid);
 										glEnable(GL_TEXTURE_2D);
