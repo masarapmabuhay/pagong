@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20200926
- * @date updated: 20210828
+ * @date updated: 20210829
  * @website address: http://www.usbong.ph
  *
  * Reference:
@@ -95,6 +95,18 @@
 //#include <GL/glut.h>
 #endif
 
+//added by Mike, 20210829
+#ifdef _WIN32 //Windows machine
+    #include <SDL.h>
+    #include <SDL_image.h>
+#elif defined(__APPLE__)
+    #include <SDL2/SDL.h>
+    #include <SDL2_image/SDL_image.h>
+#else
+    #include <SDL2/SDL.h>
+    #include <SDL2/SDL_image.h>
+#endif
+
 /* //removed by Mike, 20210826
 #include "Button.h"
 */
@@ -121,7 +133,7 @@
 //answer by: Jeegar Patel, 20151208T0940
 //auto-identify if Windows Machine
 #ifdef _WIN32
-#include <windows.h> //Windows Machine
+    #include <windows.h> //Windows Machine
 #endif
 /*
  #ifdef linux
@@ -182,20 +194,6 @@ enum Keys
     //added by Mike, 20201226
     iNumOfKeyTypes
 };
-
-//object: Cube.005_0
-//body
-typedef struct
-{
-    GLubyte id_field_length;
-    GLubyte color_map_type;
-    GLubyte image_type_code;
-    GLubyte ignore[9];
-    GLushort width;
-    GLushort height;
-    GLubyte image_pixel_size;
-    GLubyte image_descriptor;
-} TARGA_HEADER;
 
 //TO-DO: -put: in MyDynamicObject
 GLboolean Level2D::test_pow2(GLushort i)
@@ -410,17 +408,19 @@ Level2D::Level2D(float xPos, float yPos, float zPos, float fWindowWidth, float f
     
 //    printf("Level2D.cpp myWindowWidth: %f\n",myWindowWidth);
     
-    
-    //    myWidthX=0.5;
-    
+/* //removed by Mike, 20210829
     rotationAngle=0.0f;//360.0f;//90.0;
     rotationStep=10.0;//1.0f;
     thrust=0.0f;
     thrustMax=0.8f;
+*/
+     
 /* //removed by Mike, 20210826
     xVel;
     yVel;
 */
+    
+/* //removed by Mike, 20210829
     //edited by Mike, 20201001
     maxXVel=0.04f;//1.0f;
     maxYVel=0.04f;//1.0f;
@@ -469,7 +469,8 @@ Level2D::Level2D(float xPos, float yPos, float zPos, float fWindowWidth, float f
     //edited by Mike, 20201201; edited by Mike, 20210502
     //	currentFacingState=FACING_UP;
     currentFacingState=FACING_RIGHT;
- 
+*/
+    
     //removed by Mike, 20210423
     /*	loadTexture(myBodyTexture, "bodyTexture.tga", &myBodyTextureObject);
      loadTexture(myHeadTexture, "headTexture.tga", &myHeadTextureObject);
@@ -485,15 +486,19 @@ Level2D::Level2D(float xPos, float yPos, float zPos, float fWindowWidth, float f
     
     setCollidable(true);
     
+/* //removed by Mike, 20210829
     //added: function to be reusable
     //    readInputText("inputHalimbawa.txt");
     //edited by Mike, 20210712
     //    readInputText("inputLevel1.csv");
     read((char*)"inputLevel1.csv");
+*/
     
     //edited by Mike, 20210707; removed by Mike, 20210827
 //    setupLevel(LEVEL_2D_TEXTURE); //LEVEL_TEXTURE
-		openGLITexture = openGLLoadTexture((char*)"textures/level2D.png", &fMyWindowWidth, &fMyWindowHeight);
+    //removed by Mike, 20210829
+    //TO-DO: -reverify: cause of segmentation fault
+//    openGLITexture = openGLLoadTexture((char*)"textures/level2D.png", &fMyWindowWidth, &fMyWindowHeight);
 }
 
 Level2D::~Level2D()
@@ -1207,6 +1212,10 @@ void Level2D::move(int key)
 //added by Mike, 20210724; edited by Mike, 20210725
 bool Level2D::isLevel2DCollideWith(MyDynamicObject* mdo)
 {
+    //added by Mike, 20210829
+    //TO-DO: -reverify: cause of segmentation fault; @read(...)?
+    return false;
+    
     if ((!checkIsCollidable())||(!mdo->checkIsCollidable()))    
     {
     		//printf(">>>>>NOT COLLIDABLE");

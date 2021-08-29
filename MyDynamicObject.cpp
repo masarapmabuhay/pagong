@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B. 
  * @date created: 20200930
- * @date updated: 20210827
+ * @date updated: 20210829
  * @website address: http://www.usbong.ph
  *
  * Acknowledgments:
@@ -485,8 +485,18 @@ GLuint MyDynamicObject::openGLLoadTexture(char *filename, float *fTextWidth, flo
 	*textw = surface->w;
 	*texth = surface->h;
 	*/
-	*fTextWidth = surface->w/4;
-	*fTextHeight = surface->h/4;
+//    int iCountTotalFrames=4;
+    float fCountTotalFrames=4.0f;
+
+    if(strstr(filename, "level2D") != NULL) {
+//      iCountTotalFrames=16;
+     fCountTotalFrames=16.0f;
+        
+//        printf(">>> DITO\n");
+    }
+    
+    *fTextWidth = surface->w/fCountTotalFrames; //4;
+    *fTextHeight = surface->h/fCountTotalFrames; //4;
 	
 	
 	glGenTextures(1, &texture);

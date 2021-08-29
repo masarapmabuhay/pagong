@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20200926
- * @date updated: 20210827
+ * @date updated: 20210829
  * @website address: http://www.usbong.ph
  *
  * References:
@@ -184,20 +184,6 @@ enum mouseActionIds
     MOUSE_LEFT_BUTTON = 0,
     iNumOfMouseActionIdTypes
 };
-
-//added by Mike, 20210403
-typedef struct
-{
-    GLubyte id_field_length;
-    GLubyte color_map_type;
-    GLubyte image_type_code;
-    GLubyte ignore[9];
-    GLushort width;
-    GLushort height;
-    GLubyte image_pixel_size;
-    GLubyte image_descriptor;
-} TARGA_HEADER;
-
 
 //added by Mike, 20201213
 //Reference: https://stackoverflow.com/questions/10287924/fastest-way-to-sort-a-list-of-number-and-their-index;
@@ -480,18 +466,19 @@ bool OpenGLCanvas::init(int myWindowWidthAsPixelInput, int myWindowHeightAsPixel
     myRobotShip->setOpenGLCanvas(this, fGridSquareWidth, fGridSquareHeight);
 */
 
- 		myLevel2D = new Level2D(0.0f,0.0f,0.0f,myWindowWidthAsPixelInput,myWindowHeightAsPixelInput);    
+    myLevel2D = new Level2D(0.0f,0.0f,0.0f,myWindowWidthAsPixelInput,myWindowHeightAsPixelInput);
     //note: width and height not equal due to Window
     //to cause square tile to NOT be square
     myLevel2D->setOpenGLCanvas(this, fGridSquareWidth, fGridSquareHeight);
 
     //removed by Mike, 20210828
     //myLevel2D->setupLevel(LEVEL_2D_TEXTURE);
-       
+
     myPilot = new Pilot(myWindowWidthAsPixel/2,myWindowHeightAsPixel/2,0.0f,myWindowWidthAsPixel,myWindowHeightAsPixel);
     myPilot->setOpenGLCanvas(this, fGridSquareWidth, fGridSquareHeight);    
     myPilot->setAsPlayer1(); //added by Mike, 20210601    
-
+    
+    
 /*  
     //added by Mike, 20210530; edited by Mike, 20210605
     //edited by Mike, 20210606
@@ -974,7 +961,7 @@ void OpenGLCanvas::render()
 
   glPushMatrix();
 //    glTranslatef(-2.0f/iColumnCountMax*iLeftMarginColumnCount, 0.0f, 0.0f);
-    myLevel2D->draw();
+//    myLevel2D->draw();
   glPopMatrix();
     
 	myPilot->draw();
@@ -1425,6 +1412,7 @@ void OpenGLCanvas::update()
 				//added by Mike, 20210807
         myPilot->update(1); //dt
 
+        
 /* //removed by Mike, 20210825       
         //edited by Mike, 20201014
         //        for(i=0; i<MAX_BEAMS; i++) {
