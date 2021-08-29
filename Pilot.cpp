@@ -635,7 +635,7 @@ printf(">>>>>>>>>>>>>>> ATTACK DITO");
 void Pilot::drawPilotObject()
 {
 	//added by Mike, 20210826
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+//	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //removed by Mike, 20210829
 	glLoadIdentity();
 	
 	openGLDrawTexture(myXPosAsPixel, myYPosAsPixel, openGLITexture, myWidth, myHeight);		

@@ -961,7 +961,7 @@ void OpenGLCanvas::render()
 
   glPushMatrix();
 //    glTranslatef(-2.0f/iColumnCountMax*iLeftMarginColumnCount, 0.0f, 0.0f);
-//    myLevel2D->draw();
+    myLevel2D->draw();
   glPopMatrix();
     
 	myPilot->draw();

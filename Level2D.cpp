@@ -486,19 +486,18 @@ Level2D::Level2D(float xPos, float yPos, float zPos, float fWindowWidth, float f
     
     setCollidable(true);
     
-/* //removed by Mike, 20210829
     //added: function to be reusable
     //    readInputText("inputHalimbawa.txt");
     //edited by Mike, 20210712
     //    readInputText("inputLevel1.csv");
     read((char*)"inputLevel1.csv");
-*/
     
     //edited by Mike, 20210707; removed by Mike, 20210827
 //    setupLevel(LEVEL_2D_TEXTURE); //LEVEL_TEXTURE
     //removed by Mike, 20210829
     //TO-DO: -reverify: cause of segmentation fault
-//    openGLITexture = openGLLoadTexture((char*)"textures/level2D.png", &fMyWindowWidth, &fMyWindowHeight);
+   openGLITexture = openGLLoadTexture((char*)"textures/level2D.png", &fMyWindowWidth, &fMyWindowHeight);
+//    printf("openGLITexture: %i",openGLITexture);
 }
 
 Level2D::~Level2D()
@@ -513,9 +512,13 @@ void Level2D::openGLDrawTexture(int x, int y, GLuint textureId, int textw, int t
 	glBindTexture(GL_TEXTURE_2D, openGLITexture); //textureId);
 	glEnable(GL_TEXTURE_2D);
 	
+//    printf("openGLITexture: %i",openGLITexture);
+    
 	float fTaoAnimationFrameOffset=0.0f;
 	float fTaoAnimationFrameOffsetYAxis=0.0f;
 
+//    printf(">>> DITO!!!");
+    
 	//added by Mike, 20210826
 //	glColor3f(1.0f, 1.0f, 1.0f); // white
 
@@ -886,14 +889,19 @@ void Level2D::drawTileAsQuadWithTexturePrev(std::string sTileId)
 void Level2D::drawTileAsQuadWithTexture(std::string sTileId)
 {
 	//added by Mike, 20210826
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+//	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //removed by Mike, 20210829
 	glLoadIdentity();
 	
-	myXPosAsPixel=0;
-	myYPosAsPixel=0;
-	myWidth=16;
-	myHeight=16;
-	
+    myXPosAsPixel=300; //0;
+    myYPosAsPixel=300;//0;
+    //note: we increase the size value to make texture larger than the actual pixel size in the image file
+    //TO-DO: -reverify: larger image to be blurred
+    myWidth=64; //16;
+    myHeight=64; //16;
+    
+    glTranslatef(myUsbongUtils->autoConvertFromPixelToVertexPointX(myXPosAsPixel), myUsbongUtils->autoConvertFromPixelToVertexPointY(myYPosAsPixel), 0);
+    
+    //TO-DO: -remove: openGLITexture in input parameter of function
 	openGLDrawTexture(myXPosAsPixel, myYPosAsPixel, openGLITexture, myWidth, myHeight);
 }
 
@@ -911,8 +919,9 @@ void Level2D::drawLevelWithTextureUsingInputFile()
      }
      */
     //TO-DO: -update: this
-    
-    drawTileAsQuadWithTexture("0-0");
+    glPushMatrix();
+        drawTileAsQuadWithTexture("0-0");
+    glPopMatrix();
     return;
     
     //edited by Mike, 20210724
