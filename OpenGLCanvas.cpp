@@ -394,8 +394,15 @@ bool OpenGLCanvas::init(int myWindowWidthAsPixelInput, int myWindowHeightAsPixel
     //added by Mike, 20200930
     currentState = GAME_SCREEN; //TO-DO: -update: this
   
+  	//edited by Mike, 20210830
+  	//TO-DO: -update: this due to we now use floating point numbers, instead of integers
     myWindowWidthAsPixel = (int)myWindowWidthAsPixelInput;
     myWindowHeightAsPixel = (int)myWindowHeightAsPixelInput;
+
+    myWindowWidth = myWindowWidthAsPixel;
+    myWindowHeight = myWindowHeightAsPixel;
+
+
 
 /* //removed by Mike, 20210826
   	//added by Mike, 20210809    
@@ -406,9 +413,15 @@ bool OpenGLCanvas::init(int myWindowWidthAsPixelInput, int myWindowHeightAsPixel
     iRowCountMax=10;
     iColumnCountMax=18;
     iHeightCountMax=10;
-    
+
+  	//edited by Mike, 20210830
+/*  	    
     fGridSquareWidth = (myWindowWidthAsPixel*(1.0))/iColumnCountMax; //example: 136.60
     fGridSquareHeight = (myWindowHeightAsPixel*(1.0))/iRowCountMax; //example: 76.80
+*/
+    fGridSquareWidth = (myWindowWidthAsPixel*(1.0))/iColumnCountMax; //example: 136.60
+    fGridSquareHeight = (myWindowHeightAsPixel*(1.0))/iRowCountMax; //example: 76.80
+
     
 /* //removed by Mike, 20210826    
     printf("OpenGLCanvas.cpp; fGridSquareWidth: %f",fGridSquareWidth);
@@ -1983,7 +1996,8 @@ void OpenGLCanvas::update()
             }
         }
 */
-        
+
+/* //edited by Mike, 20210830        
         //edited by Mike, 20210727
         //note: we verify if we continue with step, hit collision
         //if so, we do not add step to position
@@ -2010,6 +2024,30 @@ void OpenGLCanvas::update()
         else if (myPilot->getYAsPixel()+myPilot->getHeightAsPixel() +myPilot->getStepY() > myWindowHeightAsPixel) {
             myPilot->setYPosAsPixel(myWindowHeightAsPixel-myPilot->getHeightAsPixel()-myPilot->getStepY());
         }
+*/
+        
+        //note: we verify if we continue with step, hit collision
+        //if so, we do not add step to position
+        if (myPilot->getX() -myPilot->getStepX() < 0) {        
+            myPilot->setXPos(0+myPilot->getStepX());
+        }
+        //max movement with set
+        else if (myPilot->getX()+myPilot->getWidth() +myPilot->getStepX() > myWindowWidth) {
+            myPilot->setXPos(myWindowWidth-myPilot->getWidth()-myPilot->getStepX());
+        }
+        
+				//added by Mike, 20210727
+        //note: we use y-axis in Level2D; instead of z-axis (Level3D)
+        //TO-DO: -reverify: to use z-axis in Level2D
+        if (myPilot->getY() -myPilot->getStepY() < 0) { //max movement with set
+            myPilot->setYPos(0+myPilot->getStepY());
+        }
+        //max movement with set
+        else if (myPilot->getY()+myPilot->getHeight() +myPilot->getStepY() > myWindowHeight) {
+            myPilot->setYPos(myWindowHeight-myPilot->getHeight()-myPilot->getStepY());
+        }
+        
+        
     }
     else if (currentState==TITLE_SCREEN)
     {

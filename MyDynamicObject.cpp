@@ -126,6 +126,7 @@ int MyDynamicObject::getNumSpheres()
    return csSize;
 }
 
+/* //removed by Mike, 20210830
 float MyDynamicObject::getX()
 {
    return myXPos;
@@ -147,7 +148,7 @@ float MyDynamicObject::getHeight()
 {
    return myHeight;
 }
-
+*/
 
 float MyDynamicObject::getDistance(float x1, float y1, float z1, float x2, float y2, float z2)
 {
@@ -192,30 +193,6 @@ bool MyDynamicObject::checkCollision(MyDynamicObject* mdo1, MyDynamicObject* mdo
 
 bool MyDynamicObject::isIntersectingRect(MyDynamicObject* mdo1, MyDynamicObject* mdo2)
 {     
-/*
-    char str[700];
-    sprintf(str,"here: %f",mdo1->getY());//myZPos
-    MessageBox(NULL, str, "Welcome!", MB_OK);
-*/
-/*	//edited by Mike, 20201117
-    if (mdo2->getY()+mdo2->getHeight() < mdo1->getY() || //is the bottom of mdo2 above the top of mdo1?
-        mdo2->getY() > mdo1->getY()+mdo1->getHeight() || //is the top of mdo2 below bottom of mdo1?
-        mdo2->getX()+mdo2->getWidth() < mdo1->getX()  || //is the right of mdo2 to the left of mdo1?
-        mdo2->getX() > mdo1->getX()+mdo1->getWidth()) //is the left of mdo2 to the right of mdo1?
-        return false;
-*/
-	//note: computer computation correct, albeit human person may think 
-	//based on observation in 3D (3-Dimensions) that beam should hit asteroid
-	//alternative collision detection technique 
-	//for computer to verify if not intersecting
-	//Reference: Jongko, J. et al (2004)
-/* //edited by Mike, 20210219	
-    if (mdo2->getZ()+mdo2->getHeight() < mdo1->getZ() || //is the bottom of mdo2 above the top of mdo1?
-        mdo2->getZ() > mdo1->getZ()+mdo1->getHeight() || //is the top of mdo2 below bottom of mdo1?
-        mdo2->getX()+mdo2->getWidth() < mdo1->getX()  || //is the right of mdo2 to the left of mdo1?
-        mdo2->getX() > mdo1->getX()+mdo1->getWidth()) //is the left of mdo2 to the right of mdo1?
-        return false;
-*/
 	//TO-DO: -update: to use keyword for object size in z-axis, etc
     if (mdo2->getZ()+mdo2->getWidth() < mdo1->getZ() || //is the bottom of mdo2 above the top of mdo1?
         mdo2->getZ() > mdo1->getZ()+mdo1->getWidth() || //is the top of mdo2 below bottom of mdo1?
@@ -245,9 +222,9 @@ void MyDynamicObject::collideWith(MyDynamicObject* mdo)
     }
        
 //    if (checkCollision(this, mdo))
-		//edited by Mike, 20210527
-//    if (isIntersectingRect(this, mdo))
-    if (isIntersectingRectAsPixel(this, mdo))
+		//edited by Mike, 20210830
+    if (isIntersectingRect(this, mdo))
+//    if (isIntersectingRectAsPixel(this, mdo))
     {
 //    	printf(">>dito>>>>>>>>>>>>>>>>>>>>>>>.");
     	
@@ -256,21 +233,10 @@ void MyDynamicObject::collideWith(MyDynamicObject* mdo)
     }
 }
 
+/* //removed by Mike, 20210830
 //added by Mike, 20210527
 bool MyDynamicObject::isIntersectingRectAsPixel(MyDynamicObject* mdo1, MyDynamicObject* mdo2)
 {     
-/*
-    char str[700];
-    sprintf(str,"here: %f",mdo1->getY());//myZPos
-    MessageBox(NULL, str, "Welcome!", MB_OK);
-*/
-/*	//edited by Mike, 20201117
-    if (mdo2->getY()+mdo2->getHeight() < mdo1->getY() || //is the bottom of mdo2 above the top of mdo1?
-        mdo2->getY() > mdo1->getY()+mdo1->getHeight() || //is the top of mdo2 below bottom of mdo1?
-        mdo2->getX()+mdo2->getWidth() < mdo1->getX()  || //is the right of mdo2 to the left of mdo1?
-        mdo2->getX() > mdo1->getX()+mdo1->getWidth()) //is the left of mdo2 to the right of mdo1?
-        return false;
-*/
 	//note: computer computation correct, albeit human person may think 
 	//based on observation in 3D (3-Dimensions) that beam should hit asteroid
 	//alternative collision detection technique 
@@ -286,27 +252,16 @@ bool MyDynamicObject::isIntersectingRectAsPixel(MyDynamicObject* mdo1, MyDynamic
 	
     return true;
 }
+*/
 
+/* //removed by Mike, 20210830
 //added by Mike, 20210517
 //use with computer mouse, et cetera
 bool MyDynamicObject::collideWithPressedCoordPos(int pressedCoordPosX, int pressedCoordPosY)	
 {
 		printf("pressedCoordPosX: %i\n",pressedCoordPosX);
 		printf("getXAsPixel()+getWidthAsPixel(): %i\n",getXAsPixel()+getWidthAsPixel());
-	
-	
-	//intersecting rectangles
-/*	//edited to use pixel instead of vertex points by Mike, 20210517
-    if (pressedCoordPosX > myUsbongUtils->autoConvertFromPixelToVertexPointX(getX()+getWidth()) || //pressed coordinate position at right of object
-        pressedCoordPosX < myUsbongUtils->autoConvertFromPixelToVertexPointX(getX()) || //pressed coordinate position at left of object
-        pressedCoordPosY < myUsbongUtils->autoConvertFromPixelToVertexPointX(getY()) || //pressed coordinate position at top of object
-		pressedCoordPosY > myUsbongUtils->autoConvertFromPixelToVertexPointY(getY()+getHeight())) { //pressed coordinate position at right of object
-
-		printf("outside button\n");
 		
-		return false;
-	}	
-*/
     if (pressedCoordPosX > getXAsPixel()+getWidthAsPixel() || //pressed coordinate position at right of object
         pressedCoordPosX < getXAsPixel() || //pressed coordinate position at left of object
         pressedCoordPosY < getYAsPixel() || //pressed coordinate position at top of object
@@ -321,6 +276,7 @@ bool MyDynamicObject::collideWithPressedCoordPos(int pressedCoordPosX, int press
 	
 	return true;
 }
+*/
 
 //added by Mike, 20210724; edited by Mike, 20210830
 //use with Level2D

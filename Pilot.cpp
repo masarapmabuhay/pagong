@@ -642,7 +642,7 @@ void Pilot::drawPilotObject()
     
     //edited by Mike, 20210830
 //	openGLDrawTexture(myXPosAsPixel, myYPosAsPixel, openGLITexture, myWidth, myHeight);
-    openGLDrawTexture(myXPosAsPixel, myYPosAsPixel, myWidth, myHeight);
+    openGLDrawTexture(myXPos, myYPos, myWidth, myHeight);
 }
 
 //added by Mike, 20210727
@@ -3065,7 +3065,9 @@ void Pilot::move(int key)
                  break;
              }
              else {
-                myYPosAsPixel+=(-stepY*1.1);
+             		//edited by Mike, 20210830
+//                myYPosAsPixel+=(-stepY*1.1);
+                myYPos+=(-stepY*1.1);
                 iStepYCount+=1;
              }
 
@@ -3121,15 +3123,21 @@ void Pilot::move(int key)
          		  			return;
          					}
         					if (getIsPlayer1()) { //Player1: Unit Chief
-            					myYPosAsPixel+=stepY;
+             					//edited by Mike, 20210830
+            					//myYPosAsPixel+=stepY;        					
+            					myYPos+=stepY;
         					}
         					else {
-            					myYPosAsPixel+=stepY/2;
+             					//edited by Mike, 20210830
+            					//myYPosAsPixel+=stepY/2;
+            					myYPos+=stepY/2; 
         					}
                                 }
 
  if ((bIsExecutingDashArray[KEY_S])) {
-            			myYPosAsPixel+=stepY*2;
+             			//edited by Mike, 20210830
+//            			myYPosAsPixel+=stepY*2;
+            			myYPos+=stepY*2;
 					}
 							bHasHitWall=false;
 				}
@@ -3196,10 +3204,14 @@ void Pilot::move(int key)
 									}
 */									
          					if (getIsPlayer1()) { //Player1: Unit Chief
-            					myXPosAsPixel+=-stepX;
+             					//edited by Mike, 20210830         					
+//            					myXPosAsPixel+=-stepX;
+            					myXPos+=-stepX;
          					}
          					else {
-            					myXPosAsPixel+=-stepX;
+             					//edited by Mike, 20210830
+//            					myXPosAsPixel+=-stepX;
+            					myXPos+=-stepX;
          					}
 																											
          					if (bIsExecutingDashArray[KEY_A]) {
@@ -3213,7 +3225,9 @@ void Pilot::move(int key)
             					if (currentMovingState==IDLE_MOVING_STATE) {
             					}
 								else {
-            						myXPosAsPixel+=-stepX*2;						
+             						//edited by Mike, 20210830								
+//            						myXPosAsPixel+=-stepX*2;						
+            						myXPos+=-stepX*2;						          						
 								}           
 		 					}									
 											
@@ -3299,10 +3313,14 @@ void Pilot::move(int key)
 							}		
 */							
          			if (getIsPlayer1()) { //Player1: Unit Chief
-            			myXPosAsPixel+=stepX;
+             			//edited by Mike, 20210830								
+//            			myXPosAsPixel+=stepX;
+            			myXPos+=stepX;          			
          			}
          			else {
-            			myXPosAsPixel+=stepX;
+             			//edited by Mike, 20210830								
+//            			myXPosAsPixel+=stepX;
+            			myXPos+=stepX; 
          			}
 					
          			if (bIsExecutingDashArray[KEY_D]) {
@@ -3312,7 +3330,9 @@ void Pilot::move(int key)
             			if (currentMovingState==IDLE_MOVING_STATE) {
             			}
 						else {
-            				myXPosAsPixel+=stepX*2;						
+             			//edited by Mike, 20210830								
+//            				myXPosAsPixel+=stepX*2;						
+            				myXPos+=stepX*2;						
 						}           			         			
 		 			}									
 							
@@ -3401,7 +3421,9 @@ void Pilot::move(int key)
           	//TO-DO: -add: animation sprite image?
           	//note: stepY*2, et cetera is over what the ground/floor tile can push up
           	//edited by Mike, 20210812
-			myYPosAsPixel+=stepY;
+            //edited by Mike, 20210830								          	
+//			myYPosAsPixel+=stepY;
+						myYPos+=stepY;
 			
 			//added by Mike, 20210812
 			//note: this set of instructions NOT executed 
@@ -3410,7 +3432,9 @@ void Pilot::move(int key)
 			if (myLevel2D->isLevel2DCollideWith(this)) {    
 			}
 			else {
-				myYPosAsPixel+=stepY; ///2.0
+        //edited by Mike, 20210830								          	
+//				myYPosAsPixel+=stepY; ///2.0
+				myYPos+=stepY; ///2.0
 			}			
           }
 		  break;		  		  
@@ -3486,7 +3510,9 @@ void Pilot::move(int key)
         if (getIsPlayer1()) { //Player1: Unit Chief
         		//edited by Mike, 20210807
 //            myYPosAsPixel+=(stepY*1.2);
-            myYPosAsPixel+=stepY;
+        		//edited by Mike, 20210830								          	
+//            myYPosAsPixel+=stepY;
+            myYPos+=stepY;
 //            myYPosAsPixel+=(stepY*2);
         }
     }

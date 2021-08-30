@@ -301,12 +301,35 @@ public:
     
     int getNumSpheres();
     
+/* //edited by Mike, 20210830    
     virtual float getX()=0;
     virtual float getY()=0;
     virtual float getZ()=0;
     virtual float getWidth()=0;
     virtual float getHeight()=0;
+*/
+		virtual float getX()
+    {
+        return myXPos;
+    }
+    virtual float getY()
+    {
+        return myYPos;
+    }
+    virtual float getZ()
+    {
+        return myZPos;
+    }
     
+    virtual float getWidth()
+    {
+        return myWidth;
+    }
+    virtual float getHeight()
+    {
+        return myHeight;
+    }
+        
     //added by Mike, 20210517
     /*
      virtual int getXAsPixel()=0;
@@ -315,6 +338,7 @@ public:
      virtual int getWidthAsPixel()=0;
      virtual int getHeightAsPixel()=0;
      */
+/* //removed by Mike, 20210830     
     virtual int getXAsPixel()
     {
         return myXPosAsPixel;
@@ -336,6 +360,7 @@ public:
     {
         return myHeightAsPixel;
     }
+*/
     
     //TO-DO: -update: this to classify ...AsPixel
     //added by Mike, 20210605
@@ -445,8 +470,8 @@ public:
     //bool isIntersectingRect(MyDynamicObject* mdo1, MyDynamicObject* mdo2);
     virtual bool isIntersectingRect(MyDynamicObject* mdo1, MyDynamicObject* mdo2);
     
-    //added by Mike, 20210527
-    virtual bool isIntersectingRectAsPixel(MyDynamicObject* mdo1, MyDynamicObject* mdo2);
+    //added by Mike, 20210527; removed by Mike, 20210830
+//    virtual bool isIntersectingRectAsPixel(MyDynamicObject* mdo1, MyDynamicObject* mdo2);
     
     //added by Mike, 20210527
     virtual void updateDirection() {
