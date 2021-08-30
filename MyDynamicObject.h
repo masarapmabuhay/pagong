@@ -144,7 +144,9 @@ private:
     int csSize; //to allow multiple spheres
     int maxSize;
     int i;
-    bool isCollidable;
+    
+    //removed by Mike, 20210830
+//    bool isCollidable;
         
     //removed by Mike, 20210523
     //	UsbongUtils *myUsbongUtils; //added by Mike, 202105017
@@ -187,6 +189,9 @@ public:
     //added by Mike, 20210729
     int iOffsetXPosAsPixel;
     int iOffsetYPosAsPixel;    
+								
+    //added by Mike, 20210830
+    bool isCollidable;
 				
     //added by Mike, 20210527
     bool bIsMovingDown;

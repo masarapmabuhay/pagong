@@ -437,7 +437,7 @@ Pilot::Pilot(float xPos, float yPos, float zPos, float fWindowWidth, float fWind
 	//removed by Mike, 20201001; added by Mike, 20210423
 	setup();
 	
-    setCollidable(true);    
+  setCollidable(true);    
 }
 
 Pilot::~Pilot()

@@ -485,7 +485,11 @@ Level2D::Level2D(float xPos, float yPos, float zPos, float fWindowWidth, float f
 //    setup();
     
     setCollidable(true);
-    
+/*    
+    if (checkIsCollidable()) {
+    	printf(">>COLLIDABLE");
+    }
+*/    
     //added: function to be reusable
     //    readInputText("inputHalimbawa.txt");
     //edited by Mike, 20210712
@@ -1093,208 +1097,11 @@ void Level2D::changeState(int s)
 //added by Mike, 20201226
 void Level2D::keyDown(int keyCode) {
     myKeysDown[keyCode] = TRUE;
-    
-    //added by Mike, 20210619
-    //TO-DO: -reverify: output of over 6 rows in input file
-    if (myKeysDown[KEY_K]==TRUE) {
-        if (isAtMaxTextCharRow) {
-            isAtMaxTextCharRow=false;
-            
-            iRowCountPageNumber++;
-            iTextCurrentMaxRowCount=1;
-            
-            //next row; reminder: MAX_TEXT_CHAR_ROW=4
-            for(int iCount=0; iCount<MAX_TEXT_CHAR_ROW; iCount++) {
-                iCurrentMaxColumnCountPerRowContainer[iCount]=1;
-            }
-        }
-    }
-    
-    //removed by Mike, 20210619
-    //added by Mike, 20210127; edited by Mike, 20210128
-    //    autoVerifyDashStateWithKeyDown();//keyCode);
-}
-
-//added by Mike, 20201227; edited by Mike, 20210128
-//void Level2D::setDashStateWithKeyDown() {
-void Level2D::setDashStateWithKeyDown(int keyCode) {
-    if (bIsDashReady==true) {
-        /*		//edited by Mike, 20210128
-         if (iInputWaitCount<MAX_WAIT_COUNT) {
-         //edited by Mike, 20210128
-         //bIsExecutingDash=true;
-         bIsExecutingDashArray[keyCode]=true;
-         }
-         */
-        if (iInputWaitCountArray[keyCode]<MAX_WAIT_COUNT) {
-            //edited by Mike, 20210129
-            //			bIsExecutingDashArray[keyCode]=true;
-            //verify if any directional key already executes dash
-            for (int iCount=0; iCount<PILOT_MAX_DIRECTIONAL_KEY_DASH_COUNT; iCount++) {
-                if (bIsExecutingDashArray[keyCode]) {
-                    return;
-                }
-            }
-            
-            bIsExecutingDashArray[keyCode]=true;
-        }
-    }
-}
-
-//added by Mike, 20201226; edited by Mike, 20210128
-//void Level2D::autoVerifyDashStateWithKeyDown(int keyCode) {
-void Level2D::autoVerifyDashStateWithKeyDown() { //int keyCode) {
-    //edited by Mike, 20210128
-    //if (myKeysDown[KEY_RIGHT]==TRUE) {
-    //edited by Mike, 20210130
-    //	if ((myKeysDown[KEY_RIGHT]==TRUE) || (myKeysDown[KEY_D]==TRUE)) {
-    if (myKeysDown[KEY_D]==TRUE) {
-        setDashStateWithKeyDown(KEY_D);
-    }
-    //edited by Mike, 20210130
-    //	else if ((myKeysDown[KEY_UP]==TRUE) || (myKeysDown[KEY_W]==TRUE)) {
-    else if (myKeysDown[KEY_W]==TRUE) {
-        setDashStateWithKeyDown(KEY_W);//KEY_UP);
-    }
-    else if (myKeysDown[KEY_A]==TRUE) {
-        setDashStateWithKeyDown(KEY_A);
-    }
-    else if (myKeysDown[KEY_S]==TRUE) {
-        setDashStateWithKeyDown(KEY_S);
-    }
 }
 
 void Level2D::keyUp(int keyCode) {
-    //added by Mike, 20210127
-    autoVerifyDashStateWithKeyUp(keyCode);
-    
     myKeysDown[keyCode] = FALSE;
 }
-
-//added by Mike, 20210127; edited by Mike, 20210126
-/*
- void Level2D::setDashStateWithKeyUp() {
-	if (bIsExecutingDash) {
- //edited by Mike, 20210128
- //		bIsExecutingDash=false;
- for (int iCount=0; iCount<PILOT_MAX_DIRECTIONAL_KEY_DASH_COUNT; iCount++) {
- bIsExecutingDashArray[iCount]=false;
- }
- bIsDashReady=false;
-	}
-	else {
- bIsDashReady=true;
- iInputWaitCount=0;
-	}
- }
- */
-//added by Mike, 20210127; edited by Mike, 20210129
-//void Level2D::setDashStateWithKeyUp() {
-void Level2D::setDashStateWithKeyUp(int keyCode) {
-    //edited by Mike, 20210128
-    bool bIsExecutingDash=false;
-    
-    //added by Mike, 20210202
-    //if removed, dash persists
-    for (int iCount=0; iCount<PILOT_MAX_DIRECTIONAL_KEY_DASH_COUNT; iCount++) {
-        if (bIsExecutingDashArray[iCount]) {
-            bIsExecutingDash=true;
-            break;
-        }
-    }
-    
-    if (bIsExecutingDash) {
-        //if (bIsExecutingDashArray[KEY_RIGHT]) {
-        //edited by Mike, 20210130
-        //		if ((bIsExecutingDashArray[KEY_RIGHT]) || (bIsExecutingDashArray[KEY_D])) {
-        if (bIsExecutingDashArray[KEY_D]) {
-            bIsExecutingDashArray[KEY_D]=false;
-            bIsDashReady=false;
-        }
-        //edited by Mike, 20210130
-        //		else if ((bIsExecutingDashArray[KEY_UP]) || (bIsExecutingDashArray[KEY_W])) {
-        if (bIsExecutingDashArray[KEY_W]) {
-            bIsExecutingDashArray[KEY_W]=false;//KEY_UP);
-            bIsDashReady=false;
-        }
-        else if (bIsExecutingDashArray[KEY_A]) {
-            bIsExecutingDashArray[KEY_A]=false;
-            bIsDashReady=false;
-        }
-        else if (bIsExecutingDashArray[KEY_S]) {
-            bIsExecutingDashArray[KEY_S]=false;
-            bIsDashReady=false;
-        }
-    }
-    else {
-        bIsDashReady=true;
-        //edited by Mike, 20210128
-        //		iInputWaitCount=0;
-        
-        //edited by Mike, 20210129
-        /*		for (int iCountKey=0; iCountKey<PILOT_MAX_DIRECTIONAL_KEY_DASH_COUNT; iCountKey++) {
-         iInputWaitCountArray[iCountKey]=0;
-         }
-         */
-        iInputWaitCountArray[keyCode]=0;
-    }
-    
-}
-
-//added by Mike, 20210127
-void Level2D::autoVerifyDashStateWithKeyUp(int keyCode) {
-    //added by Mike, 20210126; edited by Mike, 20210128
-    //	if (keyCode==KEY_RIGHT) {
-    //edited by Mike, 20210130
-    //	if ((keyCode==KEY_RIGHT) || (keyCode==KEY_D)) {
-    if (keyCode==KEY_D) {
-        //edited by Mike, 20210128
-        //		if (myKeysDown[KEY_RIGHT]==TRUE) {
-        if (myKeysDown[KEY_D]==TRUE) {
-            //edited by Mike, 20210129
-            //			setDashStateWithKeyUp();
-            setDashStateWithKeyUp(KEY_D);
-        }
-    }
-    //edited by Mike, 20210130
-    //	else if ((keyCode==KEY_UP) || (keyCode==KEY_W)) {
-    else if (keyCode==KEY_W) {
-        //edited by Mike, 20210130
-        //		if ((myKeysDown[KEY_UP]==TRUE) || (myKeysDown[KEY_W]==TRUE)) {
-        if (myKeysDown[KEY_W]==TRUE) {
-            //edited by Mike, 20210129
-            //			setDashStateWithKeyUp();
-            setDashStateWithKeyUp(KEY_W);
-        }
-    }
-    else if (keyCode==KEY_A) {
-        if (myKeysDown[KEY_A]==TRUE) {
-            //edited by Mike, 20210129
-            //			setDashStateWithKeyUp();
-            setDashStateWithKeyUp(KEY_A);
-        }
-    }
-    else if (keyCode==KEY_S) {
-        if (myKeysDown[KEY_S]==TRUE) {
-            //edited by Mike, 20210129
-            //			setDashStateWithKeyUp();
-            setDashStateWithKeyUp(KEY_S);
-        }
-    }
-    //removed by Mike, 20210128
-    /*
-     else {
-     //edited by Mike, 20210128
-     //		bIsExecutingDash=false;
-     for (int iCount=0; iCount<PILOT_MAX_DIRECTIONAL_KEY_DASH_COUNT; iCount++) {
-     bIsExecutingDashArray[iCount]=false;
-     }
-     
-     bIsDashReady=false;
-     }
-     */
-}
-
 
 void Level2D::move(int key)
 {
@@ -1305,16 +1112,45 @@ bool Level2D::isLevel2DCollideWith(MyDynamicObject* mdo)
 {
     //added by Mike, 20210829
     //TO-DO: -reverify: cause of segmentation fault; @read(...)?
-    return false;
-    
+    //removed by Mike, 20210830
+//    return false;
+/*    
     if ((!checkIsCollidable())||(!mdo->checkIsCollidable()))    
     {
-    		//printf(">>>>>NOT COLLIDABLE");
+    		printf(">>>>>NOT COLLIDABLE");
         return false;
     }
+*/
+/*		
+		//TO-DO: -reverify: cause why LEVEL2D NOT collidable
+    if (!checkIsCollidable())
+    {
+//    		printf(">>>>>LEVEL2D NOT COLLIDABLE");
+        return false;
+    }
+*/    
+
+		//OK; collidable
+		//mdo example: Pilot
+    if (!mdo->checkIsCollidable())
+    {
+    		printf(">>>>>PILOT NOT COLLIDABLE");
+        return false;
+    }
+
+    		printf(">>>>>COLLIDABLE");
+			
+			//TO-DO: -reverify: cause of iRowCountMax NOT set...
+			//note: iRowCountMax NOT set; causing segmentation fault (core dumped) error
+printf(">>iRowCountMax: %i\n",iRowCountMax);
+return false;
        
 		for (int iRowCount=0; iRowCount<iRowCountMax; iRowCount++) {
         for (int iColumnCount=0; iColumnCount<iColumnCountMax; iColumnCount++) {
+        
+//printf(">>>> iRowCount: %i; iColumnCount: %i;",iRowCount,iColumnCount);					        
+/*        //removed by Mike, 20210830; TO-DO: -add: this								
+        
     				//note: "0" for empty, instead of "-1"
     				//with "0", no need to add quotation marks
             if (sCurrentLevelMapContainer[iRowCount][iColumnCount].compare("0") == 0) { //TRUE
@@ -1332,14 +1168,21 @@ bool Level2D::isLevel2DCollideWith(MyDynamicObject* mdo)
 										//note: no -1 in iColumnCount due to not draw function
 										//TO-DO: -reverify: this due to we now use floating point numbers, 
 										//instead of whole numbers, i.e. integers
+
+printf(">>>> DITO;");			
+							
                     if (mdo->collideWithLevel2DTileRect(0.0f+fGridSquareWidth*(iColumnCount),0.0f+fGridSquareHeight*(iRowCount), fGridSquareWidth, fGridSquareHeight)) {
+
+printf(">>>> collideWithLevel2DTileRect TRUE;");										
 
                                 //added by Mike, 20210725; added by Mike, 20210806
                                return this->hitByAtTile(mdo, sCurrentLevelMapContainer[iRowCount][iColumnCount],
                                 					0.0f+fGridSquareWidth*(iColumnCount), //note: no -1 in iColumnCount
                                 					0.0f+fGridSquareHeight*(iRowCount));
-  									}
-		        }
+  									}  									
+		        }		        
+*/	
+	        
 		   }
 		}
     

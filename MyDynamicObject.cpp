@@ -91,7 +91,9 @@ void MyDynamicObject::hitBy(MyDynamicObject* mdo){
 bool MyDynamicObject::checkIsCollidable() {
      return isCollidable;
 }
+
 void MyDynamicObject::setCollidable(bool c) {
+		 //printf(">>setCollidable");
      isCollidable=c;
 }
 
@@ -216,7 +218,7 @@ void MyDynamicObject::collideWith(MyDynamicObject* mdo)
 
     if ((!checkIsCollidable())||(!mdo->checkIsCollidable()))    
     {
-//    	printf(">>>>>NOT COLLIDABLE");
+//    		printf(">>>>>NOT COLLIDABLE");
 
         return;
     }

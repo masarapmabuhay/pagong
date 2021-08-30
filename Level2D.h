@@ -262,10 +262,12 @@ private:
     bool isAtMaxTextCharRow;
     int idrawPressNextSymbolCount;
     
+/* //removed by Mike, 20210830 to public from private    
     //added by Mike, 20210724
     int iRowCountMax;
     int iColumnCountMax;
     int iHeightCountMax;
+*/    
     
     GLint tricount;
     GLint isMovingForward;
@@ -327,6 +329,11 @@ public:
     Level2D(float xPos, float yPos, float zPos, float fWindowWidth, float fWindowHeight);
     
     ~Level2D();
+    
+    //added by Mike, 20210830
+    int iRowCountMax;
+    int iColumnCountMax;
+    int iHeightCountMax;
     
     //added by Mike, 20210523
     UsbongUtils *myUsbongUtils;
