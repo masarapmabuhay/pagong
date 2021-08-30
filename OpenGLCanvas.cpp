@@ -487,10 +487,14 @@ bool OpenGLCanvas::init(int myWindowWidthAsPixelInput, int myWindowHeightAsPixel
     //removed by Mike, 20210828
     //myLevel2D->setupLevel(LEVEL_2D_TEXTURE);
 
+    //added by Mike, 20210830
+    
+    
     myPilot = new Pilot(myWindowWidthAsPixel/2,myWindowHeightAsPixel/2,0.0f,myWindowWidthAsPixel,myWindowHeightAsPixel);
     myPilot->setOpenGLCanvas(this, fGridSquareWidth, fGridSquareHeight);    
     myPilot->setAsPlayer1(); //added by Mike, 20210601    
-    
+    //added by Mike, 20210830
+    myPilot->setLevel2D(myLevel2D);
     
 /*  
     //added by Mike, 20210530; edited by Mike, 20210605

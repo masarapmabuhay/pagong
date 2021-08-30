@@ -1112,68 +1112,50 @@ bool Level2D::isLevel2DCollideWith(MyDynamicObject* mdo)
 {
     //added by Mike, 20210829
     //TO-DO: -reverify: cause of segmentation fault; @read(...)?
+    //reminder: set myLevel2D object to Pilot, et cetera
     //removed by Mike, 20210830
 //    return false;
-/*    
+    
     if ((!checkIsCollidable())||(!mdo->checkIsCollidable()))    
     {
     		printf(">>>>>NOT COLLIDABLE");
         return false;
     }
-*/
-/*		
-		//TO-DO: -reverify: cause why LEVEL2D NOT collidable
+/*
     if (!checkIsCollidable())
     {
 //    		printf(">>>>>LEVEL2D NOT COLLIDABLE");
         return false;
     }
-*/    
 
 		//OK; collidable
 		//mdo example: Pilot
     if (!mdo->checkIsCollidable())
     {
-    		printf(">>>>>PILOT NOT COLLIDABLE");
+//    		printf(">>>>>PILOT NOT COLLIDABLE");
         return false;
     }
 
-    		printf(">>>>>COLLIDABLE");
-			
-			//TO-DO: -reverify: cause of iRowCountMax NOT set...
-			//note: iRowCountMax NOT set; causing segmentation fault (core dumped) error
-printf(">>iRowCountMax: %i\n",iRowCountMax);
-return false;
-       
+ printf(">>>>>COLLIDABLE");
+ 
+ //    int iRowCountMax=10;
+ //    return false;
+ */
+    
+    
 		for (int iRowCount=0; iRowCount<iRowCountMax; iRowCount++) {
         for (int iColumnCount=0; iColumnCount<iColumnCountMax; iColumnCount++) {
         
-//printf(">>>> iRowCount: %i; iColumnCount: %i;",iRowCount,iColumnCount);					        
-/*        //removed by Mike, 20210830; TO-DO: -add: this								
-        
+//printf(">>>> iRowCount: %i; iColumnCount: %i;",iRowCount,iColumnCount);
     				//note: "0" for empty, instead of "-1"
     				//with "0", no need to add quotation marks
             if (sCurrentLevelMapContainer[iRowCount][iColumnCount].compare("0") == 0) { //TRUE
             }
             else {
-							  	//add +1.0f in x-axis and y-axis due to 3rd quadrant in the draw function
-                	//center 0,0,0 origin; vertex positions
-                            //edited by Mike, 20210725
-                            //note: no need to add 1.0f
-                            //mdo as Pilot
-                            //edited by Mike, 20210725
-//       						if (mdo->collideWithLevel2DTileRectAsPixel(0.0f+fGridSquareWidth*(iColumnCount),0.0f+fGridSquareHeight*(iRowCount), fGridSquareWidth, fGridSquareHeight)) {
-                		//edited by Mike, 20210728
-//                    if (mdo->collideWithLevel2DTileRectAsPixel(0.0f+fGridSquareWidth*(iColumnCount-1),0.0f+fGridSquareHeight*(iRowCount), fGridSquareWidth, fGridSquareHeight)) {
-										//note: no -1 in iColumnCount due to not draw function
-										//TO-DO: -reverify: this due to we now use floating point numbers, 
-										//instead of whole numbers, i.e. integers
-
-printf(">>>> DITO;");			
-							
                     if (mdo->collideWithLevel2DTileRect(0.0f+fGridSquareWidth*(iColumnCount),0.0f+fGridSquareHeight*(iRowCount), fGridSquareWidth, fGridSquareHeight)) {
 
-printf(">>>> collideWithLevel2DTileRect TRUE;");										
+                        //TO-DO: -reverify: if NOT dash, Pilot climb angle incorrect
+//printf(">>>> collideWithLevel2DTileRect TRUE;");
 
                                 //added by Mike, 20210725; added by Mike, 20210806
                                return this->hitByAtTile(mdo, sCurrentLevelMapContainer[iRowCount][iColumnCount],
@@ -1181,8 +1163,6 @@ printf(">>>> collideWithLevel2DTileRect TRUE;");
                                 					0.0f+fGridSquareHeight*(iRowCount));
   									}  									
 		        }		        
-*/	
-	        
 		   }
 		}
     
