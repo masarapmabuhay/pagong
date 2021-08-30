@@ -433,7 +433,10 @@ public:
     //added by Mike, 20210828; edited by Mike, 20210830
 /*    virtual void openGLDrawTexture(int x, int y, GLuint textureId, int textw, int texth);
 */
-    virtual void openGLDrawTexture(float x, float y, float textw, float texth);
+		//edited by Mike, 20210830
+//    virtual void openGLDrawTexture(float x, float y, float textw, float texth);
+    void openGLDrawTexture(float x, float y, float textw, float texth, std::string sTileId);
+    
     
     /*	//removed by Mike, 20210522	
      void setOpenGLCanvas(OpenGLCanvas* c);

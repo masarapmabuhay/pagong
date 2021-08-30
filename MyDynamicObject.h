@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20200930
- * @date updated: 20210829
+ * @date updated: 20210830
  * @website address: http://www.usbong.ph
  *
  * Acknowledgments:
@@ -437,8 +437,9 @@ public:
     //added by Mike, 20210517
     bool collideWithPressedCoordPos(int pressedCoordPosX, int pressedCoordPosY);
     
-    //added by Mike, 20210724
-		bool collideWithLevel2DTileRectAsPixel(int iTilePosXAsPixel, int iTilePosYAsPixel, int iTileWidthAsPixel, int iTileHeightAsPixel);
+    //added by Mike, 20210724; edited by Mike, 20210830
+//		bool collideWithLevel2DTileRectAsPixel(int iTilePosXAsPixel, int iTilePosYAsPixel, int iTileWidthAsPixel, int iTileHeightAsPixel);
+		bool collideWithLevel2DTileRect(float fTilePosX, float fTilePosY, float fTileWidth, float fTileHeight);
     
     //edited by Mike, 20210219
     //bool isIntersectingRect(MyDynamicObject* mdo1, MyDynamicObject* mdo2);

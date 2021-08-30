@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20200926
- * @date updated: 20210829
+ * @date updated: 20210830
  * @website address: http://www.usbong.ph
  *
  * References:
@@ -790,9 +790,9 @@ void OpenGLCanvas::keyDown(int keyCode)
 	myKeysDown[KEY_S] = FALSE;
 */
 
-/* //removed by Mike, 20210825
     myPilot->keyDown(keyCode);
-  
+
+/* //removed by Mike, 20210825  
     //added by Mike, 20210618
     myText->keyDown(keyCode);
 */
@@ -830,11 +830,13 @@ void OpenGLCanvas::keyUp(int keyCode)
     //added by Mike, 20201226; edited by Mike, 20210423;
     //added by Mike, 20210507
     myRobotShip->keyUp(keyCode);
+*/
     
     myPilot->keyUp(keyCode);
     //added by Mike, 20210604; removed by Mike, 20210604
     //note: myPilot as Unit Chief
-    
+
+/* //removed by Mike, 20210830    
     //added by Mike, 20210602
     myBall->keyUp(keyCode);
     

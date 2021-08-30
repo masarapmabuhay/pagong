@@ -322,99 +322,31 @@ bool MyDynamicObject::collideWithPressedCoordPos(int pressedCoordPosX, int press
 	return true;
 }
 
-//added by Mike, 20210724
+//added by Mike, 20210724; edited by Mike, 20210830
 //use with Level2D
-bool MyDynamicObject::collideWithLevel2DTileRectAsPixel(int iTilePosXAsPixel, int iTilePosYAsPixel, int iTileWidthAsPixel, int iTileHeightAsPixel)	
+//bool MyDynamicObject::collideWithLevel2DTileRectAsPixel(int iTilePosXAsPixel, int iTilePosYAsPixel, int iTileWidthAsPixel, int iTileHeightAsPixel)	
+bool MyDynamicObject::collideWithLevel2DTileRect(float fTilePosX, float fTilePosY, float fTileWidth, float fTileHeight)
 {
-/*
-		//TO-DO: update: this
-		printf(">>>>>>>\n");
-//		printf("iTilePosXAsPixel: %i\n",iTilePosXAsPixel);
-//		printf("iTileWidthAsPixel: %i\n",iTileWidthAsPixel);
-		printf("getXAsPixel()+getWidthAsPixel(): %i\n",getXAsPixel()+getWidthAsPixel());
-*/
-//    printf("iTilePosXAsPixel: %i\n",iTilePosXAsPixel); //example: 0
-//    printf("iTilePosYAsPixel: %i\n",iTilePosYAsPixel); //example: 0
-//    printf("iTilePosXAsPixel+iTileWidthAsPixel: %i\n",iTilePosXAsPixel+iTileWidthAsPixel); //example 0+71
-//    printf("iTilePosYAsPixel+iTileHeightAsPixel: %i\n",iTilePosYAsPixel+iTileHeightAsPixel); //example 0+80
-//    printf("iTileHeightAsPixel: %i\n",iTileHeightAsPixel); //example 80
-
-  //TO-DO: -update: width and height values
-/*
-  //example: at grid B1
-  printf("getXAsPixel(): %i\n",getXAsPixel()); //example: 56
-  printf("getWidthAsPixel(): %i\n",getWidthAsPixel()); //example: 71
-//  printf("getXAsPixel()+getWidthAsPixel(): %i\n",getXAsPixel()+getWidthAsPixel()); //example: 127
-*/
-
-//    printf("getYAsPixel(): %i\n",getYAsPixel()); //example: 2
-//    printf("getHeightAsPixel(): %i\n",getHeightAsPixel()); //example: 80
-
-    //edited by Mike, 20210725
-/*    //intersecting rectangles
-    if (iTilePosXAsPixel > getXAsPixel()+getWidthAsPixel() || //tile position at right of object
-        iTilePosXAsPixel+iTileWidthAsPixel < getXAsPixel() || //tile position at left of object
-        iTilePosYAsPixel+iTileHeightAsPixel < getYAsPixel() || //tile position at top of object
-				iTilePosYAsPixel > getYAsPixel()+getHeightAsPixel()) { //tile position at bottom of object
-*/
-
-    //intersecting rectangles
-  //edited by Mike, 20210728    
-		//output: stuck in tile
-/*		
-		if (iTilePosXAsPixel > getXAsPixel()+getWidthAsPixel() +getStepX() || //tile position at right of object
-            iTilePosXAsPixel+iTileWidthAsPixel < getXAsPixel() -getStepX() || //tile position at left of object
-            iTilePosYAsPixel+iTileHeightAsPixel < getYAsPixel() -getStepY() || //tile position at top of object
-            iTilePosYAsPixel > getYAsPixel()+getHeightAsPixel() +getStepY()) { //tile position at bottom of object
-*/
-
-/* //edited by Mike, 20210728
-		if ((iTilePosXAsPixel > getXAsPixel()+getWidthAsPixel() -getStepX()) || //tile position at right of object
-            (iTilePosXAsPixel+iTileWidthAsPixel < getXAsPixel() +getStepX()) || //tile position at left of object
-            (iTilePosYAsPixel+iTileHeightAsPixel < getYAsPixel() +getStepY()) || //tile position at top of object
-            (iTilePosYAsPixel > getYAsPixel()+getHeightAsPixel() -getStepY())) { //tile position at bottom of object
-*/
-/*
-		if ((iTilePosXAsPixel > getXAsPixel()+getWidthAsPixel()) || //tile position at right of object
-            (iTilePosXAsPixel+iTileWidthAsPixel < getXAsPixel()) || //tile position at left of object
-            (iTilePosYAsPixel+iTileHeightAsPixel < getYAsPixel()) || //tile position at top of object
-            (iTilePosYAsPixel > getYAsPixel()+getHeightAsPixel())) { //tile position at bottom of object
-*/
-			//verify: if continues with step, collision
-			
-/* //edited by Mike, 20210729			
-			if ((iTilePosXAsPixel > getXAsPixel()+getWidthAsPixel() +getStepX()) || //tile position at right of object
-            (iTilePosXAsPixel+iTileWidthAsPixel < getXAsPixel() -getStepX()) || //tile position at left of object
-            (iTilePosYAsPixel+iTileHeightAsPixel < getYAsPixel() -getStepY()) || //tile position at top of object
-            (iTilePosYAsPixel > getYAsPixel()+getHeightAsPixel() +getStepY())) { //tile position at bottom of object
-*/
 			//note: we add iOffsetXPosAsPixel and iOffsetYPosAsPixel 
 			//to cause need of bigger collision rectangle, before hit
-
-						//tile position at right of object
-			if ((iTilePosXAsPixel > getXAsPixel()+getWidthAsPixel()-iOffsetXPosAsPixel +getStepX()) || 
+			//tile position at right of object
+			//TO-DO: -clarify: to use floating point numbers instead of integers, i.e. whole numbers
+			if ((fTilePosX > getX()+getWidth()-iOffsetXPosAsPixel+getStepX()) || 
 			 			//tile position at left of object
-            (iTilePosXAsPixel+iTileWidthAsPixel < getXAsPixel()+iOffsetXPosAsPixel -getStepX()) ||
+            (fTilePosX+fTileWidth < getX()+iOffsetXPosAsPixel -getStepX()) ||
             //tile position at top of object
-            (iTilePosYAsPixel+iTileHeightAsPixel < getYAsPixel()+iOffsetYPosAsPixel -getStepY()) || 
+            (fTilePosY+fTileHeight < getY()+iOffsetYPosAsPixel -getStepY()) || 
 						//tile position at bottom of object            
-            (iTilePosYAsPixel > getYAsPixel()+getHeightAsPixel()-iOffsetYPosAsPixel +getStepY())) { 
+            (fTilePosY > getY()+getHeight()-iOffsetYPosAsPixel +getStepY())) { 
 
 //			printf("outside tile\n");
 			return false;
 		}	
 
-/*		//added by Mike, 20210724		
-		printf(">>>>>>>\n");
-		printf("iTilePosXAsPixel: %i\n",iTilePosXAsPixel);
-		printf("iTileWidthAsPixel: %i\n",iTileWidthAsPixel);
-		printf("getXAsPixel()+getWidthAsPixel(): %i\n",getXAsPixel()+getWidthAsPixel());
-*/		
-/*
-		printf("inside tile\n");
-*/	
 		return true;
 }
+
+
 
 //added by Mike, 20201016
 void MyDynamicObject::destroy()
