@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B. 
  * @date created: 20200930
- * @date updated: 20210830
+ * @date updated: 20210831
  * @website address: http://www.usbong.ph
  *
  * Acknowledgments:
@@ -289,6 +289,7 @@ bool MyDynamicObject::collideWithLevel2DTileRect(float fTilePosX, float fTilePos
 			//to cause need of bigger collision rectangle, before hit
 			//tile position at right of object
 			//TO-DO: -clarify: to use floating point numbers instead of integers, i.e. whole numbers
+		//edited by Mike, 20210831
 			if ((fTilePosX > getX()+getWidth()-iOffsetXPosAsPixel+getStepX()) || 
 			 			//tile position at left of object
             (fTilePosX+fTileWidth < getX()+iOffsetXPosAsPixel -getStepX()) ||
@@ -296,7 +297,15 @@ bool MyDynamicObject::collideWithLevel2DTileRect(float fTilePosX, float fTilePos
             (fTilePosY+fTileHeight < getY()+iOffsetYPosAsPixel -getStepY()) || 
 						//tile position at bottom of object            
             (fTilePosY > getY()+getHeight()-iOffsetYPosAsPixel +getStepY())) { 
-
+/*
+			if ((fTilePosX > getX()+getWidth()+getStepX()) || 
+			 			//tile position at left of object
+            (fTilePosX+fTileWidth < getX()-getStepX()) ||
+            //tile position at top of object
+            (fTilePosY+fTileHeight < getY()-getStepY()) || 
+						//tile position at bottom of object            
+            (fTilePosY > getY()+getHeight()+getStepY())) { 
+*/
 //			printf("outside tile\n");
 			return false;
 		}	
@@ -319,7 +328,9 @@ void MyDynamicObject::destroy()
 
 //added by Mike, 20210826; edited by Mike, 20210827
 //GLuint openGLLoadTexture(char *filename, int *textw, int *texth)
-GLuint MyDynamicObject::openGLLoadTexture(char *filename, float *fTextWidth, float *fTextHeight)
+//edited by Mike, 20210831; TO-DO: -reverify: this
+//GLuint MyDynamicObject::openGLLoadTexture(char *filename, float *fTextWidth, float *fTextHeight)
+GLuint MyDynamicObject::openGLLoadTexture(char *filename, float fMyWidth, float fMyHeight)
 {
 	SDL_Surface *surface;
 	GLenum textureFormat;
@@ -384,9 +395,16 @@ GLuint MyDynamicObject::openGLLoadTexture(char *filename, float *fTextWidth, flo
         
 //        printf(">>> DITO\n");
     }
-    
+
+/*    //edited by Mike, 20210831; TO-DO: -update: this to auto-identify total count of frames
     *fTextWidth = surface->w/fCountTotalFrames; //4;
     *fTextHeight = surface->h/fCountTotalFrames; //4;
+*/
+    float fTextWidth = surface->w/fCountTotalFrames; //4;
+    float fTextHeight = surface->h/fCountTotalFrames; //4;
+
+    
+//    printf(">> fTextHeight %f\n",surface->h/fCountTotalFrames);
 	
 	glGenTextures(1, &texture);
 	glBindTexture(GL_TEXTURE_2D, texture);

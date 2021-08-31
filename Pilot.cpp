@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B. 
  * @date created: 20200930
- * @date updated: 20210830
+ * @date updated: 20210831
  * @website address: http://www.usbong.ph
  *
  * Reference: 
@@ -256,7 +256,9 @@ void Pilot::setup()
 	//edited by Mike, 20210827
 //	openGLITexture = openGLLoadTexture((char*)"textures/imageSpriteExampleMikeWithoutBG.png", &iTextureWidth, &iTextureHeight);	
 	//TO-DO: -update: myWidth and myHeight to quickly identify as float
-	openGLITexture = openGLLoadTexture((char*)"textures/imageSpriteExampleMikeWithoutBG.png", &myWidth, &myHeight);	
+	//edited by Mike, 20210831
+//	openGLITexture = openGLLoadTexture((char*)"textures/imageSpriteExampleMikeWithoutBG.png", &myWidth, &myHeight);	
+	openGLITexture = openGLLoadTexture((char*)"textures/imageSpriteExampleMikeWithoutBG.png", myWidth, myHeight);	
 
 }
 
@@ -327,6 +329,11 @@ Pilot::Pilot(float xPos, float yPos, float zPos, float fWindowWidth, float fWind
 		
     myWidthAsPixel=fGridSquareWidth;
     myHeightAsPixel=fGridSquareHeight;
+		
+		//added by Mike, 20210831
+		//we NOW use floating-point numbers, instead of integers, i.e. whole numbers
+    myWidth=fGridSquareWidth;
+    myHeight=fGridSquareHeight;
 
 		iOffsetXPosAsPixel=fGridSquareWidth*0.28;
     iOffsetYPosAsPixel=fGridSquareHeight*0.15;	
@@ -3066,9 +3073,12 @@ void Pilot::move(int key)
              }
              else {
              		//edited by Mike, 20210830
-//                myYPosAsPixel+=(-stepY*1.1);
+//                myYPosAsPixel+=(-stepY*1.1);                
+								//edited by Mike, 20210831
                 myYPos+=(-stepY*1.1);
+                //myYPos+=(stepY*1.1);
                 iStepYCount+=1;
+            
              }
 
 		 					bHasHitWall=false;
@@ -3125,19 +3135,28 @@ void Pilot::move(int key)
         					if (getIsPlayer1()) { //Player1: Unit Chief
              					//edited by Mike, 20210830
             					//myYPosAsPixel+=stepY;        					
-            					myYPos+=stepY;
+//            					myYPos+=stepY;
+										//edited by Mike, 20210831
+            					myYPos+=stepY; 
+//										myYPos+=(-stepY);
+            					
         					}
         					else {
              					//edited by Mike, 20210830
             					//myYPosAsPixel+=stepY/2;
+										//edited by Mike, 20210831
             					myYPos+=stepY/2; 
+//										myYPos+=(-stepY/2);
+            									
         					}
                                 }
 
  if ((bIsExecutingDashArray[KEY_S])) {
              			//edited by Mike, 20210830
 //            			myYPosAsPixel+=stepY*2;
-            			myYPos+=stepY*2;
+						//edited by Mike, 20210831
+						myYPos+=stepY*2;
+//						myYPos+=(-(stepY*2));             			
 					}
 							bHasHitWall=false;
 				}
@@ -3434,8 +3453,11 @@ void Pilot::move(int key)
 			else {
         //edited by Mike, 20210830								          	
 //				myYPosAsPixel+=stepY; ///2.0
-				myYPos+=stepY; ///2.0
+						myYPos+=stepY; //2.0
+				
 			}			
+			
+			
           }
 		  break;		  		  
    }
@@ -3512,7 +3534,10 @@ void Pilot::move(int key)
 //            myYPosAsPixel+=(stepY*1.2);
         		//edited by Mike, 20210830								          	
 //            myYPosAsPixel+=stepY;
+						//edited by Mike, 20210831
             myYPos+=stepY;
+//            myYPos+=(-stepY);
+            
 //            myYPosAsPixel+=(stepY*2);
         }
     }

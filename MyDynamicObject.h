@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20200930
- * @date updated: 20210830
+ * @date updated: 20210831
  * @website address: http://www.usbong.ph
  *
  * Acknowledgments:
@@ -546,8 +546,9 @@ public:
          */
     }
     
-    //added by Mike, 20210827
-		GLuint openGLLoadTexture(char *filename, float *fTextWidth, float *fTextHeight);
+    //added by Mike, 20210827; edited by Mike, 20210831
+//		GLuint openGLLoadTexture(char *filename, float *fTextWidth, float *fTextHeight);
+		GLuint openGLLoadTexture(char *filename, float fMyWidth, float fMyHeight);
     
 /*    //added by Mike, 20210828; edited by Mike, 20210830
     virtual void openGLDrawTexture(int x, int y, GLuint textureId, int textw, int texth) {

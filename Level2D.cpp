@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20200926
- * @date updated: 20210830
+ * @date updated: 20210831
  * @website address: http://www.usbong.ph
  *
  * Reference:
@@ -282,9 +282,7 @@ Level2D::Level2D(float xPos, float yPos, float zPos, float fWindowWidth, float f
     myWidth=1.4f;
     myHeight=1.4f;
 */
-    myWidth=16.0f;
-    myHeight=16.0f;
-    
+        
     //added by Mike, 20210517
     //TO-DO: -add: auto-identify object width and height
 /*	//edited by Mike, 20210728    
@@ -406,6 +404,15 @@ Level2D::Level2D(float xPos, float yPos, float zPos, float fWindowWidth, float f
     myUsbongUtils = new UsbongUtils();
     myUsbongUtils->setWindowWidthHeight(fMyWindowWidth, fMyWindowHeight); //added by Mike, 20210626
     
+    
+/*    //edited by Mike, 20210831
+    myWidth=16.0f;
+    myHeight=16.0f;
+*/
+    myWidth=fGridSquareWidth; //64; //16;
+    myHeight=fGridSquareHeight; //64; //16;
+        
+    
 //    printf("Level2D.cpp myWindowWidth: %f\n",myWindowWidth);
     
 /* //removed by Mike, 20210829
@@ -498,9 +505,10 @@ Level2D::Level2D(float xPos, float yPos, float zPos, float fWindowWidth, float f
     
     //edited by Mike, 20210707; removed by Mike, 20210827
 //    setupLevel(LEVEL_2D_TEXTURE); //LEVEL_TEXTURE
-    //removed by Mike, 20210829
-    //TO-DO: -reverify: cause of segmentation fault
-    openGLITexture = openGLLoadTexture((char*)"textures/level2D.png", &fMyWindowWidth, &fMyWindowHeight);
+    //edited by Mike, 20210831
+//    openGLITexture = openGLLoadTexture((char*)"textures/level2D.png", &fMyWindowWidth, &fMyWindowHeight);
+    openGLITexture = openGLLoadTexture((char*)"textures/level2D.png", fMyWindowWidth, fMyWindowHeight);
+
 //    printf("openGLITexture: %i",openGLITexture);
 }
 
@@ -1157,10 +1165,15 @@ bool Level2D::isLevel2DCollideWith(MyDynamicObject* mdo)
                         //TO-DO: -reverify: if NOT dash, Pilot climb angle incorrect
 //printf(">>>> collideWithLevel2DTileRect TRUE;");
 
-                                //added by Mike, 20210725; added by Mike, 20210806
+                                //added by Mike, 20210725; added by Mike, 20210831
                                return this->hitByAtTile(mdo, sCurrentLevelMapContainer[iRowCount][iColumnCount],
                                 					0.0f+fGridSquareWidth*(iColumnCount), //note: no -1 in iColumnCount
                                 					0.0f+fGridSquareHeight*(iRowCount));
+/*
+                               return this->hitByAtTile(mdo, sCurrentLevelMapContainer[iRowCount+1][iColumnCount],
+                                					0.0f+fGridSquareWidth*(iColumnCount), //note: no -1 in iColumnCount
+                                					0.0f+fGridSquareHeight*(iRowCount+1));
+*/                                					
   									}  									
 		        }		        
 		   }
@@ -1208,7 +1221,9 @@ bool Level2D::hitByAtTile(MyDynamicObject* mdo, std::string sTileId, int iTileXP
 				//reminder: added: gravity to exist in world
 				//TO-DO: -add: container to store gravity value
 //        mdo->setYPosAsPixel(mdo->getYAsPixel()-mdo->getStepY());
+				//edited by Mike, 20210831
         mdo->setYPos(mdo->getY()-mdo->getStepY());
+//        mdo->setYPos(mdo->getY()-mdo->getStepY()*2);
 
         return false;
     }
@@ -1249,10 +1264,13 @@ bool Level2D::hitByAtTile(MyDynamicObject* mdo, std::string sTileId, int iTileXP
 				   }
 				   else {
            }
-           
+ //edited by Mike, 20210831           
           	mdo->setYPos(mdo->getY()+mdo->getStepY()*(1+(mdo->getStepX()*0.02f*fStepDashMultiplier)/cos(iTileAngle))+1);
           	mdo->setXPos(mdo->getX()-mdo->getStepY()*(1+(mdo->getStepY()*0.02f*fStepDashMultiplier)/sin(iTileAngle))-1);
-          	
+/*          	
+          	mdo->setYPos(mdo->getY()+mdo->getStepY()*(mdo->getStepX()*0.02f*fStepDashMultiplier)/cos(iTileAngle)+1);
+          	mdo->setXPos(mdo->getX()-mdo->getStepY()*(mdo->getStepY()*0.02f*fStepDashMultiplier)/sin(iTileAngle)-1);
+*/
           	//push up
           	mdo->setYPos(mdo->getY()-mdo->getStepY()*fStepDashMultiplier);
           	
@@ -1273,28 +1291,14 @@ bool Level2D::hitByAtTile(MyDynamicObject* mdo, std::string sTileId, int iTileXP
 				   if (mdo->getIsCurrentMovingStateIdleState()) {
                    }
 				   else {
-        	  //edited by Mike, 20210806
-//        	  mdo->setYPosAsPixel(mdo->getYAsPixel()-mdo->getStepX()/cos(iTileAngle));
-//        	  mdo->setXPosAsPixel(mdo->getXAsPixel()+mdo->getStepY()/sin(iTileAngle));
-        	  //add this to decrease speed via push back        
-/*        	  	  
-        	  mdo->setYPosAsPixel(mdo->getYAsPixel()-(mdo->getStepX()*0.02f*fStepDashMultiplier)/cos(iTileAngle));
-        	  mdo->setXPosAsPixel(mdo->getXAsPixel()+(mdo->getStepY()*0.02f*fStepDashMultiplier)/sin(iTileAngle));
-*/
-/*
-        	  mdo->setYPosAsPixel(mdo->getYAsPixel()-(mdo->getStepX()*0.02f-(mdo->getStepX()*fStepDashMultiplier))/cos(iTileAngle));
-        	  mdo->setXPosAsPixel(mdo->getXAsPixel()+(mdo->getStepY()*0.02f-(mdo->getStepY()*fStepDashMultiplier))/sin(iTileAngle));
-*/
-         //edited by Mike, 20210807
-/*
-                       mdo->setYPosAsPixel(mdo->getYAsPixel()-(mdo->getStepX()*0.02f*fStepDashMultiplier)/cos(iTileAngle)+1);
-                       
-                       mdo->setXPosAsPixel(mdo->getXAsPixel()+(mdo->getStepY()*0.02f*fStepDashMultiplier)/sin(iTileAngle)+1);
-*/
-                       mdo->setYPos(mdo->getY()-(mdo->getStepX()*0.02f*fStepDashMultiplier)/cos(iTileAngle)+1);
-                       
+ //edited by Mike, 20210831           
+                       mdo->setYPos(mdo->getY()-(mdo->getStepX()*0.02f*fStepDashMultiplier)/cos(iTileAngle)+1);                       
                        mdo->setXPos(mdo->getX()+(mdo->getStepY()*0.02f*fStepDashMultiplier)/sin(iTileAngle)+1);
-                       
+
+/*
+                       mdo->setYPos(mdo->getY()-(mdo->getStepX()*0.02f*fStepDashMultiplier)/cos(iTileAngle));                       
+                       mdo->setXPos(mdo->getX()+(mdo->getStepY()*0.02f*fStepDashMultiplier)/sin(iTileAngle));
+*/                       
                    }
         }       
   			
