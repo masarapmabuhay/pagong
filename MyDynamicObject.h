@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20200930
- * @date updated: 20210831
+ * @date updated: 20210901
  * @website address: http://www.usbong.ph
  *
  * Acknowledgments:
@@ -369,6 +369,7 @@ public:
     
     //TO-DO: -update: this to classify ...AsPixel
     //added by Mike, 20210605
+/* //edited by Mike, 20210901    
     virtual int getStepX()
     {
         return stepX;
@@ -381,6 +382,20 @@ public:
     {
         return stepZ;
     }
+*/
+    virtual float getStepX()
+    {
+        return stepX;
+    }
+    virtual float getStepY()
+    {
+        return stepY;
+    }
+    virtual float getStepZ()
+    {
+        return stepZ;
+    }
+
     
     //added by Mike, 20210728
     int getCurrentFacing() {

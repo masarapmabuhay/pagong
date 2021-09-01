@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20200926
- * @date updated: 20210831
+ * @date updated: 20210901
  * @website address: http://www.usbong.ph
  *
  * Reference:
@@ -1224,8 +1224,10 @@ bool Level2D::hitByAtTile(MyDynamicObject* mdo, std::string sTileId, int iTileXP
 				//edited by Mike, 20210831
         mdo->setYPos(mdo->getY()-mdo->getStepY());
 //        mdo->setYPos(mdo->getY()-mdo->getStepY()*2);
-
-        return false;
+				
+				//edited by Mike, 20210901
+//        return true;//false;
+        return false;      
     }
     //TO-DO: -update: this; use Trigonometry; triangle with 90degrees angle
     else if (sTileId.compare("0-2") == 0) {//True
@@ -1245,10 +1247,11 @@ bool Level2D::hitByAtTile(MyDynamicObject* mdo, std::string sTileId, int iTileXP
  				//where: A = Adjacent; H = Hypothenus
  				//set A = stepX
  					 					
- 					//TO-DO: -reverify: this due to incorrect output when climbing stairs with DASH command
+ 					//TO-DO: -reverify: this due to incorrect output when climbing stairs without DASH command
  					if (mdo->getIsExecutingDash()) { 					
 						fStepDashMultiplier*=2.0f;
- 					}
+ 					} 					
+//						fStepDashMultiplier*=2.0f;
         
         //added by Mike, 20210806
         if (mdo->getCurrentFacing()==FACING_UP) {
@@ -1271,11 +1274,16 @@ bool Level2D::hitByAtTile(MyDynamicObject* mdo, std::string sTileId, int iTileXP
           	mdo->setYPos(mdo->getY()+mdo->getStepY()*(mdo->getStepX()*0.02f*fStepDashMultiplier)/cos(iTileAngle)+1);
           	mdo->setXPos(mdo->getX()-mdo->getStepY()*(mdo->getStepY()*0.02f*fStepDashMultiplier)/sin(iTileAngle)-1);
 */
-          	//push up
-          	mdo->setYPos(mdo->getY()-mdo->getStepY()*fStepDashMultiplier);
-          	
-            return false;
 
+          	//push up
+          	//edited by Mike, 20210901
+//          	mdo->setYPos(mdo->getY()-mdo->getStepY()*fStepDashMultiplier);
+          	mdo->setYPos(mdo->getY()-mdo->getStepY()*2*fStepDashMultiplier);
+
+						//edited by Mike, 20210901
+//        		return true;//false;
+        		return false;
+		
         }
         else if (mdo->getCurrentFacing()==FACING_RIGHT) {
 					//GO RIGHT
@@ -1291,14 +1299,20 @@ bool Level2D::hitByAtTile(MyDynamicObject* mdo, std::string sTileId, int iTileXP
 				   if (mdo->getIsCurrentMovingStateIdleState()) {
                    }
 				   else {
- //edited by Mike, 20210831           
+/* //edited by Mike, 20210831           
                        mdo->setYPos(mdo->getY()-(mdo->getStepX()*0.02f*fStepDashMultiplier)/cos(iTileAngle)+1);                       
                        mdo->setXPos(mdo->getX()+(mdo->getStepY()*0.02f*fStepDashMultiplier)/sin(iTileAngle)+1);
+*/
 
-/*
                        mdo->setYPos(mdo->getY()-(mdo->getStepX()*0.02f*fStepDashMultiplier)/cos(iTileAngle));                       
                        mdo->setXPos(mdo->getX()+(mdo->getStepY()*0.02f*fStepDashMultiplier)/sin(iTileAngle));
-*/                       
+/*
+                       mdo->setYPos((mdo->getY()-1)-(mdo->getStepX()*0.02f*fStepDashMultiplier)/cos(iTileAngle));                       
+                       mdo->setXPos(mdo->getX()+((mdo->getStepY()-1)*0.02f*fStepDashMultiplier)/sin(iTileAngle));
+*/                     
+											 //note: causes angle value to be smaller than 90degrees
+											 //TO-DO: -update: instructions to be exact
+											 fStepDashMultiplier=fStepDashMultiplier*0.9f;
                    }
         }       
   			
@@ -1309,11 +1323,13 @@ bool Level2D::hitByAtTile(MyDynamicObject* mdo, std::string sTileId, int iTileXP
         //TO-DO: -reverify: cause of incorrect output with push upward if we use <0.9
         //getStepY()*0.9
         //reminder: setYPosAsPixel(...) input, integer
+        //edited by Mike, 20210901
         mdo->setYPos(mdo->getY()-mdo->getStepY()*fStepDashMultiplier);
+//       	mdo->setYPos(mdo->getY()-mdo->getStepY()*2*fStepDashMultiplier);
         
-				//edited by Mike, 20210806
-//        return true;
+				//edited by Mike, 20210901
         return false;
+//        return true;
     }
 
     

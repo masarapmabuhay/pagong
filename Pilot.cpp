@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B. 
  * @date created: 20200930
- * @date updated: 20210831
+ * @date updated: 20210901
  * @website address: http://www.usbong.ph
  *
  * Reference: 
@@ -3444,22 +3444,20 @@ void Pilot::move(int key)
 //			myYPosAsPixel+=stepY;
 						myYPos+=stepY;
 			
-			//added by Mike, 20210812
-			//note: this set of instructions NOT executed 
-			//when there exists input to execute LEFT or RIGHT movement
-			//TO-DO: -update: instructions when computer receives both LEFT and RIGHT input Commands
-			if (myLevel2D->isLevel2DCollideWith(this)) {    
-			}
-			else {
-        //edited by Mike, 20210830								          	
-//				myYPosAsPixel+=stepY; ///2.0
-						myYPos+=stepY; //2.0
-				
-			}			
-			
-			
+						//added by Mike, 20210812
+						//note: this set of instructions NOT executed 
+						//when there exists input to execute LEFT or RIGHT movement
+						//TO-DO: -update: instructions when computer receives both LEFT and RIGHT input Commands
+						if (myLevel2D->isLevel2DCollideWith(this)) {    
+						}
+						else {
+        			//edited by Mike, 20210830								          	
+			//				myYPosAsPixel+=stepY; ///2.0
+									myYPos+=stepY; //2.0
+							
+						}									
           }
-		  break;		  		  
+		  		break;		  		  
    }
 
     //added by Mike, 20210613
