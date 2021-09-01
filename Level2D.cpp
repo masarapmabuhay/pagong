@@ -254,48 +254,19 @@ Level2D::Level2D(float xPos, float yPos, float zPos, float fWindowWidth, float f
     //observed: Samurai Spirits IV's created world executes such camera eye movement
     //that becomes noticeable with background zoom-in, zoom-out via cycling movement
     //    stepX=0.3;
+/*    //edited by Mike, 20210901
     stepX=0.2;
     
-    stepY=0.3;
-    stepZ=0.3;
+    //edited by Mike, 20210901
+    //stepY=0.3;
+    //stepZ=0.3;
+    stepY=0.2;    
+    stepZ=0.2;
+*/   
     
     invincibleCounter=0;
     currentDeathFrame=0;
-    
-    //edited by Mike, 20201001
-    /*  myWidth=2.0f;//1.5;
-     myHeight=2.0f;//1.5;
-     */
-    /*	//edited by Mike, 20201023
-     myWidth=0.1f;
-     myHeight=0.1f;
-     */
-    
-    //edited by Mike, 20201201
-    //TO-DO: -update: this
-    /*	myWidth=1.0f;
-     myHeight=1.0f;
-     */
-    //added by Mike, 20210517
-    //TO-DO: -update: this
-/*	//edited by Mike, 20210828    
-    myWidth=1.4f;
-    myHeight=1.4f;
-*/
-        
-    //added by Mike, 20210517
-    //TO-DO: -add: auto-identify object width and height
-/*	//edited by Mike, 20210728    
-    myWidthAsPixel=128;
-    myHeightAsPixel=64;
-*/
-
-/*		//removed by Mike, 20210720
-    //TO-DO: -add: auto-set width and height based on grid tile
-    myWidthAsPixel=71;
-    myHeightAsPixel=80;    
-*/
-    
+       
     //TO-DO: -update: this
     //note: float xPos as parameter to int myXPosAsPixel not correct output
     //edited by Mike, 20210613
@@ -326,61 +297,12 @@ Level2D::Level2D(float xPos, float yPos, float zPos, float fWindowWidth, float f
     //added by Mike, 20210626
     fMyWindowWidthAsPixelRatioToHeightPixel=1.0f;
     iMyWindowWidthAsPixelOffset=0;
-    
-    //TO-DO: -add: eliminate multiple sets of same instructions;
-    //e.g. exist in both Level2D.cpp and OpenGLCanvas.cpp
-    /* //removed by Mike, 20210712
-     if (myWindowWidth!=myWindowHeight) {
-     //added by Mike, 20210626
-     //note: causes zero value with myWindowHeight/myWindowWidth;
-     //add *1.0f, to be myWindowHeight/(myWindowWidth*1.0f);
-     //NOT myWindowHeight/myWindowWidth*1.0f;
-     //edited by Mike, 20210628
-     //        fMyWindowWidthAsPixelRatioToHeightPixel= 0.56222;
-     fMyWindowWidthAsPixelRatioToHeightPixel= myWindowHeight/(myWindowWidth*1.0f);
-     
-     //note: width value > height value
-     //TO-DO: -add: auto-update
-     //height: 768; width: 1366
-     iMyWindowWidthAsPixelOffset=(myWindowWidth-myWindowHeight)/2;
-     //			iMyWindowWidthAsPixelOffset=(myWindowWidth-myWindowHeight);
-     
-     printf(">>>DITO: %f",fMyWindowWidthAsPixelRatioToHeightPixel);
-     printf(">>>DITO: myWindowHeight: %i",myWindowHeight);
-     printf(">>>DITO: myWindowWidth: %i",myWindowWidth);
-     printf(">>>DITO: iMyWindowWidthAsPixelOffset: %i",iMyWindowWidthAsPixelOffset);
-     
-     myWindowWidth = myWindowHeight; //myWindowWidthAsPixelInput;
-     //    	myWindowHeightAsPixel = myWindowHeightAsPixelInput;
-     }
-     */
-     
+      
     //edited by Mike, 20210724
     iRowCountMax=10;
     iColumnCountMax=18;
     iHeightCountMax=10;
-    
-    
-    /*
-     fGridSquareWidth = myWindowWidthAsPixel/iColumnCountMax; //example: 136.60
-     fGridSquareHeight = myWindowHeightAsPixel/iRowCountMax; //example: 76.80
-     */
-    
-//    printf("myWindowWidth: %i",myWindowWidth);
-    
-    //edited by Mike, 20210814
-/*    fGridSquareWidth = myWindowWidth/iColumnCountMax; //example: 136.60
-    fGridSquareHeight = myWindowHeight/iRowCountMax; //example: 76.80
-*/
-	//edited by Mike, 20210815; TO-DO: -reverify: this 
-/*
-    fGridSquareWidth = ((int)myWindowWidth)/iColumnCountMax; //example: 136.60
-    fGridSquareHeight = ((int)myWindowHeight)/iRowCountMax; //example: 76.80
-*/
-/* //edited by Mike, 20210815
-    fGridSquareWidth = ((int)fMyWindowWidth)/iColumnCountMax; //example: 136.60
-    fGridSquareHeight = ((int)fMyWindowHeight)/iRowCountMax; //example: 76.80
-*/
+        
     fGridSquareWidth = (fMyWindowWidth)/iColumnCountMax; //example: 136.60
     fGridSquareHeight = (fMyWindowHeight)/iRowCountMax; //example: 76.80
     
@@ -391,6 +313,10 @@ Level2D::Level2D(float xPos, float yPos, float zPos, float fWindowWidth, float f
     myWidthAsPixel=fGridSquareWidth;
     myHeightAsPixel=fGridSquareHeight;    
     
+    //added by Mike, 20210901
+    stepX=fGridSquareWidth/10/4; //0.2    
+    stepY=fGridSquareHeight/10/4; //0.2;    
+    stepZ=fGridSquareWidth/10/4; //0.2;
     
     /*
      printf("fGridSquareWidth: %f\n",fGridSquareWidth);
@@ -1277,8 +1203,10 @@ bool Level2D::hitByAtTile(MyDynamicObject* mdo, std::string sTileId, int iTileXP
 
           	//push up
           	//edited by Mike, 20210901
-//          	mdo->setYPos(mdo->getY()-mdo->getStepY()*fStepDashMultiplier);
-          	mdo->setYPos(mdo->getY()-mdo->getStepY()*2*fStepDashMultiplier);
+          	//slides on slope
+          	mdo->setYPos(mdo->getY()-mdo->getStepY()*fStepDashMultiplier);
+          	//bounces on slope
+//          	mdo->setYPos(mdo->getY()-mdo->getStepY()*2*fStepDashMultiplier);
 
 						//edited by Mike, 20210901
 //        		return true;//false;
@@ -1312,7 +1240,7 @@ bool Level2D::hitByAtTile(MyDynamicObject* mdo, std::string sTileId, int iTileXP
 */                     
 											 //note: causes angle value to be smaller than 90degrees
 											 //TO-DO: -update: instructions to be exact
-											 fStepDashMultiplier=fStepDashMultiplier*0.9f;
+//											 fStepDashMultiplier=fStepDashMultiplier*0.9f;
                    }
         }       
   			

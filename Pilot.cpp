@@ -322,10 +322,20 @@ Pilot::Pilot(float xPos, float yPos, float zPos, float fWindowWidth, float fWind
   fGridSquareWidth = fMyWindowWidth/iColumnCountMax; //example: 136.60
   fGridSquareHeight = fMyWindowHeight/iRowCountMax; //example: 76.80
 	
-  	//edited by Mike, 20210807	
+/*  //edited by Mike, 20210807; edited by Mike, 20210901
   	stepX=fGridSquareWidth/10;
     stepY=fGridSquareHeight/10;
     stepZ=fGridSquareWidth/10;
+*/    
+/*
+    stepX=fGridSquareWidth/10/4;
+    stepY=fGridSquareHeight/10/4;    
+    stepZ=fGridSquareWidth/10/4;   
+*/
+    stepX=fGridSquareWidth/10/2;
+    stepY=fGridSquareHeight/10/2;    
+    stepZ=fGridSquareWidth/10/2;   
+
 		
     myWidthAsPixel=fGridSquareWidth;
     myHeightAsPixel=fGridSquareHeight;
