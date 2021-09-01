@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20200926
- * @date updated: 20210831
+ * @date updated: 20210901
  * @website address: http://www.usbong.ph
  *
  * References:
@@ -487,10 +487,8 @@ bool OpenGLCanvas::init(int myWindowWidthAsPixelInput, int myWindowHeightAsPixel
     //removed by Mike, 20210828
     //myLevel2D->setupLevel(LEVEL_2D_TEXTURE);
 
-    //added by Mike, 20210830
-    
-    
-    myPilot = new Pilot(myWindowWidthAsPixel/2,myWindowHeightAsPixel/2,0.0f,myWindowWidthAsPixel,myWindowHeightAsPixel);
+    //added by Mike, 20210830; edited by Mike, 20210901
+    myPilot = new Pilot(myWindowWidthAsPixel/3,myWindowHeightAsPixel/2,0.0f,myWindowWidthAsPixel,myWindowHeightAsPixel);
     myPilot->setOpenGLCanvas(this, fGridSquareWidth, fGridSquareHeight);    
     myPilot->setAsPlayer1(); //added by Mike, 20210601    
     //added by Mike, 20210830
@@ -1514,7 +1512,8 @@ void OpenGLCanvas::update()
         //    	if ((myKeysDown[KEY_UP] == TRUE) || (myKeysDown[KEY_W] == TRUE))
         if (myKeysDown[KEY_W] == TRUE)
         {
-            myPilot->move(KEY_W);       
+        		//removed by Mike, 20210901
+//            myPilot->move(KEY_W);       
             //removed by Mike, 20200929
             //			sound->play_sound_clip(thrust);
         }
@@ -1524,7 +1523,8 @@ void OpenGLCanvas::update()
         if(myKeysDown[KEY_S] == TRUE)
             //    	else if(myKeysDown[KEY_S] == TRUE)
         {
-            myPilot->move(KEY_S);               
+        		//removed by Mike, 20210901        
+//            myPilot->move(KEY_S);               
         
             //edited by Mike, 20201115; edited again by Mike, 20210128
             //myRobotShip->move(KEY_DOWN);

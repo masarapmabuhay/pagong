@@ -46,8 +46,10 @@
  *
  */
  
-//added by Mike, 20210817
-//TO-DO: -reverify: http://www.imagemagick.org/script/download.php 
+//added by Mike, 20210901
+//note: re-verify: SUZUKI, YU and team @SEGA 1993~; DAYTONA USA with alps?
+//create component parts of world as journey; find game inside as surprise...?
+
  
 //added by Mike, 20210130
 //reverify: Robotship does not execute correctly
@@ -1140,6 +1142,7 @@ bool Level2D::hitByAtTile(MyDynamicObject* mdo, std::string sTileId, int iTileXP
 		//TO-DO: -set: all tiles in row 0, classifed as wall collision?
     if (sTileId.compare("0-0") == 0) {//True 
   	}
+/* //removed by Mike, 20210901  	
     //ground/floor tile
 	else if ((sTileId.compare("1-0") == 0) ||
     	 (sTileId.compare("2-0") == 0)) {				
@@ -1155,6 +1158,7 @@ bool Level2D::hitByAtTile(MyDynamicObject* mdo, std::string sTileId, int iTileXP
 //        return true;//false;
         return false;      
     }
+*/    
     //TO-DO: -update: this; use Trigonometry; triangle with 90degrees angle
     else if (sTileId.compare("0-2") == 0) {//True
         
@@ -1209,9 +1213,7 @@ bool Level2D::hitByAtTile(MyDynamicObject* mdo, std::string sTileId, int iTileXP
 //          	mdo->setYPos(mdo->getY()-mdo->getStepY()*2*fStepDashMultiplier);
 
 						//edited by Mike, 20210901
-//        		return true;//false;
-        		return false;
-		
+        		return false;	
         }
         else if (mdo->getCurrentFacing()==FACING_RIGHT) {
 					//GO RIGHT
@@ -1258,6 +1260,22 @@ bool Level2D::hitByAtTile(MyDynamicObject* mdo, std::string sTileId, int iTileXP
 				//edited by Mike, 20210901
         return false;
 //        return true;
+    }
+    //ground/floor tile
+		else if ((sTileId.compare("1-0") == 0) ||
+    	 (sTileId.compare("2-0") == 0)) {				
+				//edited by Mike, 20210830
+				//reminder: added: gravity to exist in world
+				//TO-DO: -add: container to store gravity value
+        mdo->setYPos(mdo->getY()-mdo->getStepY());
+				
+				//added by Mike, 20210901
+				//note: bounce spring action from ground; sonic 1 via game gear machine?
+        if (mdo->collideWithLevel2DTileRect(iTileXPos,iTileYPos, fGridSquareWidth, fGridSquareHeight)) {
+					mdo->setYPos(mdo->getY()-mdo->getStepY()-1);
+				}
+				
+        return false;      
     }
 
     

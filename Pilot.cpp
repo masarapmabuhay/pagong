@@ -224,28 +224,62 @@ void Pilot::openGLDrawTexture(float x, float y, float textw, float texth)
 	glBindTexture(GL_TEXTURE_2D, openGLITexture); //textureId);
 	glEnable(GL_TEXTURE_2D);
 	
+/*	//removed by Mike, 20210901	
 	float fTaoAnimationFrameOffset=0.0f;
 	float fTaoAnimationFrameOffsetYAxis=0.0f;
+*/
+	
+	//TO-DO: -update: Pilot shoes; animation sequence
 
 	//added by Mike, 20210826
 //	glColor3f(1.0f, 1.0f, 1.0f); // white
 
-	//added by Mike, 20210827
-	//set vertex counter-clock-wise
-	glBegin(GL_QUADS);
-		glTexCoord2f(0+fTaoAnimationFrameOffset, 0+fTaoAnimationFrameOffsetYAxis);
-		glVertex3f(x, y, 0);
 		
-		glTexCoord2f(0.25f+fTaoAnimationFrameOffset, 0+fTaoAnimationFrameOffsetYAxis);
-		glVertex3f(x + textw, y, 0);
-		
-		glTexCoord2f(0.25f+fTaoAnimationFrameOffset, fTaoAnimationFrameOffsetYAxis+0.25f);
-		glVertex3f(x + textw, y + texth, 0);
-		
-		glTexCoord2f(0+fTaoAnimationFrameOffset, fTaoAnimationFrameOffsetYAxis+0.25f);
-		glVertex3f(x, y + texth, 0);
-	glEnd();
-	
+		//edited by Mike, 20210901
+    if ((currentFacingState==FACING_RIGHT) ||
+        (((currentFacingState==FACING_UP) || (currentFacingState==FACING_DOWN)) and
+            (prevFacingState==FACING_RIGHT))
+        || (currentFacingState==FACING_RIGHT_AND_UP) || (currentFacingState==FACING_RIGHT_AND_DOWN)) {
+        
+        glTranslatef(textw,0.0f,0.0f);
+        
+			//set vertex counter-clock-wise
+			glBegin(GL_QUADS);
+				glTexCoord2f(0+fTaoAnimationFrameOffset, 0+fTaoAnimationFrameOffsetYAxis);
+				glVertex3f(x, y, 0);
+				
+				glTexCoord2f(0.25f+fTaoAnimationFrameOffset, 0+fTaoAnimationFrameOffsetYAxis);
+//				glVertex3f(x + textw, y, 0);
+				glVertex3f(x - textw, y, 0);
+				
+				glTexCoord2f(0.25f+fTaoAnimationFrameOffset, fTaoAnimationFrameOffsetYAxis+0.25f);
+//				glVertex3f(x + textw, y + texth, 0);
+				glVertex3f(x - textw, y + texth, 0);
+				
+				glTexCoord2f(0+fTaoAnimationFrameOffset, fTaoAnimationFrameOffsetYAxis+0.25f);
+//				glVertex3f(x, y + texth, 0);
+				glVertex3f(x, y + texth, 0);
+
+			glEnd();
+		}
+		else {		
+			//added by Mike, 20210827
+			//set vertex counter-clock-wise
+			glBegin(GL_QUADS);
+				glTexCoord2f(0+fTaoAnimationFrameOffset, 0+fTaoAnimationFrameOffsetYAxis);
+				glVertex3f(x, y, 0);
+				
+				glTexCoord2f(0.25f+fTaoAnimationFrameOffset, 0+fTaoAnimationFrameOffsetYAxis);
+				glVertex3f(x + textw, y, 0);
+				
+				glTexCoord2f(0.25f+fTaoAnimationFrameOffset, fTaoAnimationFrameOffsetYAxis+0.25f);
+				glVertex3f(x + textw, y + texth, 0);
+				
+				glTexCoord2f(0+fTaoAnimationFrameOffset, fTaoAnimationFrameOffsetYAxis+0.25f);
+				glVertex3f(x, y + texth, 0);
+			glEnd();
+	}	
+			
 	glDisable(GL_TEXTURE_2D);
 }
 
@@ -545,8 +579,9 @@ void Pilot::drawPilotAsQuadWithTexture()
 												//added by Mike, 20210611
 												//TO-DO: -add: identify which Unit Member hit the Ball
 												//TO-DO: -add: image with kick
-												
-              					fTaoAnimationFrameOffsetYAxis=0.75f; //added by Mike, 20210611
+												//edited by Mike, 20210901
+//              					fTaoAnimationFrameOffsetYAxis=0.75f; //added by Mike, 20210611
+              					fTaoAnimationFrameOffsetYAxis=0.0f;
 	
 													//added by Mike, 20210809
 //												drawPilotObjectGlow();
@@ -582,10 +617,11 @@ void Pilot::drawPilotAsQuadWithTexture()
 						//	printf("iCountTaoAnimationFrame: %i",iCountTaoAnimationFrame);
 							iCountTaoAnimationFrame=iCountTaoAnimationFrame+1;		
 							//printf("iTaoAnimationFrameOffset: %i",iTaoAnimationFrameOffset);
-																		
-              					fTaoAnimationFrameOffsetYAxis=0.75f; //added by Mike, 20210611
-																	
-                                    
+
+												//edited by Mike, 20210901																		
+//              					fTaoAnimationFrameOffsetYAxis=0.75f; //added by Mike, 20210611
+              					fTaoAnimationFrameOffsetYAxis=0.0f; //added by Mike, 20210611
+																	                                    
                                     //added by Mike, 20210809
 //                                    drawPilotObjectGlow();
 
@@ -633,7 +669,10 @@ printf(">>>>>>>>>>>>>>> ATTACK DITO");
               							//note: 3 animation frames; .tga image file has 4 frames @128x256, i.e. width x height
               							iCountTaoAnimationFrame=0;
               							fTaoAnimationFrameOffset=iCountTaoAnimationFrame*0.25;
-              							fTaoAnimationFrameOffsetYAxis=0.25f; //added by Mike, 20210611
+              							
+														//edited by Mike, 20210901																		              							
+//              							fTaoAnimationFrameOffsetYAxis=0.25f; //added by Mike, 20210611
+              							fTaoAnimationFrameOffsetYAxis=0.0f; //added by Mike, 20210611
               							
 							/*											//removed by Mike, 20210611
               							iCountTaoAnimationFrame=iCountTaoAnimationFrame+1;
@@ -655,7 +694,7 @@ void Pilot::drawPilotObject()
 {
 	//added by Mike, 20210826
 //	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //removed by Mike, 20210829
-	glLoadIdentity();
+		glLoadIdentity();
     
     //edited by Mike, 20210830
 //	openGLDrawTexture(myXPosAsPixel, myYPosAsPixel, openGLITexture, myWidth, myHeight);
