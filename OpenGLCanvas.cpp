@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20200926
- * @date updated: 20210901
+ * @date updated: 20210902
  * @website address: http://www.usbong.ph
  *
  * References:
@@ -106,6 +106,10 @@
 //added by Mike, 20210827
 #include "Level2D.h"
 #include "Pilot.h" 
+
+//added by Mike, 20210902
+#include "Text.h"
+
 
 /* //removed by Mike, 20210825
 //added by Mike, 20201001
@@ -493,6 +497,12 @@ bool OpenGLCanvas::init(int myWindowWidthAsPixelInput, int myWindowHeightAsPixel
     myPilot->setAsPlayer1(); //added by Mike, 20210601    
     //added by Mike, 20210830
     myPilot->setLevel2D(myLevel2D);
+    
+/*  //TO-DO: -update: this
+    //added by Mike, 20210902
+    myText = new Text(0.0f,320.0f,0.0f,myWindowWidthAsPixelInput,myWindowHeightAsPixelInput);
+    myText->setOpenGLCanvas(this, fGridSquareWidth, fGridSquareHeight);
+*/        
     
 /*  
     //added by Mike, 20210530; edited by Mike, 20210605
@@ -980,443 +990,21 @@ void OpenGLCanvas::render()
 //    glTranslatef(-2.0f/iColumnCountMax*iLeftMarginColumnCount, 0.0f, 0.0f);
     myLevel2D->draw();
   glPopMatrix();
-    
-	myPilot->draw();
-}
 
-void OpenGLCanvas::renderPrev()
-{
-    //added by Mike, 20201023
-    //note: this is to be print-ready in newsletter
-    //we use recycled paper
-    //edited by Mike, 2020116
-    //edited by Mike, 20201122
-    //   glClearColor(0.0f, 0.0f, 0.0f, 1.0f); // Set background color to black and opaque
-    //   glClearColor(1.0f, 1.0f, 1.0f, 0.0f); // Set background color to white and not opaque
-    //removed by Mike, 20201122
-    //sky blue
-    //   glClearColor(0.69f, 0.84f, 1.0f, 0.0f); // Set background color to white and not opaque
-    //edited by Mike, 20201122
-    glClearColor(1.0f, 1.0f, 1.0f, 0.0f); // Set background color to white and not opaque
-    
-    //added by Mike, 20201012
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    //removed by Mike, 20201015
-    //    glViewport(0, 0, myWindowWidth, myWindowHeight);		// reset the viewport to new
-    
-    //added by Mike, 20201207
-    //Reference: https://www.khronos.org/opengl/wiki/Depth_Test;
-    //last accessed: 20201206
-    //TO-DO: -verify: this
-    //TO-DO: -add: Z-sort, i.e. sort objects by Z-axis when computer auto-draws
-    glEnable(GL_DEPTH_TEST);
-    glDepthFunc(GL_ALWAYS);
-    
-    //Reference: https://community.khronos.org/t/gradient-background/54348/2;
-    //last accessed: 20201122
-    //answer by: NiCo1, 2008-03
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    
-    
-    /*  //
-     glMatrixMode(GL_MODELVIEW);
-     glLoadIdentity();
-     */
-    
-    //added by Mike, 20210627
-    //paint the outer margins if window not square, i.e. width and height not equal
-    //-----
-    glBegin(GL_QUADS);
-//    glColor3f(0.0f,0.0f,0.0f); //black
-//        	glColor3f(1.0f,1.0f,1.0f); //white
-    
-    //TOP
-    /*    //sky blue color; darker
-     //	glColor3f(0.51f, 0.73f, 0.98f);
-     //	glColor3f(0.08f, 0.51f, 1.00f);
-     //	glColor3f(0.0f, 0.32f, 0.67f);
-     glColor3f(0.0f, 0.44f, 0.67f);
-     */
-     //edited by Mike, 20210813
-     //somete
-     //sunrise? sunset? sunset... no hou;
-     //takip-silim
-     glColor3f(0.0f, 0.44f, 0.67f); //orange
-		//sunset
-//     glColor3f(1.0f, 0.44f, 0.0f);
-     
-    glVertex2f(1.0, 1.0);
-    glVertex2f(-1.0, 1.0);
-    
-    //BOTTOM
-    /*
-     //sky blue color; brighter
-     glColor3f(0.69f, 0.84f, 1.0f);
-     */
-     //edited by Mike, 20210813
-     //somete
-     //sunrise? sunset? sunset... no hou;
-     //takip-silim
-     glColor3f(1.0f, 0.88f, 0.67f);
-     //sunset
-//    glColor3f(1.0f, 0.71f, 0.28f); //dark orange
+	//edited by Mike, 20210902
+ 	glPushMatrix();    
+		myPilot->draw();
+  glPopMatrix();
+	
 
-		//sunset
-//    glColor3f(1.0f, 0.88f, 0.0f);
-     
-    glVertex2f(-1.0,-1.0);
-    glVertex2f(1.0,-1.0);
-    glEnd();
-    //-----
-           
-    //added by Mike, 20210510; edited by Mike, 20210702
-    glLineWidth((GLfloat)4);
-    
-    //added by Mike, 20210814
-    //TO-DO: -add: function as command to auto-draw line grid
-    
-    //note: coordinate system guide/map
-    ///*	//removed by Mike, 20210618
-     glBegin(GL_LINES);
-     glColor3f(0.0f,0.0f,0.0f); //black
-          
-     //vertical line at center
-     glVertex2f(0.0f, 1.0f);
-     glVertex2f(0.0f, -1.0f);
-     
-     //horizontal line at center
-     glVertex2f(-1.0f, 0.0f);
-     glVertex2f(1.0f, 0.0f);
-     glEnd();
-     //*/
-    
-    //added by Mike, 20210703
-    //auto-scale to Window Width to Height
-    glScalef(fMyWindowWidthAsPixelRatioToHeightPixel,1.0f,1.0f);
-    
-    
-    //grid guide
-    //added by Mike, 20210701
-    glPushMatrix();
-    //added by Mike, 20210524
-    //notes: vertical and horizontal lines in addition to those at center
-    //coordinate system guide/map; pixel positions
-    //edited by Mike, 20210708
-    //TO-DO: -add: auto-update value
-    iRowCountMax=10;
-    
-    int iNumberSign=1;
-    
-    
-     ///*//removed by Mike, 20210723
-     //rows
-     for (int iRowCount=0; iRowCount<iRowCountMax; iRowCount++) {
-   			// Draw a Green Line top-left origin
-   	 		glBegin(GL_LINES);
-     //     glColor3f(0.0f, 0.0f, 1.0f); // Blue
-     //     		glColor3f(0.0f, 1.0f, 0.0f); // Green
-     			glColor3f(0.0f, 0.8f, 0.8f); // Blue Green
-     
-     			glVertex2f(-1.0f*2, 2.0f/iRowCountMax*iRowCount*iNumberSign);    // x, y
-     			glVertex2f(1.0f*2, 2.0f/iRowCountMax*iRowCount*iNumberSign);
-   			glEnd();
-     }
-     iNumberSign=-1;
-     for (int iRowCount=0; iRowCount<iRowCountMax; iRowCount++) {
-   		// Draw a Green Line top-left origin
-   		glBegin(GL_LINES);
-     //     glColor3f(0.0f, 0.0f, 1.0f); // Blue
-     //     		glColor3f(0.0f, 1.0f, 0.0f); // Green
-     glColor3f(0.0f, 0.8f, 0.8f); // Blue Green
-     
-     glVertex2f(-1.0f*2, 2.0f/iRowCountMax*iRowCount*iNumberSign);    // x, y
-     //TO-DO: -add: auto-compute myWindowWidth
-     glVertex2f(1.0f*2, 2.0f/iRowCountMax*iRowCount*iNumberSign);
-   		glEnd();
-     }
-     //*/
-    
-    //reset to 12 from 10
-    //removed by Mike, 20210701
-    //     iRowCountMax=12;
-    
-    //added by Mike, 20210701
-    int iLeftMarginColumnCount=-1;
-    
-    //edited by Mike, 20210708
-    //TO-DO: -add: auto-update value due to Window Width not equal with Window Height
-    //columns
-    //     iColumnCountMax=10;
-    iColumnCountMax=18;
-    
-    
-     ///*//removed by Mike, 20210723
-     //right part
-     iNumberSign=1;
-     for (int iColumnCount=0; iColumnCount<iColumnCountMax; iColumnCount++) {
-   			// Draw a Green Line top-left origin
-   			glBegin(GL_LINES);
-     //     		glColor3f(0.0f, 0.0f, 1.0f); // Blue
-     			glColor3f(0.0f, 0.8f, 0.8f); // Blue Green
-     			glVertex2f(2.0f/iColumnCountMax*iColumnCount*iNumberSign, -1.0f);    // x, y
-     			//TO-DO: -add: auto-compute myWindowHeight
-     			glVertex2f(2.0f/iColumnCountMax*iColumnCount*iNumberSign, 1.0f);
-   			glEnd();
-     }
-     //*/
-    
-    //left part
-    iNumberSign=-1;
-    for (int iColumnCount=0; iColumnCount<iColumnCountMax; iColumnCount++) {
-        ///*
-         // Draw a Green Line top-left origin
-         glBegin(GL_LINES);
-         //     		glColor3f(0.0f, 0.0f, 1.0f); // Blue
-         glColor3f(0.0f, 0.8f, 0.8f); // Blue Green
-         glVertex2f(2.0f/iColumnCountMax*iColumnCount*iNumberSign, -1.0f);    // x, y
-         //TO-DO: -add: auto-compute myWindowHeight
-         glVertex2f(2.0f/iColumnCountMax*iColumnCount*iNumberSign, 1.0f);
-         glEnd();
-         //*/
-        //added by Mike, 20210701
-        //identify column count of left margin
-        ////        printf(">>> myWindowWidthAsPixel/2.0f/iColumnCountMax*iColumnCount: %f\n",myWindowWidthAsPixel/2.0f/iColumnCountMax*iColumnCount);
-        ////        printf(">>> iMyWindowWidthAsPixelOffset: %i\n",iMyWindowWidthAsPixelOffset);
-              
-        //note: column as clock's set of 5mins
-        if (iLeftMarginColumnCount==-1) {
-            if (myWindowWidthAsPixel/2.0f/iColumnCountMax*iColumnCount >= iMyWindowWidthAsPixelOffset) {
-                iLeftMarginColumnCount=(iColumnCount)/2; //reverify cause of /2
-            }
-        }
-    }
-    //reset to 12 from 10
-    //removed by Mike, 20210701
-    //     iColumnCountMax=12;
-    
-    //added by Mike, 20210701
-    glPopMatrix();
-    
-    
-    //    glScalef(1.0f,1.0f,1.0f);
-    
-    //added by Mike, 20210701
-    glPushMatrix();
-    
-    glTranslatef(-2.0f/iColumnCountMax*iLeftMarginColumnCount, 0.0f, 0.0f);
-    
-    //	printf("myMouseActionDown[MOUSE_LEFT_BUTTON]: %i\n",myMouseActionDown[MOUSE_LEFT_BUTTON]);
-    
-    if (myMouseActionDown[MOUSE_LEFT_BUTTON]==FALSE) {
-    }
-    else {
-        //added by Mike, 20210514
-        //note: greater than 0, due to blank start is @zero
-        if ((stepHistoryListCount>0) && (stepHistoryListCount<MAX)) {
-            glBegin(GL_LINES);
-            //glColor3f(0.0f,0.0f,0.0f); //black
-            glColor3f(0.6f,0.6f,0.6f); //bright black
-/* //removed by Mike, 20210825                
-            glVertex2f(myUsbongUtils->autoConvertFromPixelToVertexPointX(iStartPointX), myUsbongUtils->autoConvertFromPixelToVertexPointY(iStartPointY));
-            glVertex2f(myUsbongUtils->autoConvertFromPixelToVertexPointX(iEndPointX), myUsbongUtils->autoConvertFromPixelToVertexPointY(iEndPointY));
-            glEnd();
-*/            
-        }
-    }
-    
-    //added by Mike, 20210513
-    glBegin(GL_LINES);
-    //edited by Mike, 20210514
-    //		glColor3f(1.0f,0.0f,0.0f); //red
-    //sky blue color; brighter
-    //		glColor3f(0.69f, 0.84f, 1.0f);
-    glColor3f(0.0f,0.0f,0.0f); //black
-    
-    for (int iCount=0; iCount<stepHistoryListCount; iCount++)
-    {
-/* //removed by Mike, 20210825        
-        glVertex2f(myUsbongUtils->autoConvertFromPixelToVertexPointX(stepHistoryList[iCount][0]), myUsbongUtils->autoConvertFromPixelToVertexPointY(stepHistoryList[iCount][1]));
-        glVertex2f(myUsbongUtils->autoConvertFromPixelToVertexPointX(stepHistoryList[iCount][2]), myUsbongUtils->autoConvertFromPixelToVertexPointY(stepHistoryList[iCount][3]));
-*/        
-    }
-    glEnd();
-    glPopMatrix();
-       
-
-	//added by Mike, 20210818
-	//TO-DO: -add: version using SDL without OpenGL
-	//TO-DO: -reverify: due to noticeably slow execution in Mini Computer
-	//with processor: Intel(R) Core(TM) Solo CPU U1400 @1.20GHz
-	//32-bit OS; 1GB RAM
-	//speed reminds me of Alamat ng Agimat: Anim na Perlas 
-	//executed by Nokia Series 40 Java Micro Edition Mobile Telephone
-	//.tga texture image file excessively large at 257KB?
-	//if execution speed is not increased, fast action game not recommended;
-	//turn-based Card System? Role Playing Game?
-	//note: noticeable increased speed using laptop computer 
-	//with processor Intel(R) CPU T2130 @1.86GHZ
-	//32-bit OS; 3GB RAM
-    glPushMatrix();
-    //    	glScalef(fMyWindowWidthAsPixelRatioToHeightPixel,1.0f,1.0f);
-    
-    	glTranslatef(-2.0f/iColumnCountMax*iLeftMarginColumnCount, 0.0f, 0.0f);
-    
-//    	myLevel2D->draw();
-    glPopMatrix();
-    //-----
-
-    
-    //added by Mike, 20210723
+/* //removed by Mike, 20210902	
+    //added by Mike, 20210903
     glPushMatrix();
     	glScalef(fMyWindowWidthAsPixelRatioToHeightPixel,1.0f,1.0f);
-    	
-    	//added by Mike, 20210704
-    	//note: OK output
-//    	myText->draw();
+    	myText->draw();
     glPopMatrix();
-    
-    
-    
-    //added by Mike, 20210722
-    //TO-DO: -update: screen width and height max position;
-    //used in wrap world, et cetera
-    glPushMatrix();    
-/*
-//enable    
-glMatrixMode(GL_PROJECTION);
-glPushMatrix();
-glLoadIdentity();
-
-//glOrtho(0, WIDTH, HEIGHT, 0, -1, 1);
-glOrtho(0, myWindowWidthAsPixel, myWindowHeightAsPixel, 0, -1, 1);
-
-glDisable(GL_DEPTH_TEST);
-glMatrixMode(GL_MODELVIEW);
-
-glPushMatrix();
-glLoadIdentity();    
-*/
-//--
-
-    	myPilot->draw();
-    	
-/*//disable
-glMatrixMode(GL_PROJECTION);
-glPopMatrix();
-glMatrixMode(GL_MODELVIEW);
-
-glPopMatrix();
-glEnable(GL_DEPTH_TEST);    	
-*/
-//--
-    	
-    glPopMatrix();
-    
-    
-    //added by Mike, 20210511
-    /*
-     if (myMouseActionDown[MOUSE_LEFT_BUTTON]==FALSE) {
-     //added by Mike, 20210511
-     //reset positions
-     iStartPointX=0;
-     iStartPointY=0;
-     iEndPointX=0;
-     iEndPointY=0;
-     }
-     */
-    
-    //set TOP-LEFT origin/anchor/reference point; quadrant 4, y-axis inverted; x and y positive
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    //TOP-LEFT origin
-    glOrtho(0.0f, //left
-            1.0f, //right
-            1.0f, //bottom
-            0.0f, //top
-            0.0f, //zNear; minimum
-            1.0f //zFar; maximum
-            );
-    
-    /*	//removed by Mike, 20201117
-     //font
-     // select and enable texture FONT_TEXTURE
-     //edited by Mike, 20201012
-     glBindTexture(GL_TEXTURE_2D, FONT_TEXTURE);
-     glEnable(GL_TEXTURE_2D);
-     */
-    if (currentState==TITLE_SCREEN) {
-    }
-    else if (currentState==CONTROLS_SCREEN) {
-    }
-    else if (currentState==GAMEOVER_SCREEN) {
-    }
-    else if (currentState==HIGHSCORE_SCREEN) {
-    }
-    else if (currentState==GAME_SCREEN) {
-        
-        //added by Mike, 20201020
-        //note: we add these to enable complete drawing of 3D shape with z-axis
-        //--------------------------------------------------------
-        //removed by Mike, 20201118; added by Mike, 20210416
-        //solves problem with quad face image texture merging
-        glEnable(GL_CULL_FACE);
-        
-        
-        //https://www.khronos.org/opengl/wiki/Face_Culling; last accessed: 20201122
-        //    glCullFace(GL_BACK);
-        
-        /* //removed by Mike, 20210510
-         myRobotShip->setXPos(myPilot->getX());
-         
-         myPilot->setZPos(myRobotShip->getZ()+0.1f); //put nearer to camera eye
-         myPilotPlayer2->setZPos(myRobotShip->getZ()+0.1f); //put nearer to camera eye
-         myRobotShip->updateToFaceOpponent(myPilotPlayer2->getX());
-         
-         //auto-update facing left or right
-         myPilot->updateToFaceOpponent(myPilotPlayer2->getX());
-         myPilotPlayer2->updateToFaceOpponent(myPilot->getX());
-         */
-
-/* //removed by Mike, 20210825        
-        glMatrixMode(GL_PROJECTION);			// set projection matrix current matrix
-        glLoadIdentity();						// reset projection matrix
-        
-        gluPerspective(90.0, // field-of-view angle
-                       4.0 / 4.0, // aspect ratio
-                       0.1, // near plane
-                       100); // far plane
-        
-        
-        myCanvasEyePosY=-0.5f;
-        
-        //edited by Mike, 20210519
-        //	gluLookAt(myCanvasEyePosX, myCanvasEyePosY, myCanvasEyePosZ+3.0f, // eye position 0.0, 0.0, 3.0
-        gluLookAt(myCanvasEyePosX, myCanvasEyePosY, myCanvasEyePosZ+10.0f, // eye position
-                  myCanvasCenterPosX, myCanvasCenterPosY, myCanvasCenterPosZ, // look-at point
-                  0.0, 1.0, 0.0); // up-direction
-        
-        
-         //added by Mike, 20210521
-         //z-sort, i.e. auto-draw objects based on z position;
-         //objects with higher z positions are auto-drawn first;
-         //these are objects at the back of those that have lower z positions
-         //MyDynamicObject *myDynamicObjectContainerSorted[MAX_DYNAMIC_OBJECT];
-         //std::vector<MyDynamicObject*> v;
-         //added by Mike, 20210509
-         //		std::sort(vMyDynamicObjectContainer.begin(), vMyDynamicObjectContainer.end(), sortByZPosition());
-         
-         //edited by Mike, 20210528
-         //        for (int i=0; i<MAX_DYNAMIC_OBJECT; i++) {
-         for (int i=0; i<iVMyDynamicObjectContainerSize; i++) {
-         glPushMatrix();
-         vMyDynamicObjectContainer[i]->draw();
-         glPopMatrix();
-         }
-*/        
-    }
+*/    
 }
-
 
 //added by Mike, 20210510
 //TO-DO: -update: this

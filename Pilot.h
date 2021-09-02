@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B. 
  * @date created: 20200930
- * @date updated: 20210830
+ * @date updated: 20210902
  * @website address: http://www.usbong.ph
  *
  * Acknowledgments:
@@ -297,6 +297,7 @@ private:
 				 
     GLboolean test_pow2(GLushort i);
     void load_tga(char *filename);
+    
     //edited by Mike, 20210820
     //void load_png(char *filename);
     //edited by Mike, 20210824
@@ -334,8 +335,6 @@ private:
 	void drawLowerLeg(float xPos, float yPos, float zPos);
 	void drawFoot(float xPos, float yPos, float zPos);
     
-    //added by Mike, 20210107
-	void drawWeapon(float xPos, float yPos, float zPos);
 
 	//added by Mike, 20210127
 //	void autoVerifyDashStateWithKeyDown(int keyCode); //edited by Mike, 20210128
@@ -356,6 +355,9 @@ public:
 	//edited by Mike, 20210815
 //    Pilot(float xPos, float yPos, float zPos,int windowWidth,int windowHeight);
     Pilot(float xPos, float yPos, float zPos, float fWindowWidth, float fWindowHeight);
+    
+    //added by Mike, 20210107
+    void drawWeapon(float xPos, float yPos, float zPos);
 
 	~Pilot();
 	

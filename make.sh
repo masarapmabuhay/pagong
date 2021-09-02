@@ -11,7 +11,7 @@
 # @company: USBONG
 # @author: SYSON, MICHAEL B.
 # @date created: 20200930
-# @last updated: 20210826
+# @last updated: 20210902
 # @website address: http://www.usbong.ph
 #
 # Reference:
@@ -33,6 +33,8 @@ g++ -c PolygonUtils.cpp
 g++ -c MyDynamicObject.cpp
 g++ -c Level2D.cpp
 g++ -c Pilot.cpp
+g++ -c Font.cpp
+g++ -c Text.cpp
 
 #g++ -c RobotShip.cpp
 #g++ -c Font.cpp
@@ -60,7 +62,11 @@ g++ -c Pilot.cpp
 
 #edited by Mike, 20210826
 #g++ -o ./output/UsbongPagongLinux mainLinux.o OpenGLCanvas.o -lGL -lGLU -lglut -lSDL2 -lSDL2_image
-g++ -o ./output/UsbongPagongLinux mainLinux.o OpenGLCanvas.o UsbongUtils.o PolygonUtils.o MyDynamicObject.o Level2D.o Pilot.o -lGL -lGLU -lglut -lSDL2 -lSDL2_image
+#edited by Mike, 20210902
+#g++ -o ./output/UsbongPagongLinux mainLinux.o OpenGLCanvas.o UsbongUtils.o PolygonUtils.o MyDynamicObject.o Level2D.o Pilot.o -lGL -lGLU -lglut -lSDL2 -lSDL2_image
+
+g++ -o ./output/UsbongPagongLinux mainLinux.o OpenGLCanvas.o UsbongUtils.o PolygonUtils.o MyDynamicObject.o Level2D.o Pilot.o Font.o Text.o -lGL -lGLU -lglut -lSDL2 -lSDL2_image
+
 
 #added by Mike, 20210220; removed by Mike, 20210818
 #cp -r ./*.o ./objectFilesLinux/
