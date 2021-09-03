@@ -37,7 +37,11 @@ GLuint openGLLoadTexture(char *filename, float fMyWidth, float fMyHeight);
 //edited by Mike, 20201017
 //void draw_string(GLfloat x, GLfloat y, char *string);
 //void draw_char(GLfloat x, GLfloat y, char c);
+/* //edited by Mike, 20210903
 void draw_string(GLfloat x, GLfloat y, GLfloat z, char *string);
 void draw_char(GLfloat x, GLfloat y, GLfloat z, char c);
+*/
+void draw_string(GLuint glIFontTexture, GLfloat x, GLfloat y, GLfloat z, char *string);
+void draw_char(GLuint glIFontTexture, GLfloat x, GLfloat y, GLfloat z, char c);
 
 //void draw_string(GLfloat x, GLfloat y, std::string string);

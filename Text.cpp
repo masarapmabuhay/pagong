@@ -374,7 +374,7 @@ Text::Text(float xPos, float yPos, float zPos, float fWindowWidth, float fWindow
     
     //added by Mike, 20210614; edited by Mike, 20210903
 //    setupFont(FONT_TEXTURE);		
-//		glIFontTexture = setupFont((char*)"textures/font.tga", fMyWindowWidth, fMyWindowHeight);       
+		glIFontTexture = setupFont((char*)"textures/font.png", fMyWindowWidth, fMyWindowHeight);       
 				
 		setup();
 		
@@ -472,374 +472,104 @@ void Text::drawTextBackgroundAsQuadWithTexture()
 		glLoadIdentity();
     
     openGLDrawTexture(myXPos, myYPos, myWidth, myHeight);
+    
+    //added by Mike, 20210903
+   	drawTextFontAsQuadWithTexture(myXPos, myYPos, myWidth, myHeight);
 }
 
-//added by Mike, 20210617
-void Text::drawTextBackgroundAsQuadWithTexturePrev()
+//TO-DO: -reverify: this
+void Text::drawTextFontAsQuadWithTexture(float x, float y, float textw, float texth)
 {
-    //added by Mike, 20210723
-    if (bHasReachedEndOfTextMessage) {
-        if(bHasPressedKeyToCloseEndOfTextMessage) {
-            return;
-        }
-    }
-    
-    
-    //added by Mike, 20210614
-    //note; add glPushMatrix() and glPopMatrix()
-    glPushMatrix();
-    
-    //TO-DO: -update: draw instructions
-    drawTextBackgroundObject();
-    
-    glScalef(1.0f,1.0f,1.0f);
-    
-    //added by Mike, 20210613; removed by Mike, 20210725
-    //    glTranslatef(-myUsbongUtils->autoConvertFromPixelToVertexPointX(myXPosAsPixel), -myUsbongUtils->autoConvertFromPixelToVertexPointY(myYPosAsPixel), -myZPosAsPixel);
-    
-    glPopMatrix();
-    
-    if (isAtMaxTextCharRow) {
-        if ((idrawPressNextSymbolCount)%2==0) {
-            drawPressNextSymbol();
-        }
-        idrawPressNextSymbolCount=idrawPressNextSymbolCount+1;
-    }
-    
-    
-    //added by Mike, 20210802
-    glPushMatrix();
-
-    //added by Mike, 20210614
-    //set TOP-LEFT origin/anchor/reference point; quadrant 4, y-axis inverted; x and y positive
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    
-    //TOP-LEFT origin
-    glOrtho(0.0f, //left
-            1.0f, //right
-            1.0f, //bottom
-            0.0f, //top
-            0.0f, //zNear; minimum
-            1.0f //zFar; maximum
-            );
-    
-    //added by Mike, 20210626; removed by Mike, 20210628
-    //TO-DO: -reverify: this action
-    //    glTranslatef(-myUsbongUtils->autoConvertFromPixelToVertexPointX(iMyWindowWidthAsPixelOffset), 0.0f, 0.0f);
-    
-    //removed by Mike, 20210702
-    //auto-scale to Window Width to Height
-    //    glScalef(fMyWindowWidthAsPixelRatioToHeightPixel,1.0f,1.0f);
-    
-    //added by Mike, 20210628
-    //TO-DO: -reverify: instructions in macOS due to OK in Linux machine
-    
-    //note: adds to development time;
-    //1) identifying correct positions due to there exist pixel and vertex positions
-    //2) identifying axis origin from where to add
-    //3) identifying object anchor to which steps are added
-    //identified delays shall add computation time during movement in galaxy
-    //speed-up via machine tool, e.g. RobotShip, assists Human Pilot
-    
-    //added by Mike, 20210706
-    //note: reminded: difficulty in Math, i.e. Maparaang Pagbibilang,
-    //due to no quick feedback; example: no quick output using select inputs
-    //computer as machine tool assists in speed-up of output
-    
-    //edited by Mike, 20210704
-    //added +0.02f in x-axis as margin so text not too near left border of text background image
-    //y-axis add from window's top
-    //    glTranslatef(-myUsbongUtils->autoConvertFromPixelToVertexPointX(iMyWindowWidthAsPixelOffset)+0.02f, -myUsbongUtils->autoConvertFromPixelToVertexPointY(myWindowHeight*0.65f), 0.0f);
-    
-    //edited by Mike, 20210705
-    //note: output (macOS): -0.4f; window origin left 0.0f; right max 1.0f
-    //note: output (LinuxOS): -0.221354f; window origin left 0.0f; right max 1.0f
-    //    printf(">>>>> myUsbongUtils->autoConvertFromPixelToVertexPointX(iMyWindowWidthAsPixelOffset): %f\n",myUsbongUtils->autoConvertFromPixelToVertexPointX(iMyWindowWidthAsPixelOffset));
-    
-    //output (macOS); iMyWindowWidthAsPixelOffset: 240
-    //output (LinuxOS); iMyWindowWidthAsPixelOffset: 299
-    //    printf(">>>>> iMyWindowWidthAsPixelOffset: %i\n",iMyWindowWidthAsPixelOffset);
-    
-    //    printf(">>>>> myUsbongUtils->autoConvertFromPixelToVertexPointX(myXPosAsPixel): %f\n",myUsbongUtils->autoConvertFromPixelToVertexPointX(myXPosAsPixel));
-    
-    //TO-DO: -reverify: in Linux OS
-    //add to vertex position x-axis: 0.2f
-    //edited by Mike, 20210705
-    //    glTranslatef(0.2f, -myUsbongUtils->autoConvertFromPixelToVertexPointY(myWindowHeight*0.65f), 0.0f); //macOS
-    //    glTranslatef(0.24f, -myUsbongUtils->autoConvertFromPixelToVertexPointY(myWindowHeight*0.65f), 0.0f); //LinuxOS
-    
-    //    glTranslatef(0.221354f, -myUsbongUtils->autoConvertFromPixelToVertexPointY(myWindowHeight*0.65f), 0.0f);
-    //    glTranslatef(1.0f*0.20f+0.04f, -myUsbongUtils->autoConvertFromPixelToVertexPointY(myWindowHeight*0.65f), 0.0f);
-    //    glTranslatef(0.4f, -myUsbongUtils->autoConvertFromPixelToVertexPointY(myWindowHeight*0.65f), 0.0f);
-    
-    //note: used in x-axis input computation, relationship to value of iMyWindowWidthAsPixelOffset
-    //edited by Mike, 20210706
-    //TO-DO: -reverify: in macOS;
-    //    glTranslatef(iMyWindowWidthAsPixelOffset/1000.0f-0.05f, -myUsbongUtils->autoConvertFromPixelToVertexPointY(myWindowHeight*0.65f), 0.0f);
-    //edited by Mike, 20210706
-    //    glTranslatef(iMyWindowWidthAsPixelOffset/1000.0f-0.055f, -myUsbongUtils->autoConvertFromPixelToVertexPointY(myWindowHeight*0.65f), 0.0f);
-    //    glTranslatef(iMyWindowWidthAsPixelOffset/1000.0f-0.04f, -myUsbongUtils->autoConvertFromPixelToVertexPointY(myWindowHeight*0.65f), 0.0f);
-    
-    //TO-DO: -reverify: in LinuxOS;
-    //TO-DO: -reverify: in macOS;
-    
-    //note: adds to development time, variation in Window Width and Height
-    //machine manufacturer auto-verifies if correct display output
-    //using own machine's Window Width and Height inputs
-    //Is Microsoft's strategy?
-    //at present, USBONG verifies display output using available manufactured machines
-    
-    //reminder: we use auto-scale Window Width to Height
-    //edited by Mike, 20210706
-    //    glTranslatef(-myUsbongUtils->autoConvertFromPixelToVertexPointY(myWindowHeight*0.6f), -myUsbongUtils->autoConvertFromPixelToVertexPointY(myWindowHeight*0.65f), 0.0f);
-    //    glTranslatef(-myUsbongUtils->autoConvertFromPixelToVertexPointY(myWindowHeight*0.62f), -myUsbongUtils->autoConvertFromPixelToVertexPointY(myWindowHeight*0.65f), 0.0f);
-    
-    //note: 0.2f : macOS
-    //iMyWindowWidthAsPixelOffset=299;
-    //TO-DO: -reverify: computation with another available machine's Window width and height
-    //note: (240.0f-299.0f)*(-1)=59.0f
-    float fMyWindowWidthAsVertexOffsetInput=(240.0f-iMyWindowWidthAsPixelOffset)*(-1);
-    float fMyWindowWidthAsVertexOffset=0.20f+(fMyWindowWidthAsVertexOffsetInput/59.0f*0.04);
-    
-    //    printf(">>>>>>>>>> fMyWindowWidthAsVertexOffset: %f\n",fMyWindowWidthAsVertexOffset);
-    
-    //    glTranslatef(-myUsbongUtils->autoConvertFromPixelToVertexPointY(myWindowHeight*(0.6f)), -myUsbongUtils->autoConvertFromPixelToVertexPointY(myWindowHeight*0.65f), 0.0f);
-    //    glTranslatef(-myUsbongUtils->autoConvertFromPixelToVertexPointY(myWindowHeight*(0.6f+fMyWindowWidthAsVertexOffset)), -myUsbongUtils->autoConvertFromPixelToVertexPointY(myWindowHeight*0.65f), 0.0f);
-    //edited by Mike, 20210725
-    //note: from TOP; y-axis
-//    glTranslatef(fMyWindowWidthAsVertexOffset, -myUsbongUtils->autoConvertFromPixelToVertexPointY(myWindowHeight*0.65f), 0.0f);
-	//edited by Mike, 20210815
-//    glTranslatef(fMyWindowWidthAsVertexOffset, -myUsbongUtils->autoConvertFromPixelToVertexPointY(myWindowHeight*0.75f), 0.0f);
-    glTranslatef(fMyWindowWidthAsVertexOffset, -myUsbongUtils->autoConvertFromPixelToVertexPointY(fMyWindowHeight*0.75f), 0.0f);
-    
-    //auto-scale Window Width to Height
-    glScalef(fMyWindowWidthAsPixelRatioToHeightPixel,1.0f,1.0f);
-    
-    //edited by Mike, 20210626
-    glScalef(0.26f,0.26f,1.0f);
-    
-/* //removed by Mike, 20210801 due to incorrect output using 1366x768 computer monitor; 
-   //reverified: output using 1024x718 computer monitor to still be OK; 
-   //TO-DO: -reverify: update speed instructions in main.cpp 
-   //due to noticeable variation when using faster Win 7 machine,
-   //e.g. Intel i3 processor @2.30GHz, 64-bit OS, 4GB RAM
-   //Intel 1.87GHZm 32-bit OS, 3GB RAM
-    //Windows Machine
-#ifdef _WIN32
-    //y-axis from bottom
-    //glTranslatef(-myUsbongUtils->autoConvertFromPixelToVertexPointX(myWindowWidth*0.01f), myUsbongUtils->autoConvertFromPixelToVertexPointY(myWindowHeight*0.01f), 0.0f);
-    glTranslatef(0.5f, 0.3f, 0.0f);
-    glScalef(0.8f,0.8f,1.0f);
-#endif
-*/
-    //removed by Mike, 20210702
-    //    glTranslatef(0.26f, 1.1f, 0.0f); //note: y-axis; inverted; +value goes down
-    
-    //font
-    // select and enable texture FONT_TEXTURE
-    glBindTexture(GL_TEXTURE_2D, FONT_TEXTURE);
-    glEnable(GL_TEXTURE_2D);
-    
-    //edited by Mike, 20210615
-    //draw text using Font texture
-    
-    //edited by Mike, 20210617
-    //char tempText[50];
-    //row, column
-    //edited by Mike, 20210618
-    //    char tempText[MAX_TEXT_CHAR_ROW][MAX_TEXT_CHAR_COLUMN];
-    char tempText[MAX_TEXT_CHAR_ROW_RAM][MAX_TEXT_CHAR_COLUMN];
-    
-    //		 sprintf(tempText,"USBONG");
-    //		 sprintf(tempText,sCurrentTextContainer[0]);
-    //edited by Mike, 20210615
-    //		 sprintf(tempText,sCurrentTextContainer[0][0].c_str());
-    
-    //removed by Mike, 20210626
-    //    glScalef(0.5f,0.5f,1.0f);
-    
-    
-    //    printf("iTextCurrentMaxRowCount: %i\n",iTextCurrentMaxRowCount);
-    
+		char tempText[MAX_TEXT_CHAR_ROW_RAM][MAX_TEXT_CHAR_COLUMN];
+        
     int iRowCount;
-    //edited by Mike, 20210618
-    //    for (iRowCount=0; iRowCount<iTextCurrentMaxRowCount; iRowCount++) {
-    for (iRowCount=0; iRowCount<iTextCurrentMaxRowCount;) {
-        //removed by Mike, 20210617
-        //        strcpy(tempText, "");
+    
+for (iRowCount=0; iRowCount<iTextCurrentMaxRowCount;) {
+
+  for (int iRowCountToSetDefault=0; iRowCountToSetDefault<MAX_TEXT_CHAR_ROW_RAM; iRowCountToSetDefault++) {
+    for (int iColumnCount=0; iColumnCount<MAX_TEXT_CHAR_COLUMN; iColumnCount++) {
+        tempText[iRowCountToSetDefault][iColumnCount]='\0'; //verified: in macOS, with Japanese keyboard ro-maji input, "¥0", backspace is "¥"
+    }
+	}
         
-        //        printf("iRowCount: %i\n",iRowCount);
-        
-        
-        //added by Mike, 20210617
-        //TO-DO: -reverify: pattern used by computer to add in memory storage;
-        //example: pattern based on clock time
-        //TO-DO: -reuse: incident; re-verify: if used to auto-generate monsters in select computer game dungeons
-        //edited by Mike, 20210617
-        //clear tempText container not all cleared due to previously used storage in computer memory causes excess text characters to appear
-        //note: select excess text characters NOT in cCurrentTextContainer
-        //added by computer in memory storage for use in another set of instructions
-        //strcpy(tempText,"");
-        //edited by Mike, 20210618
-        //        for (int iRowCountToSetDefault=0; iRowCountToSetDefault<MAX_TEXT_CHAR_ROW; iRowCountToSetDefault++) {draw_string
-        for (int iRowCountToSetDefault=0; iRowCountToSetDefault<MAX_TEXT_CHAR_ROW_RAM; iRowCountToSetDefault++) {
-            for (int iColumnCount=0; iColumnCount<MAX_TEXT_CHAR_COLUMN; iColumnCount++) {
-                tempText[iRowCountToSetDefault][iColumnCount]='\0'; //verified: in macOS, with Japanese keyboard ro-maji input, "¥0", backspace is "¥"
-            }
-        }
-        
-        /*        printf("iTextCurrentMaxColumnCount: %i\n",iTextCurrentMaxColumnCount);
-         */
-        //edited by Mike, 20210617
-        //        for (int iColumnCount=0; iColumnCount<iTextCurrentMaxColumnCount; iColumnCount++) {
-        for (int iColumnCount=0; iColumnCount<iCurrentMaxColumnCountPerRowContainer[iRowCount]; iColumnCount++) {
-            //edited by Mike, 20210618
-            //            tempText[iRowCount][iColumnCount]=cCurrentTextContainer[iRowCount][iColumnCount];
-            //note: MAX_TEXT_CHAR_ROW=4
+  for (int iColumnCount=0; iColumnCount<iCurrentMaxColumnCountPerRowContainer[iRowCount]; iColumnCount++) {
             tempText[iRowCount+iRowCountPageNumber*MAX_TEXT_CHAR_ROW][iColumnCount]=cCurrentTextContainer[iRowCount+iRowCountPageNumber*MAX_TEXT_CHAR_ROW][iColumnCount];
-            
-            //            printf("cCurrentTextContainer[%i][%i]: %c\n",iRowCount+iRowCountPageNumber*MAX_TEXT_CHAR_ROW, iColumnCount, cCurrentTextContainer[iRowCount+iRowCountPageNumber*MAX_TEXT_CHAR_ROW][iColumnCount]);
-        }
-        
-        //        		printf(">>>>>iRowCount: %i\n",iRowCount);
-        //        		printf(">>>>>%s\n",tempText[iRowCount+iRowCountPageNumber*MAX_TEXT_CHAR_ROW]);
-        
-        //TO-DO: -add: remaining Font Characters, e.g. small letters, digits
-        //TO-DO: -update: font character position in texture image file
-        //	   					draw_string(0.1f, 1.2f, 0.0f, tempText);
-        draw_string(0.05f, 1.2f, 0.0f, tempText[iRowCount+iRowCountPageNumber*MAX_TEXT_CHAR_ROW]);
-        
-     			//added by Mike, 20210615
-     			//new line
-     			//edited by Mike, 20210617
-        //     			glTranslatef(0.0f,0.1f+0.1f*iRowCount,0.0f);
-     			glTranslatef(0.0f,0.1f+0.05f,0.0f);
-        
-        //edited by Mike, 20210617
-        //if ((iTextAnimationCountDelay>=10) || (iTextAnimationCountDelay<=0)){	//TO-DO: -update: MAX delay
-        
-        /*	//removed by Mike, 20210617
-         if ((iTextAnimationCountDelay>=5) || (iTextAnimationCountDelay<=0)){	//TO-DO: -update: MAX delay
-         */
-        //							iTextAnimationCount+=1;
-        iTextAnimationCountDelay=0;
-        
-        //            printf(">>>>iRowCount: %i; iTextCurrentMaxRowCount: %i\n",iRowCount, iTextCurrentMaxRowCount);
+  }
+  
+  //edited by Mike, 20210903      
+//  draw_string(glIFontTexture, 0.05f, 1.2f, 0.0f, tempText[iRowCount+iRowCountPageNumber*MAX_TEXT_CHAR_ROW]);
+  draw_string(glIFontTexture, 0.0f, 0.0f, 0.0f, tempText[iRowCount+iRowCountPageNumber*MAX_TEXT_CHAR_ROW]);
+  
+//  glTranslatef(0.0f,0.1f+0.05f,0.0f);
+
+  iTextAnimationCountDelay=0;
+  
+  if ((iRowCount)==(iTextCurrentMaxRowCount-1)) {
+      iCurrentMaxColumnCountPerRowContainer[iRowCount]++;
+      
+      //added by Mike, 20210617
+      if (iCurrentMaxColumnCountPerRowContainer[iRowCount]>=MAX_TEXT_CHAR_COLUMN) {
+          iCurrentMaxColumnCountPerRowContainer[iRowCount]=MAX_TEXT_CHAR_COLUMN;
+      }
+  }
         
         
-        //        iTextCurrentMaxColumnCount++;
-        //edited by Mike, 20210618; removed by Mike, 20210618
-        if ((iRowCount)==(iTextCurrentMaxRowCount-1)) {
-            //        if ((iRowCount)==(iTextCurrentMaxRowCount)) {
-            //            printf(">\n");
-            
-            iCurrentMaxColumnCountPerRowContainer[iRowCount]++;
-            
-            //            printf(">>>>>>>>>>>>>>>>>>>>>>>> DITO\n");
-            
-            //added by Mike, 20210617
-            if (iCurrentMaxColumnCountPerRowContainer[iRowCount]>=MAX_TEXT_CHAR_COLUMN) {
-                iCurrentMaxColumnCountPerRowContainer[iRowCount]=MAX_TEXT_CHAR_COLUMN;
-            }
-            //edited by Mike, 20210618
-            /*            else {
-            	iCurrentMaxColumnCountPerRowContainer[iRowCount]++;
-             }
-             */
-        }
+  //'\n'){ //new line; "\0" empty character
+  if (cCurrentTextContainer[iRowCount+iRowCountPageNumber*MAX_TEXT_CHAR_ROW][iCurrentMaxColumnCountPerRowContainer[iRowCount]-1]=='\n') {
         
-        //added by Mike, 20210617
-        //new line/row
-        //identify if all characters in row done
-        //        printf(">>cCurrentTextContainer[iRowCount][iCurrentMaxColumnCountPerRowContainer[iRowCount]]: %c\n",cCurrentTextContainer[iRowCount][iCurrentMaxColumnCountPerRowContainer[iRowCount]]);
-        
-        //edited by Mike, 20210618
-        //            if (cCurrentTextContainer[iRowCount+iRowCountPageNumber*MAX_TEXT_CHAR_ROW][iCurrentMaxColumnCountPerRowContainer[iRowCount]]=='\n') {//'\n'){ //new line; "\0" empty character
-        if (cCurrentTextContainer[iRowCount+iRowCountPageNumber*MAX_TEXT_CHAR_ROW][iCurrentMaxColumnCountPerRowContainer[iRowCount]-1]=='\n') {//'\n'){ //new line; "\0" empty character
-            
-            //            printf("iTextCurrentMaxRowCount-1: %i\n",iTextCurrentMaxRowCount-1);
-            //            printf("iRowCount: %i\n",iRowCount);
-            
-            /*                if (iTextCurrentMaxRowCount>=3) {
-             iTextCurrentMaxRowCount=3;
-             }
-             */
-            //                    iTextCurrentMaxRowCount=4;
-            
-            //TO-DO: -add: instructions to auto-identify end row by removing empty rows after reading input file
-            //if next row is already empty
-            //row, column
-            if (cCurrentTextContainer[iRowCount+iRowCountPageNumber*MAX_TEXT_CHAR_ROW][iCurrentMaxColumnCountPerRowContainer[iTextCurrentMaxRowCount]]=='\0') {
-                iTextCurrentMaxRowCount=iTextCurrentMaxRowCount;
-            }
-            else {
-                if ((iRowCount)==(iTextCurrentMaxRowCount-1)) {
-                    iTextCurrentMaxRowCount++;
-                }
-                
-                //added by Mike, 20210618
-                //if has reached end of rows, no need to execute this
-                //TO-DO: -add: auto-identify if at MAX row
-                if (cCurrentTextContainer[iRowCount+iRowCountPageNumber*MAX_TEXT_CHAR_ROW+1][0]=='\0') {
-                    printf(">>>>>>>>>>>>>>> WAKAS!\n");
-                    
-                    bHasReachedEndOfTextMessage=true;
-                    
-                    break;
-                }
-                else {
-                    if (iRowCount>=MAX_TEXT_CHAR_ROW) {
-                        iRowCountPageNumber++;
-                        iTextCurrentMaxRowCount=1;
-                        iRowCount=-1; //note: we add 1 near the closing of the for loop
-                    }
-                }
-            }
-            
-            //edited by Mike, 20210618
-            //re-set isAtMaxTextCharRow to FALSE after button press
-            if ((iRowCount+1)>=MAX_TEXT_CHAR_ROW) {
-                iRowCount=3;
-                //                			iRowCountPageNumber=0; //removed by Mike, 20210618
-                iTextCurrentMaxRowCount=4;
-                isAtMaxTextCharRow=true;
-            }
+  //TO-DO: -add: instructions to auto-identify end row by removing empty rows after reading input file
+  //if next row is already empty
+  //row, column
+  if (cCurrentTextContainer[iRowCount+iRowCountPageNumber*MAX_TEXT_CHAR_ROW][iCurrentMaxColumnCountPerRowContainer[iTextCurrentMaxRowCount]]=='\0') {
+      iTextCurrentMaxRowCount=iTextCurrentMaxRowCount;
+  }
+  else {
+      if ((iRowCount)==(iTextCurrentMaxRowCount-1)) {
+          iTextCurrentMaxRowCount++;
+      }
+      
+      //added by Mike, 20210618
+      //if has reached end of rows, no need to execute this
+      //TO-DO: -add: auto-identify if at MAX row
+      if (cCurrentTextContainer[iRowCount+iRowCountPageNumber*MAX_TEXT_CHAR_ROW+1][0]=='\0') {
+          printf(">>>>>>>>>>>>>>> WAKAS!\n");
+          
+          bHasReachedEndOfTextMessage=true;
+          
+          break;
+      }
+      else {
+          if (iRowCount>=MAX_TEXT_CHAR_ROW) {
+              iRowCountPageNumber++;
+              iTextCurrentMaxRowCount=1;
+              iRowCount=-1; //note: we add 1 near the closing of the for loop
+          }
+      }
+    }
+  
+      //edited by Mike, 20210618
+      //re-set isAtMaxTextCharRow to FALSE after button press
+      if ((iRowCount+1)>=MAX_TEXT_CHAR_ROW) {
+          iRowCount=3;
+          //                			iRowCountPageNumber=0; //removed by Mike, 20210618
+          iTextCurrentMaxRowCount=4;
+          isAtMaxTextCharRow=true;
+      }
             
             //printf("iTextCurrentMaxRowCount: %i\n",iTextCurrentMaxRowCount);
             
             //added by Mike, 20210617
-            //TO-DO: fix: next row only iTextCurrentMaxColumnCount=1
-            
-            
-        }
-        else {
-            break;
-        }
-        
-        //        printf(">>\n");
-        
-        /*	//removed by Mike, 20210617
-         
-         }
-         */
-        iTextAnimationCountDelay+=1;
-        
+            //TO-DO: fix: next row only iTextCurrentMaxColumnCount=1       
+  		}
+  		else {
+      		break;
+  		}
+              
+      iTextAnimationCountDelay+=1;
+      
         //added by Mike, 20210618
-        iRowCount=iRowCount+1;
-        
-        
-        //     		}
-        
+        iRowCount=iRowCount+1;       
     }
-				
-    glScalef(1.0f,1.2f,1.0f);
-				
-	   glDisable(GL_TEXTURE_2D);
-	   glBindTexture(GL_TEXTURE_2D, 0);
-	       
-    //added by Mike, 20210802
-		glPopMatrix();
 }
 
 

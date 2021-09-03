@@ -432,6 +432,10 @@ public:
     //added by Mike, 20210902
     virtual void openGLDrawTexture(float x, float y, float textw, float texth);
             
+		//added by Mike, 20210903
+    virtual void drawTextFontAsQuadWithTexture(float x, float y, float textw, float texth);            
+
+            
     /*	//removed by Mike, 20210522	
      void setOpenGLCanvas(OpenGLCanvas* c);
      */	

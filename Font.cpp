@@ -86,85 +86,74 @@ GLboolean test_pow2(GLushort i)
 
 /* text drawing */
 
-//edited by Mike, 2020117
-//void draw_char(GLfloat x, GLfloat y, char c)
-void draw_char(GLfloat x, GLfloat y, GLfloat z, char c)
+//added by Mike, 20210903
+//TO-DO: -reverify: this due to font char NOT drawn
+void draw_char(GLuint glIFontTexture, float x, float y, float z, char c)
 {
-	//edited by Mike, 20201117
-//    GLfloat tx, ty;
+	glBindTexture(GL_TEXTURE_2D, glIFontTexture);
+	glEnable(GL_TEXTURE_2D);
+
+	//removed by Mike, 20210903
+//	textw=textw*2;
+
     GLfloat tx, ty, tz;
 
-    /* check if the character is valid */
+    // check if the character is valid
     if (c < ' ' || c > '~')
         return;
 
-    /* subtract 32, since the first character in the font texture
-     * is the space (ascii value 32) */
+    //subtract 32, since the first character in the font texture
+    //is the space (ascii value 32)
     c = c - 32;
 
-    /* determine texture coordinates; this assumes that each character
-     * in the font texture has a width-height ratio of 10:16 (see the
-     * font.tga file to understand what I mean) */
+    //each character in the font texture image file
+    //has a width-height ratio of 10:16
     tx = c % 12 * 0.078125f;
     ty = 0.875f - (c / 12 * 0.125f);
-    //added by Mike, 20201117
-//    tz = 0.875f - (c / 12 * 0.125f);
 
-	//edited by Mike, 20201012
-	//to make anchor/origin/reference point start at top-left
-/*//removed by Mike, 20210402
-	glTranslatef(0.0f, 0.1f, 0.0f);   
-*/	
-	glColor3f(1.0f, 1.0f, 1.0f); //set to default, i.e. white
-    //glColor3f(0.0f, 0.0f, 0.0f); //set to default, i.e. black
+/* //removed by Mike, 20210903    
+    //added by Mike, 20210903
+    //note: each character in the font texture image file has a width-height ratio of 10:16
+    float fTextWidth = 0.078125f;
+    float fTextHeight = 0.125f;
+
+		glBegin(GL_QUADS);
+			glTexCoord2f(0.0f, 0.0f);
+			glVertex3f(x, y, 0);
+			
+			glTexCoord2f(0.0f+0.5f, 0.0f);
+			glVertex3f(x + fTextWidth, y, 0);
+			
+			glTexCoord2f(0.0f+0.5f, 0.0f+0.5f);
+			glVertex3f(x + fTextWidth, y + fTextHeight, 0);
+			
+			glTexCoord2f(0.0f, 0.0f+0.5f);
+			glVertex3f(x, y + fTextHeight, 0);
+		glEnd();
+*/		
+		
+		glBegin(GL_QUADS);              // Each set of 4 vertices form a quad
+        glTexCoord2f(tx, ty);
+        glVertex3f(x, y, 0.0f);
+
+        glTexCoord2f(tx + 0.078125f, ty);
+      	glVertex3f(x+0.1f, y, 0.0f);      
+
+        glTexCoord2f(tx + 0.078125f, ty + 0.125f);
+      	glVertex3f(x+0.1f, y+0.16f, 0.0f);              
+
+				glTexCoord2f(tx, ty + 0.125f);
+      	glVertex3f(x, y+0.16f, 0.0f);      
+   glEnd();    
+   		
 	
-	//edited by Mike, 20201012
-/*
-	  //1x1 box
-	  glVertex2f(0.0f, 0.0f);    // x, y
-      glVertex2f( 0.0f, -0.1f);
-      glVertex2f( 0.1f,  -0.1f);
-      glVertex2f(0.1f,  0.0f);
-*/
-	//edited by Mike, 20201117; added by Mike, 20210402
-
-	glBegin(GL_QUADS);              // Each set of 4 vertices form a quad
-        glTexCoord2f(tx, ty);
-        glVertex3f(x, y, 0.0f);
-        glTexCoord2f(tx + 0.078125f, ty);
-//        glVertex3f(x + 10.0f, y, 0.0f);
-      	glVertex3f(x+0.1f, y, 0.0f);      
-        glTexCoord2f(tx + 0.078125f, ty + 0.125f);
-        //glVertex3f(x + 10.0f, y + 16.0f, 0.0f);
-      	//glVertex3f(x+0.1f, y+0.16f, 0.0f);              
-      	//glVertex3f(x+0.1f, y+0.16f, 0.0f);              
-      	glVertex3f(x+0.1f, y-0.16f, 0.0f);              
-//      	glVertex3f(x, y+0.16f, 0.0f);      
-		glTexCoord2f(tx, ty + 0.125f);
-        //glVertex3f(x, y + 16.0f, 0.0f);
-      	//glVertex3f(x, y+0.16f, 0.0f);      
-      	glVertex3f(x, y-0.16f, 0.0f);      
-//      	glVertex3f(x+0.1f, y+0.16f, 0.0f);              
-   glEnd();        
-/*   //removed by Mike, 20210402
-	glBegin(GL_QUADS);              // Each set of 4 vertices form a quad
-        glTexCoord2f(tx, ty);
-        glVertex3f(x, y, 0.0f);
-        glTexCoord2f(tx + 0.078125f, ty);
-      	glVertex3f(x+0.1f, y, 0.0f);      
-        glTexCoord2f(tx + 0.078125f, ty + 0.125f);
-      	glVertex3f(x+0.1f, y-0.16f, 0.0f);              
-		glTexCoord2f(tx, ty + 0.125f);
-      	glVertex3f(x, y-0.16f, 0.0f);      
-   glEnd();        
-*/
+	glDisable(GL_TEXTURE_2D);
 }
 
 //edited by Mike, 2020117
 //void draw_string(GLfloat x, GLfloat y, char *string)
-void draw_string(GLfloat x, GLfloat y, GLfloat z, char *string)
+void draw_string(GLuint glIFontTexture, GLfloat x, GLfloat y, GLfloat z, char *string)
 {
-
     GLfloat origX=x;
     while (string[0] != 0)
     {
@@ -185,7 +174,7 @@ void draw_string(GLfloat x, GLfloat y, GLfloat z, char *string)
 //            glScalef(0.5f, 0.5f, 0.5f);
 				//edited by Mike, 2020117
 //            draw_char(x, y, string[0]);
-            draw_char(x, y, z, string[0]);
+            draw_char(glIFontTexture, x, y, z, string[0]);
     	glPopMatrix();
 
         
@@ -250,30 +239,7 @@ GLuint openGLLoadTexture(char *filename, float fMyWidth, float fMyHeight)
             break;
     }
 #endif
-    
-	/* //edited by Mike, 20210824
-	//note: 4 frames per width and height of whole texture image file
-	*textw = surface->w;
-	*texth = surface->h;
-	*/
-	
-/* //removed by Mike, 20210903	
-//    int iCountTotalFrames=4;
-    float fCountTotalFrames=4.0f;
-
-    if(strstr(filename, "level2D") != NULL) {
-//      iCountTotalFrames=16;
-     fCountTotalFrames=16.0f;
-        
-//        printf(">>> DITO\n");
-    }
-*/    
-
-/*   //edited by Mike, 20210903
-    float fTextWidth = surface->w/fCountTotalFrames; //4;
-    float fTextHeight = surface->h/fCountTotalFrames; //4;
-*/
-
+    	
     //note: each character in the font texture image file has a width-height ratio of 10:16
     float fTextWidth = 0.078125f;
     float fTextHeight = 0.125f;
