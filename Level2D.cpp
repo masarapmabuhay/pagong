@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20200926
- * @date updated: 20210901
+ * @date updated: 20210903
  * @website address: http://www.usbong.ph
  *
  * Reference:
@@ -221,6 +221,8 @@ Level2D::Level2D(float xPos, float yPos, float zPos, float fWindowWidth, float f
     currentState=MOVING_STATE;
     //added by Mike, 20201201
     currentMovingState=IDLE_MOVING_STATE;
+    
+    fCountTotalFrames=16.0f; //added by Mike, 20210903
     
     //    myXPos=0.0;
     //    myYPos=0.0;

@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B. 
  * @date created: 20200930
- * @date updated: 20210902
+ * @date updated: 20210903
  * @website address: http://www.usbong.ph
  *
  * Reference: 
@@ -316,6 +316,8 @@ Pilot::Pilot(float xPos, float yPos, float zPos, float fWindowWidth, float fWind
 	//added by Mike, 20210611
 	fTaoAnimationFrameOffsetYAxis=0.0f;
 	
+	fCountTotalFrames=4.0f; //added by Mike, 20210903
+	
 	//added by Mike, 20210810
 	iShieldEffectCount=0;
 	iGlowEffectCount=0;
@@ -343,7 +345,9 @@ Pilot::Pilot(float xPos, float yPos, float zPos, float fWindowWidth, float fWind
 	printf(">>Pilot.cpp: myWindowWidth: %i\n",myWindowWidth);
 	printf(">>Pilot.cpp: myWindowHeight: %i\n",myWindowHeight);
 */	
-	//added by Mike, 20210727
+  //added by Mike, 20210903
+  fCountTotalFrames=4.0f;
+
   //TO-DO: -add: receive as input the values for the following to execute cascading values
   iRowCountMax=10;
   iColumnCountMax=18;

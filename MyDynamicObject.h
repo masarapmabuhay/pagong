@@ -147,9 +147,6 @@ private:
     
     //removed by Mike, 20210830
 //    bool isCollidable;
-        
-    //removed by Mike, 20210523
-    //	UsbongUtils *myUsbongUtils; //added by Mike, 202105017
                 
 public:
     float myXPos;
@@ -234,6 +231,9 @@ public:
 		SDL_Renderer *mySDLRenderer;
 		SDL_Texture *texture;
 		GLuint openGLITexture;
+		
+		//added by Mike, 20210903
+		float fCountTotalFrames;
     
     //added by Mike, 20210725
     Level2D *myLevel2D;
@@ -277,6 +277,7 @@ public:
     MyDynamicObject(float xPos=0.0f, float yPos=0.0f, float zPos=0.0f, int windowWidth=0, int windowHeight=0 ): myXPos(xPos), myYPos(yPos), myZPos(zPos), fMyWindowWidth(windowWidth/100), fMyWindowHeight(windowHeight/100)
     {
         currentState=ACTIVE_STATE;
+        fCountTotalFrames=1.0f; //added by Mike, 20210903
     }
     
     //added by Mike, 20210517

@@ -386,6 +386,8 @@ GLuint MyDynamicObject::openGLLoadTexture(char *filename, float fMyWidth, float 
 	*textw = surface->w;
 	*texth = surface->h;
 	*/
+	
+/* //removed by Mike, 20210903	
 //    int iCountTotalFrames=4;
     float fCountTotalFrames=4.0f;
 
@@ -395,6 +397,7 @@ GLuint MyDynamicObject::openGLLoadTexture(char *filename, float fMyWidth, float 
         
 //        printf(">>> DITO\n");
     }
+*/
 
 /*    //edited by Mike, 20210831; TO-DO: -update: this to auto-identify total count of frames
     *fTextWidth = surface->w/fCountTotalFrames; //4;

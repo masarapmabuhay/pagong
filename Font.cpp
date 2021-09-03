@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B. 
  * @date created: 20201010
- * @date updated: 20210902
+ * @date updated: 20210903
  *
  * Acknowledgments:
  * 1) "Bulalakaw Wars" Team (2007): 
@@ -46,6 +46,18 @@
 //#include <GL/glut.h>
 #endif
 
+//added by Mike, 20210903
+//note: reverifying: use of SDL Image + OpenGL, without GLUT
+#ifdef _WIN32 //Windows machine
+	#include <SDL.h>
+	#include <SDL_image.h>
+#elif defined(__APPLE__)
+    #include <SDL2/SDL.h>
+    #include <SDL2_image/SDL_image.h>
+#else
+	#include <SDL2/SDL.h>
+	#include <SDL2/SDL_image.h>
+#endif
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -59,20 +71,6 @@
 
 /*****************************************************************************/
 
-/* texture loading */
-
-typedef struct
-{
-    GLubyte id_field_length;
-    GLubyte color_map_type;
-    GLubyte image_type_code;
-    GLubyte ignore[9];
-    GLushort width;
-    GLushort height;
-    GLubyte image_pixel_size;
-    GLubyte image_descriptor;
-} TARGA_HEADER;
-
 GLboolean test_pow2(GLushort i)
 {
     while (i % 2 == 0)
@@ -83,59 +81,6 @@ GLboolean test_pow2(GLushort i)
         return GL_FALSE;
 }
 
-//edited by Mike, 20201010
-void load_tga(char *filename)
-//void load_tga(std::string filename)
-{
-    TARGA_HEADER targa;
-    FILE *file;
-    GLubyte *data;
-    GLuint i;
-
-    file = fopen(filename, "rb");
-    if (file == NULL)
-        return;
-
-    /* test validity of targa file */
-    if (fread(&targa, 1, sizeof(targa), file) != sizeof(targa) ||
-        targa.id_field_length != 0 || targa.color_map_type != 0 ||
-        targa.image_type_code != 2 || ! test_pow2(targa.width) ||
-        ! test_pow2(targa.height) || targa.image_pixel_size != 32 ||
-        targa.image_descriptor != 8)
-    {
-        fclose(file);
-        return;
-    }
-
-    /* read targa file into memory */
-    data = (GLubyte *) malloc(targa.width * targa.height * 4);
-    if (fread(data, targa.width * targa.height * 4, 1, file) != 1)
-    {
-        fclose(file);
-        free(data);
-        return;
-    }
-
-    /* swap texture bytes so that BGRA becomes RGBA */
-    for (i = 0; i < targa.width * targa.height * 4; i += 4)
-    {
-        GLbyte swap = data[i];
-        data[i] = data[i + 2];
-        data[i + 2] = swap;
-    }
-
-    /* build OpenGL texture */
-    fclose(file);
-    gluBuild2DMipmaps(GL_TEXTURE_2D, GL_RGBA, targa.width, targa.height,
-                      GL_RGBA, GL_UNSIGNED_BYTE, data);
-    free(data);
-    
-/*   char str[700];                                       
-   sprintf(str,"dito: %f",0.0f);
-*/
-//   std::cout << "keydown " << "\n";
-	//printf("dito");
-}
 
 /*****************************************************************************/
 
@@ -254,50 +199,125 @@ void draw_string(GLfloat x, GLfloat y, GLfloat z, char *string)
     }
 }
 
-void setupFont(int myFontTextureObject)
+//added by Mike, 20210903
+GLuint openGLLoadTexture(char *filename, float fMyWidth, float fMyHeight)
 {
-	//removed by Mike, 20201010
-	//due to blank output
-    //glEnable(GL_DEPTH_TEST);
+	SDL_Surface *surface;
+	GLenum textureFormat;
+	GLuint texture;
+	
+	surface = IMG_Load(filename);
+	
+	if (!surface){
+		return 0;
+	}
 
-    /* select texture 1 */
-    glBindTexture(GL_TEXTURE_2D, myFontTextureObject);
-
-    /* create OpenGL texture out of targa file */
-	//edited by Mike, 20210420
-    load_tga((char*)"textures/font.tga");
-//    load_tga("textures/concrete.tga");
+//added by Mike, 20210824
+//TO-DO: -add: image frame clipping
+#if defined(__APPLE__)
+    switch (surface->format->BytesPerPixel) {
+        case 4:
+            if (SDL_BYTEORDER == SDL_BIG_ENDIAN)
+//                textureFormat = GL_BGRA;
+                textureFormat = GL_RGBA;
+            else
+//                textureFormat = GL_RGBA;
+                textureFormat = GL_BGRA;
+            break;
+        case 3:
+            if (SDL_BYTEORDER == SDL_BIG_ENDIAN)
+//                textureFormat = GL_BGR;
+                textureFormat = GL_RGB;
+            else
+//                textureFormat = GL_RGB;
+                textureFormat = GL_BGR;
+            break;
+    }
+#else
+    switch (surface->format->BytesPerPixel) {
+        case 4:
+            if (SDL_BYTEORDER == SDL_BIG_ENDIAN)
+                textureFormat = GL_BGRA;
+            else
+                textureFormat = GL_RGBA;
+            break;
+            
+        case 3:
+            if (SDL_BYTEORDER == SDL_BIG_ENDIAN)
+                textureFormat = GL_BGR;
+            else
+                textureFormat = GL_RGB;
+            break;
+    }
+#endif
     
-	/* set texture parameters */
+	/* //edited by Mike, 20210824
+	//note: 4 frames per width and height of whole texture image file
+	*textw = surface->w;
+	*texth = surface->h;
+	*/
+	
+/* //removed by Mike, 20210903	
+//    int iCountTotalFrames=4;
+    float fCountTotalFrames=4.0f;
+
+    if(strstr(filename, "level2D") != NULL) {
+//      iCountTotalFrames=16;
+     fCountTotalFrames=16.0f;
+        
+//        printf(">>> DITO\n");
+    }
+*/    
+
+/*   //edited by Mike, 20210903
+    float fTextWidth = surface->w/fCountTotalFrames; //4;
+    float fTextHeight = surface->h/fCountTotalFrames; //4;
+*/
+
+    //note: each character in the font texture image file has a width-height ratio of 10:16
+    float fTextWidth = 0.078125f;
+    float fTextHeight = 0.125f;
+         
+//    printf(">> fTextHeight %f\n",surface->h/fCountTotalFrames);
+	
+	glGenTextures(1, &texture);
+	glBindTexture(GL_TEXTURE_2D, texture);
+    
+/* //edited by Mike, 20210830
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+*/
+/*	//edited by Mike, 20210722; this is due to displayed image is blurred
+     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
+     GL_LINEAR_MIPMAP_NEAREST);
+     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+*/
+    // set texture parameters
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+    
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
-                    GL_LINEAR_MIPMAP_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-    /* unselect texture myFontTextureObject */
-    glBindTexture(GL_TEXTURE_2D, 0);
-
-    /* setup alpha blending */
+                    GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    
+    // unselect texture myFontTextureObject
+//    glBindTexture(GL_TEXTURE_2D, 0);
+    
+    // setup alpha blending
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glEnable(GL_BLEND);
+    
+    
+	glTexImage2D(GL_TEXTURE_2D, 0, surface->format->BytesPerPixel, surface->w,
+	surface->h, 0, textureFormat, GL_UNSIGNED_BYTE, surface->pixels);
+	
+	SDL_FreeSurface(surface);
+	
+	return texture;	
+}
 
-    /* set background color to bluish /* set texture parameters */
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
-                    GL_LINEAR_MIPMAP_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-    /* unselect texture myFontTextureObject */
-    glBindTexture(GL_TEXTURE_2D, 0);
-
-    /* setup alpha blending */
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    glEnable(GL_BLEND);
-
-	//removed by Mike, 20201012
-    /* set background color to bluish to demonstrate font transparency */
-//    glClearColor(0.0f, 0.0f, 0.25f, 1.0f); /* to demonstrate font transparency */
-
+//added by Mike, 20210903
+GLuint setupFont(char *filename, float fMyWidth, float fMyHeight)
+{
+	return openGLLoadTexture(filename, fMyWidth, fMyHeight);
 }

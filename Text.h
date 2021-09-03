@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20210613
- * @date updated: 20210902
+ * @date updated: 20210903
  * @website address: http://www.usbong.ph
  *
  * Acknowledgments:
@@ -148,6 +148,9 @@ private:
     float fButtonAnimationFrameOffset;
     
     OpenGLCanvas *myOpenGLCanvas;
+    
+    //added by Mike, 20210903
+    GLuint glIFontTexture;
     
     //added by Mike, 20210516; removed to public classification by Mike, 20210523
     //	UsbongUtils *myUsbongUtils;
@@ -376,16 +379,14 @@ public:
     void readInputText(char *inputFilename);
     
     virtual void draw() {
-        //edited by Mike, 20210424
-        //    	drawPilot();
-        //		drawPilotAsQuadWithTexture();
-        //edited by Mike, 20210615
-        drawTextBackgroundAsQuadWithTexture();
+        //edited by Mike, 20210903
+//        drawTextBackgroundAsQuadWithTexture();
+        
+        drawTextBackgroundAsQuadWithTexture();      
     }
     
     //edited by Mike, 20210615
     void drawTextBackgroundAsQuadWithTexturePrev();
-    void drawTextBackgroundAsQuadWithTextureBuggy(); //added by Mike, 20210617
     void drawTextBackgroundAsQuadWithTexture();
     void drawTextBackgroundObject();
     

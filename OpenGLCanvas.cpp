@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20200926
- * @date updated: 20210902
+ * @date updated: 20210903
  * @website address: http://www.usbong.ph
  *
  * References:
@@ -498,252 +498,11 @@ bool OpenGLCanvas::init(int myWindowWidthAsPixelInput, int myWindowHeightAsPixel
     //added by Mike, 20210830
     myPilot->setLevel2D(myLevel2D);
     
-/*  //TO-DO: -update: this
-    //added by Mike, 20210902
-    myText = new Text(0.0f,320.0f,0.0f,myWindowWidthAsPixelInput,myWindowHeightAsPixelInput);
+    //added by Mike, 20210903
+    //note: positions re-set inside function
+    myText = new Text(-1.0f,-1.0f,-1.0f,myWindowWidthAsPixel,myWindowHeightAsPixel);
     myText->setOpenGLCanvas(this, fGridSquareWidth, fGridSquareHeight);
-*/        
-    
-/*  
-    //added by Mike, 20210530; edited by Mike, 20210605
-    //edited by Mike, 20210606
-    //    myPilotPartner = new Pilot(100.0f,0.0f,220.0f,myLevel->getMaxXAxisViewport()*fGridSquareWidth,myLevel->getMaxZAxisViewport()*fGridSquareHeight);
-    myPilotPartner = new Pilot(100.0f,0.0f,170.0f,myLevel->getMaxXAxisViewport()*fGridSquareWidth,myLevel->getMaxZAxisViewport()*fGridSquareHeight);
-    //edited by Mike, 20210710
-    //    myPilotPartner->setOpenGLCanvas(this, fGridSquareWidth);
-    myPilotPartner->setOpenGLCanvas(this, fGridSquareWidth, fGridSquareHeight);
-    
-    myPilotPartner->setAsPlayer1Partner(); //added by Mike, 20210601
-    
-    
-    //added by Mike, 20210602
-    //TO-DO: -update: player 1 positions
-    //TO-DO: -update: player 2 positions
-    
-    //added by Mike, 20210502; edited by Mike, 20210528
-    //	myPilotPlayer2 = new Pilot(0.0f,0.0f,0.0f,myLevel->getMaxXAxisViewport()*fGridSquareWidth,myLevel->getMaxZAxisViewport()*fGridSquareHeight);
-    //edited by Mike, 20210603
-    //    myPilotPlayer2 = new Pilot(360.0f,0.0f,320.0f,myLevel->getMaxXAxisViewport()*fGridSquareWidth,myLevel->getMaxZAxisViewport()*fGridSquareHeight);
-    //edited by Mike, 20210606
-    //    myPilotPlayer2 = new Pilot(320.0f+100.0f,0.0f,320.0f,myLevel->getMaxXAxisViewport()*fGridSquareWidth,myLevel->getMaxZAxisViewport()*fGridSquareHeight);
-    myPilotPlayer2 = new Pilot(320.0f+100.0f,0.0f,270.0f,myLevel->getMaxXAxisViewport()*fGridSquareWidth,myLevel->getMaxZAxisViewport()*fGridSquareHeight);
-    //edited by Mike, 20210522
-    //	myPilotPlayer2->setOpenGLCanvas(this);
-    //edited by Mike, 20210710
-    //    myPilotPlayer2->setOpenGLCanvas(this, fGridSquareWidth);
-    myPilotPlayer2->setOpenGLCanvas(this, fGridSquareWidth, fGridSquareHeight);
-    
-    myPilotPlayer2->setAsPlayer2();
-    
-    //added by Mike, 20210530; edited by Mike, 20210605
-    //edited by Mike, 20210606
-    //    myPilotPlayer2Partner = new Pilot(360.0f,0.0f,220.0f,myLevel->getMaxXAxisViewport()*fGridSquareWidth,myLevel->getMaxZAxisViewport()*fGridSquareHeight);
-    myPilotPlayer2Partner = new Pilot(360.0f,0.0f,170.0f,myLevel->getMaxXAxisViewport()*fGridSquareWidth,myLevel->getMaxZAxisViewport()*fGridSquareHeight);
-    
-    //edited by Mike, 20210710
-    //note: width and height not equal due to Window
-    //to cause square tile to NOT be square
-    myPilotPlayer2Partner->setOpenGLCanvas(this, fGridSquareWidth, fGridSquareHeight);
-    myPilotPlayer2Partner->setAsPlayer2Partner(); //edited by Mike, 20210601
-    
-    
-    //added by Mike, 20210514; edited by Mike, 20210517
-    //	myButton = new Button(0.0f,0.0f,0.0f,myWindowWidth,myWindowHeight);
-    //	myButton = new Button(0.0f,0.0f,0.0f,myWindowWidthAsPixel,myWindowHeightAsPixel);
-    //edited by Mike, 20210517
-    //note: float xPos as parameter to int myXPosAsPixel not correct output
-    //	myButton = new Button(myWindowWidthAsPixel/2.0f,0.0f,0.0f,myWindowWidthAsPixel,myWindowHeightAsPixel);
-    myButton = new Button(0.0f,0.0f,0.0f,myWindowWidthAsPixel,myWindowHeightAsPixel);
-    //edited by Mike, 20210522
-    //	myButton->setOpenGLCanvas(this);
-    //edited by Mike, 20210710
-    //myButton->setOpenGLCanvas(this, fGridSquareWidth);
-    myButton->setOpenGLCanvas(this, fGridSquareWidth, fGridSquareHeight);
-    
-    //edited by Mike, 20210626
-    //    myText = new Text(0.0f,320.0f,0.0f,myWindowWidthAsPixel,myWindowHeightAsPixel);
-    myText = new Text(0.0f,320.0f,0.0f,myWindowWidthAsPixelInput,myWindowHeightAsPixelInput);
-    //edited by Mike, 20210710
-    //    myText->setOpenGLCanvas(this, fGridSquareWidth);
-    myText->setOpenGLCanvas(this, fGridSquareWidth, fGridSquareHeight);
-    
-    
-    //added by Mike, 20210703; edited by Mike, 20210708
-    //    myLevel2D = new Level2D(0.0f,320.0f,0.0f,myWindowWidthAsPixelInput,myWindowHeightAsPixelInput);
-    myLevel2D = new Level2D(0.0f,0.0f,0.0f,myWindowWidthAsPixelInput,myWindowHeightAsPixelInput);
-    
-    //note: width and height not equal due to Window
-    //to cause square tile to NOT be square
-    //myLevel2D->setOpenGLCanvas(this, fGridSquareWidth);
-    myLevel2D->setOpenGLCanvas(this, fGridSquareWidth, fGridSquareHeight);
-    myLevel2D->setupLevel(LEVEL_2D_TEXTURE);
-    
-    //added by Mike, 20210725
-    myPilot->setLevel2D(myLevel2D);
-    
-    //added by Mike, 20210524; edited by Mike, 20210528
-    //	myBall = new Ball(320.0f,320.0f,0.0f,myWindowWidthAsPixel,myWindowHeightAsPixel);
-    myBall = new Ball(0.0f,320.0f,0.0f,myWindowWidthAsPixel,myWindowHeightAsPixel);
-    //edited by Mike, 20210710
-    //myBall->setOpenGLCanvas(this, fGridSquareWidth);
-    myBall->setOpenGLCanvas(this, fGridSquareWidth, fGridSquareHeight);
-    
-    
-    //added by Mike, 20201013; edited by Mike, 20201014
-    //	for (i=0; i<MAX_BEAMS; i++) {
-    for (int i=0; i<MAX_BEAMS; i++) {
-        //edited by Mike, 2020116
-        //      myBeam[i] = new Beam;
-        //edited by Mike, 20210219; edited by Mike, 20210321
-        myBeam[i] = new Beam(0.0f,0.0f,0.0f,myWindowWidth,myWindowHeight);
-        //		myBeam[i] = new Beam(0.0f,0.0f,0.0f,myLevel->getMaxXAxisViewport()*fGridSquareWidth,myLevel->getMaxZAxisViewport()*fGridSquareHeight);
         
-        //added by Mike, 20210522; edited by Mike, 20210710
-        //myBeam[i]->setOpenGLCanvas(this, fGridSquareWidth);
-        myBeam[i]->setOpenGLCanvas(this, fGridSquareWidth, fGridSquareHeight);
-    }
-    
-    
-    //added by Mike, 20201016
-    //-------------------------------------------
-    numOfAsteroidsLeft=MAX_ASTEROID;
-*/    
-    //init asteroids and set their positions to the four corners
-    /*    myAsteroid[0] = new Asteroid(PARENT_STATUS,0.0f,1.0f);//,10,10); //TOP RIGHT
-     myAsteroid[1] = new Asteroid(PARENT_STATUS,0.0f,0.0f);//,-10,10); //TOP LEFT
-     myAsteroid[2] = new Asteroid(PARENT_STATUS,1.0f,0.0f);//,-10,-10); //BOTTOM LEFT
-     myAsteroid[3] = new Asteroid(PARENT_STATUS,1.0f,1.0f);//,10,-10); //BOTTOM RIGHT
-     */
-    
-    /*	//edited by Mike, 20201017
-     myAsteroid[0] = new Asteroid(PARENT_STATUS,0.1f,0.1f);//,10,10); //TOP RIGHT
-     myAsteroid[1] = new Asteroid(PARENT_STATUS,0.1f,0.1f);//,-10,10); //TOP LEFT
-     myAsteroid[2] = new Asteroid(PARENT_STATUS,0.1f,0.1f);//,-10,-10); //BOTTOM LEFT
-     myAsteroid[3] = new Asteroid(PARENT_STATUS,0.1f,0.1f);//,10,-10); //BOTTOM RIGHT
-     */
-/* //removed by Mike, 20210825     
-    for (int i=0; i<4; i++) {
-        //edited by Mike, 20201113
-        //    	myAsteroid[i] = new Asteroid(PARENT_STATUS,0.1f,0.1f);//,10,10); //TOP RIGHT
-        //    	myAsteroid[i] = new Asteroid(PARENT_STATUS,0.1f,0.0f,0.1f);//,10,10); //TOP RIGHT
-        //edited by Mike, 20201115
-        //    	myAsteroid[i] = new Asteroid(PARENT_STATUS,fGridSquareWidth,0.0f,fGridSquareHeight);//,10,10); //TOP RIGHT
-        //edited by Mike, 20210219
-        //myAsteroid[i] = new Asteroid(PARENT_STATUS,fGridSquareWidth,0.0f,fGridSquareHeight,myWindowWidth,myWindowHeight);//TOP RIGHT
-        myAsteroid[i] = new Asteroid(PARENT_STATUS,fGridSquareWidth,0.0f,fGridSquareHeight,myLevel->getMaxXAxisViewport()*fGridSquareWidth,myLevel->getMaxZAxisViewport()*fGridSquareHeight);
-    }
-    
-    for (int i=0; i<4; i++) {
-        //edited by Mike, 20201113
-        //    	myAsteroid[i+4] = new Asteroid(PARENT_STATUS,0.1f,0.1f);//,10,10); //TOP RIGHT
-        //edited by Mike, 20201115
-        //    	myAsteroid[i+4] = new Asteroid(PARENT_STATUS,0.1f,0.0f,0.1f);//,10,10); //TOP RIGHT
-        //edited by Mike, 20210219
-        //myAsteroid[i+4] = new Asteroid(PARENT_STATUS,0.1f,0.0f,0.1f,myWindowWidth,myWindowHeight); //TOP RIGHT
-        myAsteroid[i+4] = new Asteroid(PARENT_STATUS,0.1f,0.0f,0.1f,myLevel->getMaxXAxisViewport()*fGridSquareWidth,myLevel->getMaxZAxisViewport()*fGridSquareHeight);
-    }
-    
-    for (int i=0; i<4; i++) {
-        //edited by Mike, 20201113
-        //    	myAsteroid[i+8] = new Asteroid(PARENT_STATUS,0.1f,0.1f);//,10,10); //TOP RIGHT
-        //edited by Mike, 20201115
-        //    	myAsteroid[i+8] = new Asteroid(PARENT_STATUS,0.1f,0.0f,0.1f);//,10,10); //TOP RIGHT
-        //edited by Mike, 20210219
-        //myAsteroid[i+8] = new Asteroid(PARENT_STATUS,0.1f,0.0f,0.1f,myWindowWidth,myWindowHeight);//TOP RIGHT
-        myAsteroid[i+8] = new Asteroid(PARENT_STATUS,0.1f,0.0f,0.1f,myLevel->getMaxXAxisViewport()*fGridSquareWidth,myLevel->getMaxZAxisViewport()*fGridSquareHeight);
-    }
-    
-    for (int i=0; i<4; i++) {
-        //edited by Mike, 20201113
-        //    	myAsteroid[i+12] = new Asteroid(PARENT_STATUS,0.1f,0.1f);//,10,10); //TOP RIGHT
-        //edited by Mike, 20201115
-        //    	myAsteroid[i+12] = new Asteroid(PARENT_STATUS,0.1f,0.0f,0.1f);//,10,10); //TOP RIGHT
-        //edited by Mike, 20210219
-        //myAsteroid[i+12] = new Asteroid(PARENT_STATUS,0.1f,0.0f,0.1f,myWindowWidth,myWindowHeight);//TOP RIGHT
-        myAsteroid[i+12] = new Asteroid(PARENT_STATUS,0.1f,0.0f,0.1f,myLevel->getMaxXAxisViewport()*fGridSquareWidth,myLevel->getMaxZAxisViewport()*fGridSquareHeight);
-    }
-*/
-    
-    /*	//removed by Mike, 20201016
-     for (int i=4; i<12; i++)
-     {
-     myAsteroid[i] = new Asteroid(CHILD_STATUS,0,0);
-     }
-     //group them into 3's
-     myAsteroid[0]->attachChild(myAsteroid[4],myAsteroid[5]);
-     myAsteroid[1]->attachChild(myAsteroid[6],myAsteroid[7]);
-     myAsteroid[2]->attachChild(myAsteroid[8],myAsteroid[9]);
-     myAsteroid[3]->attachChild(myAsteroid[10],myAsteroid[11]);
-     for (int i=12; i<MAX_ASTEROID; i++)
-     {
-     myAsteroid[i] = new Asteroid(GRANDCHILD_STATUS,0,0);
-     }
-     myAsteroid[4]->attachChild(myAsteroid[12],myAsteroid[13]);
-     myAsteroid[5]->attachChild(myAsteroid[14],myAsteroid[15]);
-     myAsteroid[6]->attachChild(myAsteroid[16],myAsteroid[17]);
-     myAsteroid[7]->attachChild(myAsteroid[18],myAsteroid[19]);
-     myAsteroid[8]->attachChild(myAsteroid[20],myAsteroid[21]);
-     myAsteroid[9]->attachChild(myAsteroid[22],myAsteroid[23]);
-     myAsteroid[10]->attachChild(myAsteroid[24],myAsteroid[25]);
-     myAsteroid[11]->attachChild(myAsteroid[26],myAsteroid[27]);
-     */
-    
-    /* //removed by Mike, 20201213
-     for (int i=0; i<MAX_ASTEROID; i++)
-     {
-     //      myAsteroid[i] = new Asteroid;
-     //removed by Mike, 20201016
-     //        myAsteroid[i]->setOpenGLCanvas(this);
-     }
-     */
-    
-/* //removed by Mike, 20210825    
-    //added by Mike, 20201213; edited by Mike, 20210502
-    //std::vector<MyDynamicObject*> v;
-    //removed by Mike, 20210521
-    //	vMyDynamicObjectContainer.push_back(myRobotShip);
-    
-    //added by Mike, 20210502
-    vMyDynamicObjectContainer.push_back(myPilot);
-    //added by Mike, 20210522
-    vMyDynamicObjectContainer.push_back(myPilotPlayer2);
-    
-    //added by Mike, 20210530
-    vMyDynamicObjectContainer.push_back(myPilotPartner);
-    vMyDynamicObjectContainer.push_back(myPilotPlayer2Partner);
-       
-    //added by Mike, 20210528
-    vMyDynamicObjectContainer.push_back(myBall);
-*/    
-    
-    /*	//removed by Mike, 20210120
-     for (int i=0; i<MAX_BEAMS; i++) { //32
-     vMyDynamicObjectContainer.push_back(myBeam[i]);
-     }
-     */
-    //removed by Mike, 20210521
-    /*
-     for (int i=0; i<MAX_ASTEROID; i++) { //16
-     vMyDynamicObjectContainer.push_back(myAsteroid[i]);
-     }
-     */
-    
-    /*
-     myDynamicObjectContainer[0]=myPilot;
-     myDynamicObjectContainer[1]=myRobotShip;
-     for (int i=0; i<MAX_BEAMS; i++) { //32
-     myDynamicObjectContainer[i+2]=myBeam[i];
-     }
-     for (int i=0; i<MAX_ASTEROID; i++) { //16
-     myDynamicObjectContainer[i+2+MAX_BEAMS]=myAsteroid[i];
-     }
-     */
-    
-    //-------------------------------------------
-    /* //removed by Mike, 20210825    
-    //added by Mike, 20201011
-    setupFont(FONT_TEXTURE);
-*/    
     
     //added by Mike, 20210513
     for (int iCount=0; iCount<MAX; iCount++) { //1024
@@ -817,10 +576,8 @@ void OpenGLCanvas::keyDown(int keyCode)
 
     myPilot->keyDown(keyCode);
 
-/* //removed by Mike, 20210825  
-    //added by Mike, 20210618
+    //added by Mike, 20210903
     myText->keyDown(keyCode);
-*/
     
     //edited by Mike, 20210514
     if (keyCode==KEY_Z) {
@@ -864,10 +621,10 @@ void OpenGLCanvas::keyUp(int keyCode)
 /* //removed by Mike, 20210830    
     //added by Mike, 20210602
     myBall->keyUp(keyCode);
+*/
     
-    //added by Mike, 20210618
-    myText->keyUp(keyCode);
-*/        
+    //added by Mike, 20210903
+    myText->keyUp(keyCode);        
 }
 
 //added by Mike, 20210514
@@ -997,13 +754,12 @@ void OpenGLCanvas::render()
   glPopMatrix();
 	
 
-/* //removed by Mike, 20210902	
     //added by Mike, 20210903
     glPushMatrix();
-    	glScalef(fMyWindowWidthAsPixelRatioToHeightPixel,1.0f,1.0f);
+//    	glScalef(fMyWindowWidthAsPixelRatioToHeightPixel,1.0f,1.0f);
     	myText->draw();
     glPopMatrix();
-*/    
+    
 }
 
 //added by Mike, 20210510

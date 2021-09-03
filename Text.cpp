@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20200926
- * @date updated: 20210902
+ * @date updated: 20210903
  * @website address: http://www.usbong.ph
  *
  * Reference:
@@ -147,20 +147,6 @@ enum Keys
     iNumOfKeyTypes
 };
 
-//object: Cube.005_0
-//body
-typedef struct
-{
-    GLubyte id_field_length;
-    GLubyte color_map_type;
-    GLubyte image_type_code;
-    GLubyte ignore[9];
-    GLushort width;
-    GLushort height;
-    GLubyte image_pixel_size;
-    GLubyte image_descriptor;
-} TARGA_HEADER;
-
 //TO-DO: -put: in MyDynamicObject
 GLboolean Text::test_pow2(GLushort i)
 {
@@ -175,7 +161,7 @@ GLboolean Text::test_pow2(GLushort i)
 //added by Mike, 20210902
 void Text::setup()
 {
-	openGLITexture = openGLLoadTexture((char*)"textures/textExample.png", myWidth, myHeight);	
+	openGLITexture = openGLLoadTexture((char*)"textures/textExampleV3.png", myWidth, myHeight);	
 }
 
 //edited by Mike, 20201001
@@ -192,6 +178,8 @@ Text::Text(float xPos, float yPos, float zPos, float fWindowWidth, float fWindow
     //added by Mike, 20201201
     currentMovingState=IDLE_MOVING_STATE;
     
+    fCountTotalFrames=4.0f; //added by Mike, 20210903
+    	
     //    myXPos=0.0;
     //    myYPos=0.0;
     //myYPos=300.0;
@@ -234,29 +222,16 @@ Text::Text(float xPos, float yPos, float zPos, float fWindowWidth, float fWindow
     invincibleCounter=0;
     currentDeathFrame=0;
     
-    //edited by Mike, 20201001
-    /*  myWidth=2.0f;//1.5;
-     myHeight=2.0f;//1.5;
-     */
-    /*	//edited by Mike, 20201023
-     myWidth=0.1f;
-     myHeight=0.1f;
-     */
-    
-    //edited by Mike, 20201201
-    //TO-DO: -update: this
-    /*	myWidth=1.0f;
-     myHeight=1.0f;
-     */
-    //added by Mike, 20210517
-    //TO-DO: -update: this
-    myWidth=1.4f;
-    myHeight=1.4f;
-    
     //added by Mike, 20210517
     //TO-DO: -add: auto-identify object width and height
     myWidthAsPixel=128;
     myHeightAsPixel=64;
+    
+/*  //added by Mike, 20210903; removed by Mike, 20210903
+    myWidth=128;
+    myHeight=64;
+*/    
+    
     //TO-DO: -update: this
     //note: float xPos as parameter to int myXPosAsPixel not correct output
     //edited by Mike, 20210613
@@ -265,57 +240,21 @@ Text::Text(float xPos, float yPos, float zPos, float fWindowWidth, float fWindow
     myZPosAsPixel=(int)zPos;
     
     //    printf(">>myXPosAsPixel: %i\n",myXPosAsPixel);
-    
-    
-    /*
-     myWidth=0.5f;
-     myHeight=0.5f;
-     */
-    //added by Mike, 20201001; edited again by Mike, 20201001
-    //note: initial position, top-left
-    /*    myXPos=0.0f;
-     myYPos=0+myHeight;//0.1f;
-     */
-    
+ 
+/* //removed by Mike, 20210903    
     myXPos=xPos;
     myYPos=yPos;
     myZPos=zPos;
+*/    
     
-    
-    /*	//edited by Mike, 20210517
-     //added by Mike, 20210514
-     myYPos=0.0f;
-     
-     //note: position: 3,3; width, height; count starts at 0
-     //edited by Mike, 20210502
-     //    myXPos=0.0f+myWidth*3;
-     //edited by Mike, 20210503
-     //    myXPos=0.0f-myWidth*10;
-     //edited by Mike, 20210514
-     //    myXPos=0.0f-myWidth*9;
-     //    myXPos=0.0f;
-     myXPos=320.0f;
-     
-     //edited by Mike, 2020116
-     //    myYPos=0.0f+myHeight*3;
-     //added by Mike, 20210503
-     //myZPos updated again in another location
-     //edited by Mike, 20210514
-     //	myZPos=0.0f+myHeight*3;
-     myZPos=0.0f;
-     */
-    
-/*    //added by Mike, 20201115; edited by Mike, 20210815
-    myWindowWidth=windowWidth;
-    myWindowHeight=windowHeight;
-*/
     fMyWindowWidth=fWindowWidth;
     fMyWindowHeight=fWindowHeight;
     
     //added by Mike, 20210626
     fMyWindowWidthAsPixelRatioToHeightPixel=1.0f;
     iMyWindowWidthAsPixelOffset=0;
-    
+  
+/* //removed by Mike, 20210903    
     if (fMyWindowWidth!=fMyWindowHeight) {
         //added by Mike, 20210626
         //note: causes zero value with myWindowHeight/myWindowWidth;
@@ -331,17 +270,17 @@ Text::Text(float xPos, float yPos, float zPos, float fWindowWidth, float fWindow
         iMyWindowWidthAsPixelOffset=(fMyWindowWidth-fMyWindowHeight)/2;
         //			iMyWindowWidthAsPixelOffset=(myWindowWidth-myWindowHeight);
         
-/*	//removed by Mike, 20210815        
-        printf(">>>DITO: %f",fMyWindowWidthAsPixelRatioToHeightPixel);
-        printf(">>>DITO: myWindowHeight: %i",myWindowHeight);
-        printf(">>>DITO: myWindowWidth: %i",myWindowWidth);
-        printf(">>>DITO: iMyWindowWidthAsPixelOffset: %i",iMyWindowWidthAsPixelOffset);
-*/
+//	//removed by Mike, 20210815        
+////        printf(">>>DITO: %f",fMyWindowWidthAsPixelRatioToHeightPixel);
+////        printf(">>>DITO: myWindowHeight: %i",myWindowHeight);
+////        printf(">>>DITO: myWindowWidth: %i",myWindowWidth);
+////        printf(">>>DITO: iMyWindowWidthAsPixelOffset: %i",iMyWindowWidthAsPixelOffset);
+
         
         fMyWindowWidth = fMyWindowHeight; //myWindowWidthAsPixelInput;
         //    	myWindowHeightAsPixel = myWindowHeightAsPixelInput;
     }
-    
+*/    
     
     //added by Mike, 20210516
     myUsbongUtils = new UsbongUtils();
@@ -349,8 +288,15 @@ Text::Text(float xPos, float yPos, float zPos, float fWindowWidth, float fWindow
 //    myUsbongUtils->setWindowWidthHeight(myWindowWidth, myWindowHeight); //added by Mike, 20210626
     myUsbongUtils->setWindowWidthHeight(fMyWindowWidth, fMyWindowHeight); //added by Mike, 20210626
     
-    //    myWidthX=0.5;
+    //added by Mike, 20210903
+    myWidth=fMyWindowWidth/2;
+    myHeight=fMyWindowHeight/1.5f;
     
+    myXPos=0.0f+(fMyWindowWidth-myWidth)/2;
+    myYPos=fMyWindowHeight-(fMyWindowHeight-myHeight);
+    myZPos=0.0f;
+    
+/* //removed by Mike, 20210903    
     rotationAngle=0.0f;//360.0f;//90.0;
     rotationStep=10.0;//1.0f;
     thrust=0.0f;
@@ -370,6 +316,7 @@ Text::Text(float xPos, float yPos, float zPos, float fWindowWidth, float fWindow
     iPunchAnimationCountDelay=0;
     //added by Mike, 20210123
     iPunchAnimationCount=0;
+*/    
     
     //added by Mike, 20210616
     iTextCurrentMaxColumnCount=0;
@@ -418,10 +365,7 @@ Text::Text(float xPos, float yPos, float zPos, float fWindowWidth, float fWindow
     //added by Mike, 20210618
     isAtMaxTextCharRow=false;
     idrawPressNextSymbolCount=0;
-    
-    //removed by Mike, 20201001; added by Mike, 20210423
-    setup();
-    
+       
     setCollidable(true);
     
     //added by Mike, 20210614
@@ -429,8 +373,15 @@ Text::Text(float xPos, float yPos, float zPos, float fWindowWidth, float fWindow
     //  myUsbongUtils->read("inputHalimbawa.txt");
     readInputText((char*)"inputHalimbawa.txt");
     
-    //added by Mike, 20210614
-    setupFont(FONT_TEXTURE);
+    //added by Mike, 20210614; edited by Mike, 20210903
+//    setupFont(FONT_TEXTURE);		
+//		glIFontTexture = setupFont((char*)"textures/font.tga", fMyWindowWidth, fMyWindowHeight);       
+				
+		setup();
+		
+		printf(">>glIFontTexture : %i\n",glIFontTexture);				
+		printf(">>openGLITexture: %i\n",openGLITexture);
+		
 }
 
 Text::~Text()
@@ -514,8 +465,18 @@ void Text::drawPressNextSymbol()
     glPopMatrix();
 }
 
-//added by Mike, 20210617
+//added by Mike, 20210827
 void Text::drawTextBackgroundAsQuadWithTexture()
+{
+	//added by Mike, 20210826
+//	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //removed by Mike, 20210829
+		glLoadIdentity();
+    
+    openGLDrawTexture(myXPos, myYPos, myWidth, myHeight);
+}
+
+//added by Mike, 20210617
+void Text::drawTextBackgroundAsQuadWithTexturePrev()
 {
     //added by Mike, 20210723
     if (bHasReachedEndOfTextMessage) {
@@ -528,59 +489,6 @@ void Text::drawTextBackgroundAsQuadWithTexture()
     //added by Mike, 20210614
     //note; add glPushMatrix() and glPopMatrix()
     glPushMatrix();
-    
-    //edited by Mike, 20210725
-    //note: we remove excess glTranslatef(...) and glScalef(...);
-    //observation: increase in delay to finish caused by among others:
-    //No clear history list of executed glTranslatef(...) and glScalef(...)
-    //to a certain computer instruction via file and line number
-    //reminder: each glScalef(...) is combined with glTranslatef(...) due to anchor position, e.g. top-left, is also changed
-//    glTranslatef(myUsbongUtils->autoConvertFromPixelToVertexPointX(myXPosAsPixel), myUsbongUtils->autoConvertFromPixelToVertexPointY(myYPosAsPixel), myZPosAsPixel);
-
-    
-    //        glScalef(2.5f,5.0f,1.0f);
-    //edited by Mike, 20210616
-    //        glScalef(2.0f,2.0f,1.0f);
-    //        glScalef(2.5f,4.0f,1.0f);
-    //edited by Mike, 20210627
-    //    glScalef(5.0f,4.0f,1.0f);
-    
-    //edited by Mike, 20210723
-    //    glScalef(5.0f,2.5f,1.0f);
-    
-/*  //removed by Mike, 20210725
-    //edited by Mike, 20210723
-    //note: displayed output to be equal
-    //edited by Mike, 20210724
-    //TO-DO: -reverify: this due to caused by
-    //incorrect actual window width and height computation
-    //Windows Machine
-#ifdef _WIN32
-    glTranslatef(0.4f,0.0f,0.0f);
-#else
-    //in Linux machine, not equal with this instruction
-    glTranslatef(-myUsbongUtils->autoConvertFromPixelToVertexPointX(iMyWindowWidthAsPixelOffset), 0.0f, 0.0f);
-#endif
-    
-    //added by Mike, 20201121
-#if defined(__APPLE__)
-    glTranslatef(-0.02f,0.0f,0.0f);
-#endif
-*/
-    
-    //edited by Mike, 20210724; removed by Mike, 20210725
-/*    glScalef(3.0f,2.5f,1.0f);
-    
-    //    glScalef(3.4f,2.5f,1.0f);
-    //    glScalef(3.2f,2.5f,1.0f);
-    //auto-scale Window Width to Height
-    //    glScalef(fMyWindowWidthAsPixelRatioToHeightPixel,1.0f,1.0f);
-    
-    glTranslatef(0.0f, -0.1f, 0.0f);
-*/
-    
-//    glScalef(fMyWindowWidthAsPixelRatioToHeightPixel,1.0f,1.0f);
-    
     
     //TO-DO: -update: draw instructions
     drawTextBackgroundObject();
@@ -1863,23 +1771,20 @@ void Text::openGLDrawTexture(float x, float y, float textw, float texth)
 	glBindTexture(GL_TEXTURE_2D, openGLITexture); //textureId);
 	glEnable(GL_TEXTURE_2D);
 
-	//TO-DO: -update: this
-	float fTaoAnimationFrameOffset=0;
-	float fTaoAnimationFrameOffsetYAxis=0;
+	//removed by Mike, 20210903
+//	textw=textw*2;
 
-	//added by Mike, 20210827
-	//set vertex counter-clock-wise
 	glBegin(GL_QUADS);
-		glTexCoord2f(0+fTaoAnimationFrameOffset, 0+fTaoAnimationFrameOffsetYAxis);
+		glTexCoord2f(0.0f, 0.0f);
 		glVertex3f(x, y, 0);
 		
-		glTexCoord2f(0.25f+fTaoAnimationFrameOffset, 0+fTaoAnimationFrameOffsetYAxis);
+		glTexCoord2f(0.0f+0.5f, 0.0f);
 		glVertex3f(x + textw, y, 0);
 		
-		glTexCoord2f(0.25f+fTaoAnimationFrameOffset, fTaoAnimationFrameOffsetYAxis+0.25f);
+		glTexCoord2f(0.0f+0.5f, 0.0f+0.5f);
 		glVertex3f(x + textw, y + texth, 0);
 		
-		glTexCoord2f(0+fTaoAnimationFrameOffset, fTaoAnimationFrameOffsetYAxis+0.25f);
+		glTexCoord2f(0.0f, 0.0f+0.5f);
 		glVertex3f(x, y + texth, 0);
 	glEnd();
 	
