@@ -26,37 +26,36 @@
  * Syson, M., Camacho, R., Gonzales, D., Del Rosario, R., Vidal, E., et al.
  *
  */
-//added by Mike, 20210130
-//reverify: Robotship does not execute correctly
-//when down and left buttons are pressed while firing beam down
-//AND when up and left buttons are pressed while firing beam up
-//in Windows Machine
-//problem did not occur on Linux Machine (with external USB keyboard)
-//added by Mike, 20210131
-//note: add use of external USB keyboard solves the problem
-
+ 
+//added by Mike, 20210903
+//note: yaritori, i.e. gawa + kuha; palitan, i.e. exchange, ng balita
+//kompyu-ta to no yaritori; 
+//--> palitan ng balita kasama ang kompyuter;
+//compile : CHESS? ragu ga ari, 
+//--> compile : CHESS? May lag,
+//Cowboy Bebop no Ed ga tooi GYARAKUSHI- ni iru mono to
+//--> Si Ed ng Cowboy Bebop, kasama ang Tao/Bagay na nasa malayong GALAXY
+//asonderu tte kanji?
+//--> naglalaro ba ang pakiramdam?
+//compile : conversation?
+//--> compile: conversation?
+//kaita shiji ga kompyu-ta ni taishite, akiraka de aru ka dou ka to iu shitsumon...
+//--> ang isinulat na turo+ipakita, i.e. instruction, sa kompyuter, malinaw ba o hindi na tanong...
+//kotae wo kaeshite kureru; aimai na shiji nado wo shirasete kureru.
+//--> ibinabalik sa akin ang sagot; ipinapaalam sa akin ang malabong mga turo+ipakita, atbp.
+//mou akirakade aru to iu joutai to nattara, shizukani, [kocchi no tsugi no shiji wo douzo], 
+//--> Kapag naging nasa pook na malinaw na, tahimik na, "ang inyo pong sunod na turo+ipakita",
+//mitai na hyouji de matte ite kureru.
+//--> tulad sa ganoong pagpapakita, hinihintay ako.
+ 
 //TO-DO: -update: this
 
 //added by Mike, 20210201
 //TO-DO: -delete: excess instructions
-//TO-DO: increase lower right arm angle to go up y-axis
 
-//added by Mike, 20210202
-//TO-DO: -update: instructions when diagonal movement is combined with attack and defend keys
-
-
-//TO-DO: -reverify: in Win7 machine, cause of noticeable delay in action after input Command
-//System type: 32-bit Operating System
-//Processor: Genuine Intel(R) CPU T2130 @1.86 GHz
-//RAM: 3.00 GB
 
 #include <stdio.h>
 #include <math.h>
-
-/*	//removed by Mike, 20201121
- #include <gl/gl.h>
- #include <gl/glu.h>
- */
 
 //added by Mike, 20201121
 #if defined(__APPLE__)
@@ -289,7 +288,7 @@ Text::Text(float xPos, float yPos, float zPos, float fWindowWidth, float fWindow
     myUsbongUtils->setWindowWidthHeight(fMyWindowWidth, fMyWindowHeight); //added by Mike, 20210626
     
     //added by Mike, 20210903
-    myWidth=fMyWindowWidth/2;
+    myWidth=fMyWindowWidth/1.5f;
     myHeight=fMyWindowHeight/1.5f;
     
     myXPos=0.0f+(fMyWindowWidth-myWidth)/2;
