@@ -110,6 +110,13 @@ void draw_char(GLuint glIFontTexture, float x, float y, float z, char c)
     //has a width-height ratio of 10:16
     tx = c % 12 * 0.078125f;
     ty = 0.875f - (c / 12 * 0.125f);
+    
+    //added by Mike, 20210904
+    //note: each character in the font texture image file has a width-height ratio of 10:16
+    float textw = 20; //0.078125f;
+    float texth = 32; //0.125f;
+    
+//    printf("tx: %f; ty: %f\n",tx,ty);
 
 /* //removed by Mike, 20210903    
     //added by Mike, 20210903
@@ -131,7 +138,7 @@ void draw_char(GLuint glIFontTexture, float x, float y, float z, char c)
 			glVertex3f(x, y + fTextHeight, 0);
 		glEnd();
 */		
-		
+/* //edited by Mike, 20210904		
 		glBegin(GL_QUADS);              // Each set of 4 vertices form a quad
         glTexCoord2f(tx, ty);
         glVertex3f(x, y, 0.0f);
@@ -144,6 +151,20 @@ void draw_char(GLuint glIFontTexture, float x, float y, float z, char c)
 
 				glTexCoord2f(tx, ty + 0.125f);
       	glVertex3f(x, y+0.16f, 0.0f);      
+   glEnd();    
+*/
+		glBegin(GL_QUADS);              // Each set of 4 vertices form a quad
+        glTexCoord2f(tx, ty);
+        glVertex3f(x, y, 0.0f);
+
+        glTexCoord2f(tx + 0.078125f, ty);
+      	glVertex3f(x+textw, y, 0.0f);      
+
+        glTexCoord2f(tx + 0.078125f, ty + 0.125f);
+      	glVertex3f(x+textw, y+texth, 0.0f);              
+
+				glTexCoord2f(tx, ty + 0.125f);
+      	glVertex3f(x, y+texth, 0.0f);      
    glEnd();    
    		
 	
@@ -158,14 +179,14 @@ void draw_string(GLuint glIFontTexture, GLfloat x, GLfloat y, GLfloat z, char *s
     while (string[0] != 0)
     {
 
+/* //removed by Mike, 20210904
 		//TO-DO: -update: this
         //added by Mike, Feb14,2007
 		if (string[0]=='\n') {
 			y -= 0.1f;//15.0f;
 			x=origX-0.1f;//-10.0f;			
-    	}
-        
-
+    }
+*/            
         glPushMatrix();
         	//removed by Mike, 20201010
             //make font larger, added by Mike, Feb28,2007
@@ -180,8 +201,8 @@ void draw_string(GLuint glIFontTexture, GLfloat x, GLfloat y, GLfloat z, char *s
         
         /* advance 10 pixels after each character */
 //TO-DO: -update: this
-//        x += 10.0f;
-        x += 0.1f;
+        x += 10.0f;
+//        x += 0.1f;
 
         /* go to the next character in the string */
         string++;
@@ -239,13 +260,7 @@ GLuint openGLLoadTexture(char *filename, float fMyWidth, float fMyHeight)
             break;
     }
 #endif
-    	
-    //note: each character in the font texture image file has a width-height ratio of 10:16
-    float fTextWidth = 0.078125f;
-    float fTextHeight = 0.125f;
-         
-//    printf(">> fTextHeight %f\n",surface->h/fCountTotalFrames);
-	
+    
 	glGenTextures(1, &texture);
 	glBindTexture(GL_TEXTURE_2D, texture);
     

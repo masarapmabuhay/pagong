@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20200926
- * @date updated: 20210903
+ * @date updated: 20210904
  * @website address: http://www.usbong.ph
  *
  * Reference:
@@ -473,7 +473,7 @@ void Text::drawTextBackgroundAsQuadWithTexture()
     
     openGLDrawTexture(myXPos, myYPos, myWidth, myHeight);
     
-    //added by Mike, 20210903
+    //TO-DO: -update: this due to myWidth, myHeight NOT used
    	drawTextFontAsQuadWithTexture(myXPos, myYPos, myWidth, myHeight);
 }
 
@@ -483,6 +483,29 @@ void Text::drawTextFontAsQuadWithTexture(float x, float y, float textw, float te
 		char tempText[MAX_TEXT_CHAR_ROW_RAM][MAX_TEXT_CHAR_COLUMN];
         
     int iRowCount;
+    
+    
+    glPushMatrix();    
+
+/*    
+    
+    float fMyWindowWidthAsVertexOffsetInput=(240.0f-iMyWindowWidthAsPixelOffset)*(-1);
+    float fMyWindowWidthAsVertexOffset=0.20f+(fMyWindowWidthAsVertexOffsetInput/59.0f*0.04);
+    
+    //    printf(">>>>>>>>>> fMyWindowWidthAsVertexOffset: %f\n",fMyWindowWidthAsVertexOffset);
+    
+    glTranslatef(fMyWindowWidthAsVertexOffset, -myUsbongUtils->autoConvertFromPixelToVertexPointY(fMyWindowHeight*0.75f), 0.0f);
+
+    //auto-scale Window Width to Height
+    glScalef(fMyWindowWidthAsPixelRatioToHeightPixel,1.0f,1.0f);
+    
+    //edited by Mike, 20210626
+    glScalef(0.26f,0.26f,1.0f);
+*/    
+  
+  //TO-DO: -update: this  
+//    glScalef(2.0f,2.0f,2.0f);
+    
     
 for (iRowCount=0; iRowCount<iTextCurrentMaxRowCount;) {
 
@@ -496,11 +519,15 @@ for (iRowCount=0; iRowCount<iTextCurrentMaxRowCount;) {
             tempText[iRowCount+iRowCountPageNumber*MAX_TEXT_CHAR_ROW][iColumnCount]=cCurrentTextContainer[iRowCount+iRowCountPageNumber*MAX_TEXT_CHAR_ROW][iColumnCount];
   }
   
+  //printf(">>tempText: %s\n",tempText[iRowCount+iRowCountPageNumber*MAX_TEXT_CHAR_ROW]);
+  
   //edited by Mike, 20210903      
 //  draw_string(glIFontTexture, 0.05f, 1.2f, 0.0f, tempText[iRowCount+iRowCountPageNumber*MAX_TEXT_CHAR_ROW]);
-  draw_string(glIFontTexture, 0.0f, 0.0f, 0.0f, tempText[iRowCount+iRowCountPageNumber*MAX_TEXT_CHAR_ROW]);
+//  draw_string(glIFontTexture, x, y, 0.0f, tempText[iRowCount+iRowCountPageNumber*MAX_TEXT_CHAR_ROW]);
+//  draw_string(glIFontTexture, x, y+0.1f*iRowCount, 0.0f, tempText[iRowCount+iRowCountPageNumber*MAX_TEXT_CHAR_ROW]);
+  draw_string(glIFontTexture, x, y+iRowCount*20.0f, 0.0f, tempText[iRowCount+iRowCountPageNumber*MAX_TEXT_CHAR_ROW]);
   
-//  glTranslatef(0.0f,0.1f+0.05f,0.0f);
+//  glTranslatef(0.0f+0.05f,0.0f+1.2f+0.1f+0.05f,0.0f);
 
   iTextAnimationCountDelay=0;
   
@@ -570,6 +597,14 @@ for (iRowCount=0; iRowCount<iTextCurrentMaxRowCount;) {
         //added by Mike, 20210618
         iRowCount=iRowCount+1;       
     }
+    
+    //glScalef(1.0f,1.2f,1.0f);
+				
+	   glDisable(GL_TEXTURE_2D);
+	   glBindTexture(GL_TEXTURE_2D, 0);
+	       
+    //added by Mike, 20210802
+		glPopMatrix();
 }
 
 
