@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20200926
- * @date updated: 20210830
+ * @date updated: 20210905
  * @website address: http://www.usbong.ph
  *
  * References:
@@ -383,6 +383,13 @@ void keyDown(SDL_KeyboardEvent *event)
 			myKeysDown[KEY_D] = TRUE;					
 			myOpenGLCanvas->keyDown(KEY_D);			
 		}
+        
+        //added by Mike, 20210905
+        if (event->keysym.scancode == SDL_SCANCODE_K)
+        {
+            myKeysDown[KEY_K] = TRUE;
+            myOpenGLCanvas->keyDown(KEY_K);
+        }
 	}
 }
 
@@ -417,6 +424,14 @@ void keyUp(SDL_KeyboardEvent *event)
 			myKeysDown[KEY_D] = FALSE;					
 			myOpenGLCanvas->keyUp(KEY_D);									
 		}
+        
+        //added by Mike, 20210905
+        if (event->keysym.scancode == SDL_SCANCODE_K)
+        {
+            myKeysDown[KEY_K] = FALSE;
+            myOpenGLCanvas->keyUp(KEY_K);
+        }
+        
 	}
 }
 

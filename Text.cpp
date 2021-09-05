@@ -545,7 +545,7 @@ for (iRowCount=0; iRowCount<iTextCurrentMaxRowCount;) {
         
   //'\n'){ //new line; "\0" empty character
   if (cCurrentTextContainer[iRowCount+iRowCountPageNumber*MAX_TEXT_CHAR_ROW][iCurrentMaxColumnCountPerRowContainer[iRowCount]-1]=='\n') {
-        
+      
   //TO-DO: -add: instructions to auto-identify end row by removing empty rows after reading input file
   //if next row is already empty
   //row, column
@@ -554,6 +554,7 @@ for (iRowCount=0; iRowCount<iTextCurrentMaxRowCount;) {
 //      iTextCurrentMaxRowCount=iTextCurrentMaxRowCount;
   }
   else {
+      
       if ((iRowCount)==(iTextCurrentMaxRowCount-1)) {
           iTextCurrentMaxRowCount++;
       }
@@ -569,6 +570,11 @@ for (iRowCount=0; iRowCount<iTextCurrentMaxRowCount;) {
           break;
       }
       else {
+/*
+          printf(">>> iRowCount: %i\n",iRowCount);
+          printf(">>> iTextCurrentMaxRowCount: %i\n",iTextCurrentMaxRowCount);
+*/          
+          
           if (iRowCount>=MAX_TEXT_CHAR_ROW) {
               iRowCountPageNumber++;
               iTextCurrentMaxRowCount=1;
@@ -579,8 +585,10 @@ for (iRowCount=0; iRowCount<iTextCurrentMaxRowCount;) {
   
       //edited by Mike, 20210618
       //re-set isAtMaxTextCharRow to FALSE after button press
+      //edited by Mike, 20210905
       if ((iRowCount+1)>=MAX_TEXT_CHAR_ROW) {
-          iRowCount=3;
+//      if ((iRowCount)>=MAX_TEXT_CHAR_ROW) {
+      iRowCount=3;
           //                			iRowCountPageNumber=0; //removed by Mike, 20210618
           iTextCurrentMaxRowCount=4;
           isAtMaxTextCharRow=true;
@@ -877,6 +885,7 @@ void Text::changeState(int s)
 void Text::keyDown(int keyCode) {
     myKeysDown[keyCode] = TRUE;
     
+//    printf(">>keyDown: %i",keyCode);
     //added by Mike, 20210619
     //TO-DO: -reverify: output of over 6 rows in input file
     if (myKeysDown[KEY_K]==TRUE) {
@@ -904,17 +913,11 @@ void Text::keyDown(int keyCode) {
     //    autoVerifyDashStateWithKeyDown();//keyCode);
 }
 
+/* //removed by Mike, 20210905
 //added by Mike, 20201227; edited by Mike, 20210128
 //void Text::setDashStateWithKeyDown() {
 void Text::setDashStateWithKeyDown(int keyCode) {
     if (bIsDashReady==true) {
-        /*		//edited by Mike, 20210128
-         if (iInputWaitCount<MAX_WAIT_COUNT) {
-         //edited by Mike, 20210128
-         //bIsExecutingDash=true;
-         bIsExecutingDashArray[keyCode]=true;
-         }
-         */
         if (iInputWaitCountArray[keyCode]<MAX_WAIT_COUNT) {
             //edited by Mike, 20210129
             //			bIsExecutingDashArray[keyCode]=true;
@@ -929,7 +932,9 @@ void Text::setDashStateWithKeyDown(int keyCode) {
         }
     }
 }
+*/
 
+/* //removed by Mike, 20210905
 //added by Mike, 20201226; edited by Mike, 20210128
 //void Text::autoVerifyDashStateWithKeyDown(int keyCode) {
 void Text::autoVerifyDashStateWithKeyDown() { //int keyCode) {
@@ -952,6 +957,7 @@ void Text::autoVerifyDashStateWithKeyDown() { //int keyCode) {
         setDashStateWithKeyDown(KEY_S);
     }
 }
+*/
 
 void Text::keyUp(int keyCode) {
     //added by Mike, 20210127

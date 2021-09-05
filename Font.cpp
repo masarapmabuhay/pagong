@@ -272,8 +272,6 @@ GLuint openGLLoadTexture(char *filename, float fMyWidth, float fMyHeight)
                 textureFormat = GL_BGR;
             break;
     }
-//edited by Mike, 20210905
-#elif defined(_WIN32) //Windows machine
 #else
     switch (surface->format->BytesPerPixel) {
         case 4:

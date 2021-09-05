@@ -576,6 +576,8 @@ void OpenGLCanvas::keyDown(int keyCode)
 
     myPilot->keyDown(keyCode);
 
+//    printf(">>OpenGLCanvas::keyDown: %i",keyCode);
+    
     //added by Mike, 20210903
     myText->keyDown(keyCode);
     
