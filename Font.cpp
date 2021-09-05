@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B. 
  * @date created: 20201010
- * @date updated: 20210905
+ * @date updated: 20210906
  *
  * Acknowledgments:
  * 1) "Bulalakaw Wars" Team (2007): 
@@ -272,6 +272,8 @@ GLuint openGLLoadTexture(char *filename, float fMyWidth, float fMyHeight)
                 textureFormat = GL_BGR;
             break;
     }
+//added by Mike, 20210905; added again by Mike, 20210906
+#elif defined(_WIN32)
 #else
     switch (surface->format->BytesPerPixel) {
         case 4:
