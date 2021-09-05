@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B. 
  * @date created: 20201010
- * @date updated: 20210903
+ * @date updated: 20210905
  *
  * Acknowledgments:
  * 1) "Bulalakaw Wars" Team (2007): 
@@ -109,12 +109,22 @@ void draw_char(GLuint glIFontTexture, float x, float y, float z, char c)
     //each character in the font texture image file
     //has a width-height ratio of 10:16
     tx = c % 12 * 0.078125f;
-    ty = 0.875f - (c / 12 * 0.125f);
+    
+//    printf(">>c: %i\n",c);
+    
+    //edited by Mike, 20210905
+//    ty = 0.875f - (c / 12 * 0.125f);
+//    ty = 1.0f - (c / 7 * 0.125f);
+//    ty = 0.875f - (c / 12 * 0.125f);
+    ty = (c / 12 * 0.125f);
+
+//    printf(">>ty: %f\n",ty);
+
     
     //added by Mike, 20210904
     //note: each character in the font texture image file has a width-height ratio of 10:16
-    float textw = 20; //0.078125f;
-    float texth = 32; //0.125f;
+    float textw = 20*1.2f; //20*1.5f; //20*2; //20; //0.078125f;
+    float texth = 32*1.2f; //32*1.5f; //32*2; //32; //0.125f;
     
 //    printf("tx: %f; ty: %f\n",tx,ty);
 
@@ -153,7 +163,10 @@ void draw_char(GLuint glIFontTexture, float x, float y, float z, char c)
       	glVertex3f(x, y+0.16f, 0.0f);      
    glEnd();    
 */
-		glBegin(GL_QUADS);              // Each set of 4 vertices form a quad
+   //added by Mike, 20210905
+//    x=x+(30.0f*2);
+    
+   glBegin(GL_QUADS);              // Each set of 4 vertices form a quad
         glTexCoord2f(tx, ty);
         glVertex3f(x, y, 0.0f);
 
@@ -163,7 +176,7 @@ void draw_char(GLuint glIFontTexture, float x, float y, float z, char c)
         glTexCoord2f(tx + 0.078125f, ty + 0.125f);
       	glVertex3f(x+textw, y+texth, 0.0f);              
 
-				glTexCoord2f(tx, ty + 0.125f);
+        glTexCoord2f(tx, ty + 0.125f);
       	glVertex3f(x, y+texth, 0.0f);      
    glEnd();    
    		
@@ -171,13 +184,26 @@ void draw_char(GLuint glIFontTexture, float x, float y, float z, char c)
 	glDisable(GL_TEXTURE_2D);
 }
 
-//edited by Mike, 2020117
+//edited by Mike, 20210805
+//TO-DO: -update: to be tool for Unit member to set font size, font spacing, et cetera?
 //void draw_string(GLfloat x, GLfloat y, char *string)
 void draw_string(GLuint glIFontTexture, GLfloat x, GLfloat y, GLfloat z, char *string)
 {
+    
+//    printf(">>string: %s\n",string);
+//    printf(">>string's c: %c\n",string[0]);
+
     GLfloat origX=x;
+    
+    //added by Mike, 20210905
+    int iStringCharCount=0;
+    
+    //edited by Mike, 20210905
     while (string[0] != 0)
+//    while (string[iStringCharCount] != 0)
     {
+//        printf(">>string's c: %c\n",string[0]);
+
 
 /* //removed by Mike, 20210904
 		//TO-DO: -update: this
@@ -195,17 +221,20 @@ void draw_string(GLuint glIFontTexture, GLfloat x, GLfloat y, GLfloat z, char *s
 //            glScalef(0.5f, 0.5f, 0.5f);
 				//edited by Mike, 2020117
 //            draw_char(x, y, string[0]);
-            draw_char(glIFontTexture, x, y, z, string[0]);
-    	glPopMatrix();
+//            draw_char(glIFontTexture, x, y, z, string[iStringCharCount]);
+        draw_char(glIFontTexture, x, y, z, string[0]);
+
+        glPopMatrix();
 
         
         /* advance 10 pixels after each character */
 //TO-DO: -update: this
-        x += 10.0f;
+        x += 20.0f; //(20.0f*1.2f); //(20.0f*1.5f); //40.0f;
 //        x += 0.1f;
 
         /* go to the next character in the string */
         string++;
+//        iStringCharCount++;
     }
 }
 

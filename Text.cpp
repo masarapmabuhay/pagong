@@ -525,7 +525,9 @@ for (iRowCount=0; iRowCount<iTextCurrentMaxRowCount;) {
 //  draw_string(glIFontTexture, 0.05f, 1.2f, 0.0f, tempText[iRowCount+iRowCountPageNumber*MAX_TEXT_CHAR_ROW]);
 //  draw_string(glIFontTexture, x, y, 0.0f, tempText[iRowCount+iRowCountPageNumber*MAX_TEXT_CHAR_ROW]);
 //  draw_string(glIFontTexture, x, y+0.1f*iRowCount, 0.0f, tempText[iRowCount+iRowCountPageNumber*MAX_TEXT_CHAR_ROW]);
-  draw_string(glIFontTexture, x, y+iRowCount*20.0f, 0.0f, tempText[iRowCount+iRowCountPageNumber*MAX_TEXT_CHAR_ROW]);
+  //edited by Mike, 20210905
+//  draw_string(glIFontTexture, x, y+iRowCount*20.0f, 0.0f, tempText[iRowCount+iRowCountPageNumber*MAX_TEXT_CHAR_ROW]);
+  draw_string(glIFontTexture, x+(20.0f*2.0f), y+iRowCount*(20.0f*2.0f)+20.0f, 0.0f, tempText[iRowCount+iRowCountPageNumber*MAX_TEXT_CHAR_ROW]);
   
 //  glTranslatef(0.0f+0.05f,0.0f+1.2f+0.1f+0.05f,0.0f);
 
