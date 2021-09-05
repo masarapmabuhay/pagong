@@ -4,14 +4,14 @@
 CPP      = g++.exe -D__DEBUG__
 CC       = gcc.exe -D__DEBUG__
 WINDRES  = windres.exe
-OBJ      = main.o
-LINKOBJ  = main.o
+OBJ      = main.o Font.o Level2D.o MyDynamicObject.o OpenGLCanvas.o Pilot.o PolygonUtils.o Text.o UsbongUtils.o
+LINKOBJ  = main.o Font.o Level2D.o MyDynamicObject.o OpenGLCanvas.o Pilot.o PolygonUtils.o Text.o UsbongUtils.o
 LIBS     = -L"C:/Program Files/Dev-Cpp/MinGW64/x86_64-w64-mingw32/lib32" -L"C:/Usbong/SDL2-2.0.12/lib/x86" -L"C:/Usbong/SDL2_image-2.0.5/lib/x86" -static-libgcc "C:/Program Files/Dev-Cpp/MinGW64/x86_64-w64-mingw32/lib32/libopengl32.a" "C:/Program Files/Dev-Cpp/MinGW64/x86_64-w64-mingw32/lib32/libglu32.a" "C:/Program Files/Dev-Cpp/MinGW64/x86_64-w64-mingw32/lib32/libglut32.a" "C:/Usbong/SDL2-2.0.12/lib/x86/SDL2.dll" "C:/Usbong/SDL2_image-2.0.5/lib/x86/SDL2_image.dll" "C:/Program Files/Dev-Cpp/MinGW64/x86_64-w64-mingw32/lib32/libgdi32.a" -m32 -g3
 INCS     = -I"C:/Program Files/Dev-Cpp/MinGW64/include" -I"C:/Program Files/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/Program Files/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include" -I"C:/Usbong/SDL2-2.0.12/include" -I"C:/Usbong/SDL2_image-2.0.5/include"
-CXXINCS  = -I"C:/Program Files/Dev-Cpp/MinGW64/include" -I"C:/Program Files/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/Program Files/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include" -I"C:/Program Files/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++" -I"C:/Usbong/SDL2-2.0.12/include" -I"C:/Usbong/SDL2_image-2.0.5/include"
+CXXINCS  = -I"C:/Program Files/Dev-Cpp/MinGW64/include" -I"C:/Program Files/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/Program Files/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include" -I"C:/Program Files/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++" -I"C:/Usbong/SDL2-2.0.12/include" -I"C:/Usbong/SDL2_image-2.0.5/include" -I"D:/Usbong/R&D/Mecha/UsbongStory/story-main/pngpp"
 BIN      = output/UsbongPagongSystem.exe
-CXXFLAGS = $(CXXINCS) -m32 -g3 -m32 -lmingw32 -lSDLmain -lSDL -lSDL_image -lgdi32 -lopengl32 -lglu32  -lglut32 -mwindows
-CFLAGS   = $(INCS) -m32 -g3 -m32 -lmingw32 -lSDLmain -lSDL -lSDL_image -lgdi32 -lopengl32 -lglu32  -lglut32 -mwindows
+CXXFLAGS = $(CXXINCS) -m32 -g3 -m32 -lmingw32 -lgdi32 -lopengl32 -lglu32  -lglut32 -mwindows
+CFLAGS   = $(INCS) -m32 -g3 -m32 -lmingw32 -lgdi32 -lopengl32 -lglu32  -lglut32 -mwindows
 RM       = rm.exe -f
 
 .PHONY: all all-before all-after clean clean-custom
@@ -26,3 +26,27 @@ $(BIN): $(OBJ)
 
 main.o: main.cpp
 	$(CPP) -c main.cpp -o main.o $(CXXFLAGS)
+
+Font.o: Font.cpp
+	$(CPP) -c Font.cpp -o Font.o $(CXXFLAGS)
+
+Level2D.o: Level2D.cpp
+	$(CPP) -c Level2D.cpp -o Level2D.o $(CXXFLAGS)
+
+MyDynamicObject.o: MyDynamicObject.cpp
+	$(CPP) -c MyDynamicObject.cpp -o MyDynamicObject.o $(CXXFLAGS)
+
+OpenGLCanvas.o: OpenGLCanvas.cpp
+	$(CPP) -c OpenGLCanvas.cpp -o OpenGLCanvas.o $(CXXFLAGS)
+
+Pilot.o: Pilot.cpp
+	$(CPP) -c Pilot.cpp -o Pilot.o $(CXXFLAGS)
+
+PolygonUtils.o: PolygonUtils.cpp
+	$(CPP) -c PolygonUtils.cpp -o PolygonUtils.o $(CXXFLAGS)
+
+Text.o: Text.cpp
+	$(CPP) -c Text.cpp -o Text.o $(CXXFLAGS)
+
+UsbongUtils.o: UsbongUtils.cpp
+	$(CPP) -c UsbongUtils.cpp -o UsbongUtils.o $(CXXFLAGS)

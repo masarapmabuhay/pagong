@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20200926
- * @date updated: 20210819
+ * @date updated: 20210905
  * @website address: http://www.usbong.ph
  *
  * References:
@@ -617,6 +617,8 @@ int main(int argc, char *argv[])
  *
  **************************/
 
+//added by Mike, 20210905
+//TO-DO: -update: this
 int WINAPI WinMain (HINSTANCE hInstance,
                     HINSTANCE hPrevInstance,
                     LPSTR lpCmdLine,

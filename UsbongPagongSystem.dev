@@ -29,7 +29,7 @@ IncludeVersionInfo=0
 SupportXPThemes=0
 CompilerSet=3
 CompilerSettings=0000000100000000001000000
-UnitCount=1
+UnitCount=17
 
 [VersionInfo]
 Major=1
@@ -51,56 +51,6 @@ AutoIncBuildNr=0
 SyncProduct=1
 
 [Unit2]
-FileName=OpenGLCanvas.cpp
-CompileCpp=1
-Folder=
-Compile=1
-Link=1
-Priority=1000
-OverrideBuildCmd=0
-BuildCmd=
-
-[Unit3]
-FileName=MyDynamicObject.h
-CompileCpp=1
-Folder=
-Compile=1
-Link=1
-Priority=1000
-OverrideBuildCmd=0
-BuildCmd=
-
-[Unit4]
-FileName=RobotShip.h
-CompileCpp=1
-Folder=
-Compile=1
-Link=1
-Priority=1000
-OverrideBuildCmd=0
-BuildCmd=
-
-[Unit5]
-FileName=MyDynamicObject.cpp
-CompileCpp=1
-Folder=
-Compile=1
-Link=1
-Priority=1000
-OverrideBuildCmd=0
-BuildCmd=
-
-[Unit6]
-FileName=RobotShip.cpp
-CompileCpp=1
-Folder=
-Compile=1
-Link=1
-Priority=1000
-OverrideBuildCmd=0
-BuildCmd=
-
-[Unit7]
 FileName=Font.h
 CompileCpp=1
 Folder=
@@ -110,8 +60,8 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit8]
-FileName=Font.cpp
+[Unit3]
+FileName=Level2D.h
 CompileCpp=1
 Folder=
 Compile=1
@@ -120,8 +70,8 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit9]
-FileName=Beam.cpp
+[Unit4]
+FileName=MyDynamicObject.h
 CompileCpp=1
 Folder=
 Compile=1
@@ -130,8 +80,8 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit10]
-FileName=Beam.h
+[Unit5]
+FileName=OpenGLCanvas.h
 CompileCpp=1
 Folder=
 Compile=1
@@ -140,8 +90,8 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit11]
-FileName=Asteroid.h
+[Unit6]
+FileName=Pilot.h
 CompileCpp=1
 Folder=
 Compile=1
@@ -150,17 +100,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit12]
-FileName=Asteroid.cpp
-CompileCpp=1
-Folder=
-Compile=1
-Link=1
-Priority=1000
-OverrideBuildCmd=0
-BuildCmd=
-
-[Unit13]
+[Unit7]
 FileName=PolygonUtils.h
 CompileCpp=1
 Folder=
@@ -170,8 +110,68 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
+[Unit8]
+FileName=Text.h
+CompileCpp=1
+Folder=
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit9]
+FileName=UsbongUtils.h
+CompileCpp=1
+Folder=
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit10]
+FileName=Font.cpp
+CompileCpp=1
+Folder=
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit11]
+FileName=Level2D.cpp
+CompileCpp=1
+Folder=
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit12]
+FileName=MyDynamicObject.cpp
+CompileCpp=1
+Folder=
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit13]
+FileName=OpenGLCanvas.cpp
+CompileCpp=1
+Folder=
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
 [Unit14]
-FileName=PolygonUtils.cpp
+FileName=Pilot.cpp
 CompileCpp=1
 Folder=
 Compile=1
@@ -181,7 +181,7 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit15]
-FileName=Level.h
+FileName=PolygonUtils.cpp
 CompileCpp=1
 Folder=
 Compile=1
@@ -191,7 +191,7 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit16]
-FileName=Level.cpp
+FileName=Text.cpp
 CompileCpp=1
 Folder=
 Compile=1
@@ -201,7 +201,7 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit17]
-FileName=CTargaImage.h
+FileName=UsbongUtils.cpp
 CompileCpp=1
 Folder=
 Compile=1
