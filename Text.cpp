@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20200926
- * @date updated: 20210904
+ * @date updated: 20210905
  * @website address: http://www.usbong.ph
  *
  * Reference:
@@ -548,7 +548,8 @@ for (iRowCount=0; iRowCount<iTextCurrentMaxRowCount;) {
   //if next row is already empty
   //row, column
   if (cCurrentTextContainer[iRowCount+iRowCountPageNumber*MAX_TEXT_CHAR_ROW][iCurrentMaxColumnCountPerRowContainer[iTextCurrentMaxRowCount]]=='\0') {
-      iTextCurrentMaxRowCount=iTextCurrentMaxRowCount;
+      //removed by Mike, 20210905
+//      iTextCurrentMaxRowCount=iTextCurrentMaxRowCount;
   }
   else {
       if ((iRowCount)==(iTextCurrentMaxRowCount-1)) {
@@ -1216,7 +1217,7 @@ void Text::move(int key)
             //          bIsExecutingPunch=true;
             
             //added by Mike, 20210122; edited by Mike, 202101213
-            if ((iPunchAnimationCount==0)){// or (iPunchAnimationCount>=MAX_PUNCH_ANIMATION_COUNT)) {
+            if (iPunchAnimationCount==0){// or (iPunchAnimationCount>=MAX_PUNCH_ANIMATION_COUNT)) {
                 bIsExecutingPunch=true;
             }
             
