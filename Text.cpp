@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20200926
- * @date updated: 20210905
+ * @date updated: 20210907
  * @website address: http://www.usbong.ph
  *
  * Reference:
@@ -27,6 +27,16 @@
  *
  */
  
+//added by Mike, 20210907
+//ji ga sukoshi yuganderu...
+//--> ang sulat, kaunting bumabaliktot...
+//hosoku natta tokoro ari, ookiku natta tokoro mo ari
+//--> may pumayat na bahagi, may lumaking bahagi
+//DQ ke-tai ban no you na kabe mitai...?
+//--> mukhang katulad sa ding-ding ng lathala ng DQ sa dala-dalang telepono
+//moshiku ha DQVII no PS1 ban?
+//--> O kaya, ang lathala ng DQVII sa PS1?
+ 
 //added by Mike, 20210903
 //note: yaritori, i.e. gawa + kuha; palitan, i.e. exchange, ng balita
 //kompyu-ta to no yaritori; 
@@ -37,8 +47,8 @@
 //--> Si Ed ng Cowboy Bebop, kasama ang Tao/Bagay na nasa malayong GALAXY
 //asonderu tte kanji?
 //--> naglalaro ba ang pakiramdam?
-//compile : conversation?
-//--> compile: conversation?
+//compile action : conversation?
+//--> compile action : conversation?
 //kaita shiji ga kompyu-ta ni taishite, akiraka de aru ka dou ka to iu shitsumon...
 //--> ang isinulat na turo+ipakita, i.e. instruction, sa kompyuter, malinaw ba o hindi na tanong...
 //kotae wo kaeshite kureru; aimai na shiji nado wo shirasete kureru.
@@ -411,7 +421,7 @@ float* Text::getXYZPos()
  */
 
 //added by Mike, 20210617
-void Text::drawPressNextSymbol()
+void Text::drawPressNextSymbolPrev()
 {
     //	  glScalef(0.20f, 0.4f, 1.0f);
     //    glTranslatef(1.0f, 0.5f, 0.0f);
@@ -464,17 +474,68 @@ void Text::drawPressNextSymbol()
     glPopMatrix();
 }
 
+//added by Mike, 20210907
+void Text::drawPressNextSymbol()
+{
+    glDisable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D, 0);
+ 
+    glColor3f(1.0f,0.0f,0.0f); //red
+  		
+  		//note: myWidth length of text background image
+//      float fMySideLength = myWidth/20.0f;
+      float fMySideLength = myWidth/20.0f/1.5f;
+
+			float fY=myYPos+myHeight/2-fMySideLength;
+			float fX=myXPos+myWidth/2;
+
+/*
+    	//counter-clockwise sequence to auto-draw front face    	    	
+    	glBegin(GL_TRIANGLES);
+    		glVertex3f(fX,fY,0.0f); 
+    		glVertex3f(fX+fMySideLength,fY,0.0f); 
+    		glVertex3f(fX,fY+fMySideLength,0.0f); 
+    	glEnd();
+*/
+    	//counter-clockwise sequence to auto-draw front face
+    	//note: origin TOP-LEFT  	
+    	glBegin(GL_TRIANGLES);
+    		glVertex3f(fX-fMySideLength,fY,0.0f); //LEFT vertex
+    		glVertex3f(fX,fY+fMySideLength,0.0f); //BOTTOM-CENTER vertex
+    		glVertex3f(fX+fMySideLength,fY,0.0f); //RIGHT vertex
+    	glEnd();
+    	    	
+    	glColor3f(1.0f,1.0f,1.0f); //reset to white
+    	
+//    glPopMatrix();
+}
+
 //added by Mike, 20210827
 void Text::drawTextBackgroundAsQuadWithTexture()
 {
 	//added by Mike, 20210826
 //	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //removed by Mike, 20210829
 		glLoadIdentity();
+		
+    //added by Mike, 20210907
+    if (bHasReachedEndOfTextMessage) {
+        if(bHasPressedKeyToCloseEndOfTextMessage) {
+            return;
+        }
+    }		
     
     openGLDrawTexture(myXPos, myYPos, myWidth, myHeight);
     
     //TO-DO: -update: this due to myWidth, myHeight NOT used
    	drawTextFontAsQuadWithTexture(myXPos, myYPos, myWidth, myHeight);
+   	
+   	//added by Mike, 20210907
+		if (isAtMaxTextCharRow) {
+        if ((idrawPressNextSymbolCount)%2==0) {
+            drawPressNextSymbol();
+        }
+        idrawPressNextSymbolCount=idrawPressNextSymbolCount+1;
+    }          	
 }
 
 //TO-DO: -reverify: this
@@ -527,7 +588,10 @@ for (iRowCount=0; iRowCount<iTextCurrentMaxRowCount;) {
 //  draw_string(glIFontTexture, x, y+0.1f*iRowCount, 0.0f, tempText[iRowCount+iRowCountPageNumber*MAX_TEXT_CHAR_ROW]);
   //edited by Mike, 20210905
 //  draw_string(glIFontTexture, x, y+iRowCount*20.0f, 0.0f, tempText[iRowCount+iRowCountPageNumber*MAX_TEXT_CHAR_ROW]);
-  draw_string(glIFontTexture, x+(20.0f*2.0f), y+iRowCount*(20.0f*2.0f)+20.0f, 0.0f, tempText[iRowCount+iRowCountPageNumber*MAX_TEXT_CHAR_ROW]);
+	//edited by Mike, 20210907
+//  draw_string(glIFontTexture, x+(20.0f*2.0f), y+iRowCount*(20.0f*2.0f)+20.0f, 0.0f, tempText[iRowCount+iRowCountPageNumber*MAX_TEXT_CHAR_ROW]);
+	//centered; to remove excess margin to the right
+  draw_string(glIFontTexture, x+(20.0f*2.0f)+20.0f, y+iRowCount*(20.0f*2.0f)+20.0f, 0.0f, tempText[iRowCount+iRowCountPageNumber*MAX_TEXT_CHAR_ROW]);
   
 //  glTranslatef(0.0f+0.05f,0.0f+1.2f+0.1f+0.05f,0.0f);
 
@@ -1439,7 +1503,7 @@ void Text::move(int key)
                  //			if (bIsExecutingDash) {
                  if ((bIsExecutingDashArray[KEY_D])) {
                  myXPos+=stepX;
-                 }
+                 }openGLDrawTexture
                  */
                 //		printf("myXPos: %f",myXPos);
                 //do not execute step if already at border

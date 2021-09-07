@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20210613
- * @date updated: 20210905
+ * @date updated: 20210907
  * @website address: http://www.usbong.ph
  *
  * Acknowledgments:
@@ -275,7 +275,8 @@ private:
     //	void setDashStateWithKeyUp();
     void setDashStateWithKeyUp(int keyCode);
     
-    //added by Mike, 20210618
+    //added by Mike, 20210618; edited by Mike, 20210907
+    void drawPressNextSymbolPrev();
     void drawPressNextSymbol();
     
 public:
