@@ -169,11 +169,21 @@ private:
      float myWidthZ;
      float myHeightY;
      */
-     
+  
+/* //edited by Mike, 20210910
 		//note: we use this to verify if the position moved forward, backward, etc
 		int iPrevX=0;
 		int iPrevY=0;
-		int iPrevZ=0;     
+		int iPrevZ=0;
+*/
+    float fPrevX=0.0f;
+    float fPrevY=0.0f;
+    float fPrevZ=0.0f;
+    
+    //added by Mike, 20210910
+    float fStepMovemenGridZ=0,
+		  fStepMovemenGridX=0,
+		  fStepMovemenGridY=0;
 		
 		int iCurrentLevelMapContainerOffsetX,
 		iCurrentLevelMapContainerOffsetY,

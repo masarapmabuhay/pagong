@@ -753,8 +753,8 @@ void OpenGLCanvas::render()
 
   glPushMatrix();
   	//edited by Mike, 20210910
-    myLevel2D->draw();
-//		myLevel2D->drawLevelMapInViewPort(myCanvasPosX,myCanvasPosY,myCanvasPosZ);    	    
+//    myLevel2D->draw();
+		myLevel2D->drawLevelMapInViewPort(myCanvasPosX,myCanvasPosY,myCanvasPosZ);
   glPopMatrix();
 
 	//edited by Mike, 20210902

@@ -268,7 +268,6 @@ Level2D::Level2D(float xPos, float yPos, float zPos, float fWindowWidth, float f
     
     printf("Level2D.cpp; fGridSquareWidth: %f",fGridSquareWidth); //75.888885, instead of 75.000000
     
- 
     //auto-set width and height based on grid tile
     myWidthAsPixel=fGridSquareWidth;
     myHeightAsPixel=fGridSquareHeight;    
@@ -281,7 +280,16 @@ Level2D::Level2D(float xPos, float yPos, float zPos, float fWindowWidth, float f
 */    
     stepX=fGridSquareWidth/10/2;
     stepY=fGridSquareHeight/10/2;    
-    stepZ=fGridSquareWidth/10/2;       
+    stepZ=fGridSquareWidth/10/2;
+    
+    //added by Mike, 20210910
+    fPrevX=0.0f;
+    fPrevY=0.0f;
+    fPrevZ=0.0f;
+    
+    iCurrentLevelMapContainerOffsetZ=0;
+    iCurrentLevelMapContainerOffsetX=0;
+    iCurrentLevelMapContainerOffsetY=0;
     
     /*
      printf("fGridSquareWidth: %f\n",fGridSquareWidth);
@@ -972,22 +980,26 @@ void Level2D::drawLevelMapInViewPort(GLfloat fX, GLfloat fY, GLfloat fZ)
     iColumnCountMax=18;
     iHeightCountMax=10;
     
-    int MAX_X_AXIS_VIEWPORT=iColumnCountMax*fGridSquareWidth;
-    int MAX_Y_AXIS_VIEWPORT=iRowCountMax*fGridSquareHeight;
+    int MAX_X_AXIS_VIEWPORT=iColumnCountMax;//*fGridSquareWidth;
+    int MAX_Y_AXIS_VIEWPORT=iRowCountMax;//*fGridSquareHeight;
     
         
 		//added by Mike, 20210910
-//--		    	
-	 //TO-DO: -update: this due to float to int
+//--
+/* //removed by Mike, 20210910
 	 int iX=fX;
 	 int iY=fY;
 	 int iZ=fZ;
-	
-	 int iMovementGridZ=0;
-   int iMovementGridX=0;
-   int iMovementGridY=0;
 
-/* //TO-DO: -update: this	
+     int iMovementGridZ=0;
+     int iMovementGridX=0;
+     int iMovementGridY=0;
+ */
+    float fMovementGridZ=0.0f;
+    float fMovementGridX=0.0f;
+    float fMovementGridY=0.0f;
+
+/* //TO-DO: -update: this
 	if (fStepMovemenGridY>=1) {
    	 //added by Mike, 20210311
 	 //note: actual fZ position and fGridSquareWidth*rowCount position
@@ -998,42 +1010,54 @@ void Level2D::drawLevelMapInViewPort(GLfloat fX, GLfloat fY, GLfloat fZ)
 */
 
    //TO-DO: -update: this to synchronize actual position with double array container
-//   iMovementGridX = iPrevX-iX;
+    //edited by Mike, 20210910
+//   fMovementGridX = fPrevX-fX;
+    fMovementGridX = fPrevX+fX;
+
   
-  
-/* //TO-DO: -update: this   
    //x-axis
-   //note: canvasStepX=3.2f 
-   if (iMovementGridX < 0) { //moved backward
-     fStepMovemenGridX=(fStepMovemenGridX-3.2f);
+   //TO-DO: -update: this to use set value of canvasStepX
+   //note: canvasStepX=3.2f (previous); now 3.5f
+   if (fMovementGridX < 0) { //moved backward
+     fStepMovemenGridX=(fStepMovemenGridX-3.5f);
    }
-   else if (iMovementGridX == 0) { //no movement in X-axis
+   else if (fMovementGridX == 0) { //no movement in X-axis
    }	
    else {
-     fStepMovemenGridX=(fStepMovemenGridX+3.2f);
+     fStepMovemenGridX=(fStepMovemenGridX+3.5f);
    }	
-   iMovementGridX = 0;
+    std::cout << "fStepMovemenGridX: " << fStepMovemenGridX << "\n";
 
-   if (fStepMovemenGridX>=myWindowWidth) {
-////   if (fStepMovemenGridX>=fGridSquareWidth) {
-////	 iMovementGridX = iPrevX-iX;
-////	 fStepMovemenGridX=0;
+    fMovementGridX = 0;
 
-     iMovementGridX -= MAX_X_AXIS_VIEWPORT/2; 
+
+    
+//   if (fStepMovemenGridX>=myWindowWidth) {
+    if (fStepMovemenGridX>=3.5f) { //GridSquareWidth) {
+//	 fMovementGridX = fPrevX-fX;
+        fMovementGridX = fPrevX+fX;
+
+        fStepMovemenGridX=0;
+
+//     iMovementGridX -= MAX_X_AXIS_VIEWPORT/2;
    }
-   else if (fStepMovemenGridX<=-3.2f) {
-	   iMovementGridX = iPrevX-iX; //(iPrevX-iX)*(-1);
-	 	 fStepMovemenGridX=0;
+   else if (fStepMovemenGridX<=-3.5f) {
+       //fMovementGridX = fPrevX-fX;
+       fMovementGridX = fPrevX+fX;
+
+       fStepMovemenGridX=0;
 	   
      //added by Mike, 20210319
 //     iMovementGridX -= MAX_X_AXIS_VIEWPORT/2; 	   
    }
 	
    if (fStepMovemenGridY>=1) {
-   	 iMovementGridY = iPrevY-iY;
-	 	 fStepMovemenGridY=0;
+//   	 fMovementGridY = fPrevY-fY;
+       fMovementGridY = fPrevY+fY;
+
+       fStepMovemenGridY=0;
    }	
-*/	
+	
 	
 /* //vertical scroll	  	
    if (iMovementGridY < 0) { //moved forward
@@ -1047,28 +1071,32 @@ void Level2D::drawLevelMapInViewPort(GLfloat fX, GLfloat fY, GLfloat fZ)
      std::cout << "backward" << "\n";	   
 //	 iMovementGridZ=iMovementGridZ*-1; //get absolute value, i.e. positive number	   
    }	
-*/	
-
-/*
+*/
+    
+/* //removed by Mike, 20210910; forward or backward already identified
    //x-axis; horizontal scroll
-   if (iMovementGridX < 0) { //moved backward
-     iMovementGridX=iMovementGridX*-1;
+   if (fMovementGridX < 0) { //moved backward
+     fMovementGridX=fMovementGridX*-1;
    }
-   else if (iMovementGridX == 0) { //no movement in Z-axis
+   else if (fMovementGridX == 0) { //no movement in Z-axis
    }	
    else {
-     iMovementGridX=iMovementGridX*1;
-   }	
+     fMovementGridX=fMovementGridX*1;
+   }
 */
-   //added by Mike, 20210309
+
+/*
+    //added by Mike, 20210309
    //TO-DO: -reverify: iMovementGridZ, etc value
    std::cout << "iMovementGridZ: " << iMovementGridZ << "\n";
    std::cout << "iMovementGridX: " << iMovementGridX << "\n";
-
+*/
+    
+    std::cout << "fMovementGridX: " << fMovementGridX << "\n";
 		
-   iCurrentLevelMapContainerOffsetZ += iMovementGridZ; 
-   iCurrentLevelMapContainerOffsetX += iMovementGridX; 
-   iCurrentLevelMapContainerOffsetY += iMovementGridY;   
+   iCurrentLevelMapContainerOffsetZ += fMovementGridZ;
+   iCurrentLevelMapContainerOffsetX += fMovementGridX;
+   iCurrentLevelMapContainerOffsetY += fMovementGridY;
 
 
    int iRowCount=iCurrentLevelMapContainerOffsetY;	
@@ -1089,12 +1117,12 @@ void Level2D::drawLevelMapInViewPort(GLfloat fX, GLfloat fY, GLfloat fZ)
 		for (;iRowCount<iCurrentLevelMapContainerOffsetMaxViewPortY; iRowCount++) {
 		
 		 //added by Mike, 20210910
-		 int iColumnCount=iCurrentLevelMapContainerOffsetX;
+     int iColumnCount=iCurrentLevelMapContainerOffsetX;
    	 int iCurrentLevelMapContainerOffsetMaxViewPortX=iColumnCount+MAX_X_AXIS_VIEWPORT;
-		
+
    	 if ((iColumnCount<0) or (iCurrentLevelMapContainerOffsetX<0)) {
-	 	 		iColumnCount=0;   
-   	 } 
+	 	 		iColumnCount=0;
+   	 }
    	 else if (iCurrentLevelMapContainerOffsetX>=MAX_INPUT_TEXT_PER_LINE) {
 	 			iColumnCount=MAX_INPUT_TEXT_PER_LINE-1;
 	 			iCurrentLevelMapContainerOffsetX=MAX_INPUT_TEXT_PER_LINE-1;
@@ -1105,9 +1133,10 @@ void Level2D::drawLevelMapInViewPort(GLfloat fX, GLfloat fY, GLfloat fZ)
    	 } 
    	 else if (iCurrentLevelMapContainerOffsetMaxViewPortX>=MAX_INPUT_TEXT_PER_LINE) {
 	 			iCurrentLevelMapContainerOffsetMaxViewPortX=MAX_INPUT_TEXT_PER_LINE-1;	   
-   	 } 		
-	
-   	 std::cout << "iCurrentLevelMapContainerOffsetX: " << iCurrentLevelMapContainerOffsetX << "\n";		
+   	 }
+            
+//   	 std::cout << "iCurrentLevelMapContainerOffsetX: " << iCurrentLevelMapContainerOffsetX << "\n";
+            std::cout << "iCurrentLevelMapContainerOffsetMaxViewPortX: " << iCurrentLevelMapContainerOffsetMaxViewPortX << "\n";
 		
 		
         //iCurrentMaxColumnCountPerRowContainer[iRowCount];
@@ -1168,9 +1197,9 @@ printf("autoConvertFromPixelToVertexPointY: %f",myUsbongUtils->autoConvertFromPi
     
 
 	//added by Mike, 20210306; edited by Mike, 20210308	
-	iPrevX=iX;
-	iPrevY=iY;
-	iPrevZ=iZ;    
+	fPrevX=fX;
+	fPrevY=fY;
+	fPrevZ=fZ;
     
 }
 
