@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20210613
- * @date updated: 20210830
+ * @date updated: 20210910
  * @website address: http://www.usbong.ph
  *
  * Acknowledgments:
@@ -81,12 +81,14 @@
 //added in OpenGLCanvas.h
 //#define BUTTON_TEXTURE_A 7
 
+/* //removed by Mike, 20210910
 //added by Mike, 20210706
 //240/4=60 columns and rows per viewport
 //reverify: to be excess due to size of fGridSquareWidth
 #define MAX_X_AXIS_VIEWPORT 240
 #define MAX_Y_AXIS_VIEWPORT 240
 #define MAX_Z_AXIS_VIEWPORT 240
+*/
 
 //TO-DO: -add: increase map size to be more than viewport
 #define MAX_X_AXIS_MAP 240
@@ -167,6 +169,16 @@ private:
      float myWidthZ;
      float myHeightY;
      */
+     
+		//note: we use this to verify if the position moved forward, backward, etc
+		int iPrevX=0;
+		int iPrevY=0;
+		int iPrevZ=0;     
+		
+		int iCurrentLevelMapContainerOffsetX,
+		iCurrentLevelMapContainerOffsetY,
+		iCurrentLevelMapContainerOffsetZ;
+		     
     //added by Mike, 20210423
     int iCountTaoAnimationFrame;
     float fButtonAnimationFrameOffset;
@@ -404,8 +416,9 @@ public:
     virtual void draw() {
         //edited by Mike, 20210712
 //        drawLevelWithTexture();
-				//edited by Mike, 20210830
-				drawLevelWithTextureUsingInputFile();
+				
+				//removed by Mike, 20210910
+				drawLevelWithTextureUsingInputFileNoScrollYet();
 //				drawTileAsQuadWithTexture("0-0");
     }
         
@@ -413,11 +426,13 @@ public:
     void drawTileAsQuadWithTexture(GLfloat x, GLfloat y, GLfloat z, char c);
     void drawTileAsQuadWithTexturePrev(std::string sTileId); //added by Mike, 20210828
     void drawLevelWithTexture();
-		void drawLevelWithTextureUsingInputFile(); //added by Mike, 20210712    
+		void drawLevelWithTextureUsingInputFileNoScrollYet(); //edited by Mike, 20210910
+		 //added by Mike, 20210910
+		void drawLevelMapInViewPort(GLfloat fX, GLfloat fY, GLfloat fZ);
+
 		
-		
-    //added by Mike, 20210705
-    void drawLevelMapInViewPort(GLfloat fX, GLfloat fY, GLfloat fZ, GLfloat fXSize, GLfloat fYSize, GLfloat fZSize);
+    //removed by Mike, 20210705
+//    void drawLevelMapInViewPort(GLfloat fX, GLfloat fY, GLfloat fZ, GLfloat fXSize, GLfloat fYSize, GLfloat fZSize);
 
 		//added by Mike, 20210706
 		void drawLevel(GLfloat x, GLfloat y, GLfloat z, char *string);	

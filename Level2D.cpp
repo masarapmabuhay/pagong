@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20200926
- * @date updated: 20210903
+ * @date updated: 20210910
  * @website address: http://www.usbong.ph
  *
  * Reference:
@@ -223,51 +223,7 @@ Level2D::Level2D(float xPos, float yPos, float zPos, float fWindowWidth, float f
     currentMovingState=IDLE_MOVING_STATE;
     
     fCountTotalFrames=16.0f; //added by Mike, 20210903
-    
-    //    myXPos=0.0;
-    //    myYPos=0.0;
-    //myYPos=300.0;
-    //    myZPos=300.0;
-    /*
-     stepX=0.01;
-     stepY=0.01;
-     stepZ=0.01;
-     */
-    /*	//edited by Mike, 20201023
-     //added by Mike, 20201001
-     stepX=0.03;
-     stepY=0.03;
-     */
-    /*	//edited by Mike, 20201116
-     stepX=0.1;
-     stepY=0.1;
-     */
-    
-    //edited by Mike, 20201025
-    //edited again by Mike, 20210114
-    //reverified double step due to double the size of Window
-    //4096x4096; update in main.cpp
-    //OpenGLCanvas update sleep delay, instead of step
-    /*	//edited by Mike, 20210116
-     stepX=0.3;
-     stepY=0.3;
-     stepZ=0.3;
-     */
-    //edited by Mike, 20210505
-    //note: if set to 0.3; noticeable zoom-in, zoom-out cycling movement due to quick speed
-    //observed: Samurai Spirits IV's created world executes such camera eye movement
-    //that becomes noticeable with background zoom-in, zoom-out via cycling movement
-    //    stepX=0.3;
-/*    //edited by Mike, 20210901
-    stepX=0.2;
-    
-    //edited by Mike, 20210901
-    //stepY=0.3;
-    //stepZ=0.3;
-    stepY=0.2;    
-    stepZ=0.2;
-*/   
-    
+   
     invincibleCounter=0;
     currentDeathFrame=0;
        
@@ -316,11 +272,16 @@ Level2D::Level2D(float xPos, float yPos, float zPos, float fWindowWidth, float f
     //auto-set width and height based on grid tile
     myWidthAsPixel=fGridSquareWidth;
     myHeightAsPixel=fGridSquareHeight;    
-    
+  
+/* //edited by Mike, 20210910    
     //added by Mike, 20210901
     stepX=fGridSquareWidth/10/4; //0.2    
     stepY=fGridSquareHeight/10/4; //0.2;    
     stepZ=fGridSquareWidth/10/4; //0.2;
+*/    
+    stepX=fGridSquareWidth/10/2;
+    stepY=fGridSquareHeight/10/2;    
+    stepZ=fGridSquareWidth/10/2;       
     
     /*
      printf("fGridSquareWidth: %f\n",fGridSquareWidth);
@@ -916,10 +877,9 @@ void Level2D::drawTileAsQuadWithTexture(std::string sTileId)
 }
 */
 
-//added by Mike, 20210708; edited by Mike, 20210712
+//added by Mike, 20210708; edited by Mike, 20210910
 //TO-DO: -add: function with tile patterns
-//TO-DO: -update: this
-void Level2D::drawLevelWithTextureUsingInputFile()
+void Level2D::drawLevelWithTextureUsingInputFileNoScrollYet()
 {
     /*
      for (int iRowCountToSetDefault=0; iRowCountToSetDefault<MAX_TEXT_CHAR_ROW_RAM; iRowCountToSetDefault++) {
@@ -997,6 +957,220 @@ printf("autoConvertFromPixelToVertexPointY: %f",myUsbongUtils->autoConvertFromPi
             }
         }
     }
+    
+}
+
+//added by Mike, 20210708; edited by Mike, 20210712
+//TO-DO: -add: function with tile patterns
+//TO-DO: -update: this
+void Level2D::drawLevelMapInViewPort(GLfloat fX, GLfloat fY, GLfloat fZ)
+{
+  
+    
+    //edited by Mike, 20210724
+    iRowCountMax=10;
+    iColumnCountMax=18;
+    iHeightCountMax=10;
+    
+    int MAX_X_AXIS_VIEWPORT=iColumnCountMax*fGridSquareWidth;
+    int MAX_Y_AXIS_VIEWPORT=iRowCountMax*fGridSquareHeight;
+    
+        
+		//added by Mike, 20210910
+//--		    	
+	 //TO-DO: -update: this due to float to int
+	 int iX=fX;
+	 int iY=fY;
+	 int iZ=fZ;
+	
+	 int iMovementGridZ=0;
+   int iMovementGridX=0;
+   int iMovementGridY=0;
+
+/* //TO-DO: -update: this	
+	if (fStepMovemenGridY>=1) {
+   	 //added by Mike, 20210311
+	 //note: actual fZ position and fGridSquareWidth*rowCount position
+	 //TO-DO: -reverify: this
+   	 iMovementGridY = iPrevY-iY;   	 
+	 	 fStepMovemenGridY=0;
+   }
+*/
+
+   //TO-DO: -update: this to synchronize actual position with double array container
+//   iMovementGridX = iPrevX-iX;
+  
+  
+/* //TO-DO: -update: this   
+   //x-axis
+   //note: canvasStepX=3.2f 
+   if (iMovementGridX < 0) { //moved backward
+     fStepMovemenGridX=(fStepMovemenGridX-3.2f);
+   }
+   else if (iMovementGridX == 0) { //no movement in X-axis
+   }	
+   else {
+     fStepMovemenGridX=(fStepMovemenGridX+3.2f);
+   }	
+   iMovementGridX = 0;
+
+   if (fStepMovemenGridX>=myWindowWidth) {
+////   if (fStepMovemenGridX>=fGridSquareWidth) {
+////	 iMovementGridX = iPrevX-iX;
+////	 fStepMovemenGridX=0;
+
+     iMovementGridX -= MAX_X_AXIS_VIEWPORT/2; 
+   }
+   else if (fStepMovemenGridX<=-3.2f) {
+	   iMovementGridX = iPrevX-iX; //(iPrevX-iX)*(-1);
+	 	 fStepMovemenGridX=0;
+	   
+     //added by Mike, 20210319
+//     iMovementGridX -= MAX_X_AXIS_VIEWPORT/2; 	   
+   }
+	
+   if (fStepMovemenGridY>=1) {
+   	 iMovementGridY = iPrevY-iY;
+	 	 fStepMovemenGridY=0;
+   }	
+*/	
+	
+/* //vertical scroll	  	
+   if (iMovementGridY < 0) { //moved forward
+     std::cout << "forward" << "\n";
+//			  std::cout << "iMovementGridZ" << iMovementGridZ <<"\n";	   
+   }
+   else if (iMovementGridY == 0) { //no movement in Z-axis
+     std::cout << "no movement" << "\n";	   
+   }	
+   else {
+     std::cout << "backward" << "\n";	   
+//	 iMovementGridZ=iMovementGridZ*-1; //get absolute value, i.e. positive number	   
+   }	
+*/	
+
+/*
+   //x-axis; horizontal scroll
+   if (iMovementGridX < 0) { //moved backward
+     iMovementGridX=iMovementGridX*-1;
+   }
+   else if (iMovementGridX == 0) { //no movement in Z-axis
+   }	
+   else {
+     iMovementGridX=iMovementGridX*1;
+   }	
+*/
+   //added by Mike, 20210309
+   //TO-DO: -reverify: iMovementGridZ, etc value
+   std::cout << "iMovementGridZ: " << iMovementGridZ << "\n";
+   std::cout << "iMovementGridX: " << iMovementGridX << "\n";
+
+		
+   iCurrentLevelMapContainerOffsetZ += iMovementGridZ; 
+   iCurrentLevelMapContainerOffsetX += iMovementGridX; 
+   iCurrentLevelMapContainerOffsetY += iMovementGridY;   
+
+
+   int iRowCount=iCurrentLevelMapContainerOffsetY;	
+   int iCurrentLevelMapContainerOffsetMaxViewPortY=iRowCount+MAX_Y_AXIS_VIEWPORT;
+	
+   if (iCurrentLevelMapContainerOffsetY<0) {
+	 		iRowCount=0;   	   
+	 		iCurrentLevelMapContainerOffsetY=0;
+   } 
+   else if (iCurrentLevelMapContainerOffsetY>=MAX_INPUT_TEXT_PER_LINE) {
+	 		iRowCount=MAX_INPUT_TEXT_PER_LINE-1;   
+   } 	
+	   
+ //--      
+    
+  	//edited by Mike, 20210910      
+//    for (int iRowCount=0; iRowCount<iRowCountMax; iRowCount++) {
+		for (;iRowCount<iCurrentLevelMapContainerOffsetMaxViewPortY; iRowCount++) {
+		
+		 //added by Mike, 20210910
+		 int iColumnCount=iCurrentLevelMapContainerOffsetX;
+   	 int iCurrentLevelMapContainerOffsetMaxViewPortX=iColumnCount+MAX_X_AXIS_VIEWPORT;
+		
+   	 if ((iColumnCount<0) or (iCurrentLevelMapContainerOffsetX<0)) {
+	 	 		iColumnCount=0;   
+   	 } 
+   	 else if (iCurrentLevelMapContainerOffsetX>=MAX_INPUT_TEXT_PER_LINE) {
+	 			iColumnCount=MAX_INPUT_TEXT_PER_LINE-1;
+	 			iCurrentLevelMapContainerOffsetX=MAX_INPUT_TEXT_PER_LINE-1;
+   	 } 	
+				
+   	 if (iCurrentLevelMapContainerOffsetMaxViewPortX<0) {
+	 	 		iCurrentLevelMapContainerOffsetMaxViewPortX=0;   
+   	 } 
+   	 else if (iCurrentLevelMapContainerOffsetMaxViewPortX>=MAX_INPUT_TEXT_PER_LINE) {
+	 			iCurrentLevelMapContainerOffsetMaxViewPortX=MAX_INPUT_TEXT_PER_LINE-1;	   
+   	 } 		
+	
+   	 std::cout << "iCurrentLevelMapContainerOffsetX: " << iCurrentLevelMapContainerOffsetX << "\n";		
+		
+		
+        //iCurrentMaxColumnCountPerRowContainer[iRowCount];
+        //edited by Mike, 20210910
+//        for (int iColumnCount=0; iColumnCount<iColumnCountMax; iColumnCount++) {
+				for (;iColumnCount<iCurrentLevelMapContainerOffsetMaxViewPortX; iColumnCount++) {
+            //                if (cCurrentTextContainer[iRowCount][iColumnCount]) {
+  					//edited by Mike, 20210719
+//            if (sCurrentLevelMapContainer[iRowCount][iColumnCount].compare("\"A1\"") == 0) { //TRUE
+    				//note: "0" for empty, instead of "-1"
+    				//with "0", no need to add quotation marks
+            if (sCurrentLevelMapContainer[iRowCount][iColumnCount].compare("0") == 0) { //TRUE
+            }
+            else {
+                glPushMatrix();
+                	//add +1.0f in x-axis and y-axis due to 3rd quadrant in the draw function
+                	//center 0,0,0 origin; vertex positions
+  								
+  								//edited by Mike, 20210722              	
+  								//note: collision detection OK; updated: drawing of tile x and y positions
+/*                	glTranslatef(myUsbongUtils->autoConvertFromPixelToVertexPointX(0.0f+fGridSquareWidth*(iColumnCount+1.0f)), myUsbongUtils->autoConvertFromPixelToVertexPointY(0.0f+fGridSquareHeight*(iRowCount+1.0f)), 0.0f);
+*/
+           
+/* //edited by Mike, 20210830; TO-DO: -reverify: origin now at TOP-LEFT, instead of Center
+                glTranslatef(myUsbongUtils->autoConvertFromPixelToVertexPointX(0.0f+(fGridSquareWidth)*(iColumnCount+1.0f)), myUsbongUtils->autoConvertFromPixelToVertexPointY(0.0f+(fGridSquareHeight)*(iRowCount+1.0f)), 0.0f);
+*/
+/*
+                printf(">>fGridSquareWidth: %f",fGridSquareWidth);
+                printf("; fGridSquareHeight: %f",fGridSquareHeight);
+*/
+//                glTranslatef(0.0f+(fGridSquareWidth)*(iColumnCount+1.0f), 0.0f+(fGridSquareHeight)*(iRowCount+1.0f), 0.0f);
+                myXPos=0.0f+(fGridSquareWidth)*(iColumnCount);//+1.0f);
+                myYPos=0.0f+(fGridSquareHeight)*(iRowCount);//+1.0f);
+                
+/*
+printf("autoConvertFromPixelToVertexPointX: %f",(myUsbongUtils->autoConvertFromPixelToVertexPointX(0.0f+(fGridSquareWidth)*(iColumnCount+1.0f)))); 										
+printf("autoConvertFromPixelToVertexPointY: %f",myUsbongUtils->autoConvertFromPixelToVertexPointY(0.0f+(fGridSquareHeight)*(iRowCount+1.0f))); 					
+*/
+ 										
+ 										//edited by Mike, 20210719
+//                	drawTileA	glBindTexture(GL_TEXTURE_2D, textureid);
+										glEnable(GL_TEXTURE_2D);
+//	drawTileAsQuadWithTexture();
+//note: incorrect output if we use printf(...) with std::string as input to %s
+                
+                //added by Mike, 20210725
+                //note: use this Command to verify if inputLevel1.csv uses correct quotation mark encoding
+                //reminder: we use the same quotation mark for opening and closing
+                //in macOS, use XCode to edit input file, e.g. inputLevel1.csv;
+                //this is instead of TextEdit
+//std::cout << "sCurrentLevelMapContainer[iRowCount][iColumnCount]): " << sCurrentLevelMapContainer[iRowCount][iColumnCount] << "\n";
+                
+                		drawTileAsQuadWithTexture(sCurrentLevelMapContainer[iRowCount][iColumnCount]);
+                glPopMatrix();
+            }
+        }
+    }
+    
+
+	//added by Mike, 20210306; edited by Mike, 20210308	
+	iPrevX=iX;
+	iPrevY=iY;
+	iPrevZ=iZ;    
     
 }
 

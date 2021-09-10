@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20200926
- * @date updated: 20210903
+ * @date updated: 20210910
  * @website address: http://www.usbong.ph
  *
  * References:
@@ -348,10 +348,16 @@ bool OpenGLCanvas::init(int myWindowWidthAsPixelInput, int myWindowHeightAsPixel
 		iPilotX=0;
 		iPilotY=0;	
 
+/*	//edited by Mike, 20210910
     //added by Mike, 20201023
     myCanvasPosX=-3.2f;//0.0f;
     myCanvasPosY=-1.0f;//0.0f;
     myCanvasPosZ=-3.2f;//0.0f;
+    myCanvasEyePosX=0.0f;
+*/
+    myCanvasPosX=0.0f;//0.0f;
+    myCanvasPosY=0.0f;//0.0f;
+    myCanvasPosZ=0.0f;//0.0f;
     myCanvasEyePosX=0.0f;
     
     //added by Mike, 20210510
@@ -746,8 +752,9 @@ void OpenGLCanvas::render()
 //	int iLeftMarginColumnCount=3;
 
   glPushMatrix();
-//    glTranslatef(-2.0f/iColumnCountMax*iLeftMarginColumnCount, 0.0f, 0.0f);
+  	//edited by Mike, 20210910
     myLevel2D->draw();
+//		myLevel2D->drawLevelMapInViewPort(myCanvasPosX,myCanvasPosY,myCanvasPosZ);    	    
   glPopMatrix();
 
 	//edited by Mike, 20210902
@@ -885,6 +892,18 @@ void OpenGLCanvas::update()
 */                        
             //added by Mike, 20210423
             myPilot->move(KEY_D);
+
+/*
+						//added by Mike, 20210910            
+						//move right
+						//Reference: https://community.khronos.org/t/moving-an-object-with-respect-to-the-camera/40968;
+						//last accessed: 20201026
+						//answer by: Bob, 200002
+						myCanvasPosY-=cos(myCanvasLookAtAngle)*myCanvasStepY;
+						myCanvasPosX+=sin(myCanvasLookAtAngle)*myCanvasStepX;            
+*/
+						myCanvasPosX+=myPilot->getStepX();            
+            
   
 /* //removed by Mike, 20210825                    
             //added by Mike, 20210524
@@ -922,6 +941,18 @@ void OpenGLCanvas::update()
             //added by Mike, 20210423
             myPilot->move(KEY_A);
 
+/*	//edited by Mike, 20210910
+						//added by Mike, 20210910            
+						//move left
+						//Reference: https://community.khronos.org/t/moving-an-object-with-respect-to-the-camera/40968;
+						//last accessed: 20201026
+						//answer by: Bob, 200002
+						myCanvasPosY+=cos(myCanvasLookAtAngle)*myCanvasStepY;
+						myCanvasPosX-=sin(myCanvasLookAtAngle)*myCanvasStepX;            
+*/
+						myCanvasPosX-=myPilot->getStepX();            
+			
+			
 /* //removed by Mike, 20210825                    
             //added by Mike, 20210524
             //      myPilotPlayer2->move(KEY_W);
