@@ -503,6 +503,8 @@ bool OpenGLCanvas::init(int myWindowWidthAsPixelInput, int myWindowHeightAsPixel
     myPilot->setAsPlayer1(); //added by Mike, 20210601    
     //added by Mike, 20210830
     myPilot->setLevel2D(myLevel2D);
+    //added by Mike, 20210911
+    myLevel2D->setPilotStep(myPilot->getStepX(), myPilot->getStepY(), myPilot->getStepZ());
     
     //added by Mike, 20210903
     //note: positions re-set inside function
@@ -755,6 +757,11 @@ void OpenGLCanvas::render()
   	//edited by Mike, 20210910
 //    myLevel2D->draw();
 		myLevel2D->drawLevelMapInViewPort(myCanvasPosX,myCanvasPosY,myCanvasPosZ);
+    
+    //TO-DO: -update: this to be in function update(...)
+    myCanvasPosX=0;
+    myCanvasPosY=0;
+    myCanvasPosZ=0;
   glPopMatrix();
 
 	//edited by Mike, 20210902
@@ -1428,6 +1435,22 @@ void OpenGLCanvas::update()
             myPilot->setYPos(myWindowHeight-myPilot->getHeight()-myPilot->getStepY());
         }
         
+        //added by Mike, 20210911
+        //--
+        if (myCanvasPosX<0) {
+            myCanvasPosX=0;
+        }
+        else if (myCanvasPosX>myWindowWidth) {
+            myCanvasPosX=myWindowWidth;
+        }
+        
+        if (myCanvasPosY<0) {
+            myCanvasPosY=0;
+        }
+        else if (myCanvasPosY>myWindowHeight) {
+            myCanvasPosY=myWindowHeight;
+        }        
+        //--
         
     }
     else if (currentState==TITLE_SCREEN)

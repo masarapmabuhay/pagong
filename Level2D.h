@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20210613
- * @date updated: 20210910
+ * @date updated: 20210911
  * @website address: http://www.usbong.ph
  *
  * Acknowledgments:
@@ -176,19 +176,24 @@ private:
 		int iPrevY=0;
 		int iPrevZ=0;
 */
-    float fPrevX=0.0f;
-    float fPrevY=0.0f;
-    float fPrevZ=0.0f;
+
+    float fPrevX;
+    float fPrevY;
+    float fPrevZ;
     
     //added by Mike, 20210910
-    float fStepMovemenGridZ=0,
-		  fStepMovemenGridX=0,
-		  fStepMovemenGridY=0;
+    float fStepMovemenGridZ,
+        fStepMovemenGridX,
+        fStepMovemenGridY;
 		
 		int iCurrentLevelMapContainerOffsetX,
 		iCurrentLevelMapContainerOffsetY,
 		iCurrentLevelMapContainerOffsetZ;
-		     
+    
+    //added by Mike, 20210911
+    int MAX_X_AXIS_VIEWPORT;
+    int MAX_Y_AXIS_VIEWPORT;
+    
     //added by Mike, 20210423
     int iCountTaoAnimationFrame;
     float fButtonAnimationFrameOffset;
@@ -418,7 +423,10 @@ public:
     void setCurrentFacingState(int iNewFacingState) {
         currentFacingState = iNewFacingState;
     }
-       
+    
+    //added by Mike, 20210911
+    void setPilotStep(float fPilotStepX, float fPilotStepY, float fPilotStepZ);
+    
     //added by Mike, 20210614MAX_TEXT_CHAR_ROW
     void readInputText(char *inputFilename);    	
     void read(char *inputFilename); ////added by Mike, 20210706
