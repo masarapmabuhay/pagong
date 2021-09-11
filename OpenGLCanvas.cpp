@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20200926
- * @date updated: 20210910
+ * @date updated: 20210911
  * @website address: http://www.usbong.ph
  *
  * References:
@@ -770,11 +770,13 @@ void OpenGLCanvas::render()
   glPopMatrix();
 	
 
+/* //removed by Mike, 20210911
     //added by Mike, 20210903
     glPushMatrix();
 //    	glScalef(fMyWindowWidthAsPixelRatioToHeightPixel,1.0f,1.0f);
     	myText->draw();
     glPopMatrix();
+*/
     
 }
 

@@ -1038,8 +1038,7 @@ void Level2D::drawLevelMapInViewPort(GLfloat fX, GLfloat fY, GLfloat fZ)
     
 if (fPrevX!=fX) {
   fMovementGridX = fPrevX+fX;
-
-  
+ 
    //x-axis
    //TO-DO: -update: this to use set value of canvasStepX
    //note: canvasStepX=3.2f (previous); now 3.5...f
@@ -1059,8 +1058,13 @@ if (fPrevX!=fX) {
     //TO-DO: -reverify: fMovementGridX if excess with getStepX() @3.5...f
     //collision detection and auto-drawn tile object NOT synchronized
     
+    //TO-DO: -reverify: fStepMovemenGridX to NOT increase to be >= fGridSquareWidth, et cetera
+    
 //   if (fStepMovemenGridX>=myWindowWidth) {
-    if (fStepMovemenGridX>=getStepX()) { //GridSquareWidth) {
+		//edited by Mike, 20210911
+//    if (fStepMovemenGridX>=getStepX()) { //GridSquareWidth) {
+    if (fStepMovemenGridX>=fGridSquareWidth) {
+
 //	 fMovementGridX = fPrevX-fX;
         fMovementGridX = fPrevX+fX;
 
@@ -1068,7 +1072,9 @@ if (fPrevX!=fX) {
 
 //     iMovementGridX -= MAX_X_AXIS_VIEWPORT/2;
    }
-   else if (fStepMovemenGridX<=-getStepX()) {
+   //edited by Mike, 20210911
+//   else if (fStepMovemenGridX<=-getStepX()) {
+   else if (fStepMovemenGridX<=-fGridSquareWidth) {
        //fMovementGridX = fPrevX-fX;
        fMovementGridX = fPrevX+fX;
 
