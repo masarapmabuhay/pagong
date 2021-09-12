@@ -526,8 +526,8 @@ void Pilot::draw()
 //added by Mike, 20210423
 void Pilot::drawPilotAsQuadWithTexture()
 {
-
-    glTranslatef(myUsbongUtils->autoConvertFromPixelToVertexPointX(myXPosAsPixel), myUsbongUtils->autoConvertFromPixelToVertexPointY(myYPosAsPixel), 0);
+    //removed by Mike, 20210912
+//    glTranslatef(myUsbongUtils->autoConvertFromPixelToVertexPointX(myXPosAsPixel), myUsbongUtils->autoConvertFromPixelToVertexPointY(myYPosAsPixel), 0);
 	
     switch (currentState)
     {

@@ -155,15 +155,19 @@ private:
      float myYPos;
      float myZPos;
      */
-    
+  
+/* //removed by Mike, 20210912
     //added by Mike, 20210505
     float myOpponentXPos;
     float myOpponentYPos;
     float myOpponentZPos;
+*/
     
+/* //removed by Mike, 20210912; already exists in MyDynamicObject.h
     float stepX;
     float stepY;
     float stepZ;
+*/
     /*
      float myWidthX;
      float myWidthZ;

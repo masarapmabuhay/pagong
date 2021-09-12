@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20200926
- * @date updated: 20210911
+ * @date updated: 20210912
  * @website address: http://www.usbong.ph
  *
  * Reference:
@@ -983,6 +983,9 @@ printf("autoConvertFromPixelToVertexPointY: %f",myUsbongUtils->autoConvertFromPi
 
 //added by Mike, 20210911
 void Level2D::setPilotStep(float fPilotStepX, float fPilotStepY, float fPilotStepZ) {
+    
+//    printf(">>fPilotStepX: %f",fPilotStepX);
+    
     stepX=fPilotStepX;
     stepY=fPilotStepY;
     stepZ=fPilotStepZ;
@@ -994,12 +997,13 @@ void Level2D::setPilotStep(float fPilotStepX, float fPilotStepY, float fPilotSte
 void Level2D::drawLevelMapInViewPort(GLfloat fX, GLfloat fY, GLfloat fZ)
 {
   
-    
+/* //removed by Mike, 20210912
     //edited by Mike, 20210724
     iRowCountMax=10;
     iColumnCountMax=18;
     iHeightCountMax=10;
-
+*/
+    
 		//added by Mike, 20210910
 //--
 /* //removed by Mike, 20210910
@@ -1035,8 +1039,12 @@ void Level2D::drawLevelMapInViewPort(GLfloat fX, GLfloat fY, GLfloat fZ)
     if (fX==0) {
         fPrevX=0;
     }
-    
-if (fPrevX!=fX) {
+
+    printf(">>getStepX(): %f\n",getStepX());
+
+    //edited by Mike, 20210912
+//if (fPrevX!=fX) {
+if (fPrevX!=0.0f) {
   fMovementGridX = fPrevX+fX;
  
    //x-axis
@@ -1051,15 +1059,33 @@ if (fPrevX!=fX) {
      fStepMovemenGridX=(fStepMovemenGridX+getStepX());
    }	
     std::cout << "fStepMovemenGridX: " << fStepMovemenGridX << "\n";
+    
+    //removed by Mike, 20210912
+//    fGridSquareWidth=fGridSquareWidth/getStepX();
+    
+    std::cout << ">>>>fGridSquareWidth: " << fGridSquareWidth << "\n";
 
     fMovementGridX = 0;
     
     //added by Mike, 20210911
     //TO-DO: -reverify: fMovementGridX if excess with getStepX() @3.5...f
     //collision detection and auto-drawn tile object NOT synchronized
+
+    if (fStepMovemenGridX>=fGridSquareWidth) {
+        fMovementGridX = 1*(fStepMovemenGridX/fGridSquareWidth); //1;
+        fStepMovemenGridX=0;
+    }
+    else if (fStepMovemenGridX<=-fGridSquareWidth) {
+        fMovementGridX = -1*(fStepMovemenGridX/fGridSquareWidth); //-1
+        fStepMovemenGridX=0;
+    }
     
-    //TO-DO: -reverify: fStepMovemenGridX to NOT increase to be >= fGridSquareWidth, et cetera
+    //added by Mike, 20210912; removed by Mike, 20210912
+//    fMovementGridX=fMovementGridX/getX();
     
+    
+    
+/* //removed by Mike, 20210912
 //   if (fStepMovemenGridX>=myWindowWidth) {
 		//edited by Mike, 20210911
 //    if (fStepMovemenGridX>=getStepX()) { //GridSquareWidth) {
@@ -1083,6 +1109,10 @@ if (fPrevX!=fX) {
      //added by Mike, 20210319
 //     iMovementGridX -= MAX_X_AXIS_VIEWPORT/2; 	   
    }
+*/
+    
+    //added by Mike, 20210912
+    iCurrentLevelMapContainerOffsetX += fMovementGridX;
 }
     
    if (fStepMovemenGridY>=1) {
@@ -1129,9 +1159,12 @@ if (fPrevX!=fX) {
     std::cout << "fMovementGridX: " << fMovementGridX << "\n";
 		
    iCurrentLevelMapContainerOffsetZ += fMovementGridZ;
-   iCurrentLevelMapContainerOffsetX += fMovementGridX;
+    //removed by Mike, 20210912
+//   iCurrentLevelMapContainerOffsetX += fMovementGridX;
    iCurrentLevelMapContainerOffsetY += fMovementGridY;
 
+    //added by Mike, 20210912
+//    fMovementGridX = 0;
     
     //added by Mike, 20210911
     if (iCurrentLevelMapContainerOffsetX<0) {
@@ -1153,35 +1186,49 @@ if (fPrevX!=fX) {
 	 		iRowCount=MAX_INPUT_TEXT_PER_LINE-1;   
    } 	
 	   
- //--      
+ //--
+    //added by Mike, 20210912
+    //TO-DO: -update: instructions to set Pilot to be at center horizontal and vertical;
+    //if at column 0 or at column end, Pilot can move away from center
+    //TO-DO: -add: scroll movement backward OK
     
   	//edited by Mike, 20210910      
 //    for (int iRowCount=0; iRowCount<iRowCountMax; iRowCount++) {
 		for (;iRowCount<iCurrentLevelMapContainerOffsetMaxViewPortY; iRowCount++) {
 		
-		 //added by Mike, 20210910
+		 //added by Mike, 20210910; edited by Mike, 20210912
      int iColumnCount=iCurrentLevelMapContainerOffsetX;
-   	 int iCurrentLevelMapContainerOffsetMaxViewPortX=iColumnCount+MAX_X_AXIS_VIEWPORT;
+        //edited by Mike, 20210912
+        int iCurrentLevelMapContainerOffsetMaxViewPortX=iColumnCount+MAX_X_AXIS_VIEWPORT;
+//        int iCurrentLevelMapContainerOffsetMaxViewPortX=iColumnCount+MAX_X_AXIS_VIEWPORT-1;
 
    	 if ((iColumnCount<0) or (iCurrentLevelMapContainerOffsetX<0)) {
 	 	 		iColumnCount=0;
+                //added by Mike, 20210912
+                iCurrentLevelMapContainerOffsetMaxViewPortX=iColumnCountMax;
    	 }
    	 else if (iCurrentLevelMapContainerOffsetX>=MAX_INPUT_TEXT_PER_LINE) {
-	 			iColumnCount=MAX_INPUT_TEXT_PER_LINE-1;
+                //edited by Mike, 20210912
+	 			//iColumnCount=MAX_INPUT_TEXT_PER_LINE-1;
+                iColumnCount=MAX_INPUT_TEXT_PER_LINE-1-iColumnCountMax;
+         
 	 			iCurrentLevelMapContainerOffsetX=MAX_INPUT_TEXT_PER_LINE-1;
-   	 } 	
-				
+   	 }
+            
+/*  //removed by Mike, 20210912
    	 if (iCurrentLevelMapContainerOffsetMaxViewPortX<0) {
 	 	 		iCurrentLevelMapContainerOffsetMaxViewPortX=0;   
    	 } 
    	 else if (iCurrentLevelMapContainerOffsetMaxViewPortX>=MAX_INPUT_TEXT_PER_LINE) {
 	 			iCurrentLevelMapContainerOffsetMaxViewPortX=MAX_INPUT_TEXT_PER_LINE-1;	   
    	 }
+*/
             
 //   	 std::cout << "iCurrentLevelMapContainerOffsetX: " << iCurrentLevelMapContainerOffsetX << "\n";
+/* //removed by Mike, 20210912s
             std::cout << "iColumnCount: " << iColumnCount << "\n";
             std::cout << "iCurrentLevelMapContainerOffsetMaxViewPortX: " << iCurrentLevelMapContainerOffsetMaxViewPortX << "\n";
-		
+*/
 		
         //iCurrentMaxColumnCountPerRowContainer[iRowCount];
         //edited by Mike, 20210910
@@ -1312,9 +1359,10 @@ bool Level2D::isLevel2DCollideWith(MyDynamicObject* mdo)
     //removed by Mike, 20210830
 //    return false;
     
-    
+/* //removed by Mike, 20210912
     printf(">>>> isLevel2DCollideWith; iCurrentLevelMapContainerOffsetY: %i;\n",iCurrentLevelMapContainerOffsetY);
     printf(">>>> isLevel2DCollideWith; iCurrentLevelMapContainerOffsetX: %i;\n",iCurrentLevelMapContainerOffsetX);
+*/
     
     if ((!checkIsCollidable())||(!mdo->checkIsCollidable()))    
     {
@@ -1363,13 +1411,14 @@ bool Level2D::isLevel2DCollideWith(MyDynamicObject* mdo)
                     if (mdo->collideWithLevel2DTileRect(0.0f+fGridSquareWidth*(iColumnCount),0.0f+fGridSquareHeight*(iRowCount), fGridSquareWidth, fGridSquareHeight)) {
 
                         //TO-DO: -reverify: if NOT dash, Pilot climb angle incorrect
+/* //removed by Mike, 20210912
 printf(">>>> collideWithLevel2DTileRect TRUE;");
                         
                         std::cout << "iRowCount: " << iRowCount << "\n";
                         std::cout << "iColumnCount: " << iColumnCount << "\n";
                         
                         std::cout << "sCurrentLevelMapContainer[iRowCount][iColumnCount]): " << sCurrentLevelMapContainer[iRowCount][iColumnCount] << "\n";
-                        
+*/
 
                                 //added by Mike, 20210725; added by Mike, 20210831
                                return this->hitByAtTile(mdo, sCurrentLevelMapContainer[iRowCount][iColumnCount],
