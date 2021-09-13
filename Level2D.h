@@ -196,8 +196,11 @@ private:
         fStepMovemenGridY;
 		
 		int iCurrentLevelMapContainerOffsetX,
-		iCurrentLevelMapContainerOffsetY,
-		iCurrentLevelMapContainerOffsetZ;
+			  iCurrentLevelMapContainerOffsetY,
+			  iCurrentLevelMapContainerOffsetZ;
+		
+		int iCurrentLevelMapContainerOffsetMaxViewPortX,
+			  iCurrentLevelMapContainerOffsetMaxViewPortY;
     
     //added by Mike, 20210911
     int MAX_X_AXIS_VIEWPORT;

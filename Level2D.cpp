@@ -1090,9 +1090,11 @@ if (fMyCanvasPosPrevX!=fMyCanvasPosX) {
    }	
     std::cout << "fStepMovemenGridX: " << fStepMovemenGridX << "\n";
     
-    //removed by Mike, 20210912
-//    fGridSquareWidth=fGridSquareWidth/getStepX();
+    //added by Mike, 20210913
+//    fMyCanvasPosX+=(fStepMovemenGridX)*(-1);
     
+    //removed by Mike, 20210912
+//    fGridSquareWidth=fGridSquareWidthiCurrentLevelMapContainerOffsetMaxViewPortYfMovementGridX/getStepX();    
     std::cout << ">>>>fGridSquareWidth: " << fGridSquareWidth << "\n";
 
     fMovementGridX = 0;
@@ -1143,16 +1145,25 @@ if (fMyCanvasPosPrevX!=fMyCanvasPosX) {
     
     //added by Mike, 20210912l; edited by Mike, 20210913
     iCurrentLevelMapContainerOffsetX += fMovementGridX;
-/*    if (fX==fMyWindowWidth/3) {
+  	//causes No backward scroll; super mario bros #1?  
+/*  	
+    if (fX==fMyWindowWidth/3) {
     	iCurrentLevelMapContainerOffsetX += fMovementGridX;
 		}	
 */
+
+/*
+    if ((fX>fMyWindowWidth/3-getStepX()*2) && (fX<=fMyWindowWidth/3)) {
+    	iCurrentLevelMapContainerOffsetX += fMovementGridX;
+		}	
+*/
+
 
 	//added by Mike, 20210913
 	}
 }
     
-/* //removed by Mike, 20210913; TO-DO: -update: this
+/* //removed by Mike, 20210913; TO-DO: iCurrentLevelMapContainerOffsetMaxViewPortY-update: this
    if (fStepMovemenGridY>=1) {
 //   	 fMovementGridY = fPrevY-fY;
        fMovementGridY = fPrevY+fY;
@@ -1214,7 +1225,7 @@ if (fMyCanvasPosPrevX!=fMyCanvasPosX) {
 
     
    int iRowCount=iCurrentLevelMapContainerOffsetY;
-   int iCurrentLevelMapContainerOffsetMaxViewPortY=iRowCount+MAX_Y_AXIS_VIEWPORT;
+   iCurrentLevelMapContainerOffsetMaxViewPortY=iRowCount+MAX_Y_AXIS_VIEWPORT;
 	
    if (iCurrentLevelMapContainerOffsetY<0) {
 	 		iRowCount=0;   	   
@@ -1233,14 +1244,17 @@ if (fMyCanvasPosPrevX!=fMyCanvasPosX) {
     //TO-DO: -update: scrolling instructions to be NOT by fGridSquareWidth;
     //--> add: fractions of fGridSquareWidth
     
-  	//edited by Mike, 20210910      
+  	//edited by Mike, 20210910      iCurrentLevelMapContainerOffsetMaxViewPortY
 //    for (int iRowCount=0; iRowCount<iRowCountMax; iRowCount++) {
 		for (;iRowCount<iCurrentLevelMapContainerOffsetMaxViewPortY; iRowCount++) {
 		
 		 //added by Mike, 20210910; edited by Mike, 20210912
      int iColumnCount=iCurrentLevelMapContainerOffsetX;
-        //edited by Mike, 20210912
-        int iCurrentLevelMapContainerOffsetMaxViewPortX=iColumnCount+MAX_X_AXIS_VIEWPORT;
+        //edited by Mike, 20210913
+//        int iCurrentLevelMapContainerOffsetMaxViewPortX=iColumnCount+MAX_X_AXIS_VIEWPORT;
+        iCurrentLevelMapContainerOffsetMaxViewPortX=iColumnCount+MAX_X_AXIS_VIEWPORT;
+        
+        
 //        int iCurrentLevelMapContainerOffsetMaxViewPortX=iColumnCount+MAX_X_AXIS_VIEWPORT-1;
 
    	 if ((iColumnCount<0) or (iCurrentLevelMapContainerOffsetX<0)) {
@@ -1306,7 +1320,6 @@ if (fMyCanvasPosPrevX!=fMyCanvasPosX) {
                 myYPos=0.0f+(fGridSquareHeight)*(iRowCount);//+1.0f);
 */
                 //TO-DO: -reverify: iColumnCount if movement goes backward
-                
                 myXPos=0.0f+(fGridSquareWidth)*(iColumnCount-iCurrentLevelMapContainerOffsetX);
                 myYPos=0.0f+(fGridSquareHeight)*(iRowCount+iCurrentLevelMapContainerOffsetY);
                 
@@ -1439,17 +1452,33 @@ bool Level2D::isLevel2DCollideWith(MyDynamicObject* mdo)
     
 
 //printf(">>>> iCurrentLevelMapContainerOffsetY: %i;",iCurrentLevelMapContainerOffsetY);
-    
-        for (int iRowCount=iCurrentLevelMapContainerOffsetY; iRowCount<(iCurrentLevelMapContainerOffsetY+iRowCountMax); iRowCount++) {
-            for (int iColumnCount=iCurrentLevelMapContainerOffsetX; iColumnCount<(iCurrentLevelMapContainerOffsetX+iColumnCountMax); iColumnCount++) {
-        
+printf(">>>> iCurrentLevelMapContainerOffsetX: %i;",iCurrentLevelMapContainerOffsetX);
+  
+//printf(">>>> iCurrentLevelMapContainerOffsetMaxViewPortY: %i;",iCurrentLevelMapContainerOffsetMaxViewPortY);
+printf(">>>> iCurrentLevelMapContainerOffsetMaxViewPortX: %i;",iCurrentLevelMapContainerOffsetMaxViewPortX);
+
+  			int iStartRowCount=7;  
+  			int iStartColumnCount=7;
+  
+  				//edited by Mike, 20210913  
+//        for (int iRowCount=iCurrentLevelMapContainerOffsetY; iRowCount<(iCurrentLevelMapContainerOffsetY+iRowCountMax); iRowCount++) {
+        for (int iRowCount=iStartRowCount+iCurrentLevelMapContainerOffsetY; iRowCount<iCurrentLevelMapContainerOffsetMaxViewPortY; iRowCount++) {  
+        			//edited by Mike, 20210913
+//            for (int iColumnCount=iCurrentLevelMapContainerOffsetX; iColumnCount<(iCurrentLevelMapContainerOffsetX+iColumnCountMax); iColumnCount++) {
+           for (int iColumnCount=iStartColumnCount+iCurrentLevelMapContainerOffsetX; iColumnCount<iCurrentLevelMapContainerOffsetMaxViewPortX; iColumnCount++) {
+//           for (int iColumnCount=iCurrentLevelMapContainerOffsetX-1; iColumnCount<iCurrentLevelMapContainerOffsetMaxViewPortX-1; iColumnCount++) {
+
+
+                 
 //printf(">>>> iRowCount: %i; iColumnCount: %i;",iRowCount,iColumnCount);
     				//note: "0" for empty, instead of "-1"
     				//with "0", no need to add quotation marks
             if (sCurrentLevelMapContainer[iRowCount][iColumnCount].compare("0") == 0) { //TRUE
             }
             else {
+  									//edited by Mike, 20210913          
                     if (mdo->collideWithLevel2DTileRect(0.0f+fGridSquareWidth*(iColumnCount),0.0f+fGridSquareHeight*(iRowCount), fGridSquareWidth, fGridSquareHeight)) {
+//                    if (mdo->collideWithLevel2DTileRect(0.0f+fGridSquareWidth*(iColumnCount-1),0.0f+fGridSquareHeight*(iRowCount), fGridSquareWidth, fGridSquareHeight)) {
 
                         //TO-DO: -reverify: if NOT dash, Pilot climb angle incorrect
 /* //removed by Mike, 20210912
@@ -1461,10 +1490,18 @@ printf(">>>> collideWithLevel2DTileRect TRUE;");
                         std::cout << "sCurrentLevelMapContainer[iRowCount][iColumnCount]): " << sCurrentLevelMapContainer[iRowCount][iColumnCount] << "\n";
 */
 
-                                //added by Mike, 20210725; added by Mike, 20210831
+                                //added by Mike, 20210725; added by Mike, 20210831;
+                                //edited by Mike, 20210913
                                return this->hitByAtTile(mdo, sCurrentLevelMapContainer[iRowCount][iColumnCount],
                                 					0.0f+fGridSquareWidth*(iColumnCount), //note: no -1 in iColumnCount
                                 					0.0f+fGridSquareHeight*(iRowCount));
+                  
+/*              					
+                               return this->hitByAtTile(mdo, sCurrentLevelMapContainer[iRowCount][iColumnCount-1],
+                                					0.0f+fGridSquareWidth*(iColumnCount-1),
+                                					0.0f+fGridSquareHeight*(iRowCount));
+*/
+
 /*
                                return this->hitByAtTile(mdo, sCurrentLevelMapContainer[iRowCount+1][iColumnCount],
                                 					0.0f+fGridSquareWidth*(iColumnCount), //note: no -1 in iColumnCount
