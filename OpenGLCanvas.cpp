@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20200926
- * @date updated: 20210912
+ * @date updated: 20210913
  * @website address: http://www.usbong.ph
  *
  * References:
@@ -1439,13 +1439,15 @@ void OpenGLCanvas::update()
         
         //added by Mike, 20210911
         //--
+/*        //edited by Mike, 20210913
         if (myCanvasPosX<0) {
             myCanvasPosX=0;
         }
         else if (myCanvasPosX>myWindowWidth) {
             myCanvasPosX=myWindowWidth;
         }
-        
+*/
+
         if (myCanvasPosY<0) {
             myCanvasPosY=0;
         }

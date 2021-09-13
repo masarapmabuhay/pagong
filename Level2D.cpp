@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20200926
- * @date updated: 20210912
+ * @date updated: 20210913
  * @website address: http://www.usbong.ph
  *
  * Reference:
@@ -1040,7 +1040,7 @@ void Level2D::drawLevelMapInViewPort(GLfloat fX, GLfloat fY, GLfloat fZ)
         fPrevX=0;
     }
 
-    printf(">>getStepX(): %f\n",getStepX());
+//    printf(">>getStepX(): %f\n",getStepX());
 
     //edited by Mike, 20210912
 //if (fPrevX!=fX) {
@@ -1076,7 +1076,7 @@ if (fPrevX!=0.0f) {
         fStepMovemenGridX=0;
     }
     else if (fStepMovemenGridX<=-fGridSquareWidth) {
-        fMovementGridX = -1*(fStepMovemenGridX/fGridSquareWidth); //-1
+        fMovementGridX = 1*(fStepMovemenGridX/fGridSquareWidth); //-1
         fStepMovemenGridX=0;
     }
     
@@ -1115,13 +1115,14 @@ if (fPrevX!=0.0f) {
     iCurrentLevelMapContainerOffsetX += fMovementGridX;
 }
     
+/* //removed by Mike, 20210913; TO-DO: -update: this
    if (fStepMovemenGridY>=1) {
 //   	 fMovementGridY = fPrevY-fY;
        fMovementGridY = fPrevY+fY;
 
        fStepMovemenGridY=0;
    }	
-	
+*/
 	
 /* //vertical scroll	  	
    if (iMovementGridY < 0) { //moved forward
