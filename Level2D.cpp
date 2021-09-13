@@ -1056,9 +1056,10 @@ void Level2D::drawLevelMapInViewPort(GLfloat fMyCanvasPosX, GLfloat fMyCanvasPos
 
     //edited by Mike, 20210912
 if (fMyCanvasPosPrevX!=fMyCanvasPosX) {
-		//added by Mike, 20210913
+/*
+    //added by Mike, 20210913
 		if (fX<=fMyWindowWidth/3) {
-
+*/
 //if (fPrevX!=0.0f) {
 /*
 		//added by Mike, 20210913
@@ -1158,9 +1159,10 @@ if (fMyCanvasPosPrevX!=fMyCanvasPosX) {
 		}	
 */
 
-
+/*
 	//added by Mike, 20210913
 	}
+*/
 }
     
 /* //removed by Mike, 20210913; TO-DO: iCurrentLevelMapContainerOffsetMaxViewPortY-update: this
@@ -1451,22 +1453,27 @@ bool Level2D::isLevel2DCollideWith(MyDynamicObject* mdo)
 */
     
 
+    //TO-DO: -fix: problem with forward movement, then backward movement;
+    //if forward +3 tiles, then backward movement -1 tile, based on auto-drawn tiles
+    
 //printf(">>>> iCurrentLevelMapContainerOffsetY: %i;",iCurrentLevelMapContainerOffsetY);
 printf(">>>> iCurrentLevelMapContainerOffsetX: %i;",iCurrentLevelMapContainerOffsetX);
   
 //printf(">>>> iCurrentLevelMapContainerOffsetMaxViewPortY: %i;",iCurrentLevelMapContainerOffsetMaxViewPortY);
 printf(">>>> iCurrentLevelMapContainerOffsetMaxViewPortX: %i;",iCurrentLevelMapContainerOffsetMaxViewPortX);
 
-  			int iStartRowCount=7;  
-  			int iStartColumnCount=7;
+    int iStartRowCount=0; //7;
+    int iStartColumnCount=0;//6; //7;
   
   				//edited by Mike, 20210913  
 //        for (int iRowCount=iCurrentLevelMapContainerOffsetY; iRowCount<(iCurrentLevelMapContainerOffsetY+iRowCountMax); iRowCount++) {
-        for (int iRowCount=iStartRowCount+iCurrentLevelMapContainerOffsetY; iRowCount<iCurrentLevelMapContainerOffsetMaxViewPortY; iRowCount++) {  
+        for (int iRowCount=iStartRowCount+iCurrentLevelMapContainerOffsetY; iRowCount<iCurrentLevelMapContainerOffsetMaxViewPortY; iRowCount++) {
         			//edited by Mike, 20210913
 //            for (int iColumnCount=iCurrentLevelMapContainerOffsetX; iColumnCount<(iCurrentLevelMapContainerOffsetX+iColumnCountMax); iColumnCount++) {
-           for (int iColumnCount=iStartColumnCount+iCurrentLevelMapContainerOffsetX; iColumnCount<iCurrentLevelMapContainerOffsetMaxViewPortX; iColumnCount++) {
-//           for (int iColumnCount=iCurrentLevelMapContainerOffsetX-1; iColumnCount<iCurrentLevelMapContainerOffsetMaxViewPortX-1; iColumnCount++) {
+//           for (int iColumnCount=iStartColumnCount+iCurrentLevelMapContainerOffsetX; iColumnCount<iCurrentLevelMapContainerOffsetMaxViewPortX; iColumnCount++) {
+        for (int iColumnCount=iStartColumnCount+iCurrentLevelMapContainerOffsetX; iColumnCount<iCurrentLevelMapContainerOffsetMaxViewPortX; iColumnCount++) {
+
+               //           for (int iColumnCount=iCurrentLevelMapContainerOffsetX-1; iColumnCount<iCurrentLevelMapContainerOffsetMaxViewPortX-1; iColumnCount++) {
 
 
                  
@@ -1476,19 +1483,22 @@ printf(">>>> iCurrentLevelMapContainerOffsetMaxViewPortX: %i;",iCurrentLevelMapC
             if (sCurrentLevelMapContainer[iRowCount][iColumnCount].compare("0") == 0) { //TRUE
             }
             else {
-  									//edited by Mike, 20210913          
+//                printf(">>>>>>>> DITO");
+//                printf(">>>> iRowCount: %i; iColumnCount: %i;",iRowCount,iColumnCount);
+//                printf(">>>> iColumnCount: %i;",iColumnCount);
+ 									//edited by Mike, 20210913
                     if (mdo->collideWithLevel2DTileRect(0.0f+fGridSquareWidth*(iColumnCount),0.0f+fGridSquareHeight*(iRowCount), fGridSquareWidth, fGridSquareHeight)) {
 //                    if (mdo->collideWithLevel2DTileRect(0.0f+fGridSquareWidth*(iColumnCount-1),0.0f+fGridSquareHeight*(iRowCount), fGridSquareWidth, fGridSquareHeight)) {
 
                         //TO-DO: -reverify: if NOT dash, Pilot climb angle incorrect
-/* //removed by Mike, 20210912
+ //removed by Mike, 20210912
 printf(">>>> collideWithLevel2DTileRect TRUE;");
                         
                         std::cout << "iRowCount: " << iRowCount << "\n";
                         std::cout << "iColumnCount: " << iColumnCount << "\n";
                         
                         std::cout << "sCurrentLevelMapContainer[iRowCount][iColumnCount]): " << sCurrentLevelMapContainer[iRowCount][iColumnCount] << "\n";
-*/
+
 
                                 //added by Mike, 20210725; added by Mike, 20210831;
                                 //edited by Mike, 20210913
