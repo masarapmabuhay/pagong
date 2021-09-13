@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20210613
- * @date updated: 20210911
+ * @date updated: 20210913
  * @website address: http://www.usbong.ph
  *
  * Acknowledgments:
@@ -181,9 +181,14 @@ private:
 		int iPrevZ=0;
 */
 
+/*	//edited by Mike, 20210913
     float fPrevX;
     float fPrevY;
     float fPrevZ;
+*/
+    float fMyCanvasPosPrevX;
+    float fMyCanvasPosPrevY;
+    float fMyCanvasPosPrevZ;
     
     //added by Mike, 20210910
     float fStepMovemenGridZ,
@@ -449,8 +454,11 @@ public:
     void drawTileAsQuadWithTexturePrev(std::string sTileId); //added by Mike, 20210828
     void drawLevelWithTexture();
 		void drawLevelWithTextureUsingInputFileNoScrollYet(); //edited by Mike, 20210910
-		 //added by Mike, 20210910
-		void drawLevelMapInViewPort(GLfloat fX, GLfloat fY, GLfloat fZ);
+		 //added by Mike, 20210910; edited by Mike, 20210913
+//		void drawLevelMapInViewPort(GLfloat fX, GLfloat fY, GLfloat fZ);
+		//edited by Mike, 20210913
+//		void drawLevelMapInViewPort(GLfloat fX, GLfloat fY, GLfloat fZ, GLfloat fMyCanvasPosX, GLfloat fMyCanvasPosY, GLfloat fMyCanvasPosZ);
+		void drawLevelMapInViewPort(GLfloat fMyCanvasPosX, GLfloat fMyCanvasPosY, GLfloat fMyCanvasPosZ, GLfloat fX, GLfloat fY, GLfloat fZ);
 
 		
     //removed by Mike, 20210705

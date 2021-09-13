@@ -283,9 +283,9 @@ Level2D::Level2D(float xPos, float yPos, float zPos, float fWindowWidth, float f
     stepZ=fGridSquareWidth/10/2;
     
     //added by Mike, 20210910
-    fPrevX=0.0f;
-    fPrevY=0.0f;
-    fPrevZ=0.0f;
+    fMyCanvasPosPrevX=0.0f;
+    fMyCanvasPosPrevY=0.0f;
+    fMyCanvasPosPrevZ=0.0f;
     
     iCurrentLevelMapContainerOffsetZ=0;
     iCurrentLevelMapContainerOffsetX=0;
@@ -295,9 +295,11 @@ Level2D::Level2D(float xPos, float yPos, float zPos, float fWindowWidth, float f
     MAX_X_AXIS_VIEWPORT=iColumnCountMax;//*fGridSquareWidth;
     MAX_Y_AXIS_VIEWPORT=iRowCountMax;//*fGridSquareHeight;
    
+/*//removed by Mike, 20210913   
     fPrevX=0.0f;
     fPrevY=0.0f;
     fPrevZ=0.0f;
+*/
     
     fStepMovemenGridZ=0;
     fStepMovemenGridX=0;
@@ -994,7 +996,12 @@ void Level2D::setPilotStep(float fPilotStepX, float fPilotStepY, float fPilotSte
 //added by Mike, 20210708; edited by Mike, 20210712
 //TO-DO: -add: function with tile patterns
 //TO-DO: -update: this
-void Level2D::drawLevelMapInViewPort(GLfloat fX, GLfloat fY, GLfloat fZ)
+//edited by Mike, 20210913
+//void Level2D::drawLevelMapInViewPort(GLfloat fX, GLfloat fY, GLfloat fZ)
+//edited by Mike, 20210913
+//void Level2D::drawLevelMapInViewPort(GLfloat fX, GLfloat fY, GLfloat fZ, GLfloat fMyCanvasPosX, GLfloat fMyCanvasPosY, GLfloat fMyCanvasPosZ)
+void Level2D::drawLevelMapInViewPort(GLfloat fMyCanvasPosX, GLfloat fMyCanvasPosY, GLfloat fMyCanvasPosZ, GLfloat fX, GLfloat fY, GLfloat fZ)
+
 {
   
 /* //removed by Mike, 20210912
@@ -1034,18 +1041,41 @@ void Level2D::drawLevelMapInViewPort(GLfloat fX, GLfloat fY, GLfloat fZ)
 //   fMovementGridX = fPrevX-fX;
     fMovementGridX=0;
     
+/*    
     printf(">>fPrevX: %f; fx: %f\n",fPrevX,fX);
+    printf(">>fMyCanvasPosX: %f\n",fMyCanvasPosX);    
+*/    
+    printf(">>fMyCanvasPosPrevX: %f; fMyCanvasPosX: %f\n",fMyCanvasPosPrevX,fMyCanvasPosX);
+    printf(">>fX: %f\n",fX);    
     
-    if (fX==0) {
-        fPrevX=0;
+    if (fMyCanvasPosX==0) {
+        fMyCanvasPosPrevX=0;
     }
 
 //    printf(">>getStepX(): %f\n",getStepX());
 
     //edited by Mike, 20210912
-//if (fPrevX!=fX) {
-if (fPrevX!=0.0f) {
-  fMovementGridX = fPrevX+fX;
+if (fMyCanvasPosPrevX!=fMyCanvasPosX) {
+		//added by Mike, 20210913
+		if (fX<=fMyWindowWidth/3) {
+
+//if (fPrevX!=0.0f) {
+/*
+		//added by Mike, 20210913
+		//put Pilot as center of viewport; if at edge of input level,
+		//Pilot can move away from center
+		if (fX<(fMyCanvasPosX-MAX_X_AXIS_VIEWPORT/2)) {
+			fX=fMyCanvasPosX-MAX_X_AXIS_VIEWPORT/2;
+		}
+		else if (fX>(fMyCanvasPosX+MAX_X_AXIS_VIEWPORT/2)) {
+			fX=fMyCanvasPosX+MAX_X_AXIS_VIEWPORT;
+		}
+*/
+	
+
+	//edited by Mike, 20210913
+//  fMovementGridX = fPrevX+fX;
+  fMovementGridX = (fMyCanvasPosPrevX-fMyCanvasPosX)*-1;
  
    //x-axis
    //TO-DO: -update: this to use set value of canvasStepX
@@ -1111,8 +1141,15 @@ if (fPrevX!=0.0f) {
    }
 */
     
-    //added by Mike, 20210912
+    //added by Mike, 20210912l; edited by Mike, 20210913
     iCurrentLevelMapContainerOffsetX += fMovementGridX;
+/*    if (fX==fMyWindowWidth/3) {
+    	iCurrentLevelMapContainerOffsetX += fMovementGridX;
+		}	
+*/
+
+	//added by Mike, 20210913
+	}
 }
     
 /* //removed by Mike, 20210913; TO-DO: -update: this
@@ -1140,7 +1177,7 @@ if (fPrevX!=0.0f) {
     
 /* //removed by Mike, 20210910; forward or backward already identified
    //x-axis; horizontal scroll
-   if (fMovementGridX < 0) { //moved backward
+   if (fMovementGridX < 0) { //moved backwardMAX_Y_AXIS_VIEWPORT
      fMovementGridX=fMovementGridX*-1;
    }
    else if (fMovementGridX == 0) { //no movement in Z-axis
@@ -1171,8 +1208,8 @@ if (fPrevX!=0.0f) {
     if (iCurrentLevelMapContainerOffsetX<0) {
         iCurrentLevelMapContainerOffsetX=0;
         fMovementGridX=0;
-        fPrevX=0;
-        fX=0;
+        fMyCanvasPosPrevX=0;
+        fMyCanvasPosX=0;
     }
 
     
@@ -1190,8 +1227,11 @@ if (fPrevX!=0.0f) {
  //--
     //added by Mike, 20210912
     //TO-DO: -update: instructions to set Pilot to be at center horizontal and vertical;
-    //if at column 0 or at column end, Pilot can move away from center
-    //TO-DO: -add: scroll movement backward OK
+    //if at column 0 or at column end, Pilot can move awayGLfloat fX, GLfloat fY, GLfloat fZ,  from center
+    //TO-DO: -reverify: scroll movement backward to be OK
+    
+    //TO-DO: -update: scrolling instructions to be NOT by fGridSquareWidth;
+    //--> add: fractions of fGridSquareWidth
     
   	//edited by Mike, 20210910      
 //    for (int iRowCount=0; iRowCount<iRowCountMax; iRowCount++) {
@@ -1274,12 +1314,11 @@ if (fPrevX!=0.0f) {
 printf("autoConvertFromPixelToVertexPointX: %f",(myUsbongUtils->autoConvertFromPixelToVertexPointX(0.0f+(fGridSquareWidth)*(iColumnCount+1.0f)))); 										
 printf("autoConvertFromPixelToVertexPointY: %f",myUsbongUtils->autoConvertFromPixelToVertexPointY(0.0f+(fGridSquareHeight)*(iRowCount+1.0f))); 					
 */
- 										
  										//edited by Mike, 20210719
 //                	drawTileA	glBindTexture(GL_TEXTURE_2D, textureid);
 										glEnable(GL_TEXTURE_2D);
 //	drawTileAsQuadWithTexture();
-//note: incorrect output if we use printf(...) with std::string as input to %s
+//note: incorrect output if we use fPrevXprintf(...) with std::string as input to %s
                 
                 //added by Mike, 20210725
                 //note: use this Command to verify if inputLevel1.csv uses correct quotation mark encoding
@@ -1300,9 +1339,10 @@ printf("autoConvertFromPixelToVertexPointY: %f",myUsbongUtils->autoConvertFromPi
     
 
 	//added by Mike, 20210306; edited by Mike, 20210308	
-	fPrevX=fX;
-	fPrevY=fY;
-	fPrevZ=fZ;
+	//note: does NOT yet include the stepX when there is column movement
+	fMyCanvasPosPrevX=fMyCanvasPosX;
+	fMyCanvasPosPrevY=fMyCanvasPosY;
+	fMyCanvasPosPrevZ=fMyCanvasPosZ;
     
 }
 

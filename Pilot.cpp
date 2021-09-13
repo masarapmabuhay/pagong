@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B. 
  * @date created: 20200930
- * @date updated: 20210911
+ * @date updated: 20210913
  * @website address: http://www.usbong.ph
  *
  * Reference: 
@@ -370,10 +370,14 @@ Pilot::Pilot(float xPos, float yPos, float zPos, float fWindowWidth, float fWind
     stepY=fGridSquareHeight/10/4;    
     stepZ=fGridSquareWidth/10/4;   
 */
+/* //edited by Mike, 20210913
     stepX=fGridSquareWidth/10/2;
     stepY=fGridSquareHeight/10/2;    
     stepZ=fGridSquareWidth/10/2;   
-
+*/
+    stepX=fGridSquareWidth/10;
+    stepY=fGridSquareHeight/10;    
+    stepZ=fGridSquareWidth/10;   
 		
     myWidthAsPixel=fGridSquareWidth;
     myHeightAsPixel=fGridSquareHeight;
@@ -3569,6 +3573,25 @@ void Pilot::move(int key)
 		}
 	}
 */
+		//added by Mike, 20210913
+/*		
+		if (myXPos>fMyWindowWidth/2-getWidth()) {
+			myXPos=fMyWindowWidth/2-getWidth();
+		}
+		else if (myXPos<fMyWindowWidth/2-getWidth()) {
+			myXPos=fMyWindowWidth/2-getWidth();
+		}
+*/
+		if ((myXPos>=0) && (myXPos<fMyWindowWidth/3)) { ///2-getWidth())) {
+		}
+		else if (myXPos<0) {
+		}
+		else {
+			//edited by Mike, 20210913
+//			myXPos=fMyWindowWidth/2-getWidth();
+			myXPos=fMyWindowWidth/3;
+		}		
+
     //added by Mike, 20210804
     //gravity
     if (myLevel2D->isLevel2DCollideWith(this)) {

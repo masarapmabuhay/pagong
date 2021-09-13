@@ -355,10 +355,12 @@ bool OpenGLCanvas::init(int myWindowWidthAsPixelInput, int myWindowHeightAsPixel
     myCanvasPosZ=-3.2f;//0.0f;
     myCanvasEyePosX=0.0f;
 */
+/* //removed by Mike, 20210913
     myCanvasPosX=0.0f;//0.0f;
     myCanvasPosY=0.0f;//0.0f;
     myCanvasPosZ=0.0f;//0.0f;
     myCanvasEyePosX=0.0f;
+*/
     
     //added by Mike, 20210510
     iStartPointX=0;
@@ -412,6 +414,11 @@ bool OpenGLCanvas::init(int myWindowWidthAsPixelInput, int myWindowHeightAsPixel
     myWindowWidth = myWindowWidthAsPixel;
     myWindowHeight = myWindowHeightAsPixel;
 
+		//added by Mike, 20210913
+    myCanvasPosX=0.0f+myWindowWidth/3;
+    myCanvasPosY=0.0f;
+    myCanvasPosZ=0.0f;
+    myCanvasEyePosX=0.0f;
 
 
 /* //removed by Mike, 20210826
@@ -756,12 +763,19 @@ void OpenGLCanvas::render()
   glPushMatrix();
   	//edited by Mike, 20210910
 //    myLevel2D->draw();
-		myLevel2D->drawLevelMapInViewPort(myCanvasPosX,myCanvasPosY,myCanvasPosZ);
-    
+		//edited by Mike, 20210913
+//		myLevel2D->drawLevelMapInViewPort(myCanvasPosX,myCanvasPosY,myCanvasPosZ);
+//		myLevel2D->drawLevelMapInViewPort(myPilot->getX(),myPilot->getY(),myPilot->getZ());
+		//edited by Mike, 20210913
+//		myLevel2D->drawLevelMapInViewPort(myPilot->getX(),myPilot->getY(),myPilot->getZ(), myCanvasPosX, myCanvasPosY, myCanvasPosZ);
+		myLevel2D->drawLevelMapInViewPort(myCanvasPosX, myCanvasPosY, myCanvasPosZ, myPilot->getX(),myPilot->getY(),myPilot->getZ());
+
+/*    
     //TO-DO: -update: this to be in function update(...)
     myCanvasPosX=0;
     myCanvasPosY=0;
     myCanvasPosZ=0;
+*/    
   glPopMatrix();
 
 	//edited by Mike, 20210902
@@ -1437,16 +1451,14 @@ void OpenGLCanvas::update()
             myPilot->setYPos(myWindowHeight-myPilot->getHeight()-myPilot->getStepY());
         }
         
-        //added by Mike, 20210911
-        //--
-/*        //edited by Mike, 20210913
+        //added by Mike, 20210911; edited by Mike, 20210913
         if (myCanvasPosX<0) {
             myCanvasPosX=0;
         }
         else if (myCanvasPosX>myWindowWidth) {
             myCanvasPosX=myWindowWidth;
         }
-*/
+
 
         if (myCanvasPosY<0) {
             myCanvasPosY=0;
