@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20200926
- * @date updated: 20210913
+ * @date updated: 20210914
  * @website address: http://www.usbong.ph
  *
  * References:
@@ -504,8 +504,10 @@ bool OpenGLCanvas::init(int myWindowWidthAsPixelInput, int myWindowHeightAsPixel
     //removed by Mike, 20210828
     //myLevel2D->setupLevel(LEVEL_2D_TEXTURE);
 
-    //added by Mike, 20210830; edited by Mike, 20210901
-    myPilot = new Pilot(myWindowWidthAsPixel/3,myWindowHeightAsPixel/2,0.0f,myWindowWidthAsPixel,myWindowHeightAsPixel);
+    //added by Mike, 20210830; edited by Mike, 20210914
+//    myPilot = new Pilot(myWindowWidthAsPixel/3,myWindowHeightAsPixel/2,0.0f,myWindowWidthAsPixel,myWindowHeightAsPixel);
+    myPilot = new Pilot(myWindowWidthAsPixel/2,myWindowHeightAsPixel/2,0.0f,myWindowWidthAsPixel,myWindowHeightAsPixel);
+
     myPilot->setOpenGLCanvas(this, fGridSquareWidth, fGridSquareHeight);    
     myPilot->setAsPlayer1(); //added by Mike, 20210601    
     //added by Mike, 20210830

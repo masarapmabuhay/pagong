@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20200926
- * @date updated: 20210913
+ * @date updated: 20210914
  * @website address: http://www.usbong.ph
  *
  * Reference:
@@ -1044,10 +1044,12 @@ void Level2D::drawLevelMapInViewPort(GLfloat fMyCanvasPosX, GLfloat fMyCanvasPos
 /*    
     printf(">>fPrevX: %f; fx: %f\n",fPrevX,fX);
     printf(">>fMyCanvasPosX: %f\n",fMyCanvasPosX);    
-*/    
+*/
+    
+/*	//removed by Mike, 20210914
     printf(">>fMyCanvasPosPrevX: %f; fMyCanvasPosX: %f\n",fMyCanvasPosPrevX,fMyCanvasPosX);
     printf(">>fX: %f\n",fX);    
-    
+*/    
     if (fMyCanvasPosX==0) {
         fMyCanvasPosPrevX=0;
     }
@@ -1072,15 +1074,19 @@ if (fMyCanvasPosPrevX!=fMyCanvasPosX) {
 			fX=fMyCanvasPosX+MAX_X_AXIS_VIEWPORT;
 		}
 */
-	
+	  printf(">>fMyCanvasPosPrevX: %f; fMyCanvasPosX: %f\n",fMyCanvasPosPrevX,fMyCanvasPosX);
+    printf(">>fX: %f\n",fX);    
+
 
 	//edited by Mike, 20210913
 //  fMovementGridX = fPrevX+fX;
-  fMovementGridX = (fMyCanvasPosPrevX-fMyCanvasPosX)*-1;
+	 //edited by Mike, 20210914
+//  fMovementGridX = (fMyCanvasPosPrevX-fMyCanvasPosX)*-1;
+   fMovementGridX = (fMyCanvasPosX-fMyCanvasPosPrevX);
  
    //x-axis
    //TO-DO: -update: this to use set value of canvasStepX
-   //note: canvasStepX=3.2f (previous); now 3.5...f
+   //note: canvasStepX=3.2f (previous); now 3.5...
    if (fMovementGridX < 0) { //moved backward
      fStepMovemenGridX=(fStepMovemenGridX-getStepX());
    }
@@ -1103,15 +1109,30 @@ if (fMyCanvasPosPrevX!=fMyCanvasPosX) {
     //added by Mike, 20210911
     //TO-DO: -reverify: fMovementGridX if excess with getStepX() @3.5...f
     //collision detection and auto-drawn tile object NOT synchronized
-
+		//edited by Mike, 20210914
     if (fStepMovemenGridX>=fGridSquareWidth) {
         fMovementGridX = 1*(fStepMovemenGridX/fGridSquareWidth); //1;
-        fStepMovemenGridX=0;
+        fStepMovemenGridX=fStepMovemenGridX-fGridSquareWidth;//0;
     }
     else if (fStepMovemenGridX<=-fGridSquareWidth) {
+    
         fMovementGridX = 1*(fStepMovemenGridX/fGridSquareWidth); //-1
-        fStepMovemenGridX=0;
+        //edited by Mike, 20210914
+//        fStepMovemenGridX=fStepMovemenGridX+fGridSquareWidth;//0;
+        fStepMovemenGridX=fStepMovemenGridX+fGridSquareWidth;//0;
+        
+//        fMovementGridX=fMovementGridX*(-1);
     }
+    
+    //added by Mike, 20210914
+    //TO-DO: -add: instructions if at left-most of canvas, i.e. myCanvasPosX=0
+    //Pilot's x position can go away from center
+    
+/*
+        fMovementGridX = 1*(fStepMovemenGridX/fGridSquareWidth); //-1
+//        fMovementGridX = 1*(fStepMovemenGridX); //-1
+        fStepMovemenGridX=0;
+*/
     
     //added by Mike, 20210912; removed by Mike, 20210912
 //    fMovementGridX=fMovementGridX/getX();
@@ -1216,15 +1237,14 @@ if (fMyCanvasPosPrevX!=fMyCanvasPosX) {
 
     //added by Mike, 20210912
 //    fMovementGridX = 0;
-    
+
     //added by Mike, 20210911
     if (iCurrentLevelMapContainerOffsetX<0) {
         iCurrentLevelMapContainerOffsetX=0;
-        fMovementGridX=0;
         fMyCanvasPosPrevX=0;
         fMyCanvasPosX=0;
+        fMovementGridX=0;
     }
-
     
    int iRowCount=iCurrentLevelMapContainerOffsetY;
    iCurrentLevelMapContainerOffsetMaxViewPortY=iRowCount+MAX_Y_AXIS_VIEWPORT;
@@ -1487,8 +1507,8 @@ printf(">>>> iCurrentLevelMapContainerOffsetMaxViewPortX: %i;",iCurrentLevelMapC
 //                printf(">>>> iRowCount: %i; iColumnCount: %i;",iRowCount,iColumnCount);
 //                printf(">>>> iColumnCount: %i;",iColumnCount);
  									//edited by Mike, 20210913
-                    if (mdo->collideWithLevel2DTileRect(0.0f+fGridSquareWidth*(iColumnCount),0.0f+fGridSquareHeight*(iRowCount), fGridSquareWidth, fGridSquareHeight)) {
-//                    if (mdo->collideWithLevel2DTileRect(0.0f+fGridSquareWidth*(iColumnCount-1),0.0f+fGridSquareHeight*(iRowCount), fGridSquareWidth, fGridSquareHeight)) {
+//                    if (mdo->collideWithLevel2DTileRect(0.0f+fGridSquareWidth*(iColumnCount),0.0f+fGridSquareHeight*(iRowCount), fGridSquareWidth, fGridSquareHeight)) {
+                    if (mdo->collideWithLevel2DTileRect(0.0f+fGridSquareWidth*(iColumnCount-iCurrentLevelMapContainerOffsetX),0.0f+fGridSquareHeight*(iRowCount), fGridSquareWidth, fGridSquareHeight)) {
 
                         //TO-DO: -reverify: if NOT dash, Pilot climb angle incorrect
  //removed by Mike, 20210912
@@ -1502,15 +1522,13 @@ printf(">>>> collideWithLevel2DTileRect TRUE;");
 
                                 //added by Mike, 20210725; added by Mike, 20210831;
                                 //edited by Mike, 20210913
-                               return this->hitByAtTile(mdo, sCurrentLevelMapContainer[iRowCount][iColumnCount],
+/*                               return this->hitByAtTile(mdo, sCurrentLevelMapContainer[iRowCount][iColumnCount],
                                 					0.0f+fGridSquareWidth*(iColumnCount), //note: no -1 in iColumnCount
                                 					0.0f+fGridSquareHeight*(iRowCount));
-                  
-/*              					
-                               return this->hitByAtTile(mdo, sCurrentLevelMapContainer[iRowCount][iColumnCount-1],
-                                					0.0f+fGridSquareWidth*(iColumnCount-1),
+*/                                					
+                               return this->hitByAtTile(mdo, sCurrentLevelMapContainer[iRowCount][iColumnCount-iCurrentLevelMapContainerOffsetX],
+                                					0.0f+fGridSquareWidth*(iColumnCount-iCurrentLevelMapContainerOffsetX),
                                 					0.0f+fGridSquareHeight*(iRowCount));
-*/
 
 /*
                                return this->hitByAtTile(mdo, sCurrentLevelMapContainer[iRowCount+1][iColumnCount],

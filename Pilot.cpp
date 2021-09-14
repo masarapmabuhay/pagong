@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B. 
  * @date created: 20200930
- * @date updated: 20210913
+ * @date updated: 20210914
  * @website address: http://www.usbong.ph
  *
  * Reference: 
@@ -3582,6 +3582,7 @@ void Pilot::move(int key)
 			myXPos=fMyWindowWidth/2-getWidth();
 		}
 */
+/*	//edited by Mike, 20210914
 		if ((myXPos>=0) && (myXPos<fMyWindowWidth/3)) { ///2-getWidth())) {
 		}
 		else if (myXPos<0) {
@@ -3591,6 +3592,17 @@ void Pilot::move(int key)
 //			myXPos=fMyWindowWidth/2-getWidth();
 			myXPos=fMyWindowWidth/3;
 		}		
+*/
+/*
+		if ((myXPos>=0) && (myXPos<fMyWindowWidth/2-getWidth())) {
+		}
+		else if (myXPos<0) {
+		}
+		else {
+			myXPos=fMyWindowWidth/2-getWidth();
+		}		
+*/
+			myXPos=fMyWindowWidth/2-getWidth();
 
     //added by Mike, 20210804
     //gravity
