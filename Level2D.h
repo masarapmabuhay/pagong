@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20210613
- * @date updated: 20210913
+ * @date updated: 20210915
  * @website address: http://www.usbong.ph
  *
  * Acknowledgments:
@@ -461,8 +461,11 @@ public:
 //		void drawLevelMapInViewPort(GLfloat fX, GLfloat fY, GLfloat fZ);
 		//edited by Mike, 20210913
 //		void drawLevelMapInViewPort(GLfloat fX, GLfloat fY, GLfloat fZ, GLfloat fMyCanvasPosX, GLfloat fMyCanvasPosY, GLfloat fMyCanvasPosZ);
+		//edited by Mike, 20210915
+		/*void drawLevelMapInViewPortNoteDrawBasedOnPilotLocationAsWithCollisionDetection
+		(GLfloat fMyCanvasPosX, GLfloat fMyCanvasPosY, GLfloat fMyCanvasPosZ, GLfloat fX, GLfloat fY, GLfloat fZ);
+*/		
 		void drawLevelMapInViewPort(GLfloat fMyCanvasPosX, GLfloat fMyCanvasPosY, GLfloat fMyCanvasPosZ, GLfloat fX, GLfloat fY, GLfloat fZ);
-
 		
     //removed by Mike, 20210705
 //    void drawLevelMapInViewPort(GLfloat fX, GLfloat fY, GLfloat fZ, GLfloat fXSize, GLfloat fYSize, GLfloat fZSize);
