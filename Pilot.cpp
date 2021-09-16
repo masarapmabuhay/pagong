@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B. 
  * @date created: 20200930
- * @date updated: 20210914
+ * @date updated: 20210916
  * @website address: http://www.usbong.ph
  *
  * Reference: 
@@ -3602,7 +3602,21 @@ void Pilot::move(int key)
 			myXPos=fMyWindowWidth/2-getWidth();
 		}		
 */
+
+		printf(">>myLevel2D->getFMyCanvasPosX(): %f; fMyWindowWidth/2: %f;",myLevel2D->getFMyCanvasPosX(),fMyWindowWidth/2);
+
+		//edited by Mike, 20210916
+		myXPos=fMyWindowWidth/2-getWidth();
+
+/* //TO-DO: -reverify: this
+		if (myLevel2D->getFMyCanvasPosX()<=0) {
+		}
+		else if (myLevel2D->getFMyCanvasPosX()<fMyWindowWidth/2-getWidth()) {
+		}
+		else {
 			myXPos=fMyWindowWidth/2-getWidth();
+		}
+*/
 
     //added by Mike, 20210804
     //gravity

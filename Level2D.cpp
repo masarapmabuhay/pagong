@@ -1000,9 +1000,14 @@ void Level2D::setPilotStep(float fPilotStepX, float fPilotStepY, float fPilotSte
 //void Level2D::drawLevelMapInViewPort(GLfloat fX, GLfloat fY, GLfloat fZ)
 //edited by Mike, 20210913
 //void Level2D::drawLevelMapInViewPort(GLfloat fX, GLfloat fY, GLfloat fZ, GLfloat fMyCanvasPosX, GLfloat fMyCanvasPosY, GLfloat fMyCanvasPosZ)
-void Level2D::drawLevelMapInViewPort(GLfloat fMyCanvasPosX, GLfloat fMyCanvasPosY, GLfloat fMyCanvasPosZ, GLfloat fX, GLfloat fY, GLfloat fZ)
+void Level2D::drawLevelMapInViewPort(GLfloat fMyCanvasPosXInput, GLfloat fMyCanvasPosYInput, GLfloat fMyCanvasPosZInput, GLfloat fX, GLfloat fY, GLfloat fZ)
 
-{
+{	
+	 //added by Mike, 20210916
+	  fMyCanvasPosX = fMyCanvasPosXInput;
+    fMyCanvasPosY = fMyCanvasPosYInput;
+    fMyCanvasPosZ = fMyCanvasPosYInput;
+	
   
 /* //removed by Mike, 20210912
     //edited by Mike, 20210724

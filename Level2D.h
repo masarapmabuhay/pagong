@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20210613
- * @date updated: 20210915
+ * @date updated: 20210916
  * @website address: http://www.usbong.ph
  *
  * Acknowledgments:
@@ -190,6 +190,11 @@ private:
     float fMyCanvasPosPrevY;
     float fMyCanvasPosPrevZ;
     
+    //added by Mike, 20210916
+    GLfloat fMyCanvasPosX;
+    GLfloat fMyCanvasPosY;
+    GLfloat fMyCanvasPosZ;
+    
     //added by Mike, 20210910
     float fStepMovemenGridZ,
         fStepMovemenGridX,
@@ -327,6 +332,7 @@ private:
     //edited by Mike, 20210423
     void setupPrev();
     void setup();
+    
             
     // draws a unit cube
     //void drawCube(float xPos, float yPos, float zPos);
@@ -376,7 +382,21 @@ public:
     
     //added by Mike, 20210523
     UsbongUtils *myUsbongUtils;
+ 
+ 
+     //added by Mike, 20210916
+    GLfloat getFMyCanvasPosX() {
+    	return fMyCanvasPosX;
+    }
+
+    GLfloat getFMyCanvasPosY() {
+    	return fMyCanvasPosY;
+    }
     
+    GLfloat getFMyCanvasPosZ() {
+    	return fMyCanvasPosZ;
+    }
+       
     //added by Mike, 20210703
 		void setupLevel(int myLevelTextureObject);
 		void draw_char(GLfloat x, GLfloat y, GLfloat z, char c);
