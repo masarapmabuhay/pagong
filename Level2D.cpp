@@ -1111,9 +1111,10 @@ if (fMyCanvasPosPrevX!=fMyCanvasPosX) {
 
     fMovementGridX = 0;
     
-    //added by Mike, 20210911
-    //TO-DO: -reverify: fMovementGridX if excess with getStepX() @3.5...f
-    //collision detection and auto-drawn tile object NOT synchronized
+    //added by Mike, 20210911; edited by Mike, 20210916
+		//TO-DO: -reverify: collision detection and auto-drawn tile object NOT synchronized
+
+
 		//edited by Mike, 20210914
     if (fStepMovemenGridX>=fGridSquareWidth) {
         fMovementGridX = 1*(fStepMovemenGridX/fGridSquareWidth); //1;
@@ -1177,6 +1178,14 @@ if (fMyCanvasPosPrevX!=fMyCanvasPosX) {
     //set to 1 using CAST to integer, i.e. whole number, Command
 //    iCurrentLevelMapContainerOffsetX += fMovementGridX;
     iCurrentLevelMapContainerOffsetX += (int) fMovementGridX;
+    
+    //added by Mike, 20210916
+    //TO-DO: -reverify: if there exists as input DASH Command
+    if (fX<=0) {
+    	fMyCanvasPosX=0;
+    	iCurrentLevelMapContainerOffsetX=0;
+    }
+    
 
   	//causes No backward scroll; super mario bros #1?  
 /*  	
@@ -1396,6 +1405,8 @@ if (fMyCanvasPosPrevX!=fMyCanvasPosX) {
 */									
 								}
 
+
+								//TO-DO: -update: this
 								if (fStepMovemenGridY==fGridSquareHeight) {
                 	myYPos=0.0f+(fGridSquareHeight)*(iRowCount+iCurrentLevelMapContainerOffsetY);
 								}
@@ -1546,13 +1557,13 @@ bool Level2D::isLevel2DCollideWith(MyDynamicObject* mdo)
 
     //TO-DO: -fix: problem with forward movement, then backward movement;
     //if forward +3 tiles, then backward movement -1 tile, based on auto-drawn tiles
-/* //removed by Mike, 20210915    
+ //removed by Mike, 20210915    
 //printf(">>>> iCurrentLevelMapContainerOffsetY: %i;",iCurrentLevelMapContainerOffsetY);
-printf(">>>> iCurrentLevelMapContainerOffsetX: %i;",iCurrentLevelMapContainerOffsetX);
+printf(">>>> iCurrentLevelMapContainerOffsetX: %i;\n",iCurrentLevelMapContainerOffsetX);
   
 //printf(">>>> iCurrentLevelMapContainerOffsetMaxViewPortY: %i;",iCurrentLevelMapContainerOffsetMaxViewPortY);
-printf(">>>> iCurrentLevelMapContainerOffsetMaxViewPortX: %i;",iCurrentLevelMapContainerOffsetMaxViewPortX);
-*/
+printf(">>>> iCurrentLevelMapContainerOffsetMaxViewPortX: %i;\n",iCurrentLevelMapContainerOffsetMaxViewPortX);
+
     int iStartRowCount=0; //7;
     int iStartColumnCount=0;//6; //7;
   

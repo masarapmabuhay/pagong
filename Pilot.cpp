@@ -3605,18 +3605,21 @@ void Pilot::move(int key)
 
 		printf(">>myLevel2D->getFMyCanvasPosX(): %f; fMyWindowWidth/2: %f;",myLevel2D->getFMyCanvasPosX(),fMyWindowWidth/2);
 
-		//edited by Mike, 20210916
-		myXPos=fMyWindowWidth/2-getWidth();
+		printf(">>>>>>>myXPos: %f",myXPos);
 
-/* //TO-DO: -reverify: this
+		//edited by Mike, 20210916
+//		myXPos=fMyWindowWidth/2-getWidth();
+
+ //TO-DO: -reverify: this
 		if (myLevel2D->getFMyCanvasPosX()<=0) {
-		}
+		}		
 		else if (myLevel2D->getFMyCanvasPosX()<fMyWindowWidth/2-getWidth()) {
-		}
+		}		
 		else {
+			//TO-DO: -update: if received as input DASH Command
 			myXPos=fMyWindowWidth/2-getWidth();
 		}
-*/
+
 
     //added by Mike, 20210804
     //gravity

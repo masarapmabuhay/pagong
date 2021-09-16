@@ -415,7 +415,10 @@ bool OpenGLCanvas::init(int myWindowWidthAsPixelInput, int myWindowHeightAsPixel
     myWindowHeight = myWindowHeightAsPixel;
 
 		//added by Mike, 20210913
-    myCanvasPosX=0.0f+myWindowWidth/3;
+		//edited by Mike, 20210916
+//    myCanvasPosX=0.0f+myWindowWidth/3;
+    myCanvasPosX=0.0f;
+
     myCanvasPosY=0.0f;
     myCanvasPosZ=0.0f;
     myCanvasEyePosX=0.0f;
@@ -506,7 +509,10 @@ bool OpenGLCanvas::init(int myWindowWidthAsPixelInput, int myWindowHeightAsPixel
 
     //added by Mike, 20210830; edited by Mike, 20210914
 //    myPilot = new Pilot(myWindowWidthAsPixel/3,myWindowHeightAsPixel/2,0.0f,myWindowWidthAsPixel,myWindowHeightAsPixel);
-    myPilot = new Pilot(myWindowWidthAsPixel/2,myWindowHeightAsPixel/2,0.0f,myWindowWidthAsPixel,myWindowHeightAsPixel);
+		//edited by Mike, 20210916
+//    myPilot = new Pilot(myWindowWidthAsPixel/2,myWindowHeightAsPixel/2,0.0f,myWindowWidthAsPixel,myWindowHeightAsPixel);
+    myPilot = new Pilot(0.0f,myWindowHeightAsPixel/2,0.0f,myWindowWidthAsPixel,myWindowHeightAsPixel);
+
 
     myPilot->setOpenGLCanvas(this, fGridSquareWidth, fGridSquareHeight);    
     myPilot->setAsPlayer1(); //added by Mike, 20210601    
@@ -1435,8 +1441,11 @@ void OpenGLCanvas::update()
         //note: we verify if we continue with step, hit collision
         //if so, we do not add step to position
         if (myPilot->getX() -myPilot->getStepX() < 0) {        
-            myPilot->setXPos(0+myPilot->getStepX());
+        		//edited by Mike, 20210916
+//            myPilot->setXPos(0+myPilot->getStepX());
+            myPilot->setXPos(0);
         }
+        
         //max movement with set
         else if (myPilot->getX()+myPilot->getWidth() +myPilot->getStepX() > myWindowWidth) {
             myPilot->setXPos(myWindowWidth-myPilot->getWidth()-myPilot->getStepX());
