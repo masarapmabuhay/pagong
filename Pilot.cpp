@@ -384,13 +384,24 @@ Pilot::Pilot(float xPos, float yPos, float zPos, float fWindowWidth, float fWind
 		
 		//added by Mike, 20210831
 		//we NOW use floating-point numbers, instead of integers, i.e. whole numbers
+ //edited by Mike, 20210916
     myWidth=fGridSquareWidth;
     myHeight=fGridSquareHeight;
-
-		iOffsetXPosAsPixel=fGridSquareWidth*0.28;
+/*
+    float fGridSquareWidthOffset=20.0f;
+    float fGridSquareHeightOffset=20.0f;
+    
+    myWidth=fGridSquareWidth-fGridSquareWidthOffset;
+    myHeight=fGridSquareHeight-fGridSquareHeightOffset;
+*/
+    
+/*  //edited by Mike, 20210916; used with collision detection
+    iOffsetXPosAsPixel=fGridSquareWidth*0.28;
     iOffsetYPosAsPixel=fGridSquareHeight*0.15;	
-
-
+*/
+    iOffsetXPosAsPixel=fGridSquareWidth*0.28*2.5;
+    iOffsetYPosAsPixel=fGridSquareHeight*0.15;
+    
 	//added by Mike, 20210728
 	bHasHitWall=false;
 	

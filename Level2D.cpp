@@ -995,7 +995,13 @@ void Level2D::setPilotStep(float fPilotStepX, float fPilotStepY, float fPilotSte
 
 //added by Mike, 20210708; edited by Mike, 20210712
 //TO-DO: -add: function with tile patterns
-//TO-DO: -update: this
+
+//added by Mike, 20210916
+//TO-DO: -update: instructions to already auto-draw the column after the 1st column or last column of viewport
+//This action is to eliminate noticeable drawing of tile during scroll movement, e.g. horizontal scroll action
+
+//TO-DO: -reverify: vertical scroll action
+
 //edited by Mike, 20210913
 //void Level2D::drawLevelMapInViewPort(GLfloat fX, GLfloat fY, GLfloat fZ)
 //edited by Mike, 20210913
@@ -1590,8 +1596,16 @@ printf(">>>> iCurrentLevelMapContainerOffsetMaxViewPortX: %i;\n",iCurrentLevelMa
 //                printf(">>>> iColumnCount: %i;",iColumnCount);
  									//edited by Mike, 20210913
 //                    if (mdo->collideWithLevel2DTileRect(0.0f+fGridSquareWidth*(iColumnCount),0.0f+fGridSquareHeight*(iRowCount), fGridSquareWidth, fGridSquareHeight)) {
-                    if (mdo->collideWithLevel2DTileRect(0.0f+fGridSquareWidth*(iColumnCount-iCurrentLevelMapContainerOffsetX),0.0f+fGridSquareHeight*(iRowCount), fGridSquareWidth, fGridSquareHeight)) {
+                /* //edited by Mike, 20210916
+                 float fGridSquareWidthOffset=30.0f;//fGridSquareWidth/5;
+                 float fGridSquareHeightOffset=fGridSquareHeight/5;
+                 
+                 if (mdo->collideWithLevel2DTileRect(0.0f+fGridSquareWidth*(iColumnCount-iCurrentLevelMapContainerOffsetX)+fGridSquareWidthOffset,0.0f+fGridSquareHeight*(iRowCount), fGridSquareWidth-fGridSquareWidthOffset, fGridSquareHeight)) {
+                 */
 
+                if (mdo->collideWithLevel2DTileRect(0.0f+fGridSquareWidth*(iColumnCount-iCurrentLevelMapContainerOffsetX),0.0f+fGridSquareHeight*(iRowCount), fGridSquareWidth, fGridSquareHeight)) {
+                printf(">>>>> fGridSquareWidth: %f",fGridSquareWidth);
+                
 /* //removed by Mike, 20210915
                         //TO-DO: -reverify: if NOT dash, Pilot climb angle incorrect
  //removed by Mike, 20210912
@@ -1787,8 +1801,10 @@ bool Level2D::hitByAtTile(MyDynamicObject* mdo, std::string sTileId, int iTileXP
 				
 				//added by Mike, 20210901
 				//note: bounce spring action from ground; sonic 1 via game gear machine?
+            //edited by Mike, 20210916
         if (mdo->collideWithLevel2DTileRect(iTileXPos,iTileYPos, fGridSquareWidth, fGridSquareHeight)) {
-					mdo->setYPos(mdo->getY()-mdo->getStepY()-1);
+//            if (mdo->collideWithLevel2DTileRect(iTileXPos+10,iTileYPos+10, fGridSquareWidth-10, fGridSquareHeight-10)) {
+                    mdo->setYPos(mdo->getY()-mdo->getStepY()-1);
 				}
 				
         return false;      
