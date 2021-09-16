@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20200926
- * @date updated: 20210915
+ * @date updated: 20210916
  * @website address: http://www.usbong.ph
  *
  * Reference:
@@ -1114,12 +1114,14 @@ if (fMyCanvasPosPrevX!=fMyCanvasPosX) {
         fMovementGridX = 1*(fStepMovemenGridX/fGridSquareWidth); //1;
         fStepMovemenGridX=fStepMovemenGridX-fGridSquareWidth;//0;
     }
-    else if (fStepMovemenGridX<=-fGridSquareWidth) {
-    
+    else if (fStepMovemenGridX<=-fGridSquareWidth) {    
         fMovementGridX = 1*(fStepMovemenGridX/fGridSquareWidth); //-1
+        
         //edited by Mike, 20210914
 //        fStepMovemenGridX=fStepMovemenGridX+fGridSquareWidth;//0;
+				//edited by Mike, 20210916
         fStepMovemenGridX=fStepMovemenGridX+fGridSquareWidth;//0;
+//        fStepMovemenGridX=(fStepMovemenGridX+fGridSquareWidth)*(-1);//0;
         
 //        fMovementGridX=fMovementGridX*(-1);
     }
@@ -1165,8 +1167,12 @@ if (fMyCanvasPosPrevX!=fMyCanvasPosX) {
    }
 */
     
-    //added by Mike, 20210912l; edited by Mike, 20210913
-    iCurrentLevelMapContainerOffsetX += fMovementGridX;
+    //added by Mike, 20210912l; edited by Mike, 20210916
+    //note: there exists fMovementGridX 1.1, et cetera; 
+    //set to 1 using CAST to integer, i.e. whole number, Command
+//    iCurrentLevelMapContainerOffsetX += fMovementGridX;
+    iCurrentLevelMapContainerOffsetX += (int) fMovementGridX;
+
   	//causes No backward scroll; super mario bros #1?  
 /*  	
     if (fX==fMyWindowWidth/3) {
@@ -1354,18 +1360,54 @@ if (fMyCanvasPosPrevX!=fMyCanvasPosX) {
                 myYPos=0.0f+(fGridSquareHeight)*(iRowCount+iCurrentLevelMapContainerOffsetY)-fStepMovemenGridY;
 */
 								//TO-DO: -reverify: cause of skipping to previous column when executing backward movement
-								if (fMovementGridX==fGridSquareWidth) {
+								//edited by Mike, 20210916
+//								if (fMovementGridX==fGridSquareWidth) {
+								if ((fMovementGridX==fGridSquareWidth) || (fMovementGridX==(fGridSquareWidth*-1))) {								
                 	myXPos=0.0f+(fGridSquareWidth)*(iColumnCount-iCurrentLevelMapContainerOffsetX);
 								}
 								else {
+/* //pachinko, i.e. sling shot, effect...								
+									//added by Mike, 20210916
+									if (fStepMovemenGridX>1.0f) {
+										fStepMovemenGridX=fStepMovemenGridX-1.0f;
+									}
+									else if (fStepMovemenGridX< (-1.0f)) {
+										fStepMovemenGridX=fStepMovemenGridX+1.0f;
+									}
+*/									
+							
+									//edited by Mike, 20210916
                 	myXPos=0.0f+(fGridSquareWidth)*(iColumnCount-iCurrentLevelMapContainerOffsetX)-fStepMovemenGridX;
+
+/*
+									//negative, i.e. backward movement
+									if (fStepMovemenGridX<0) {
+                		myXPos=0.0f+(fGridSquareWidth)*(iColumnCount-iCurrentLevelMapContainerOffsetX)+fStepMovemenGridX;
+									}
+									//positive, i.e. forward movement
+									else {
+									  myXPos=0.0f+(fGridSquareWidth)*(iColumnCount-iCurrentLevelMapContainerOffsetX)-fStepMovemenGridX;
+									}									
+*/									
 								}
 
 								if (fStepMovemenGridY==fGridSquareHeight) {
                 	myYPos=0.0f+(fGridSquareHeight)*(iRowCount+iCurrentLevelMapContainerOffsetY);
 								}
 								else {
+									//edited by Mike, 20210916
                 	myYPos=0.0f+(fGridSquareHeight)*(iRowCount+iCurrentLevelMapContainerOffsetY)-fStepMovemenGridY;
+	
+/*	
+									//negative, i.e. downward movement
+									if (fStepMovemenGridX<0) {
+                		myYPos=0.0f+(fGridSquareHeight)*(iRowCount+iCurrentLevelMapContainerOffsetY)-fStepMovemenGridY;
+									}
+									//positive, i.e. upward movement
+									else {
+										myYPos=0.0f+(fGridSquareHeight)*(iRowCount+iCurrentLevelMapContainerOffsetY)+fStepMovemenGridY;
+									}
+*/									
 								}
 
               
