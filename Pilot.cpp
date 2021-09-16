@@ -3610,11 +3610,11 @@ void Pilot::move(int key)
 		//edited by Mike, 20210916
 //		myXPos=fMyWindowWidth/2-getWidth();
 
- //TO-DO: -reverify: this
+        //TO-DO: -reverify: this; incorrect output when with as input DASH Command
 		if (myLevel2D->getFMyCanvasPosX()<=0) {
-		}		
-		else if (myLevel2D->getFMyCanvasPosX()<fMyWindowWidth/2-getWidth()) {
-		}		
+		}
+        else if (myLevel2D->getFMyCanvasPosX()<fMyWindowWidth/2-getWidth()) {
+        }
 		else {
 			//TO-DO: -update: if received as input DASH Command
 			myXPos=fMyWindowWidth/2-getWidth();
