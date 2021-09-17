@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B. 
  * @date created: 20200930
- * @date updated: 20210916
+ * @date updated: 20210917
  * @website address: http://www.usbong.ph
  *
  * Reference: 
@@ -375,10 +375,14 @@ Pilot::Pilot(float xPos, float yPos, float zPos, float fWindowWidth, float fWind
     stepY=fGridSquareHeight/10/2;    
     stepZ=fGridSquareWidth/10/2;   
 */
+ //edited by Mike, 20210917
     stepX=fGridSquareWidth/10;
     stepY=fGridSquareHeight/10;    
     stepZ=fGridSquareWidth/10;   
-		
+
+    //TO-DO: -reverify: gravity AND push down due to tile collision;
+    //Pilot sinks in ground, e.g. 2-0 tile
+    
     myWidthAsPixel=fGridSquareWidth;
     myHeightAsPixel=fGridSquareHeight;
 		

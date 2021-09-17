@@ -1259,7 +1259,9 @@ if (fMyCanvasPosPrevX!=fMyCanvasPosX) {
    iCurrentLevelMapContainerOffsetZ += fMovementGridZ;
     //removed by Mike, 20210912
 //   iCurrentLevelMapContainerOffsetX += fMovementGridX;
-   iCurrentLevelMapContainerOffsetY += fMovementGridY;
+    //edited by Mike, 20210917
+//   iCurrentLevelMapContainerOffsetY += fMovementGridY;
+    iCurrentLevelMapContainerOffsetY += (int)fMovementGridY;
 
     //added by Mike, 20210912
 //    fMovementGridX = 0;
@@ -1394,10 +1396,15 @@ if (fMyCanvasPosPrevX!=fMyCanvasPosX) {
 									else if (fStepMovemenGridX< (-1.0f)) {
 										fStepMovemenGridX=fStepMovemenGridX+1.0f;
 									}
-*/									
-							
-									//edited by Mike, 20210916
-                	myXPos=0.0f+(fGridSquareWidth)*(iColumnCount-iCurrentLevelMapContainerOffsetX)-fStepMovemenGridX;
+*/
+                                    //added by Mike, 20210917
+                                    //TO-DO: -reverify: if reached right-most canvas position x-axis
+                                    if (fMyCanvasPosX==0) {
+                                        fStepMovemenGridX=0; //added by Mike, 20210917
+                                    }
+                                    
+                                        //edited by Mike, 20210916
+                                        myXPos=0.0f+(fGridSquareWidth)*(iColumnCount-iCurrentLevelMapContainerOffsetX)-fStepMovemenGridX;
 
 /*
 									//negative, i.e. backward movement
@@ -1797,8 +1804,10 @@ bool Level2D::hitByAtTile(MyDynamicObject* mdo, std::string sTileId, int iTileXP
 				//edited by Mike, 20210830
 				//reminder: added: gravity to exist in world
 				//TO-DO: -add: container to store gravity value
+            //edited by Mike, 20210917
         mdo->setYPos(mdo->getY()-mdo->getStepY());
-				
+//            mdo->setYPos(mdo->getY()-mdo->getStepY()-1);
+            
 				//added by Mike, 20210901
 				//note: bounce spring action from ground; sonic 1 via game gear machine?
             //edited by Mike, 20210916
