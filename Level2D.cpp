@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20200926
- * @date updated: 20210917
+ * @date updated: 20210918
  * @website address: http://www.usbong.ph
  *
  * Reference:
@@ -488,7 +488,8 @@ void Level2D::openGLDrawTexture(float x, float y, float textw, float texth, std:
 		glVertex3f(x, y + texth, 0);
 	glEnd();
     
-	glDisable(GL_TEXTURE_2D);
+    glDisable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D, 0); //added by Mike, 20210918
 }
 
 //added by Mike, 20210827
@@ -833,14 +834,6 @@ void Level2D::drawTileAsQuadWithTexturePrev(std::string sTileId)
 
 //added by Mike, 20210917
 void Level2D::drawGrid() {
-/* //add for collision detection
-    for (int iRowCount=iCurrentLevelMapContainerOffsetY; iRowCount<iCurrentLevelMapContainerOffsetMaxViewPortY; iRowCount++) {
-        
-        for (int iColumnCount=iCurrentLevelMapContainerOffsetX; iColumnCount<iCurrentLevelMapContainerOffsetMaxViewPortX; iColumnCount++) {
-            
-        }
-    }
-*/
 /*
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
@@ -851,36 +844,70 @@ void Level2D::drawGrid() {
   //こっちの将来的な方向がわかるようになる・・・
   //Pilot + Mecha Robot Ship...
     
-/*
-    glPushMatrix();
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glLoadIdentity();
-*/
-    iRowCountMax=10;
-    iColumnCountMax=18;
-    
-    // Draw a Green Line
-	   //rows
-    for (int iRowCount=0; iRowCount<=iRowCountMax; iRowCount++) {
-        // Draw a Green Line top-left origin
-        //horizontal line
-        glBegin(GL_LINES);
-           glColor3f(0.0f, 0.8f, 0.0f); // Green
 
-           glVertex2f(0.0f, fGridSquareHeight*iRowCount);    // x, y
-           glVertex2f(fGridSquareWidth*iColumnCountMax, fGridSquareHeight*iRowCount);
-        glEnd();
+//    glPushMatrix();
+    
+//    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glLoadIdentity();
+    
+    /*     //added by Mike, 20210918
+     glDisable(GL_TEXTURE_2D);
+     glBindTexture(GL_TEXTURE_2D, 0);
+     */
+    
+     //---------------------
+     //part 1: draw tile grid
+     //---------------------
+     iRowCountMax=10;
+     iColumnCountMax=18;
+     
+     // Draw a Green Line
+     //rows
+     for (int iRowCount=0; iRowCount<=iRowCountMax; iRowCount++) {
+     // Draw a Green Line top-left origin
+     //horizontal line
+     glBegin(GL_LINES);
+     glColor3f(0.0f, 0.8f, 0.0f); // Green
+     
+     glVertex2f(0.0f, fGridSquareHeight*iRowCount);    // x, y
+     glVertex2f(fGridSquareWidth*iColumnCountMax, fGridSquareHeight*iRowCount);
+     glEnd();
+     }
+     
+     //columns
+     for (int iColumnCount=0; iColumnCount<=iColumnCountMax; iColumnCount++) {
+     // Draw a Green Line top-left origin
+     //vertical line
+     glBegin(GL_LINES);
+     glColor3f(0.0f, 0.8f, 0.0f); // Green
+     
+     glVertex2f(fGridSquareWidth*iColumnCount, 0.0f);    // x,y
+     glVertex2f(fGridSquareWidth*iColumnCount, fGridSquareHeight*iRowCountMax);
+     glEnd();
+     }
+     
+    
+    //---------------------
+    //part 2: draw collision detection grid
+    //---------------------
+    //add for collision detection
+     for (int iRowCount=iCurrentLevelMapContainerOffsetY; iRowCount<iCurrentLevelMapContainerOffsetMaxViewPortY; iRowCount++) {
+         //horizontal line
+         glBegin(GL_LINES);
+         glColor3f(0.8f, 0.0f, 0.0f); // Red
+         
+         glVertex2f(0.0f, fGridSquareHeight*iRowCount);    // x, y
+         glVertex2f(fGridSquareWidth*iColumnCountMax, fGridSquareHeight*iRowCount);
+         glEnd();
     }
 
-    //columns
-    for (int iColumnCount=0; iColumnCount<=iColumnCountMax; iColumnCount++) {
-        // Draw a Green Line top-left origin
+    for (int iColumnCount=iCurrentLevelMapContainerOffsetX; iColumnCount<iCurrentLevelMapContainerOffsetMaxViewPortX; iColumnCount++) {
         //vertical line
         glBegin(GL_LINES);
-            glColor3f(0.0f, 0.8f, 0.0f); // Green
+        glColor3f(0.8f, 0.0f, 0.0f); // Red
         
-            glVertex2f(fGridSquareWidth*iColumnCount, 0.0f);    // x,y
-            glVertex2f(fGridSquareWidth*iColumnCount, fGridSquareHeight*iRowCountMax);
+        glVertex2f(fGridSquareWidth*iColumnCount, 0.0f);    // x,y
+        glVertex2f(fGridSquareWidth*iColumnCount, fGridSquareHeight*iRowCountMax);
         glEnd();
     }
 

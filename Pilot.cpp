@@ -231,8 +231,8 @@ void Pilot::openGLDrawTexture(float x, float y, float textw, float texth)
 	
 	//TO-DO: -update: Pilot shoes; animation sequence
 
-	//added by Mike, 20210826
-//	glColor3f(1.0f, 1.0f, 1.0f); // white
+	//added by Mike, 20210918
+	glColor3f(1.0f, 1.0f, 1.0f); // white
 
 		
 		//edited by Mike, 20210901
@@ -3696,6 +3696,7 @@ void Pilot::move(int key)
 		else if (myLevel2D->getFMyCanvasPosX()<=(fMyWindowWidth/2-getWidth())) {
 //					myXPos=myLevel2D->getFMyCanvasPosX()+fMyWindowWidth/2-getWidth() - myXPos;//(fMyWindowWidth/2-getWidth()-myXPos);
 
+/* //removed by Mike, 20210918; TO-DO: -update: this
 //				if (myXPos<(fMyWindowWidth/2-getWidth())) {
 //				if (myXPos<(myLevel2D->getFMyCanvasPosX()+fMyWindowWidth/2-getWidth())) {
 				if (myXPos<(myLevel2D->getFMyCanvasPosX())) {
@@ -3703,15 +3704,16 @@ void Pilot::move(int key)
 				}
 				else {
 				}
+*/
 					
-/*
+
 				if (myXPos<(fMyWindowWidth/2-getWidth())) {
 					myXPos=myLevel2D->getFMyCanvasPosX()+fMyWindowWidth/2-getWidth();
 				}
 				else {
 //					myXPos=fMyWindowWidth/2-getWidth();
 				}
-*/
+
 //					myXPos=(fMyWindowWidth/2-getWidth()-myLevel2D->getFMyCanvasPosX())-fMyWindowWidth/2-getWidth();
 		}
 		else {
