@@ -271,16 +271,25 @@ Level2D::Level2D(float xPos, float yPos, float zPos, float fWindowWidth, float f
     //auto-set width and height based on grid tile
     myWidthAsPixel=fGridSquareWidth;
     myHeightAsPixel=fGridSquareHeight;    
-  
-/* //edited by Mike, 20210910    
+/*
+    //edited by Mike, 20210910
     //added by Mike, 20210901
     stepX=fGridSquareWidth/10/4; //0.2    
     stepY=fGridSquareHeight/10/4; //0.2;    
     stepZ=fGridSquareWidth/10/4; //0.2;
-*/    
+*/
+/*
     stepX=fGridSquareWidth/10/2;
-    stepY=fGridSquareHeight/10/2;    
+    //edited by Mike, 20210917
+    stepY=fGridSquareHeight/10/2;
+//    stepY=fGridSquareHeight/10/4;
+
     stepZ=fGridSquareWidth/10/2;
+*/
+    stepX=fGridSquareWidth/10;
+    stepY=fGridSquareHeight/10;
+    stepZ=fGridSquareWidth/10;
+    
     
     //added by Mike, 20210910
     fMyCanvasPosPrevX=0.0f;
@@ -1817,8 +1826,11 @@ bool Level2D::hitByAtTile(MyDynamicObject* mdo, std::string sTileId, int iTileXP
             //edited by Mike, 20210916
         if (mdo->collideWithLevel2DTileRect(iTileXPos,iTileYPos, fGridSquareWidth, fGridSquareHeight)) {
 //            if (mdo->collideWithLevel2DTileRect(iTileXPos+10,iTileYPos+10, fGridSquareWidth-10, fGridSquareHeight-10)) {
-                    mdo->setYPos(mdo->getY()-mdo->getStepY()-1);
-				}
+            //edited by Mike, 20210917
+        //            mdo->setYPos(mdo->getY()-mdo->getStepY()-1);
+            mdo->setYPos(mdo->getY()-mdo->getStepY());
+
+        }
 				
         return false;      
     }

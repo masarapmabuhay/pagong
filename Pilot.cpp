@@ -370,20 +370,23 @@ Pilot::Pilot(float xPos, float yPos, float zPos, float fWindowWidth, float fWind
     stepY=fGridSquareHeight/10/4;    
     stepZ=fGridSquareWidth/10/4;   
 */
-/* //edited by Mike, 20210913
+/*
+    //edited by Mike, 20210913
     stepX=fGridSquareWidth/10/2;
     stepY=fGridSquareHeight/10/2;    
     stepZ=fGridSquareWidth/10/2;   
 */
+
  //edited by Mike, 20210917
     stepX=fGridSquareWidth/10;
 
     //edited by Mike, 20210917
-    stepY=fGridSquareHeight/10;    
-//    stepY=fGridSquareHeight/10/4;    
+    stepY=fGridSquareHeight/10;
+//    stepY=fGridSquareHeight/10/4;
 
     stepZ=fGridSquareWidth/10;   
 
+    
     //TO-DO: -reverify: gravity AND push down due to tile collision;
     //Pilot sinks in ground, e.g. 2-0 tile
     
@@ -403,16 +406,20 @@ Pilot::Pilot(float xPos, float yPos, float zPos, float fWindowWidth, float fWind
     myHeight=fGridSquareHeight-fGridSquareHeightOffset;
 */
     
-/*  //edited by Mike, 20210916; used with collision detection
+  //edited by Mike, 20210916; used with collision detection
     iOffsetXPosAsPixel=fGridSquareWidth*0.28;
     iOffsetYPosAsPixel=fGridSquareHeight*0.15;	
-*/
+
+/*  //note: if NOT set, CAN climb diagonal triangle tile; 
+    //however, empty tile x1, Pilot does not fall through...
+ 
 		//TO-DO: -reverify: offset due to integer, NOT float classification
     iOffsetXPosAsPixel=fGridSquareWidth*0.28*2.5;
     //edited by Mike, 20210917; //TO-DO: -reverify: this
-    //iOffsetYPosAsPixel=fGridSquareHeight*0.15;
-    iOffsetYPosAsPixel=fGridSquareHeight*0.05;
+    iOffsetYPosAsPixel=fGridSquareHeight*0.15;
+//    iOffsetYPosAsPixel=fGridSquareHeight*0.05;
  //   iOffsetYPosAsPixel=0;
+*/
     
 	//added by Mike, 20210728
 	bHasHitWall=false;
