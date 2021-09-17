@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20200926
- * @date updated: 20210916
+ * @date updated: 20210917
  * @website address: http://www.usbong.ph
  *
  * References:
@@ -770,13 +770,13 @@ void OpenGLCanvas::render()
 
   glPushMatrix();
   	//edited by Mike, 20210910
-//    myLevel2D->draw();
+    myLevel2D->draw();
 		//edited by Mike, 20210913
 //		myLevel2D->drawLevelMapInViewPort(myCanvasPosX,myCanvasPosY,myCanvasPosZ);
 //		myLevel2D->drawLevelMapInViewPort(myPilot->getX(),myPilot->getY(),myPilot->getZ());
 		//edited by Mike, 20210913
 //		myLevel2D->drawLevelMapInViewPort(myPilot->getX(),myPilot->getY(),myPilot->getZ(), myCanvasPosX, myCanvasPosY, myCanvasPosZ);
-		myLevel2D->drawLevelMapInViewPort(myCanvasPosX, myCanvasPosY, myCanvasPosZ, myPilot->getX(),myPilot->getY(),myPilot->getZ());
+//		myLevel2D->drawLevelMapInViewPort(myCanvasPosX, myCanvasPosY, myCanvasPosZ, myPilot->getX(),myPilot->getY(),myPilot->getZ());
 
 /*    
     //TO-DO: -update: this to be in function update(...)

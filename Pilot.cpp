@@ -377,7 +377,11 @@ Pilot::Pilot(float xPos, float yPos, float zPos, float fWindowWidth, float fWind
 */
  //edited by Mike, 20210917
     stepX=fGridSquareWidth/10;
+
+    //edited by Mike, 20210917
     stepY=fGridSquareHeight/10;    
+//    stepY=fGridSquareHeight/10/4;    
+
     stepZ=fGridSquareWidth/10;   
 
     //TO-DO: -reverify: gravity AND push down due to tile collision;
@@ -403,10 +407,12 @@ Pilot::Pilot(float xPos, float yPos, float zPos, float fWindowWidth, float fWind
     iOffsetXPosAsPixel=fGridSquareWidth*0.28;
     iOffsetYPosAsPixel=fGridSquareHeight*0.15;	
 */
+		//TO-DO: -reverify: offset due to integer, NOT float classification
     iOffsetXPosAsPixel=fGridSquareWidth*0.28*2.5;
     //edited by Mike, 20210917; //TO-DO: -reverify: this
     //iOffsetYPosAsPixel=fGridSquareHeight*0.15;
     iOffsetYPosAsPixel=fGridSquareHeight*0.05;
+ //   iOffsetYPosAsPixel=0;
     
 	//added by Mike, 20210728
 	bHasHitWall=false;
@@ -3681,12 +3687,25 @@ void Pilot::move(int key)
 		}
 */
 		else if (myLevel2D->getFMyCanvasPosX()<=(fMyWindowWidth/2-getWidth())) {
-				if (myXPos<=(fMyWindowWidth/2-getWidth())) {
+//					myXPos=myLevel2D->getFMyCanvasPosX()+fMyWindowWidth/2-getWidth() - myXPos;//(fMyWindowWidth/2-getWidth()-myXPos);
+
+//				if (myXPos<(fMyWindowWidth/2-getWidth())) {
+//				if (myXPos<(myLevel2D->getFMyCanvasPosX()+fMyWindowWidth/2-getWidth())) {
+				if (myXPos<(myLevel2D->getFMyCanvasPosX())) {
+					myXPos=myLevel2D->getFMyCanvasPosX()+fMyWindowWidth/2-getWidth();					
+				}
+				else {
+				}
+					
+/*
+				if (myXPos<(fMyWindowWidth/2-getWidth())) {
 					myXPos=myLevel2D->getFMyCanvasPosX()+fMyWindowWidth/2-getWidth();
 				}
 				else {
-					myXPos=fMyWindowWidth/2-getWidth();
+//					myXPos=fMyWindowWidth/2-getWidth();
 				}
+*/
+//					myXPos=(fMyWindowWidth/2-getWidth()-myLevel2D->getFMyCanvasPosX())-fMyWindowWidth/2-getWidth();
 		}
 		else {
 			//TO-DO: -update: if received as input DASH Command
@@ -3725,8 +3744,10 @@ void Pilot::move(int key)
 //            myYPosAsPixel+=(stepY*1.2);
         		//edited by Mike, 20210830								          	
 //            myYPosAsPixel+=stepY;
+
 						//edited by Mike, 20210831
             myYPos+=stepY;
+            
 //            myYPos+=(-stepY);
             
 //            myYPosAsPixel+=(stepY*2);

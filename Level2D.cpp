@@ -1418,8 +1418,8 @@ if (fMyCanvasPosPrevX!=fMyCanvasPosX) {
 */									
 								}
 
-
-								//TO-DO: -update: this
+//TO-DO: -update: this
+/* //removed by Mike, 20210917
 								if (fStepMovemenGridY==fGridSquareHeight) {
                 	myYPos=0.0f+(fGridSquareHeight)*(iRowCount+iCurrentLevelMapContainerOffsetY);
 								}
@@ -1427,18 +1427,16 @@ if (fMyCanvasPosPrevX!=fMyCanvasPosX) {
 									//edited by Mike, 20210916
                 	myYPos=0.0f+(fGridSquareHeight)*(iRowCount+iCurrentLevelMapContainerOffsetY)-fStepMovemenGridY;
 	
-/*	
-									//negative, i.e. downward movement
-									if (fStepMovemenGridX<0) {
-                		myYPos=0.0f+(fGridSquareHeight)*(iRowCount+iCurrentLevelMapContainerOffsetY)-fStepMovemenGridY;
-									}
-									//positive, i.e. upward movement
-									else {
-										myYPos=0.0f+(fGridSquareHeight)*(iRowCount+iCurrentLevelMapContainerOffsetY)+fStepMovemenGridY;
-									}
-*/									
+////									//negative, i.e. downward movement
+////									if (fStepMovemenGridX<0) {
+////                		myYPos=0.0f+(fGridSquareHeight)*(iRowCount+iCurrentLevelMapContainerOffsetY)-fStepMovemenGridY;
+////									}
+////									//positive, i.e. upward movement
+////									else {
+////										myYPos=0.0f+(fGridSquareHeight)*(iRowCount+iCurrentLevelMapContainerOffsetY)+fStepMovemenGridY;
+////									}									
 								}
-
+*/
               
 /*
 printf("autoConvertFromPixelToVertexPointX: %f",(myUsbongUtils->autoConvertFromPixelToVertexPointX(0.0f+(fGridSquareWidth)*(iColumnCount+1.0f)))); 										
@@ -1571,18 +1569,24 @@ bool Level2D::isLevel2DCollideWith(MyDynamicObject* mdo)
     //TO-DO: -fix: problem with forward movement, then backward movement;
     //if forward +3 tiles, then backward movement -1 tile, based on auto-drawn tiles
  //removed by Mike, 20210915    
-//printf(">>>> iCurrentLevelMapContainerOffsetY: %i;",iCurrentLevelMapContainerOffsetY);
-printf(">>>> iCurrentLevelMapContainerOffsetX: %i;\n",iCurrentLevelMapContainerOffsetX);
+printf(">>>> iCurrentLevelMapContainerOffsetY: %i;",iCurrentLevelMapContainerOffsetY);
+//printf(">>>> iCurrentLevelMapContainerOffsetX: %i;\n",iCurrentLevelMapContainerOffsetX);
   
-//printf(">>>> iCurrentLevelMapContainerOffsetMaxViewPortY: %i;",iCurrentLevelMapContainerOffsetMaxViewPortY);
-printf(">>>> iCurrentLevelMapContainerOffsetMaxViewPortX: %i;\n",iCurrentLevelMapContainerOffsetMaxViewPortX);
+printf(">>>> iCurrentLevelMapContainerOffsetMaxViewPortY: %i;",iCurrentLevelMapContainerOffsetMaxViewPortY);
+//printf(">>>> iCurrentLevelMapContainerOffsetMaxViewPortX: %i;\n",iCurrentLevelMapContainerOffsetMaxViewPortX);
 
     int iStartRowCount=0; //7;
     int iStartColumnCount=0;//6; //7;
   
+  	//added by Mike, 20210917
+  	iCurrentLevelMapContainerOffsetMaxViewPortY=10;
+  	iCurrentLevelMapContainerOffsetMaxViewPortX=18;
+  
   				//edited by Mike, 20210913  
 //        for (int iRowCount=iCurrentLevelMapContainerOffsetY; iRowCount<(iCurrentLevelMapContainerOffsetY+iRowCountMax); iRowCount++) {
+
         for (int iRowCount=iStartRowCount+iCurrentLevelMapContainerOffsetY; iRowCount<iCurrentLevelMapContainerOffsetMaxViewPortY; iRowCount++) {
+        
         			//edited by Mike, 20210913
 //            for (int iColumnCount=iCurrentLevelMapContainerOffsetX; iColumnCount<(iCurrentLevelMapContainerOffsetX+iColumnCountMax); iColumnCount++) {
 //           for (int iColumnCount=iStartColumnCount+iCurrentLevelMapContainerOffsetX; iColumnCount<iCurrentLevelMapContainerOffsetMaxViewPortX; iColumnCount++) {
