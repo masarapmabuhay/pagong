@@ -770,13 +770,13 @@ void OpenGLCanvas::render()
 
   glPushMatrix();
   	//edited by Mike, 20210910
-    myLevel2D->draw();
-		//edited by Mike, 20210913
-//		myLevel2D->drawLevelMapInViewPort(myCanvasPosX,myCanvasPosY,myCanvasPosZ);
-//		myLevel2D->drawLevelMapInViewPort(myPilot->getX(),myPilot->getY(),myPilot->getZ());
-		//edited by Mike, 20210913
-//		myLevel2D->drawLevelMapInViewPort(myPilot->getX(),myPilot->getY(),myPilot->getZ(), myCanvasPosX, myCanvasPosY, myCanvasPosZ);
-//		myLevel2D->drawLevelMapInViewPort(myCanvasPosX, myCanvasPosY, myCanvasPosZ, myPilot->getX(),myPilot->getY(),myPilot->getZ());
+//    myLevel2D->draw();
+
+    //edited by Mike, 20210913
+	myLevel2D->drawLevelMapInViewPort(myCanvasPosX, myCanvasPosY, myCanvasPosZ, myPilot->getX(),myPilot->getY(),myPilot->getZ());
+    
+    //added by Mike, 20210917
+    myLevel2D->drawGrid();
 
 /*    
     //TO-DO: -update: this to be in function update(...)

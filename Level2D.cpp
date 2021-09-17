@@ -487,7 +487,7 @@ void Level2D::openGLDrawTexture(float x, float y, float textw, float texth, std:
 		glTexCoord2f(0+fTx, fTy+0.0625f);
 		glVertex3f(x, y + texth, 0);
 	glEnd();
-
+    
 	glDisable(GL_TEXTURE_2D);
 }
 
@@ -831,6 +831,64 @@ void Level2D::drawTileAsQuadWithTexturePrev(std::string sTileId)
     glPopMatrix();
 }
 
+//added by Mike, 20210917
+void Level2D::drawGrid() {
+/* //add for collision detection
+    for (int iRowCount=iCurrentLevelMapContainerOffsetY; iRowCount<iCurrentLevelMapContainerOffsetMaxViewPortY; iRowCount++) {
+        
+        for (int iColumnCount=iCurrentLevelMapContainerOffsetX; iColumnCount<iCurrentLevelMapContainerOffsetMaxViewPortX; iColumnCount++) {
+            
+        }
+    }
+*/
+/*
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glLoadIdentity();
+*/
+  //TO-DO: -reverify: texture drawing; auto-drawn when computer received movement COMMAND
+  //note: CAPCOM Mickey Mouse series, e.g. Circus Mystery; Super Family Computer version
+  //コンピュータ　プログラマー、どうなったのかな？
+  //こっちの将来的な方向がわかるようになる・・・
+  //Pilot + Mecha Robot Ship...
+    
+/*
+    glPushMatrix();
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glLoadIdentity();
+*/
+    iRowCountMax=10;
+    iColumnCountMax=18;
+    
+    // Draw a Green Line
+	   //rows
+    for (int iRowCount=0; iRowCount<=iRowCountMax; iRowCount++) {
+        // Draw a Green Line top-left origin
+        //horizontal line
+        glBegin(GL_LINES);
+           glColor3f(0.0f, 0.8f, 0.0f); // Green
+
+           glVertex2f(0.0f, fGridSquareHeight*iRowCount);    // x, y
+           glVertex2f(fGridSquareWidth*iColumnCountMax, fGridSquareHeight*iRowCount);
+        glEnd();
+    }
+
+    //columns
+    for (int iColumnCount=0; iColumnCount<=iColumnCountMax; iColumnCount++) {
+        // Draw a Green Line top-left origin
+        //vertical line
+        glBegin(GL_LINES);
+            glColor3f(0.0f, 0.8f, 0.0f); // Green
+        
+            glVertex2f(fGridSquareWidth*iColumnCount, 0.0f);    // x,y
+            glVertex2f(fGridSquareWidth*iColumnCount, fGridSquareHeight*iRowCountMax);
+        glEnd();
+    }
+
+    glColor3f(0.0f, 0.0f, 0.0f); //reset to white
+    
+//    glPopMatrix();
+}
+
 //edited by Mike, 20210716; edited by Mike, 20210828
 //void Level2D::drawTileAsQuadWithTexture()
 //edited by Mike, 20210720
@@ -876,8 +934,7 @@ void Level2D::drawTileAsQuadWithTexture(std::string sTileId)
     	  glVertex3f(0.0f, 0.0f-myHeight, 0.0f);
    	  glEnd();
     }
-        
-
+    
     //TO-DO: -remove: openGLITexture in input parameter of function
     //edited by Mike, 20210830
 //	openGLDrawTexture(myXPosAsPixel, myYPosAsPixel, openGLITexture, myWidth, myHeight);
@@ -1221,7 +1278,7 @@ if (fMyCanvasPosPrevX!=fMyCanvasPosX) {
 */
 }
     
-/* //removed by Mike, 20210913; TO-DO: iCurrentLevelMapContainerOffsetMaxViewPortY-update: this
+/* //removed by Mike, 20210913; TO-DO: -update: this
    if (fStepMovemenGridY>=1) {
 //   	 fMovementGridY = fPrevY-fY;
        fMovementGridY = fPrevY+fY;
@@ -1428,9 +1485,11 @@ if (fMyCanvasPosPrevX!=fMyCanvasPosX) {
 								}
 
 //TO-DO: -update: this
-/* //removed by Mike, 20210917
-								if (fStepMovemenGridY==fGridSquareHeight) {
-                	myYPos=0.0f+(fGridSquareHeight)*(iRowCount+iCurrentLevelMapContainerOffsetY);
+                                //edited by Mike, 20210917
+//								if (fStepMovemenGridY==fGridSquareHeight) {
+                if ((fMovementGridY==fGridSquareHeight) || (fMovementGridY==(fGridSquareHeight*-1))) {
+                    
+                                    myYPos=0.0f+(fGridSquareHeight)*(iRowCount+iCurrentLevelMapContainerOffsetY);
 								}
 								else {
 									//edited by Mike, 20210916
@@ -1445,7 +1504,7 @@ if (fMyCanvasPosPrevX!=fMyCanvasPosX) {
 ////										myYPos=0.0f+(fGridSquareHeight)*(iRowCount+iCurrentLevelMapContainerOffsetY)+fStepMovemenGridY;
 ////									}									
 								}
-*/
+
               
 /*
 printf("autoConvertFromPixelToVertexPointX: %f",(myUsbongUtils->autoConvertFromPixelToVertexPointX(0.0f+(fGridSquareWidth)*(iColumnCount+1.0f)))); 										
@@ -1586,11 +1645,12 @@ printf(">>>> iCurrentLevelMapContainerOffsetMaxViewPortY: %i;",iCurrentLevelMapC
 
     int iStartRowCount=0; //7;
     int iStartColumnCount=0;//6; //7;
-  
+
+/*  //removed by Mike, 20210917
   	//added by Mike, 20210917
   	iCurrentLevelMapContainerOffsetMaxViewPortY=10;
   	iCurrentLevelMapContainerOffsetMaxViewPortX=18;
-  
+*/
   				//edited by Mike, 20210913  
 //        for (int iRowCount=iCurrentLevelMapContainerOffsetY; iRowCount<(iCurrentLevelMapContainerOffsetY+iRowCountMax); iRowCount++) {
 
@@ -1826,7 +1886,6 @@ bool Level2D::hitByAtTile(MyDynamicObject* mdo, std::string sTileId, int iTileXP
             //edited by Mike, 20210916
         if (mdo->collideWithLevel2DTileRect(iTileXPos,iTileYPos, fGridSquareWidth, fGridSquareHeight)) {
 //            if (mdo->collideWithLevel2DTileRect(iTileXPos+10,iTileYPos+10, fGridSquareWidth-10, fGridSquareHeight-10)) {
-            //edited by Mike, 20210917
         //            mdo->setYPos(mdo->getY()-mdo->getStepY()-1);
             mdo->setYPos(mdo->getY()-mdo->getStepY());
 

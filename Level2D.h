@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20210613
- * @date updated: 20210916
+ * @date updated: 20210917
  * @website address: http://www.usbong.ph
  *
  * Acknowledgments:
@@ -333,7 +333,6 @@ private:
     void setupPrev();
     void setup();
     
-            
     // draws a unit cube
     //void drawCube(float xPos, float yPos, float zPos);
     
@@ -400,6 +399,9 @@ public:
     //added by Mike, 20210703
 		void setupLevel(int myLevelTextureObject);
 		void draw_char(GLfloat x, GLfloat y, GLfloat z, char c);
+    
+    //added by Mike, 20210917
+    void drawGrid();
     
     //added by Mike, 20201226
     //note: we classify this container as public;
