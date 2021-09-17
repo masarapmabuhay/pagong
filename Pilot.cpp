@@ -404,7 +404,9 @@ Pilot::Pilot(float xPos, float yPos, float zPos, float fWindowWidth, float fWind
     iOffsetYPosAsPixel=fGridSquareHeight*0.15;	
 */
     iOffsetXPosAsPixel=fGridSquareWidth*0.28*2.5;
-    iOffsetYPosAsPixel=fGridSquareHeight*0.15;
+    //edited by Mike, 20210917; //TO-DO: -reverify: this
+    //iOffsetYPosAsPixel=fGridSquareHeight*0.15;
+    iOffsetYPosAsPixel=fGridSquareHeight*0.05;
     
 	//added by Mike, 20210728
 	bHasHitWall=false;
@@ -682,8 +684,7 @@ void Pilot::drawPilotAsQuadWithTexture()
                                     }
                                     else {
                                         drawAccelerationEffectAsQuadWithTexture();
-                                    }
-                                    
+                                    }                                    
 												break;
 												
 												case ATTACKING_MOVING_STATE:
@@ -2717,8 +2718,10 @@ void Pilot::keyDown(int keyCode) {
 	myKeysDown[KEY_W] = FALSE;
 	myKeysDown[KEY_S] = FALSE;
 
+/* //removed by Mike, 20210917; TO-DO: -add: this
 	//added by Mike, 20210127; edited by Mike, 20210128
 	autoVerifyDashStateWithKeyDown();//keyCode);
+*/	
 }
 
 //added by Mike, 20201227; edited by Mike, 20210128
@@ -3304,7 +3307,8 @@ void Pilot::move(int key)
 //            					myXPosAsPixel+=-stepX;
             					myXPos+=-stepX;
          					}
-																											
+
+/* //removed by Mike, 20210917; TO-DO: -add: this																											
          					if (bIsExecutingDashArray[KEY_A]) {
 								//edited by Mike, 20210807
             					//myXPosAsPixel+=-stepX*2;   
@@ -3319,9 +3323,9 @@ void Pilot::move(int key)
              						//edited by Mike, 20210830								
 //            						myXPosAsPixel+=-stepX*2;						
             						myXPos+=-stepX*2;						          						
-								}           
+								}         								  
 		 					}									
-											
+*/											
 									bHasHitWall=false;
 								}					
 					}
@@ -3414,6 +3418,7 @@ void Pilot::move(int key)
             			myXPos+=stepX; 
          			}
 					
+/* //removed by Mike, 20210917; TO-DO: -add: this																																
          			if (bIsExecutingDashArray[KEY_D]) {
          				//edited by Mike, 20210807
             			//myXPosAsPixel+=stepX*2;   
@@ -3426,6 +3431,7 @@ void Pilot::move(int key)
             				myXPos+=stepX*2;						
 						}           			         			
 		 			}									
+*/
 							
 							bHasHitWall=false;
 						}
@@ -3625,17 +3631,84 @@ void Pilot::move(int key)
 		//edited by Mike, 20210916
 //		myXPos=fMyWindowWidth/2-getWidth();
 
+		//TO-DO: -delete: excess instructions; OpenGLCanvas.cpp, Level2D.cpp, Pilot.cpp
+
         //TO-DO: -reverify: this; incorrect output when with as input DASH Command
+/*        
+	if (currentFacingState==FACING_LEFT) {
 		if (myLevel2D->getFMyCanvasPosX()<=0) {
 		}
-        else if (myLevel2D->getFMyCanvasPosX()<fMyWindowWidth/2-getWidth()) {
-        }
+		
+    else if (myLevel2D->getFMyCanvasPosX()<fMyWindowWidth/2-getWidth()) {
+    	if (myXPos<fMyWindowWidth/2-getWidth()) {
+    	}
+    	else {
+				myXPos=fMyWindowWidth/2-getWidth();
+    	}
+    }		
+
 		else {
 			//TO-DO: -update: if received as input DASH Command
 			myXPos=fMyWindowWidth/2-getWidth();
 		}
-
-
+	}
+	else if (currentFacingState==FACING_RIGHT) {	
+		if (myLevel2D->getFMyCanvasPosX()<=0) {
+		}
+    else if (myLevel2D->getFMyCanvasPosX()<fMyWindowWidth/2-getWidth()) {
+    	if (myXPos<fMyWindowWidth/2-getWidth()) {
+    	}
+    	else {
+				myXPos=fMyWindowWidth/2-getWidth();
+    	}
+    }
+		else {
+			//TO-DO: -update: if received as input DASH Command
+			myXPos=fMyWindowWidth/2-getWidth();
+		}
+	}
+*/
+	if (currentFacingState==FACING_LEFT) {
+		if (myLevel2D->getFMyCanvasPosX()<=0) {
+		}
+/* //acceleration backward		
+		else if (myLevel2D->getFMyCanvasPosX()<=(fMyWindowWidth/2-getWidth())) {
+				if (myXPos<=(fMyWindowWidth/2-getWidth())) {
+				}
+				else {
+					myXPos=fMyWindowWidth/2-getWidth();
+				}
+		}
+*/
+		else if (myLevel2D->getFMyCanvasPosX()<=(fMyWindowWidth/2-getWidth())) {
+				if (myXPos<=(fMyWindowWidth/2-getWidth())) {
+					myXPos=myLevel2D->getFMyCanvasPosX()+fMyWindowWidth/2-getWidth();
+				}
+				else {
+					myXPos=fMyWindowWidth/2-getWidth();
+				}
+		}
+		else {
+			//TO-DO: -update: if received as input DASH Command
+			myXPos=fMyWindowWidth/2-getWidth();
+		}
+	}
+	else if (currentFacingState==FACING_RIGHT) {	
+		if (myLevel2D->getFMyCanvasPosX()<=0) {
+		}
+		else if (myLevel2D->getFMyCanvasPosX()<=(fMyWindowWidth/2-getWidth())) {
+				if (myXPos<=(fMyWindowWidth/2-getWidth())) {
+				}
+				else {
+					myXPos=fMyWindowWidth/2-getWidth();
+				}
+		}
+		else {
+			//TO-DO: -update: if received as input DASH Command
+			myXPos=fMyWindowWidth/2-getWidth();
+		}	
+	}
+	
     //added by Mike, 20210804
     //gravity
     if (myLevel2D->isLevel2DCollideWith(this)) {
