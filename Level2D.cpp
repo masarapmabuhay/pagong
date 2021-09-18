@@ -1289,7 +1289,36 @@ if (fMyCanvasPosPrevX!=fMyCanvasPosX) {
     //note: there exists fMovementGridX 1.1, et cetera; 
     //set to 1 using CAST to integer, i.e. whole number, Command
 //    iCurrentLevelMapContainerOffsetX += fMovementGridX;
+
+		//edited by Mike, 20210918
+//    iCurrentLevelMapContainerOffsetX += (int) fMovementGridX;
+		
+		//TO-DO: -reverify: this
+		//if fraction;
+		//identify first if negative number
+		if (fMovementGridX<0.0f) {
+/*
+			if (fMovementGridX>-1.0f) {
+				fMovementGridX=-1.0f;
+			}
+*/			
+				//cast as integer; output: rounded number 
+				fMovementGridX+=-0.5f;
+		}
+		//if positive number
+		if (fMovementGridX>0.0f) {
+/*
+			if (fMovementGridX>1.0f) {
+				fMovementGridX=1.0f;
+			}
+*/		
+			//cast as integer; output: rounded number 
+			fMovementGridX+=0.5f;
+		}
+				
+		
     iCurrentLevelMapContainerOffsetX += (int) fMovementGridX;
+
     
     //added by Mike, 20210916
     //TO-DO: -reverify: if there exists as input DASH Command
