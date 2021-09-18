@@ -296,10 +296,17 @@ Level2D::Level2D(float xPos, float yPos, float zPos, float fWindowWidth, float f
     fMyCanvasPosPrevY=0.0f;
     fMyCanvasPosPrevZ=0.0f;
     
+/*    //edited by Mike, 20210918
     iCurrentLevelMapContainerOffsetZ=0;
     iCurrentLevelMapContainerOffsetX=0;
     iCurrentLevelMapContainerOffsetY=0;
-    
+*/
+		//TO-DO: -update: tile collision instructions due to uses integer,
+		//causes incorrect output when movement has fraction using float number classification
+    iCurrentLevelMapContainerOffsetZ=-1;
+    iCurrentLevelMapContainerOffsetX=-1;
+    iCurrentLevelMapContainerOffsetY=-1;    
+
     //added by Mike, 20210911
     MAX_X_AXIS_VIEWPORT=iColumnCountMax;//*fGridSquareWidth;
     MAX_Y_AXIS_VIEWPORT=iRowCountMax;//*fGridSquareHeight;
@@ -891,7 +898,10 @@ void Level2D::drawGrid() {
     //part 2: draw collision detection grid
     //---------------------
     //add for collision detection
-     for (int iRowCount=iCurrentLevelMapContainerOffsetY; iRowCount<iCurrentLevelMapContainerOffsetMaxViewPortY; iRowCount++) {
+    //edited by Mike, 20210918
+//     for (int iRowCount=iCurrentLevelMapContainerOffsetY; iRowCount<iCurrentLevelMapContainerOffsetMaxViewPortY; iRowCount++) {
+     for (int iRowCount=0; iRowCount<iCurrentLevelMapContainerOffsetMaxViewPortY-iCurrentLevelMapContainerOffsetY; iRowCount++) {
+     
          //horizontal line
          glBegin(GL_LINES);
          glColor3f(0.8f, 0.0f, 0.0f); // Red
@@ -900,8 +910,11 @@ void Level2D::drawGrid() {
          glVertex2f(fGridSquareWidth*iColumnCountMax, fGridSquareHeight*iRowCount);
          glEnd();
     }
+		
+		//edited by Mike, 20210918
+//    for (int iColumnCount=iCurrentLevelMapContainerOffsetX; iColumnCount<iCurrentLevelMapContainerOffsetMaxViewPortX; iColumnCount++) {
+    for (int iColumnCount=0; iColumnCount<iCurrentLevelMapContainerOffsetMaxViewPortX-iCurrentLevelMapContainerOffsetX; iColumnCount++) {
 
-    for (int iColumnCount=iCurrentLevelMapContainerOffsetX; iColumnCount<iCurrentLevelMapContainerOffsetMaxViewPortX; iColumnCount++) {
         //vertical line
         glBegin(GL_LINES);
         glColor3f(0.8f, 0.0f, 0.0f); // Red
@@ -1664,14 +1677,14 @@ bool Level2D::isLevel2DCollideWith(MyDynamicObject* mdo)
     //TO-DO: -fix: problem with forward movement, then backward movement;
     //if forward +3 tiles, then backward movement -1 tile, based on auto-drawn tiles
  //removed by Mike, 20210915    
-printf(">>>> iCurrentLevelMapContainerOffsetY: %i;",iCurrentLevelMapContainerOffsetY);
-//printf(">>>> iCurrentLevelMapContainerOffsetX: %i;\n",iCurrentLevelMapContainerOffsetX);
+//printf(">>>> iCurrentLevelMapContainerOffsetY: %i;",iCurrentLevelMapContainerOffsetY);
+printf(">>>> iCurrentLevelMapContainerOffsetX: %i;\n",iCurrentLevelMapContainerOffsetX);
   
-printf(">>>> iCurrentLevelMapContainerOffsetMaxViewPortY: %i;",iCurrentLevelMapContainerOffsetMaxViewPortY);
-//printf(">>>> iCurrentLevelMapContainerOffsetMaxViewPortX: %i;\n",iCurrentLevelMapContainerOffsetMaxViewPortX);
+//printf(">>>> iCurrentLevelMapContainerOffsetMaxViewPortY: %i;",iCurrentLevelMapContainerOffsetMaxViewPortY);
+printf(">>>> iCurrentLevelMapContainerOffsetMaxViewPortX: %i;\n",iCurrentLevelMapContainerOffsetMaxViewPortX);
 
     int iStartRowCount=0; //7;
-    int iStartColumnCount=0;//6; //7;
+    int iStartColumnCount=0; //1//6; //7;
 
 /*  //removed by Mike, 20210917
   	//added by Mike, 20210917
@@ -1680,17 +1693,19 @@ printf(">>>> iCurrentLevelMapContainerOffsetMaxViewPortY: %i;",iCurrentLevelMapC
 */
   				//edited by Mike, 20210913  
 //        for (int iRowCount=iCurrentLevelMapContainerOffsetY; iRowCount<(iCurrentLevelMapContainerOffsetY+iRowCountMax); iRowCount++) {
-
+					
+					//edited by Mike, 20210918
         for (int iRowCount=iStartRowCount+iCurrentLevelMapContainerOffsetY; iRowCount<iCurrentLevelMapContainerOffsetMaxViewPortY; iRowCount++) {
+//        for (int iRowCount=0; iRowCount<iCurrentLevelMapContainerOffsetMaxViewPortY-iCurrentLevelMapContainerOffsetY; iRowCount++) {
+        
         
         			//edited by Mike, 20210913
 //            for (int iColumnCount=iCurrentLevelMapContainerOffsetX; iColumnCount<(iCurrentLevelMapContainerOffsetX+iColumnCountMax); iColumnCount++) {
 //           for (int iColumnCount=iStartColumnCount+iCurrentLevelMapContainerOffsetX; iColumnCount<iCurrentLevelMapContainerOffsetMaxViewPortX; iColumnCount++) {
+
+					//edited by Mike, 20210918
         for (int iColumnCount=iStartColumnCount+iCurrentLevelMapContainerOffsetX; iColumnCount<iCurrentLevelMapContainerOffsetMaxViewPortX; iColumnCount++) {
-
-               //           for (int iColumnCount=iCurrentLevelMapContainerOffsetX-1; iColumnCount<iCurrentLevelMapContainerOffsetMaxViewPortX-1; iColumnCount++) {
-
-
+//        for (int iColumnCount=0; iColumnCount<iCurrentLevelMapContainerOffsetMaxViewPortX-iCurrentLevelMapContainerOffsetX; iColumnCount++) {
                  
 //printf(">>>> iRowCount: %i; iColumnCount: %i;",iRowCount,iColumnCount);
     				//note: "0" for empty, instead of "-1"
@@ -1710,7 +1725,14 @@ printf(">>>> iCurrentLevelMapContainerOffsetMaxViewPortY: %i;",iCurrentLevelMapC
                  if (mdo->collideWithLevel2DTileRect(0.0f+fGridSquareWidth*(iColumnCount-iCurrentLevelMapContainerOffsetX)+fGridSquareWidthOffset,0.0f+fGridSquareHeight*(iRowCount), fGridSquareWidth-fGridSquareWidthOffset, fGridSquareHeight)) {
                  */
 
-                if (mdo->collideWithLevel2DTileRect(0.0f+fGridSquareWidth*(iColumnCount-iCurrentLevelMapContainerOffsetX),0.0f+fGridSquareHeight*(iRowCount), fGridSquareWidth, fGridSquareHeight)) {
+								//edited by Mike, 20210918
+//                if (mdo->collideWithLevel2DTileRect(0.0f+fGridSquareWidth*(iColumnCount-iCurrentLevelMapContainerOffsetX),0.0f+fGridSquareHeight*(iRowCount), fGridSquareWidth, fGridSquareHeight)) {
+
+                if (mdo->collideWithLevel2DTileRect(0.0f+fGridSquareWidth*(iColumnCount-iCurrentLevelMapContainerOffsetX),0.0f+fGridSquareHeight*(iRowCount-iCurrentLevelMapContainerOffsetY), fGridSquareWidth, fGridSquareHeight)) {
+/* //edited by Mike, 20210918
+                if (mdo->collideWithLevel2DTileRect(0.0f+fGridSquareWidth*(iColumnCount),0.0f+fGridSquareHeight*(iRowCount), fGridSquareWidth, fGridSquareHeight)) {
+*/
+
                 printf(">>>>> fGridSquareWidth: %f",fGridSquareWidth);
                 
 /* //removed by Mike, 20210915
@@ -1729,10 +1751,23 @@ printf(">>>> collideWithLevel2DTileRect TRUE;");
 /*                               return this->hitByAtTile(mdo, sCurrentLevelMapContainer[iRowCount][iColumnCount],
                                 					0.0f+fGridSquareWidth*(iColumnCount), //note: no -1 in iColumnCount
                                 					0.0f+fGridSquareHeight*(iRowCount));
-*/                                					
+*/
+
+/* //edited by Mike, 20210918                               					
                                return this->hitByAtTile(mdo, sCurrentLevelMapContainer[iRowCount][iColumnCount-iCurrentLevelMapContainerOffsetX],
                                 					0.0f+fGridSquareWidth*(iColumnCount-iCurrentLevelMapContainerOffsetX),
                                 					0.0f+fGridSquareHeight*(iRowCount));
+*/
+
+                               return this->hitByAtTile(mdo, sCurrentLevelMapContainer[iRowCount][iColumnCount],
+                                					0.0f+fGridSquareWidth*(iColumnCount-iCurrentLevelMapContainerOffsetX),
+                                					0.0f+fGridSquareHeight*(iRowCount-iCurrentLevelMapContainerOffsetY));
+
+/*
+                               return this->hitByAtTile(mdo, sCurrentLevelMapContainer[iRowCount][iColumnCount],
+                                					0.0f+fGridSquareWidth*(iColumnCount),
+                                					0.0f+fGridSquareHeight*(iRowCount));
+*/
 
 /*
                                return this->hitByAtTile(mdo, sCurrentLevelMapContainer[iRowCount+1][iColumnCount],
