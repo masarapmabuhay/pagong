@@ -1173,7 +1173,7 @@ void Level2D::drawLevelMapInViewPort(GLfloat fMyCanvasPosXInput, GLfloat fMyCanv
 
 //    printf(">>getStepX(): %f\n",getStepX());
 
-    //edited by Mike, 20210912
+    
 if (fMyCanvasPosPrevX!=fMyCanvasPosX) {
 /*
     //added by Mike, 20210913
@@ -1208,7 +1208,7 @@ if (fMyCanvasPosPrevX!=fMyCanvasPosX) {
      fStepMovemenGridX=(fStepMovemenGridX-getStepX());
    }
    else if (fMovementGridX == 0) { //no movement in X-axis
-   }	
+   }
    else {
      fStepMovemenGridX=(fStepMovemenGridX+getStepX());
    }	

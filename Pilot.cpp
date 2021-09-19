@@ -377,14 +377,21 @@ Pilot::Pilot(float xPos, float yPos, float zPos, float fWindowWidth, float fWind
     stepZ=fGridSquareWidth/10/2;   
 */
 
- //edited by Mike, 20210917
+   //edited by Mike, 20210919
+   //TO-DO: -reverify: cause of acceleration until half of window width
+   //when moving forward to the RIGHT
+    //note: excess +1 tile drawing and collision detection
+    //after going to the half of window width, and then back to myCanvasPosX=0;
+    //stepX/2.0 causes increase in correct output, albeit still re-occurs
+    /*
+     //edited by Mike, 20210919
+     stepX=fGridSquareWidth/10/2;
+     stepY=fGridSquareHeight/10/2;
+     stepZ=fGridSquareWidth/10/2;
+     */
     stepX=fGridSquareWidth/10;
-
-    //edited by Mike, 20210917
     stepY=fGridSquareHeight/10;
-//    stepY=fGridSquareHeight/10/4;
-
-    stepZ=fGridSquareWidth/10;   
+    stepZ=fGridSquareWidth/10;
 
     
     //TO-DO: -reverify: gravity AND push down due to tile collision;
@@ -3716,10 +3723,15 @@ void Pilot::move(int key)
 //					myXPos=(fMyWindowWidth/2-getWidth()-myLevel2D->getFMyCanvasPosX())-fMyWindowWidth/2-getWidth();
 */
             //TO-DO: update: this due to backward speed faster than half position @fMyWindowWidth/2-getWidth()
+            //edited by Mike, 20210919
             if (myXPos<=(fMyWindowWidth/2-getWidth())) {
+                //added by Mike, 20210919
+                //TO-DO: -reverify: if with DASH Command
+//                printf("*******************");
+                myXPos=myXPos+getStepX();
             }
             else {
-                myXPos=fMyWindowWidth/2-getWidth();
+                myXPos=fMyWindowWidth/2-getWidth(); //+getStepX();
             }
 		}
 		else {
@@ -3732,14 +3744,21 @@ void Pilot::move(int key)
 		}
 		else if (myLevel2D->getFMyCanvasPosX()<=(fMyWindowWidth/2-getWidth())) {
 				if (myXPos<=(fMyWindowWidth/2-getWidth())) {
-				}
+                    //added by Mike, 20210919
+                    printf("//*******************");
+                    //TO-DO: -reverify: cause of acceleration until half of window width
+                    //executing: myXPos=myXPos-getStepX();
+                    //causes stuck at start position, albeit canvas movement continues
+                }
 				else {
-					myXPos=fMyWindowWidth/2-getWidth();
-				}
+//					myXPos=fMyWindowWidth/2-getWidth();
+                    myXPos=fMyWindowWidth/2-getWidth();
+                }
 		}
 		else {
 			//TO-DO: -update: if received as input DASH Command
-			myXPos=fMyWindowWidth/2-getWidth();
+//			myXPos=fMyWindowWidth/2-getWidth();
+            myXPos=fMyWindowWidth/2-getWidth();
 		}	
 	}
 	
