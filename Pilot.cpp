@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B. 
  * @date created: 20200930
- * @date updated: 20210917
+ * @date updated: 20210919
  * @website address: http://www.usbong.ph
  *
  * Reference: 
@@ -3706,15 +3706,21 @@ void Pilot::move(int key)
 				}
 */
 					
-
+/* //removed by Mike, 20210919
 				if (myXPos<(fMyWindowWidth/2-getWidth())) {
 					myXPos=myLevel2D->getFMyCanvasPosX()+fMyWindowWidth/2-getWidth();
 				}
 				else {
 //					myXPos=fMyWindowWidth/2-getWidth();
 				}
-
 //					myXPos=(fMyWindowWidth/2-getWidth()-myLevel2D->getFMyCanvasPosX())-fMyWindowWidth/2-getWidth();
+*/
+            //TO-DO: update: this due to backward speed faster than half position @fMyWindowWidth/2-getWidth()
+            if (myXPos<=(fMyWindowWidth/2-getWidth())) {
+            }
+            else {
+                myXPos=fMyWindowWidth/2-getWidth();
+            }
 		}
 		else {
 			//TO-DO: -update: if received as input DASH Command

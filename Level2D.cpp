@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20200926
- * @date updated: 20210918
+ * @date updated: 20210919
  * @website address: http://www.usbong.ph
  *
  * Reference:
@@ -1292,30 +1292,31 @@ if (fMyCanvasPosPrevX!=fMyCanvasPosX) {
 
 		//edited by Mike, 20210918
 //    iCurrentLevelMapContainerOffsetX += (int) fMovementGridX;
-		
+
+/* //removed by Mike, 20210919
 		//TO-DO: -reverify: this
 		//if fraction;
 		//identify first if negative number
 		if (fMovementGridX<0.0f) {
-/*
-			if (fMovementGridX>-1.0f) {
-				fMovementGridX=-1.0f;
-			}
-*/			
+
+////			if (fMovementGridX>-1.0f) {
+////				fMovementGridX=-1.0f;
+////			}
+			
 				//cast as integer; output: rounded number 
 				fMovementGridX+=-0.5f;
 		}
 		//if positive number
 		if (fMovementGridX>0.0f) {
-/*
-			if (fMovementGridX>1.0f) {
-				fMovementGridX=1.0f;
-			}
-*/		
+
+////			if (fMovementGridX>1.0f) {
+////				fMovementGridX=1.0f;
+////			}
+ 
 			//cast as integer; output: rounded number 
 			fMovementGridX+=0.5f;
 		}
-				
+*/
 		
     iCurrentLevelMapContainerOffsetX += (int) fMovementGridX;
 
@@ -1532,12 +1533,14 @@ if (fMyCanvasPosPrevX!=fMyCanvasPosX) {
 										fStepMovemenGridX=fStepMovemenGridX+1.0f;
 									}
 */
+                                    
+/* //removed by Mike, 20210919; TO-DO: -reverify: cause why if reached window center, then go backward, fMovementGridX movement excess 1 tile...
                                     //added by Mike, 20210917
                                     //TO-DO: -reverify: if reached right-most canvas position x-axis
                                     if (fMyCanvasPosX==0) {
                                         fStepMovemenGridX=0; //added by Mike, 20210917
                                     }
-                                    
+*/
                                         //edited by Mike, 20210916
                                         myXPos=0.0f+(fGridSquareWidth)*(iColumnCount-iCurrentLevelMapContainerOffsetX)-fStepMovemenGridX;
 
@@ -1757,7 +1760,13 @@ printf(">>>> iCurrentLevelMapContainerOffsetMaxViewPortX: %i;\n",iCurrentLevelMa
 								//edited by Mike, 20210918
 //                if (mdo->collideWithLevel2DTileRect(0.0f+fGridSquareWidth*(iColumnCount-iCurrentLevelMapContainerOffsetX),0.0f+fGridSquareHeight*(iRowCount), fGridSquareWidth, fGridSquareHeight)) {
 
+/*                //edited by Mike, 20210919
                 if (mdo->collideWithLevel2DTileRect(0.0f+fGridSquareWidth*(iColumnCount-iCurrentLevelMapContainerOffsetX),0.0f+fGridSquareHeight*(iRowCount-iCurrentLevelMapContainerOffsetY), fGridSquareWidth, fGridSquareHeight)) {
+                    
+*/
+                if (mdo->collideWithLevel2DTileRect(0.0f+fGridSquareWidth*(iColumnCount-iCurrentLevelMapContainerOffsetX)-fStepMovemenGridX,0.0f+fGridSquareHeight*(iRowCount-iCurrentLevelMapContainerOffsetY)-fStepMovemenGridY, fGridSquareWidth, fGridSquareHeight)) {
+                    
+
 /* //edited by Mike, 20210918
                 if (mdo->collideWithLevel2DTileRect(0.0f+fGridSquareWidth*(iColumnCount),0.0f+fGridSquareHeight*(iRowCount), fGridSquareWidth, fGridSquareHeight)) {
 */
@@ -1788,10 +1797,16 @@ printf(">>>> collideWithLevel2DTileRect TRUE;");
                                 					0.0f+fGridSquareHeight*(iRowCount));
 */
 
+/*                            //edited by Mike, 20210919
                                return this->hitByAtTile(mdo, sCurrentLevelMapContainer[iRowCount][iColumnCount],
                                 					0.0f+fGridSquareWidth*(iColumnCount-iCurrentLevelMapContainerOffsetX),
                                 					0.0f+fGridSquareHeight*(iRowCount-iCurrentLevelMapContainerOffsetY));
+*/
+                    return this->hitByAtTile(mdo, sCurrentLevelMapContainer[iRowCount][iColumnCount],
+                                             0.0f+fGridSquareWidth*(iColumnCount-iCurrentLevelMapContainerOffsetX)-fStepMovemenGridX,
+                                             0.0f+fGridSquareHeight*(iRowCount-iCurrentLevelMapContainerOffsetY)-fStepMovemenGridY);
 
+                    
 /*
                                return this->hitByAtTile(mdo, sCurrentLevelMapContainer[iRowCount][iColumnCount],
                                 					0.0f+fGridSquareWidth*(iColumnCount),
