@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20200926
- * @date updated: 20210918
+ * @date updated: 20210920
  * @website address: http://www.usbong.ph
  *
  * References:
@@ -1462,6 +1462,7 @@ void OpenGLCanvas::update()
             myPilot->setYPos(myWindowHeight-myPilot->getHeight()-myPilot->getStepY());
         }
         
+/*	//removed by Mike, 20210920        
         //added by Mike, 20210911; edited by Mike, 20210913
         if (myCanvasPosX<0) {
             myCanvasPosX=0;
@@ -1470,7 +1471,6 @@ void OpenGLCanvas::update()
             myCanvasPosX=myWindowWidth;
         }
 
-
         if (myCanvasPosY<0) {
             myCanvasPosY=0;
         }
@@ -1478,6 +1478,7 @@ void OpenGLCanvas::update()
             myCanvasPosY=myWindowHeight;
         }        
         //--
+*/
         
     }
     else if (currentState==TITLE_SCREEN)

@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20200926
- * @date updated: 20210919
+ * @date updated: 20210920
  * @website address: http://www.usbong.ph
  *
  * Reference:
@@ -1163,18 +1163,21 @@ void Level2D::drawLevelMapInViewPort(GLfloat fMyCanvasPosXInput, GLfloat fMyCanv
     printf(">>fMyCanvasPosX: %f\n",fMyCanvasPosX);    
 */
     
-/*	//removed by Mike, 20210914
+	//removed by Mike, 20210914
     printf(">>fMyCanvasPosPrevX: %f; fMyCanvasPosX: %f\n",fMyCanvasPosPrevX,fMyCanvasPosX);
     printf(">>fX: %f\n",fX);    
-*/    
+    
     if (fMyCanvasPosX==0) {
         fMyCanvasPosPrevX=0;
     }
 
 //    printf(">>getStepX(): %f\n",getStepX());
+		
+		//edited by Mike, 20210920
+//	if (fMyCanvasPosPrevX!=fMyCanvasPosX) {
 
-    
-if (fMyCanvasPosPrevX!=fMyCanvasPosX) {
+		if ((fX==(fMyWindowWidth/2-getWidth())) &&
+    		(fMyCanvasPosPrevX!=fMyCanvasPosX)) {
 /*
     //added by Mike, 20210913
 		if (fX<=fMyWindowWidth/3) {
@@ -1191,9 +1194,10 @@ if (fMyCanvasPosPrevX!=fMyCanvasPosX) {
 			fX=fMyCanvasPosX+MAX_X_AXIS_VIEWPORT;
 		}
 */
+/*
 	  printf(">>fMyCanvasPosPrevX: %f; fMyCanvasPosX: %f\n",fMyCanvasPosPrevX,fMyCanvasPosX);
     printf(">>fX: %f\n",fX);    
-
+*/
 
 	//edited by Mike, 20210913
 //  fMovementGridX = fPrevX+fX;
@@ -1348,41 +1352,7 @@ if (fMyCanvasPosPrevX!=fMyCanvasPosX) {
 */
 }
     
-/* //removed by Mike, 20210913; TO-DO: -update: this
-   if (fStepMovemenGridY>=1) {
-//   	 fMovementGridY = fPrevY-fY;
-       fMovementGridY = fPrevY+fY;
-
-       fStepMovemenGridY=0;
-   }	
-*/
 	
-/* //vertical scroll	  	
-   if (iMovementGridY < 0) { //moved forward
-     std::cout << "forward" << "\n";
-//			  std::cout << "iMovementGridZ" << iMovementGridZ <<"\n";	   
-   }
-   else if (iMovementGridY == 0) { //no movement in Z-axis
-     std::cout << "no movement" << "\n";	   
-   }	
-   else {
-     std::cout << "backward" << "\n";	   
-//	 iMovementGridZ=iMovementGridZ*-1; //get absolute value, i.e. positive number	   
-   }	
-*/
-    
-/* //removed by Mike, 20210910; forward or backward already identified
-   //x-axis; horizontal scroll
-   if (fMovementGridX < 0) { //moved backwardMAX_Y_AXIS_VIEWPORT
-     fMovementGridX=fMovementGridX*-1;
-   }
-   else if (fMovementGridX == 0) { //no movement in Z-axis
-   }	
-   else {
-     fMovementGridX=fMovementGridX*1;
-   }
-*/
-
 /*
     //added by Mike, 20210309
    //TO-DO: -reverify: iMovementGridZ, etc value

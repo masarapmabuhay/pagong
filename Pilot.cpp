@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B. 
  * @date created: 20200930
- * @date updated: 20210919
+ * @date updated: 20210920
  * @website address: http://www.usbong.ph
  *
  * Reference: 
@@ -3652,116 +3652,22 @@ void Pilot::move(int key)
 //		myXPos=fMyWindowWidth/2-getWidth();
 
 		//TO-DO: -delete: excess instructions; OpenGLCanvas.cpp, Level2D.cpp, Pilot.cpp
-
-        //TO-DO: -reverify: this; incorrect output when with as input DASH Command
-/*        
-	if (currentFacingState==FACING_LEFT) {
-		if (myLevel2D->getFMyCanvasPosX()<=0) {
-		}
-		
-    else if (myLevel2D->getFMyCanvasPosX()<fMyWindowWidth/2-getWidth()) {
-    	if (myXPos<fMyWindowWidth/2-getWidth()) {
-    	}
-    	else {
-				myXPos=fMyWindowWidth/2-getWidth();
-    	}
-    }		
-
-		else {
-			//TO-DO: -update: if received as input DASH Command
-			myXPos=fMyWindowWidth/2-getWidth();
-		}
-	}
-	else if (currentFacingState==FACING_RIGHT) {	
-		if (myLevel2D->getFMyCanvasPosX()<=0) {
-		}
-    else if (myLevel2D->getFMyCanvasPosX()<fMyWindowWidth/2-getWidth()) {
-    	if (myXPos<fMyWindowWidth/2-getWidth()) {
-    	}
-    	else {
-				myXPos=fMyWindowWidth/2-getWidth();
-    	}
-    }
-		else {
-			//TO-DO: -update: if received as input DASH Command
-			myXPos=fMyWindowWidth/2-getWidth();
-		}
-	}
-*/
-	if (currentFacingState==FACING_LEFT) {
-		if (myLevel2D->getFMyCanvasPosX()<=0) {
-		}
-/* //acceleration backward		
-		else if (myLevel2D->getFMyCanvasPosX()<=(fMyWindowWidth/2-getWidth())) {
-				if (myXPos<=(fMyWindowWidth/2-getWidth())) {
-				}
-				else {
-					myXPos=fMyWindowWidth/2-getWidth();
-				}
-		}
-*/
-		else if (myLevel2D->getFMyCanvasPosX()<=(fMyWindowWidth/2-getWidth())) {
-//					myXPos=myLevel2D->getFMyCanvasPosX()+fMyWindowWidth/2-getWidth() - myXPos;//(fMyWindowWidth/2-getWidth()-myXPos);
-
-/* //removed by Mike, 20210918; TO-DO: -update: this
-//				if (myXPos<(fMyWindowWidth/2-getWidth())) {
-//				if (myXPos<(myLevel2D->getFMyCanvasPosX()+fMyWindowWidth/2-getWidth())) {
-				if (myXPos<(myLevel2D->getFMyCanvasPosX())) {
-					myXPos=myLevel2D->getFMyCanvasPosX()+fMyWindowWidth/2-getWidth();					
-				}
-				else {
-				}
-*/
-					
-/* //removed by Mike, 20210919
-				if (myXPos<(fMyWindowWidth/2-getWidth())) {
-					myXPos=myLevel2D->getFMyCanvasPosX()+fMyWindowWidth/2-getWidth();
-				}
-				else {
-//					myXPos=fMyWindowWidth/2-getWidth();
-				}
-//					myXPos=(fMyWindowWidth/2-getWidth()-myLevel2D->getFMyCanvasPosX())-fMyWindowWidth/2-getWidth();
-*/
-            //TO-DO: update: this due to backward speed faster than half position @fMyWindowWidth/2-getWidth()
-            //edited by Mike, 20210919
-            if (myXPos<=(fMyWindowWidth/2-getWidth())) {
-                //added by Mike, 20210919
-                //TO-DO: -reverify: if with DASH Command
-//                printf("*******************");
-                myXPos=myXPos+getStepX();
-            }
-            else {
-                myXPos=fMyWindowWidth/2-getWidth(); //+getStepX();
-            }
-		}
-		else {
-			//TO-DO: -update: if received as input DASH Command
-			myXPos=fMyWindowWidth/2-getWidth();
-		}
-	}
-	else if (currentFacingState==FACING_RIGHT) {	
-		if (myLevel2D->getFMyCanvasPosX()<=0) {
+    //TO-DO: -reverify: this; incorrect output when with as input DASH Command
+		//TO-DO: -update: if received as input DASH Command
+		if (myLevel2D->getFMyCanvasPosX()-fGridSquareWidth<=0) {
 		}
 		else if (myLevel2D->getFMyCanvasPosX()<=(fMyWindowWidth/2-getWidth())) {
-				if (myXPos<=(fMyWindowWidth/2-getWidth())) {
-                    //added by Mike, 20210919
-                    printf("//*******************");
-                    //TO-DO: -reverify: cause of acceleration until half of window width
-                    //executing: myXPos=myXPos-getStepX();
-                    //causes stuck at start position, albeit canvas movement continues
-                }
-				else {
-//					myXPos=fMyWindowWidth/2-getWidth();
-                    myXPos=fMyWindowWidth/2-getWidth();
-                }
-		}
-		else {
-			//TO-DO: -update: if received as input DASH Command
-//			myXPos=fMyWindowWidth/2-getWidth();
+        if (myXPos<=(fMyWindowWidth/2-getWidth())) {
+        }
+        else {
             myXPos=fMyWindowWidth/2-getWidth();
-		}	
-	}
-	
+        }
+		}
+		else {
+			myXPos=fMyWindowWidth/2-getWidth();
+		}
+
+
     //added by Mike, 20210804
     //gravity
     if (myLevel2D->isLevel2DCollideWith(this)) {
