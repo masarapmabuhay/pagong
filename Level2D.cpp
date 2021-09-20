@@ -260,7 +260,10 @@ Level2D::Level2D(float xPos, float yPos, float zPos, float fWindowWidth, float f
       
     //edited by Mike, 20210724
     iRowCountMax=10;
-    iColumnCountMax=18;
+    //edited by Mike, 20210920
+    //TO-DO: set iColumnCount to start at -1 from 0, et cetera
+//    iColumnCountMax=18;
+    iColumnCountMax=18+1;
     iHeightCountMax=10;
         
     fGridSquareWidth = (fMyWindowWidth)/iColumnCountMax; //example: 136.60
@@ -303,10 +306,16 @@ Level2D::Level2D(float xPos, float yPos, float zPos, float fWindowWidth, float f
 */
 		//TO-DO: -update: tile collision instructions due to uses integer,
 		//causes incorrect output when movement has fraction using float number classification
+		//edited by Mike, 20210920
     iCurrentLevelMapContainerOffsetZ=-1;
     iCurrentLevelMapContainerOffsetX=-1;
     iCurrentLevelMapContainerOffsetY=-1;    
 
+/*
+    iCurrentLevelMapContainerOffsetZ=1;
+    iCurrentLevelMapContainerOffsetX=1;
+    iCurrentLevelMapContainerOffsetY=1;    
+*/
     //added by Mike, 20210911
     MAX_X_AXIS_VIEWPORT=iColumnCountMax;//*fGridSquareWidth;
     MAX_Y_AXIS_VIEWPORT=iRowCountMax;//*fGridSquareHeight;
@@ -1162,6 +1171,7 @@ void Level2D::drawLevelMapInViewPort(GLfloat fMyCanvasPosXInput, GLfloat fMyCanv
     printf(">>fPrevX: %f; fx: %f\n",fPrevX,fX);
     printf(">>fMyCanvasPosX: %f\n",fMyCanvasPosX);    
 */
+
     
 	//removed by Mike, 20210914
     printf(">>fMyCanvasPosPrevX: %f; fMyCanvasPosX: %f\n",fMyCanvasPosPrevX,fMyCanvasPosX);
@@ -1216,14 +1226,16 @@ void Level2D::drawLevelMapInViewPort(GLfloat fMyCanvasPosXInput, GLfloat fMyCanv
    else {
      fStepMovemenGridX=(fStepMovemenGridX+getStepX());
    }	
-    std::cout << "fStepMovemenGridX: " << fStepMovemenGridX << "\n";
+   
+//    std::cout << "fStepMovemenGridX: " << fStepMovemenGridX << "\n";
     
     //added by Mike, 20210913
 //    fMyCanvasPosX+=(fStepMovemenGridX)*(-1);
     
     //removed by Mike, 20210912
 //    fGridSquareWidth=fGridSquareWidthiCurrentLevelMapContainerOffsetMaxViewPortYfMovementGridX/getStepX();    
-    std::cout << ">>>>fGridSquareWidth: " << fGridSquareWidth << "\n";
+
+//    std::cout << ">>>>fGridSquareWidth: " << fGridSquareWidth << "\n";
 
     fMovementGridX = 0;
     
@@ -1321,6 +1333,9 @@ void Level2D::drawLevelMapInViewPort(GLfloat fMyCanvasPosXInput, GLfloat fMyCanv
 			fMovementGridX+=0.5f;
 		}
 */
+
+    std::cout << "fMovementGridX: " << fMovementGridX << "\n";
+
 		
     iCurrentLevelMapContainerOffsetX += (int) fMovementGridX;
 
@@ -1359,9 +1374,7 @@ void Level2D::drawLevelMapInViewPort(GLfloat fMyCanvasPosXInput, GLfloat fMyCanv
    std::cout << "iMovementGridZ: " << iMovementGridZ << "\n";
    std::cout << "iMovementGridX: " << iMovementGridX << "\n";
 */
-    
-    std::cout << "fMovementGridX: " << fMovementGridX << "\n";
-		
+    		
    iCurrentLevelMapContainerOffsetZ += fMovementGridZ;
     //removed by Mike, 20210912
 //   iCurrentLevelMapContainerOffsetX += fMovementGridX;
@@ -1404,20 +1417,21 @@ void Level2D::drawLevelMapInViewPort(GLfloat fMyCanvasPosXInput, GLfloat fMyCanv
 //    for (int iRowCount=0; iRowCount<iRowCountMax; iRowCount++) {
 		for (;iRowCount<iCurrentLevelMapContainerOffsetMaxViewPortY; iRowCount++) {
 		
-		 //added by Mike, 20210910; edited by Mike, 20210912
+	 //added by Mike, 20210910; edited by Mike, 20210920
      int iColumnCount=iCurrentLevelMapContainerOffsetX;
-        //edited by Mike, 20210913
-//        int iCurrentLevelMapContainerOffsetMaxViewPortX=iColumnCount+MAX_X_AXIS_VIEWPORT;
-        iCurrentLevelMapContainerOffsetMaxViewPortX=iColumnCount+MAX_X_AXIS_VIEWPORT;
-        
+     iCurrentLevelMapContainerOffsetMaxViewPortX=iColumnCount+MAX_X_AXIS_VIEWPORT;
+/*
+     int iColumnCount=iCurrentLevelMapContainerOffsetX-1;
+     iCurrentLevelMapContainerOffsetMaxViewPortX=iColumnCount+MAX_X_AXIS_VIEWPORT+1;
+*/        
         
 //        int iCurrentLevelMapContainerOffsetMaxViewPortX=iColumnCount+MAX_X_AXIS_VIEWPORT-1;
 
    	 if ((iColumnCount<0) or (iCurrentLevelMapContainerOffsetX<0)) {
 	 	 		iColumnCount=0;
-                //added by Mike, 20210912
-                iCurrentLevelMapContainerOffsetMaxViewPortX=iColumnCountMax;
-   	 }
+        //added by Mike, 20210912
+        iCurrentLevelMapContainerOffsetMaxViewPortX=iColumnCountMax;
+		}
    	 else if (iCurrentLevelMapContainerOffsetX>=MAX_INPUT_TEXT_PER_LINE) {
                 //edited by Mike, 20210912
 	 			//iColumnCount=MAX_INPUT_TEXT_PER_LINE-1;

@@ -3644,9 +3644,11 @@ void Pilot::move(int key)
 		}		
 */
 
+/*
 		printf(">>myLevel2D->getFMyCanvasPosX(): %f; fMyWindowWidth/2: %f;",myLevel2D->getFMyCanvasPosX(),fMyWindowWidth/2);
 
 		printf(">>>>>>>myXPos: %f",myXPos);
+*/
 
 		//edited by Mike, 20210916
 //		myXPos=fMyWindowWidth/2-getWidth();
