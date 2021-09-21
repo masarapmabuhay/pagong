@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20200926
- * @date updated: 20210920
+ * @date updated: 20210921
  * @website address: http://www.usbong.ph
  *
  * References:
@@ -511,7 +511,9 @@ bool OpenGLCanvas::init(int myWindowWidthAsPixelInput, int myWindowHeightAsPixel
 //    myPilot = new Pilot(myWindowWidthAsPixel/3,myWindowHeightAsPixel/2,0.0f,myWindowWidthAsPixel,myWindowHeightAsPixel);
 		//edited by Mike, 20210916
 //    myPilot = new Pilot(myWindowWidthAsPixel/2,myWindowHeightAsPixel/2,0.0f,myWindowWidthAsPixel,myWindowHeightAsPixel);
-    myPilot = new Pilot(0.0f,myWindowHeightAsPixel/2,0.0f,myWindowWidthAsPixel,myWindowHeightAsPixel);
+		//edited by Mike, 20210921
+//    myPilot = new Pilot(0.0f,myWindowHeightAsPixel/2,0.0f,myWindowWidthAsPixel,myWindowHeightAsPixel);
+    myPilot = new Pilot(0.0f,0.0f,0.0f,myWindowWidthAsPixel,myWindowHeightAsPixel);
 
 
     myPilot->setOpenGLCanvas(this, fGridSquareWidth, fGridSquareHeight);    
@@ -896,8 +898,12 @@ void OpenGLCanvas::update()
         //    	if ((myKeysDown[KEY_UP] == TRUE) || (myKeysDown[KEY_W] == TRUE))
         if (myKeysDown[KEY_W] == TRUE)
         {
-        		//removed by Mike, 20210901
-//            myPilot->move(KEY_W);       
+        		//removed by Mike, 20210901; added by Mike, 20210921
+            myPilot->move(KEY_W);       
+            
+            //added by Mike, 20210921
+            myCanvasPosY-=myPilot->getStepY();
+            						
             //removed by Mike, 20200929
             //			sound->play_sound_clip(thrust);
         }
@@ -907,8 +913,11 @@ void OpenGLCanvas::update()
         if(myKeysDown[KEY_S] == TRUE)
             //    	else if(myKeysDown[KEY_S] == TRUE)
         {
-        		//removed by Mike, 20210901        
-//            myPilot->move(KEY_S);               
+        		//removed by Mike, 20210901; added by Mike, 20210921        
+            myPilot->move(KEY_S);               
+                
+            //added by Mike, 20210921
+            myCanvasPosY+=myPilot->getStepY();
         
             //edited by Mike, 20201115; edited again by Mike, 20210128
             //myRobotShip->move(KEY_DOWN);
@@ -1455,7 +1464,9 @@ void OpenGLCanvas::update()
         //note: we use y-axis in Level2D; instead of z-axis (Level3D)
         //TO-DO: -reverify: to use z-axis in Level2D
         if (myPilot->getY() -myPilot->getStepY() < 0) { //max movement with set
-            myPilot->setYPos(0+myPilot->getStepY());
+        		//edited by Mike, 20210921
+//            myPilot->setYPos(0+myPilot->getStepY());
+            myPilot->setYPos(0);            
         }
         //max movement with set
         else if (myPilot->getY()+myPilot->getHeight() +myPilot->getStepY() > myWindowHeight) {

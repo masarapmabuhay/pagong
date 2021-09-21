@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B. 
  * @date created: 20200930
- * @date updated: 20210902
+ * @date updated: 20210921
  * @website address: http://www.usbong.ph
  *
  * Acknowledgments:
@@ -557,9 +557,14 @@ public:
 	
 	void move(int key);
 	
+	void moveSideScrollView(int key); //added by Mike, 20210921
+	
 	//added by Mike, 20201226
 	void keyDown(int keyCode);	
 	void keyUp(int keyCode);	
+	
+	//added by Mike, 20210921
+	void keyDownSideScrollView(int keyCode);
 	
 	//removed by Mike, 20210522
 //	void setOpenGLCanvas(OpenGLCanvas* c);

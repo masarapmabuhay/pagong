@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B. 
  * @date created: 20200930
- * @date updated: 20210920
+ * @date updated: 20210921
  * @website address: http://www.usbong.ph
  *
  * Reference: 
@@ -2731,12 +2731,29 @@ void Pilot::changeState(int s)
 }
 
 //added by Mike, 20201226
-void Pilot::keyDown(int keyCode) {
+void Pilot::keyDownSideScrollView(int keyCode) {
 	myKeysDown[keyCode] = TRUE;
 	
 	//added by Mike, 20210812
 	myKeysDown[KEY_W] = FALSE;
 	myKeysDown[KEY_S] = FALSE;
+
+/* //removed by Mike, 20210917; TO-DO: -add: this
+	//added by Mike, 20210127; edited by Mike, 20210128
+	autoVerifyDashStateWithKeyDown();//keyCode);
+*/	
+}
+
+
+//added by Mike, 20201226
+void Pilot::keyDown(int keyCode) {
+	myKeysDown[keyCode] = TRUE;
+	
+/* //removed by Mike, 20210921	
+	//added by Mike, 20210812
+	myKeysDown[KEY_W] = FALSE;
+	myKeysDown[KEY_S] = FALSE;
+*/	
 
 /* //removed by Mike, 20210917; TO-DO: -add: this
 	//added by Mike, 20210127; edited by Mike, 20210128
@@ -2942,6 +2959,746 @@ void Pilot::autoVerifyDashStateWithKeyUp(int keyCode) {
 
 
 void Pilot::move(int key)
+{
+   //Note: Unit member as Pilot has to release hold of directional keys,
+   //so that RobotShip faces in the correct direction;
+   //holding the fire beam key, e.g. KEY_I, causes RobotShip 
+   //to move without changing the direction that it faces
+	
+   //added by Mike, 20201201; removed by Mike, 20201226
+//   currentMovingState=WALKING_MOVING_STATE;
+
+   //added by Mike, 20201225; removed by Mike, 20201225
+   //bIsFiringBeam=false;
+   
+   //TO-DO: -add: bIsMovingLeft, etc, while facing up, etc
+
+   //added by Mike, 20201226; removed by Mike, 2myZPosAsPixel0201226
+//   myKeysDown[key] = TRUE;	
+
+	//removed by Mike, 20210203
+/*	//added by Mike, 20210203
+	if ((myKeysDown[KEY_A]) && (myKeysDown[KEY_W])) {
+        currentFacingState=FACING_LEFT_AND_UP;
+	}
+	else if ((myKeysDown[KEY_D]) && (myKeysDown[KEY_W])) {
+        currentFacingState=FACING_RIGHT_AND_UP;
+	}
+	//added by Mike, 20210202
+	else if ((myKeysDown[KEY_A]) && (myKeysDown[KEY_S])) {
+        currentFacingState=FACING_LEFT_AND_DOWN;
+	}
+	else if ((myKeysDown[KEY_D]) && (myKeysDown[KEY_S])) {
+        currentFacingState=FACING_RIGHT_AND_DOWN;
+	}
+*/
+
+   switch (key)
+   {
+     //added by Mike, 20201218
+     case KEY_I:
+     	//removed by Mike, 20201225
+/*   		  
+		  currentMovingState=ATTACKING_MOVING_STATE;		   
+          currentFacingState=FACING_UP;
+*/          
+          //added by Mike, 20201225
+          bIsFiringBeam=true;
+          
+          //added by Mike, 20201226
+          //iNumOfKeyTypes
+          bHasPressedADirectionalKey=false;
+          //based on enum Keys 
+          //edited by Mike, 20210129
+          //TO-DO: +reverified: Robotship does not execute correctly
+		  //when down and left buttons are pressed while firing beam down
+		  //AND when up and left buttons are pressed while firing beam up		  
+		  //in Windows Machine
+		  //problem did not occur on Linux Machine (with external USB keyboard)			
+		  //added by Mike, 20210131
+		  //note: add use of external USB keyboard solves the problem		  
+
+//          for (int iCount=0; iCount<10; iCount++) {
+		   //edited by Mike, 20210130
+		   //note: in RobotShip.h set PILOT_MAX_DIRECTIONAL_KEY_DASH_COUNT=4, not 6,
+		   //causes RobotShip movement error
+		   //edited by Mike, 20210202
+          for (int iCount=0; iCount<PILOT_MAX_DIRECTIONAL_KEY_DASH_COUNT; iCount++) {
+//          for (int iCount=0; iCount<4; iCount++) {
+			  if (myKeysDown[iCount]==TRUE) {
+          		bHasPressedADirectionalKey=true;
+   		    	break;
+			}
+		  }
+		  
+		  if (!bHasPressedADirectionalKey) {
+		  	currentMovingState=ATTACKING_MOVING_STATE;		   		  	
+		  }          
+          break;
+     //added by Mike, 20201226
+     case -KEY_I:
+//		  currentMovingState=IDLE_MOVING_STATE;
+          bIsFiringBeam=false;
+          //removed by Mike, 20201226
+//          bHasPressedADirectionalKey=false; //added by Mike, 20201226
+
+   		  if (currentMovingState==WALKING_MOVING_STATE) {   		  	
+		  }
+		  //added by Mike, 20201226
+ 		  else if (currentMovingState==ATTACKING_MOVING_STATE) {   		  	
+		  }
+		  else {
+		  	currentMovingState=IDLE_MOVING_STATE;
+		  }			
+          break;	
+
+     //added by Mike, 2021011
+     //TO-DO: -update: this to be defend using shield
+     case KEY_H:
+     		 //added by Mike, 20210809; removed by Mike, 20210809
+//		     drawShieldEffectAsQuadWithTexture();
+     
+/* //removed by Mike, 20210809; executes kick Command     
+          bIsExecutingDefend=true;
+          
+          bHasPressedADirectionalKey=false;
+          //based on enum Keys 
+          //edited by Mike, 20210129
+//          for (int iCount=0; iCount<10; iCount++) {
+          for (int iCount=0; iCount<PILOT_MAX_DIRECTIONAL_KEY_DASH_COUNT; iCount++) {
+   		    if (myKeysDown[iCount]==TRUE) {
+          		bHasPressedADirectionalKey=true;
+   		    	break;
+			}
+		  }
+		  
+//		  if (!bHasPressedADirectionalKey) {
+		  	currentMovingState=ATTACKING_MOVING_STATE;		   		  	
+//		  }         
+*/ 
+          break;
+     case -KEY_H:
+/*          //removed by Mike, 20210124
+			bIsExecutingDefend=false;
+*/
+   		  if (currentMovingState==WALKING_MOVING_STATE) {   		  	
+		  }
+		  //added by Mike, 20201226
+ 		  else if (currentMovingState==ATTACKING_MOVING_STATE) {   		  	
+		  }
+		  else {
+		  	currentMovingState=IDLE_MOVING_STATE;
+		  }			
+          break;
+	
+	//added by Mike, 20210121
+    case KEY_U:
+		  //removed by Mike, 20210123
+//          bIsExecutingPunch=true;
+		            
+		  //added by Mike, 20210122; edited by Mike, 202101213
+		  if (iPunchAnimationCount==0){// or (iPunchAnimationCount>=MAX_PUNCH_ANIMATION_COUNT)) {
+            bIsExecutingPunch=true;
+		  }
+		             
+          bHasPressedADirectionalKey=false;
+
+          //based on enum Keys 
+          //edited by Mike, 20210129
+//          for (int iCount=0; iCount<10; iCount++) {
+          for (int iCount=0; iCount<PILOT_MAX_DIRECTIONAL_KEY_DASH_COUNT; iCount++) {
+		   	if (myKeysDown[iCount]==TRUE) {
+          		bHasPressedADirectionalKey=true;
+   		    	break;
+			}
+		  }
+
+		  
+//		  if (!bHasPressedADirectionalKey) {
+		  	currentMovingState=ATTACKING_MOVING_STATE;		   		  	
+//		  }          
+          break;
+     case -KEY_U:
+    	//TO-DO: -reverify: arm angles after release of punch button and then press move down
+     	
+   		  if (currentMovingState==WALKING_MOVING_STATE) {   		  	
+		  }
+		  //added by Mike, 20201226
+ 		  else if (currentMovingState==ATTACKING_MOVING_STATE) {   		  	
+		  }
+		  else {
+		  	currentMovingState=IDLE_MOVING_STATE;
+		  }			
+          break;
+
+//	 case KEY_UP: //removed by Mike, 20210130
+     case KEY_W:
+       //added by Mike, 20210111
+       if (bIsExecutingPunch) {
+	   }
+       //added by Mike, 20210121
+	   else if (bIsExecutingDefend) {
+	   }
+       //added by Mike, 20210613
+       else if (bIsExecutingKick) {
+       }
+       else {
+//added by Mike, 20210521
+//----------
+         //added by Mike, 20210725
+         if (myLevel2D->isLevel2DCollideWith(this)) {
+//            printf(">>>>COLLISION!");
+//							currentMovingState=IDLE_MOVING_STATE;
+							bHasHitWall=true;
+             return;
+        	//		break;
+         }
+         else {         
+         			//added by Mike, 20210728
+         			//edited by Mike, 20210729; TO-DO: -update: this
+         		  if ((bHasHitWall) and (getCurrentFacingState()==FACING_UP)) {
+//         		  if ((bHasHitWall)) {
+         		  	return;
+         		  }
+
+/* //removed by Mike, 20210921         		           		  
+         		    //edited by Mike, 20210805
+                //in macOS machine, Pilot does not move up due to gravity;
+                //OK in LUBUNTU machine; JUMP height low; exerting effort to move up, but pulled by heavy force
+  
+  						 //edited by Mike, 20210806           
+//             iStepYCountMax=20;
+             iStepYCountMax=10;
+
+             if (iStepYCount>=iStepYCountMax) {
+             			//added by Mike, 20210806;
+             			//removed by Mike, 20210806;
+             			//Yosshi- Dinosaur?
+//             		return;
+
+            			currentMovingState=IDLE_MOVING_STATE;
+              		currentFacingState=FACING_UP;
+                 
+                 break;
+             }
+             else {
+             		//edited by Mike, 20210830
+//                myYPosAsPixel+=(-stepY*1.1);                
+								//edited by Mike, 20210831
+                myYPos+=(-stepY*1.1);
+                //myYPos+=(stepY*1.1);
+                iStepYCount+=1;
+            
+             }
+*/
+								 if (getIsPlayer1()) { //Player1: Unit Chief
+            					myYPos+=-stepY;
+         					}
+         					else {
+            					myYPos+=-stepY;
+         					}
+
+
+		 				bHasHitWall=false;
+
+		 		}
+			//added by Mike, 20210521		
+//----------		
+       }
+	
+	      //added by Mike, 20201201; edited by Mike, 20201225
+          //currentFacingState=FACING_UP;
+	      if (bIsFiringBeam) {	      	
+		  }
+		  else {
+					//added by Mike, 20210728; edited by Mike, 20210729
+					//TO-DO: -update: this
+              //added by Mike, 20210729; removed by Mike, 20210729;
+              //yoko scroll
+//              prevFacingState=currentFacingState;
+              
+              currentFacingState=FACING_UP;
+		  }
+		  
+          currentMovingState=WALKING_MOVING_STATE;
+          break;
+
+		   //edited by Mike, 20210812
+           return;
+//           break;
+
+ //     case KEY_DOWN:  //removed by Mike, 20210130
+     case KEY_S: //added by Mike, 20210128
+				//added by Mike, 20210111
+				if (bIsExecutingPunch) {
+				}
+				//added by Mike, 20210121
+				else if (bIsExecutingDefend) {
+				}
+    			//added by Mike, 20210613
+    			else if (bIsExecutingKick) {
+    			}
+				else {
+         			//added by Mike, 20210725
+         			if (myLevel2D->isLevel2DCollideWith(this)) {
+			//            printf(">>>>COLLISION!");
+//										currentMovingState=IDLE_MOVING_STATE;
+										bHasHitWall=true;
+        						return;
+         			}
+         			else {				
+					  			//added by Mike, 20210728
+         					if ((bHasHitWall) and (getCurrentFacingState()==FACING_DOWN)) {
+         		  			return;
+         					}
+        					if (getIsPlayer1()) { //Player1: Unit Chief
+             					//edited by Mike, 20210830
+            					//myYPosAsPixel+=stepY;        					
+//            					myYPos+=stepY;
+										//edited by Mike, 20210831
+            					myYPos+=stepY; 
+//										myYPos+=(-stepY);
+            					
+        					}
+        					else {
+             					//edited by Mike, 20210830
+            					//myYPosAsPixel+=stepY/2;
+										//edited by Mike, 20210831
+            					myYPos+=stepY/2; 
+//										myYPos+=(-stepY/2);
+            									
+        					}
+                                }
+
+ 				if ((bIsExecutingDashArray[KEY_S])) {
+             			//edited by Mike, 20210830
+//            			myYPosAsPixel+=stepY*2;
+						//edited by Mike, 20210831
+						myYPos+=stepY*2;
+//						myYPos+=(-(stepY*2));             			
+					}
+							bHasHitWall=false;
+				}
+	      //added by Mike, 20201201; edited by Mike, 20201225
+          //currentFacingState=FACING_DOWN;
+	      if (bIsFiringBeam) {	      	
+		  }
+		  else {
+              //added by Mike, 20210729; removed by Mike, 20210729
+              //yoko scroll
+//              prevFacingState=currentFacingState;
+
+              //added by Mike, 20210728
+              currentFacingState=FACING_DOWN;
+		  }
+
+           currentMovingState=WALKING_MOVING_STATE;
+          break;
+        //added by Mike, 20210806; edited by Mike, 20210812
+           return;
+//			break;
+			
+			
+//     case KEY_LEFT: //removed by Mike, 20210130
+     case KEY_A: //added by Mike, 20210128		   
+     		//removed by Mike, 20201001
+//          rotationAngle+=rotationStep;
+/*		//removed by Mike, 20201014
+     	  //added by Mike, 20201001
+          if (thrust<thrustMax)
+            thrust+=-0.1f;
+*/
+					//added by Mike, 20210111
+					if (bIsExecutingPunch) {
+					}
+					//added by Mike, 20210121
+					else if (bIsExecutingDefend) {
+					}
+    				//added by Mike, 20210613
+    				else if (bIsExecutingKick) {
+    				}
+					else {
+         				//added by Mike, 20210728
+         				if (myLevel2D->isLevel2DCollideWith(this)) {
+				//            printf(">>>>COLLISION!");
+//											currentMovingState=IDLE_MOVING_STATE;
+											bHasHitWall=true;
+        							return;
+         				}
+         				else {
+										//added by Mike, 20210728
+         						if ((bHasHitWall) and (getCurrentFacingState()==FACING_LEFT)) {
+         							return;
+         						}
+        					
+								//edited by Mike, 20210728
+								//TO-DO: -add: acceleration
+/*								
+        					myXPosAsPixel+=-stepX;
+							
+									if ((bIsExecutingDashArray[KEY_A])) {		
+											//edited by Mike, 20210527
+										myXPosAsPixel+=-stepX;
+									}
+*/									
+         					if (getIsPlayer1()) { //Player1: Unit Chief
+             					//edited by Mike, 20210830         					
+//            					myXPosAsPixel+=-stepX;
+            					myXPos+=-stepX;
+         					}
+         					else {
+             					//edited by Mike, 20210830
+//            					myXPosAsPixel+=-stepX;
+            					myXPos+=-stepX;
+         					}
+
+/* //removed by Mike, 20210917; TO-DO: -add: this																											
+         					if (bIsExecutingDashArray[KEY_A]) {
+								//edited by Mike, 20210807
+            					//myXPosAsPixel+=-stepX*2;   
+								//dash Command not executed during free fall
+								//TO-DO: -update: this due to incorrect output
+								//if during free fall, at WALKING_MOVING_STATE
+								//dash Command still executed;
+								//TURBO?
+            					if (currentMovingState==IDLE_MOVING_STATE) {
+            					}
+								else {
+             						//edited by Mike, 20210830								
+//            						myXPosAsPixel+=-stepX*2;						
+            						myXPos+=-stepX*2;						          						
+								}         								  
+		 					}									
+*/											
+									bHasHitWall=false;
+								}					
+					}
+	
+/*          
+          char str[700];                                       
+          sprintf(str,"rotationAngle: %f",rotationAngle);
+          MessageBox(NULL, str, "Welcome!", MB_OK);
+*/
+		   
+		   
+	      //added by Mike, 20201201; edited by Mike, 20201225
+          //currentFacingState=FACING_LEFT;
+	      if (bIsFiringBeam) {	      	
+		  }
+		  else {
+              //added by Mike, 20210729; edited by Mike, 20210729
+              //prevFacingState=currentFacingState;
+//              if (currentFacingState==FACING_LEFT) {
+              if ((currentFacingState==FACING_RIGHT) || (currentFacingState==FACING_LEFT)) {
+                  prevFacingState=currentFacingState;
+              }
+
+              //added by Mike, 20210502
+              currentFacingState=FACING_LEFT;
+		  }
+
+           //edited by Mike, 20210613
+           currentMovingState=WALKING_MOVING_STATE;
+/* //removed by Mike, 20210613
+           if (bIsExecutingKick) {
+               currentMovingState=ATTACKING_MOVING_STATE;
+           }
+*/
+          break;
+          
+      //note: combination of FACING RIGHT and DOWN actions cause spin movement          
+//     case KEY_RIGHT: //removed by Mike, 20210130
+     case KEY_D: //added by Mike, 20210128
+		   //removed by Mike, 20201001
+//          rotationAngle-=rotationStep;
+
+/*		//removed by Mike, 20201014
+     	  //added by Mike, 20201001
+          if (thrust<thrustMax)
+            thrust+=0.1f;
+*/
+
+				//added by Mike, 20210111
+				if (bIsExecutingPunch) {
+				}
+				//added by Mike, 20210121
+				else if (bIsExecutingDefend) {
+				}
+    		//added by Mike, 20210613
+    		else if (bIsExecutingKick) {
+    		}
+				else {
+      			//added by Mike, 20210728
+      			if (myLevel2D->isLevel2DCollideWith(this)) {
+			//            printf(">>>>COLLISION!");
+//							currentMovingState=IDLE_MOVING_STATE;
+							bHasHitWall=true;
+        			return;
+      			}
+      			else {
+							//added by Mike, 20210728
+         			if ((bHasHitWall) and (getCurrentFacingState()==FACING_RIGHT)) {
+         				return;
+         			}      			
+      			
+							//edited by Mike, 20210728
+/*							//TO-DO: -add: acceleration
+        			//myXPosAsPixel+=stepX*2;
+        			myXPosAsPixel+=stepX;
+					
+							if ((bIsExecutingDashArray[KEY_D])) {
+								//edited by Mike, 20210527
+								myXPosAsPixel+=stepX;
+							}		
+*/							
+         			if (getIsPlayer1()) { //Player1: Unit Chief
+             			//edited by Mike, 20210830								
+//            			myXPosAsPixel+=stepX;
+            			myXPos+=stepX;          			
+         			}
+         			else {
+             			//edited by Mike, 20210830								
+//            			myXPosAsPixel+=stepX;
+            			myXPos+=stepX; 
+         			}
+					
+/* //removed by Mike, 20210917; TO-DO: -add: this																																
+         			if (bIsExecutingDashArray[KEY_D]) {
+         				//edited by Mike, 20210807
+            			//myXPosAsPixel+=stepX*2;   
+						//dash Command not executed during free fall            			
+            			if (currentMovingState==IDLE_MOVING_STATE) {
+            			}
+						else {
+             			//edited by Mike, 20210830								
+//            				myXPosAsPixel+=stepX*2;						
+            				myXPos+=stepX*2;						
+						}           			         			
+		 			}									
+*/
+							
+							bHasHitWall=false;
+						}
+				}
+		   		
+	  		//added by Mike, 20201201; edited by Mike, 20201225
+        		//currentFacingState=FACING_RIGHT;
+	  		if (bIsFiringBeam) {	      	
+				}
+				else {
+                    //added by Mike, 20210729; edited by Mike, 20210729
+                    //prevFacingState=currentFacingState;
+                    if ((currentFacingState==FACING_RIGHT) || (currentFacingState==FACING_LEFT)) {
+                        prevFacingState=currentFacingState;
+                    }
+                    
+                    currentFacingState=FACING_RIGHT;
+				}
+		  
+           //edited by Mike, 20210613
+           currentMovingState=WALKING_MOVING_STATE;
+/*  //removed by Mike, 20210613
+           if (bIsExecutingKick) {
+               currentMovingState=ATTACKING_MOVING_STATE;
+           }
+*/
+		  break;
+		  
+		  //added by Mike, 20210611
+			case KEY_K:
+                //added by Mike, 20210613
+                if (iKickAnimationCount==0){// or (iPunchAnimationCount>=MAX_PUNCH_ANIMATION_COUNT)) {
+                    bIsExecutingKick=true;
+                }
+           
+           bHasPressedADirectionalKey=false;
+           
+           //based on enum Keys
+           for (int iCount=0; iCount<PILOT_MAX_DIRECTIONAL_KEY_DASH_COUNT; iCount++) {
+               if (myKeysDown[iCount]==TRUE) {
+                   bHasPressedADirectionalKey=true;
+                   break;
+               }
+           }
+           
+           //removed to hitBy(...) by Mike, 20210612
+           currentMovingState=ATTACKING_MOVING_STATE;
+           break;
+           //added by Mike, 20210613
+       case -KEY_K:
+           //TO-DO: -reverify: arm angles after release of kick button and then press move down
+           if (currentMovingState==WALKING_MOVING_STATE) {
+           }
+           else if (currentMovingState==ATTACKING_MOVING_STATE) {
+           }
+           else {
+               currentMovingState=IDLE_MOVING_STATE;
+           }			
+           break;
+                      					  			
+		//added by Mike, 20201201
+		default:
+          //edited by Mike, 20210604
+		  //currentMovingState=IDLE_MOVING_STATE;
+//           if (getIsPlayer1()) { //note: Player1 as Unit Chief
+             currentMovingState=IDLE_MOVING_STATE;
+//           }
+           
+		  bIsFiringBeam=false; //added by Mike, 20201226
+		  //removed by Mike, 20210123
+		  //bIsExecutingPunch=false; //added by Mike, 20210111
+		  
+		  bIsExecutingDefend=false; //added by Mike, 20210121
+           
+          //added by Mike, 20210805
+          iStepYCount=0;
+          bIsExecutingDash=false;
+          
+/* //removed by Mike, 20210921; gravity          
+          //added by Mike, 20210807
+          if (myLevel2D->isLevel2DCollideWith(this)) {          	
+          }
+          else {
+          	//+gravity when at free fall
+          	//TO-DO: -add: animation sprite image?
+          	//note: stepY*2, et cetera is over what the ground/floor tile can push up
+            //edited by Mike, 20210830								          	
+						myYPos+=stepY;
+			
+						//added by Mike, 20210812
+						//note: this set of instructions NOT executed 
+						//when there exists input to execute LEFT or RIGHT movement
+						//TO-DO: -update: instructions when computer receives both LEFT and RIGHT input Commands
+						if (myLevel2D->isLevel2DCollideWith(this)) {    
+						}
+						else {
+        			//edited by Mike, 20210830								          	
+			//				myYPosAsPixel+=stepY; ///2.0
+									myYPos+=stepY; //2.0
+							
+						}									
+          }
+*/          
+		  		break;		  		  
+   }
+
+    //added by Mike, 20210613
+    if (bIsExecutingKick) {
+        currentMovingState=ATTACKING_MOVING_STATE;
+    }
+
+    
+	//added by Mike, 20210111
+	if (bIsExecutingPunch) {
+		currentMovingState=ATTACKING_MOVING_STATE;
+		bIsFiringBeam=false;
+	}
+
+	//added by Mike, 20210121
+	if (bIsExecutingDefend) {
+		currentMovingState=ATTACKING_MOVING_STATE;
+		bIsFiringBeam=false;
+	}   
+
+/*  //edited by Mike, 20210725
+	//added by Mike, 20210724
+	//note: in previous computer instructions, we used z-pos for the y-pos now
+	//TO-DO: -update: this
+	myXPosAsPixel=(int)myXPos;
+    //edited by Mike, 20210725
+//	myYPosAsPixel=(int)myZPos;
+    myYPosAsPixel=(int)myYPos;
+*/
+
+
+	//added by Mike, 20210502
+	//TO-DO: -add: FACING_LEFT based on opponent position, e.g. left of pilot
+
+/* //removed by Mike, 20210613
+	//added by Mike, 20210104
+//	if (!bIsExecutingDefend) {	
+	if (!bIsFiringBeam) {
+		//added by Mike, 20210203
+		//TO-DO: -reverify: fire beam, move diagonal, move non-diagonal direction
+		//added by Mike, 20210201
+		if ((myKeysDown[KEY_A]) && (myKeysDown[KEY_W])) {
+			//removed by Mike, 20210502
+//	        currentFacingState=FACING_LEFT_AND_UP;
+		}
+		else if ((myKeysDown[KEY_D]) && (myKeysDown[KEY_W])) {
+	        currentFacingState=FACING_RIGHT_AND_UP;
+		}
+		//added by Mike, 20210202
+		else if ((myKeysDown[KEY_A]) && (myKeysDown[KEY_S])) {
+			//removed by Mike, 20210502			
+//	        currentFacingState=FACING_LEFT_AND_DOWN;
+		}
+		else if ((myKeysDown[KEY_D]) && (myKeysDown[KEY_S])) {
+	        currentFacingState=FACING_RIGHT_AND_DOWN;
+		}
+	}
+*/
+		
+
+		//TO-DO: -delete: excess instructions; OpenGLCanvas.cpp, Level2D.cpp, Pilot.cpp
+    //TO-DO: -reverify: this; incorrect output when with as input DASH Command
+		//TO-DO: -update: if received as input DASH Command
+		if (myLevel2D->getFMyCanvasPosX()-fGridSquareWidth<=0) {
+		}
+		else if (myLevel2D->getFMyCanvasPosX()<=(fMyWindowWidth/2-getWidth())) {
+        if (myXPos<=(fMyWindowWidth/2-getWidth())) {
+        }
+        else {
+            myXPos=fMyWindowWidth/2-getWidth();
+        }
+		}
+		else {
+			myXPos=fMyWindowWidth/2-getWidth();
+		}
+		
+		//added by Mike, 20210921
+		if (myLevel2D->getFMyCanvasPosY()-fGridSquareHeight<=0) {
+		}
+		//edited by Mike, 20210921
+		else if (myLevel2D->getFMyCanvasPosY()<=(fGridSquareHeight/2-getHeight())) {
+//		else if (myLevel2D->getFMyCanvasPosY()>=(fGridSquareHeight/2-getHeight())) {
+
+				//edited by Mike, 20210921
+        if (myYPos<=(fMyWindowHeight/2-getHeight())) {
+//        if (myYPos>=(fMyWindowHeight/2-getHeight())) {
+        }
+        else {
+            myYPos=fMyWindowHeight/2-getHeight();
+        }
+		}
+		else {
+			myYPos=fMyWindowHeight/2-getHeight();
+		}
+
+/* //removed by Mike, 20210921
+    //added by Mike, 20210804
+    //gravity
+    if (myLevel2D->isLevel2DCollideWith(this)) {
+        bHasHitWall=true;
+        return;
+    }
+    else {        
+        if (bHasHitWall) {
+            return;
+        }
+        
+        if (getIsPlayer1()) { //Player1: Unit Chief
+						//edited by Mike, 20210831
+            myYPos+=stepY;
+        }
+    }    
+*/
+    
+    bHasHitWall=false;
+}
+
+//added by Mike, 20210921
+void Pilot::moveSideScrollView(int key)
 {
    //Note: Unit member as Pilot has to release hold of directional keys,
    //so that RobotShip faces in the correct direction;
@@ -3530,6 +4287,7 @@ void Pilot::move(int key)
           iStepYCount=0;
           bIsExecutingDash=false;
           
+					//note: gravity          
           //added by Mike, 20210807
           if (myLevel2D->isLevel2DCollideWith(this)) {          	
           }
@@ -3537,9 +4295,7 @@ void Pilot::move(int key)
           	//+gravity when at free fall
           	//TO-DO: -add: animation sprite image?
           	//note: stepY*2, et cetera is over what the ground/floor tile can push up
-          	//edited by Mike, 20210812
             //edited by Mike, 20210830								          	
-//			myYPosAsPixel+=stepY;
 						myYPos+=stepY;
 			
 						//added by Mike, 20210812
@@ -3614,44 +4370,7 @@ void Pilot::move(int key)
 		}
 	}
 */
-		//added by Mike, 20210913
-/*		
-		if (myXPos>fMyWindowWidth/2-getWidth()) {
-			myXPos=fMyWindowWidth/2-getWidth();
-		}
-		else if (myXPos<fMyWindowWidth/2-getWidth()) {
-			myXPos=fMyWindowWidth/2-getWidth();
-		}
-*/
-/*	//edited by Mike, 20210914
-		if ((myXPos>=0) && (myXPos<fMyWindowWidth/3)) { ///2-getWidth())) {
-		}
-		else if (myXPos<0) {
-		}
-		else {
-			//edited by Mike, 20210913
-//			myXPos=fMyWindowWidth/2-getWidth();
-			myXPos=fMyWindowWidth/3;
-		}		
-*/
-/*
-		if ((myXPos>=0) && (myXPos<fMyWindowWidth/2-getWidth())) {
-		}
-		else if (myXPos<0) {
-		}
-		else {
-			myXPos=fMyWindowWidth/2-getWidth();
-		}		
-*/
-
-/*
-		printf(">>myLevel2D->getFMyCanvasPosX(): %f; fMyWindowWidth/2: %f;",myLevel2D->getFMyCanvasPosX(),fMyWindowWidth/2);
-
-		printf(">>>>>>>myXPos: %f",myXPos);
-*/
-
-		//edited by Mike, 20210916
-//		myXPos=fMyWindowWidth/2-getWidth();
+		
 
 		//TO-DO: -delete: excess instructions; OpenGLCanvas.cpp, Level2D.cpp, Pilot.cpp
     //TO-DO: -reverify: this; incorrect output when with as input DASH Command
@@ -3669,7 +4388,6 @@ void Pilot::move(int key)
 			myXPos=fMyWindowWidth/2-getWidth();
 		}
 
-
     //added by Mike, 20210804
     //gravity
     if (myLevel2D->isLevel2DCollideWith(this)) {
@@ -3682,31 +4400,14 @@ void Pilot::move(int key)
         }
         
         if (getIsPlayer1()) { //Player1: Unit Chief
-        		//edited by Mike, 20210807
-//            myYPosAsPixel+=(stepY*1.2);
-        		//edited by Mike, 20210830								          	
-//            myYPosAsPixel+=stepY;
-
 						//edited by Mike, 20210831
             myYPos+=stepY;
-            
-//            myYPos+=(-stepY);
-            
-//            myYPosAsPixel+=(stepY*2);
         }
-    }
+    }    
+        
     bHasHitWall=false;
-
-/*
-    if (bHasHitWall) {
-        return;
-    }
-    
-    if (getIsPlayer1()) { //Player1: Unit Chief
-        myYPosAsPixel+=stepY;
-    }
-*/
 }
+
 
 void Pilot::hitBy(MyDynamicObject* mdo)
 {

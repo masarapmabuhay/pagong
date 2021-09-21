@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20200926
- * @date updated: 20210920
+ * @date updated: 20210921
  * @website address: http://www.usbong.ph
  *
  * Reference:
@@ -258,9 +258,9 @@ Level2D::Level2D(float xPos, float yPos, float zPos, float fWindowWidth, float f
     fMyWindowWidthAsPixelRatioToHeightPixel=1.0f;
     iMyWindowWidthAsPixelOffset=0;
       
-    //edited by Mike, 20210724; edited by Mike, 20210920
-    //TO-DO: -verify: vertical scroll movement
-    iRowCountMax=10;
+    //edited by Mike, 20210724; edited by Mike, 20210921
+//    iRowCountMax=10;
+    iRowCountMax=10+2;
     
     //edited by Mike, 20210920
     //note: column 1 NOT anymore drawn to eliminate noticeable drawing by computer during scroll movement; 
@@ -997,9 +997,9 @@ void Level2D::drawTileAsQuadWithTexture(std::string sTileId)
 //    openGLDrawTexture(myXPos, myYPos, myWidth, myHeight);
 		//edited by Mike, 20210920
 //    openGLDrawTexture(myXPos, myYPos, myWidth, myHeight, sTileId);    
-		//edited by Mike, 20210920
-    openGLDrawTexture(myXPos-myWidth, myYPos, myWidth, myHeight, sTileId);    
-//    openGLDrawTexture(myXPos+myWidth, myYPos, myWidth, myHeight, sTileId);    
+		//edited by Mike, 20210921
+//    openGLDrawTexture(myXPos-myWidth, myYPos, myWidth, myHeight, sTileId);    
+    openGLDrawTexture(myXPos-myWidth, myYPos-myHeight, myWidth, myHeight, sTileId);    
 }
 
 /*//removed by Mike, 20210830
@@ -1132,9 +1132,6 @@ void Level2D::setPilotStep(float fPilotStepX, float fPilotStepY, float fPilotSte
 //TO-DO: -reverify: vertical scroll action
 
 //edited by Mike, 20210913
-//void Level2D::drawLevelMapInViewPort(GLfloat fX, GLfloat fY, GLfloat fZ)
-//edited by Mike, 20210913
-//void Level2D::drawLevelMapInViewPort(GLfloat fX, GLfloat fY, GLfloat fZ, GLfloat fMyCanvasPosX, GLfloat fMyCanvasPosY, GLfloat fMyCanvasPosZ)
 void Level2D::drawLevelMapInViewPort(GLfloat fMyCanvasPosXInput, GLfloat fMyCanvasPosYInput, GLfloat fMyCanvasPosZInput, GLfloat fX, GLfloat fY, GLfloat fZ)
 
 {	
@@ -1143,90 +1140,40 @@ void Level2D::drawLevelMapInViewPort(GLfloat fMyCanvasPosXInput, GLfloat fMyCanv
     fMyCanvasPosY = fMyCanvasPosYInput;
     fMyCanvasPosZ = fMyCanvasPosYInput;
 	
-  
-/* //removed by Mike, 20210912
-    //edited by Mike, 20210724
-    iRowCountMax=10;
-    iColumnCountMax=18;
-    iHeightCountMax=10;
-*/
-    
-		//added by Mike, 20210910
-//--
-/* //removed by Mike, 20210910
-	 int iX=fX;
-	 int iY=fY;
-	 int iZ=fZ;
-
-     int iMovementGridZ=0;
-     int iMovementGridX=0;
-     int iMovementGridY=0;
- */
     float fMovementGridZ=0.0f;
     float fMovementGridX=0.0f;
     float fMovementGridY=0.0f;
-    
-/* //TO-DO: -update: this
-	if (fStepMovemenGridY>=1) {
-   	 //added by Mike, 20210311
-	 //note: actual fZ position and fGridSquareWidth*rowCount position
-	 //TO-DO: -reverify: this
-   	 iMovementGridY = iPrevY-iY;   	 
-	 	 fStepMovemenGridY=0;
-   }
-*/
-
-   //TO-DO: -update: this to synchronize actual position with double array container
-    //edited by Mike, 20210910
-//   fMovementGridX = fPrevX-fX;
+ 
     fMovementGridX=0;
-    
-/*    
-    printf(">>fPrevX: %f; fx: %f\n",fPrevX,fX);
-    printf(">>fMyCanvasPosX: %f\n",fMyCanvasPosX);    
-*/
-
-    
-	//removed by Mike, 20210914
+    fMovementGridY=0; //added by Mike, 20210921
+        
+/*	//removed by Mike, 20210914
     printf(">>fMyCanvasPosPrevX: %f; fMyCanvasPosX: %f\n",fMyCanvasPosPrevX,fMyCanvasPosX);
     printf(">>fX: %f\n",fX);    
+*/
     
     if (fMyCanvasPosX==0) {
         fMyCanvasPosPrevX=0;
+    }
+    
+    //added by Mike, 20210921
+    if (fMyCanvasPosY==0) {
+        fMyCanvasPosPrevY=0;
     }
 
 //    printf(">>getStepX(): %f\n",getStepX());
 		
 		//edited by Mike, 20210920
 //	if (fMyCanvasPosPrevX!=fMyCanvasPosX) {
-
 		if ((fX==(fMyWindowWidth/2-getWidth())) &&
     		(fMyCanvasPosPrevX!=fMyCanvasPosX)) {
-/*
-    //added by Mike, 20210913
-		if (fX<=fMyWindowWidth/3) {
-*/
-//if (fPrevX!=0.0f) {
-/*
-		//added by Mike, 20210913
-		//put Pilot as center of viewport; if at edge of input level,
-		//Pilot can move away from center
-		if (fX<(fMyCanvasPosX-MAX_X_AXIS_VIEWPORT/2)) {
-			fX=fMyCanvasPosX-MAX_X_AXIS_VIEWPORT/2;
-		}
-		else if (fX>(fMyCanvasPosX+MAX_X_AXIS_VIEWPORT/2)) {
-			fX=fMyCanvasPosX+MAX_X_AXIS_VIEWPORT;
-		}
-*/
+
 /*
 	  printf(">>fMyCanvasPosPrevX: %f; fMyCanvasPosX: %f\n",fMyCanvasPosPrevX,fMyCanvasPosX);
     printf(">>fX: %f\n",fX);    
 */
 
 	//edited by Mike, 20210913
-//  fMovementGridX = fPrevX+fX;
-	 //edited by Mike, 20210914
-//  fMovementGridX = (fMyCanvasPosPrevX-fMyCanvasPosX)*-1;
    fMovementGridX = (fMyCanvasPosX-fMyCanvasPosPrevX);
  
    //x-axis
@@ -1242,13 +1189,6 @@ void Level2D::drawLevelMapInViewPort(GLfloat fMyCanvasPosXInput, GLfloat fMyCanv
    }	
    
 //    std::cout << "fStepMovemenGridX: " << fStepMovemenGridX << "\n";
-    
-    //added by Mike, 20210913
-//    fMyCanvasPosX+=(fStepMovemenGridX)*(-1);
-    
-    //removed by Mike, 20210912
-//    fGridSquareWidth=fGridSquareWidthiCurrentLevelMapContainerOffsetMaxViewPortYfMovementGridX/getStepX();    
-
 //    std::cout << ">>>>fGridSquareWidth: " << fGridSquareWidth << "\n";
 
     fMovementGridX = 0;
@@ -1264,89 +1204,9 @@ void Level2D::drawLevelMapInViewPort(GLfloat fMyCanvasPosXInput, GLfloat fMyCanv
     }
     else if (fStepMovemenGridX<=-fGridSquareWidth) {    
         fMovementGridX = 1*(fStepMovemenGridX/fGridSquareWidth); //-1
-        
-        //edited by Mike, 20210914
-//        fStepMovemenGridX=fStepMovemenGridX+fGridSquareWidth;//0;
-				//edited by Mike, 20210916
         fStepMovemenGridX=fStepMovemenGridX+fGridSquareWidth;//0;
-//        fStepMovemenGridX=(fStepMovemenGridX+fGridSquareWidth)*(-1);//0;
-        
-//        fMovementGridX=fMovementGridX*(-1);
     }
     
-    //added by Mike, 20210914
-    //TO-DO: -add: instructions if at left-most of canvas, i.e. myCanvasPosX=0
-    //Pilot's x position can go away from center
-    
-/*
-        fMovementGridX = 1*(fStepMovemenGridX/fGridSquareWidth); //-1
-//        fMovementGridX = 1*(fStepMovemenGridX); //-1
-        fStepMovemenGridX=0;
-*/
-    
-    //added by Mike, 20210912; removed by Mike, 20210912
-//    fMovementGridX=fMovementGridX/getX();
-    
-    
-    
-/* //removed by Mike, 20210912
-//   if (fStepMovemenGridX>=myWindowWidth) {
-		//edited by Mike, 20210911
-//    if (fStepMovemenGridX>=getStepX()) { //GridSquareWidth) {
-    if (fStepMovemenGridX>=fGridSquareWidth) {
-
-//	 fMovementGridX = fPrevX-fX;
-        fMovementGridX = fPrevX+fX;
-
-        fStepMovemenGridX=0;
-
-//     iMovementGridX -= MAX_X_AXIS_VIEWPORT/2;
-   }
-   //edited by Mike, 20210911
-//   else if (fStepMovemenGridX<=-getStepX()) {
-   else if (fStepMovemenGridX<=-fGridSquareWidth) {
-       //fMovementGridX = fPrevX-fX;
-       fMovementGridX = fPrevX+fX;
-
-       fStepMovemenGridX=0;
-	   
-     //added by Mike, 20210319
-//     iMovementGridX -= MAX_X_AXIS_VIEWPORT/2; 	   
-   }
-*/
-    
-    //added by Mike, 20210912l; edited by Mike, 20210916
-    //note: there exists fMovementGridX 1.1, et cetera; 
-    //set to 1 using CAST to integer, i.e. whole number, Command
-//    iCurrentLevelMapContainerOffsetX += fMovementGridX;
-
-		//edited by Mike, 20210918
-//    iCurrentLevelMapContainerOffsetX += (int) fMovementGridX;
-
-/* //removed by Mike, 20210919
-		//TO-DO: -reverify: this
-		//if fraction;
-		//identify first if negative number
-		if (fMovementGridX<0.0f) {
-
-////			if (fMovementGridX>-1.0f) {
-////				fMovementGridX=-1.0f;
-////			}
-			
-				//cast as integer; output: rounded number 
-				fMovementGridX+=-0.5f;
-		}
-		//if positive number
-		if (fMovementGridX>0.0f) {
-
-////			if (fMovementGridX>1.0f) {
-////				fMovementGridX=1.0f;
-////			}
- 
-			//cast as integer; output: rounded number 
-			fMovementGridX+=0.5f;
-		}
-*/
 
     std::cout << "fMovementGridX: " << fMovementGridX << "\n";
 
@@ -1358,27 +1218,70 @@ void Level2D::drawLevelMapInViewPort(GLfloat fMyCanvasPosXInput, GLfloat fMyCanv
     if (fX<=0) {
     	fMyCanvasPosX=0;
     	iCurrentLevelMapContainerOffsetX=0;
+    }    
+}
+
+//-------------------------------------------------		
+	  printf(">>fMyCanvasPosPrevY: %f; fMyCanvasPosY: %f\n",fMyCanvasPosPrevY,fMyCanvasPosY);
+    printf(">>fY: %f\n",fY);    
+    printf(">>fMyWindowHeight/2: %f\n",fMyWindowHeight/2);    
+		
+		//reminder: TOP-LEFT origin
+		//added by Mike, 20210921
+		//edited by Mike, 20210921
+		if ((fY==(fMyWindowHeight/2-getHeight())) &&
+//		if ((fY==(fMyWindowHeight/2+getHeight())) &&
+    		(fMyCanvasPosPrevY!=fMyCanvasPosY)) {
+
+/*
+	  printf(">>fMyCanvasPosPrevY: %f; fMyCanvasPosY: %f\n",fMyCanvasPosPrevY,fMyCanvasPosY);
+    printf(">>fY: %f\n",fY);    
+*/
+
+	 //edited by Mike, 20210921; reminder: origin: TOP-LEFT
+   fMovementGridY = (fMyCanvasPosY-fMyCanvasPosPrevY);
+//   fMovementGridY = (fMyCanvasPosPrevY-fMyCanvasPosY);
+ 
+   //y-axis
+   if (fMovementGridY < 0) { //moved upward
+     fStepMovemenGridY=(fStepMovemenGridY-getStepY());
+   }
+   else if (fMovementGridY == 0) { //no movement in Y-axis
+   }
+   else {
+     fStepMovemenGridY=(fStepMovemenGridY+getStepY());
+   }	
+   
+//    std::cout << "fStepMovemenGridY: " << fStepMovemenGridY << "\n";
+//    std::cout << ">>>>fGridSquareHeight: " << fGridSquareHeight << "\n";
+
+    fMovementGridY = 0;
+    
+    //TO-DO: -eliminate: excess instructions
+    if (fStepMovemenGridY>=fGridSquareHeight) {
+        fMovementGridY = 1*(fStepMovemenGridY/fGridSquareHeight); //1;
+        fStepMovemenGridY=fStepMovemenGridY-fGridSquareHeight;//0;
+//        fStepMovemenGridY=fStepMovemenGridY+fGridSquareHeight;//0;
+    }
+    else if (fStepMovemenGridY<=-fGridSquareHeight) {    
+        fMovementGridY = 1*(fStepMovemenGridY/fGridSquareHeight); //-1
+       	fStepMovemenGridY=fStepMovemenGridY+fGridSquareHeight;//0;
+//        fStepMovemenGridY=fStepMovemenGridY-fGridSquareHeight;//0;
     }
     
 
-  	//causes No backward scroll; super mario bros #1?  
-/*  	
-    if (fX==fMyWindowWidth/3) {
-    	iCurrentLevelMapContainerOffsetX += fMovementGridX;
-		}	
-*/
+    std::cout << "fMovementGridY: " << fMovementGridY << "\n";
 
-/*
-    if ((fX>fMyWindowWidth/3-getStepX()*2) && (fX<=fMyWindowWidth/3)) {
-    	iCurrentLevelMapContainerOffsetX += fMovementGridX;
-		}	
-*/
-
-/*
-	//added by Mike, 20210913
-	}
-*/
+		
+    iCurrentLevelMapContainerOffsetY += (int) fMovementGridY;
+                
+    //TO-DO: -reverify: if there exists as input DASH Command
+    if (fY<=0) {
+    	fMyCanvasPosY=0;
+    	iCurrentLevelMapContainerOffsetY=0;
+    }    
 }
+//-------------------------------------------------		
     
 	
 /*
@@ -1387,16 +1290,11 @@ void Level2D::drawLevelMapInViewPort(GLfloat fMyCanvasPosXInput, GLfloat fMyCanv
    std::cout << "iMovementGridZ: " << iMovementGridZ << "\n";
    std::cout << "iMovementGridX: " << iMovementGridX << "\n";
 */
-    		
-   iCurrentLevelMapContainerOffsetZ += fMovementGridZ;
-    //removed by Mike, 20210912
-//   iCurrentLevelMapContainerOffsetX += fMovementGridX;
-    //edited by Mike, 20210917
-//   iCurrentLevelMapContainerOffsetY += fMovementGridY;
+  
+/*   	//removed by Mike, 20210921    		
+   	iCurrentLevelMapContainerOffsetZ += fMovementGridZ;
     iCurrentLevelMapContainerOffsetY += (int)fMovementGridY;
-
-    //added by Mike, 20210912
-//    fMovementGridX = 0;
+*/
 
     //added by Mike, 20210911
     if (iCurrentLevelMapContainerOffsetX<0) {
@@ -1405,18 +1303,33 @@ void Level2D::drawLevelMapInViewPort(GLfloat fMyCanvasPosXInput, GLfloat fMyCanv
         fMyCanvasPosX=0;
 //        fMovementGridX=0; //removed by Mike, 20210915
     }
+
+		//added by Mike, 20210921
+    if (iCurrentLevelMapContainerOffsetY<0) {
+        iCurrentLevelMapContainerOffsetY=0;
+        fMyCanvasPosPrevY=0;
+        fMyCanvasPosY=0;
+//        fMovementGridY=0; //removed by Mike, 20210915
+    }
     
-   int iRowCount=iCurrentLevelMapContainerOffsetY;
-   iCurrentLevelMapContainerOffsetMaxViewPortY=iRowCount+MAX_Y_AXIS_VIEWPORT;
-	
-   if (iCurrentLevelMapContainerOffsetY<0) {
-	 		iRowCount=0;   	   
-	 		iCurrentLevelMapContainerOffsetY=0;
-   } 
-   else if (iCurrentLevelMapContainerOffsetY>=MAX_INPUT_TEXT_PER_LINE) {
-	 		iRowCount=MAX_INPUT_TEXT_PER_LINE-1;   
-   } 	
-	   
+   	int iRowCount=iCurrentLevelMapContainerOffsetY;
+   	iCurrentLevelMapContainerOffsetMaxViewPortY=iRowCount+MAX_Y_AXIS_VIEWPORT;
+		   
+		//added by Mike, 20210921
+   	 if ((iRowCount<0) or (iCurrentLevelMapContainerOffsetY<0)) {
+	 	 		iRowCount=0;
+        //added by Mike, 20210912
+        iCurrentLevelMapContainerOffsetMaxViewPortY=iRowCountMax;
+		 }
+   	 else if (iCurrentLevelMapContainerOffsetY>=MAX_INPUT_TEXT_PER_LINE) {
+        //edited by Mike, 20210912
+	 			//iColumnCount=MAX_INPUT_TEXT_PER_LINE-1;
+        iRowCount=MAX_INPUT_TEXT_PER_LINE-1-iRowCountMax;
+         
+	 			iCurrentLevelMapContainerOffsetY=MAX_INPUT_TEXT_PER_LINE-1;
+   	 }		
+		 
+		   
  //--
     //added by Mike, 20210912
     //TO-DO: -update: instructions to set Pilot to be at center horizontal and vertical;
@@ -1440,25 +1353,16 @@ void Level2D::drawLevelMapInViewPort(GLfloat fMyCanvasPosXInput, GLfloat fMyCanv
 	 	 		iColumnCount=0;
         //added by Mike, 20210912
         iCurrentLevelMapContainerOffsetMaxViewPortX=iColumnCountMax;
-		}
+		 }
    	 else if (iCurrentLevelMapContainerOffsetX>=MAX_INPUT_TEXT_PER_LINE) {
-                //edited by Mike, 20210912
+        //edited by Mike, 20210912
 	 			//iColumnCount=MAX_INPUT_TEXT_PER_LINE-1;
-                iColumnCount=MAX_INPUT_TEXT_PER_LINE-1-iColumnCountMax;
+        iColumnCount=MAX_INPUT_TEXT_PER_LINE-1-iColumnCountMax;
          
 	 			iCurrentLevelMapContainerOffsetX=MAX_INPUT_TEXT_PER_LINE-1;
    	 }
        
-//   	 std::cout << "iCurrentLevelMapContainerOffsetX: " << iCurrentLevelMapContainerOffsetX << "\n";
-/* //removed by Mike, 20210912s
-            std::cout << "iColumnCount: " << iColumnCount << "\n";
-            std::cout << "iCurrentLevelMapContainerOffsetMaxViewPortX: " << iCurrentLevelMapContainerOffsetMaxViewPortX << "\n";
-*/
-		
-        //iCurrentMaxColumnCountPerRowContainer[iRowCount];
-        //edited by Mike, 20210910
-//        for (int iColumnCount=0; iColumnCount<iColumnCountMax; iColumnCount++) {
-				//edited by Mike, 20210920
+  			//edited by Mike, 20210920
 				for (;iColumnCount<iCurrentLevelMapContainerOffsetMaxViewPortX; iColumnCount++) {
 //				for (;iColumnCount<iCurrentLevelMapContainerOffsetMaxViewPortX+1; iColumnCount++) {
 
@@ -1477,85 +1381,27 @@ void Level2D::drawLevelMapInViewPort(GLfloat fMyCanvasPosXInput, GLfloat fMyCanv
 								//TO-DO: -reverify: cause of skipping to previous column when executing backward movement
 								//edited by Mike, 20210916
 //								if (fMovementGridX==fGridSquareWidth) {
-								if ((fMovementGridX==fGridSquareWidth) || (fMovementGridX==(fGridSquareWidth*-1))) {								
-                	myXPos=0.0f+(fGridSquareWidth)*(iColumnCount-iCurrentLevelMapContainerOffsetX);
+								if ((fMovementGridX==fGridSquareWidth) || (fMovementGridX==(fGridSquareWidth*-1))) {								                									myXPos=0.0f+(fGridSquareWidth)*(iColumnCount-iCurrentLevelMapContainerOffsetX);
 								}
 								else {
-/* //pachinko, i.e. sling shot, effect...								
-									//added by Mike, 20210916
-									if (fStepMovemenGridX>1.0f) {
-										fStepMovemenGridX=fStepMovemenGridX-1.0f;
-									}
-									else if (fStepMovemenGridX< (-1.0f)) {
-										fStepMovemenGridX=fStepMovemenGridX+1.0f;
-									}
-*/
-                                    
-/* //removed by Mike, 20210919; TO-DO: -reverify: cause why if reached window center, then go backward, fMovementGridX movement excess 1 tile...
-                                    //added by Mike, 20210917
-                                    //TO-DO: -reverify: if reached right-most canvas position x-axis
-                                    if (fMyCanvasPosX==0) {
-                                        fStepMovemenGridX=0; //added by Mike, 20210917
-                                    }
-*/
-                                        //edited by Mike, 20210916
-                                        myXPos=0.0f+(fGridSquareWidth)*(iColumnCount-iCurrentLevelMapContainerOffsetX)-fStepMovemenGridX;
-
-/*
-									//negative, i.e. backward movement
-									if (fStepMovemenGridX<0) {
-                		myXPos=0.0f+(fGridSquareWidth)*(iColumnCount-iCurrentLevelMapContainerOffsetX)+fStepMovemenGridX;
-									}
-									//positive, i.e. forward movement
-									else {
-									  myXPos=0.0f+(fGridSquareWidth)*(iColumnCount-iCurrentLevelMapContainerOffsetX)-fStepMovemenGridX;
-									}									
-*/									
+                  //edited by Mike, 20210916
+                  myXPos=0.0f+(fGridSquareWidth)*(iColumnCount-iCurrentLevelMapContainerOffsetX)-fStepMovemenGridX;
 								}
 
-//TO-DO: -update: this
-                                //edited by Mike, 20210917
-//								if (fStepMovemenGridY==fGridSquareHeight) {
-                if ((fMovementGridY==fGridSquareHeight) || (fMovementGridY==(fGridSquareHeight*-1))) {
-                    
-                                    myYPos=0.0f+(fGridSquareHeight)*(iRowCount+iCurrentLevelMapContainerOffsetY);
+								//edited by Mike, 20210921
+                if ((fMovementGridY==fGridSquareHeight) || (fMovementGridY==(fGridSquareHeight*-1))) {                    
+                    myYPos=0.0f+(fGridSquareHeight)*(iRowCount-iCurrentLevelMapContainerOffsetY);
 								}
 								else {
 									//edited by Mike, 20210916
-                	myYPos=0.0f+(fGridSquareHeight)*(iRowCount+iCurrentLevelMapContainerOffsetY)-fStepMovemenGridY;
-	
-////									//negative, i.e. downward movement
-////									if (fStepMovemenGridX<0) {
-////                		myYPos=0.0f+(fGridSquareHeight)*(iRowCount+iCurrentLevelMapContainerOffsetY)-fStepMovemenGridY;
-////									}
-////									//positive, i.e. upward movement
-////									else {
-////										myYPos=0.0f+(fGridSquareHeight)*(iRowCount+iCurrentLevelMapContainerOffsetY)+fStepMovemenGridY;
-////									}									
+                	myYPos=0.0f+(fGridSquareHeight)*(iRowCount-iCurrentLevelMapContainerOffsetY)-fStepMovemenGridY;
 								}
 
-              
-/*
-printf("autoConvertFromPixelToVertexPointX: %f",(myUsbongUtils->autoConvertFromPixelToVertexPointX(0.0f+(fGridSquareWidth)*(iColumnCount+1.0f)))); 										
-printf("autoConvertFromPixelToVertexPointY: %f",myUsbongUtils->autoConvertFromPixelToVertexPointY(0.0f+(fGridSquareHeight)*(iRowCount+1.0f))); 					
-*/
+
  										//edited by Mike, 20210719
 //                	drawTileA	glBindTexture(GL_TEXTURE_2D, textureid);
 										glEnable(GL_TEXTURE_2D);
-//	drawTileAsQuadWithTexture();
-//note: incorrect output if we use fPrevXprintf(...) with std::string as input to %s
-                
-                //added by Mike, 20210725
-                //note: use this Command to verify if inputLevel1.csv uses correct quotation mark encoding
-                //reminder: we use the same quotation mark for opening and closing
-                //in macOS, use XCode to edit input file, e.g. inputLevel1.csv;
-                //this is instead of TextEdit
-/*
-                std::cout << "iRowCount: " << iRowCount << "\n";
-                std::cout << "iColumnCount: " << iColumnCount << "\n";
 
-                std::cout << "sCurrentLevelMapContainer[iRowCount][iColumnCount]): " << sCurrentLevelMapContainer[iRowCount][iColumnCount] << "\n";
-*/
                 		drawTileAsQuadWithTexture(sCurrentLevelMapContainer[iRowCount][iColumnCount]);
                 glPopMatrix();
             }
@@ -1619,44 +1465,13 @@ void Level2D::move(int key)
 //added by Mike, 20210724; edited by Mike, 20210725
 bool Level2D::isLevel2DCollideWith(MyDynamicObject* mdo)
 {
-    //added by Mike, 20210829
-    //TO-DO: -reverify: cause of segmentation fault; @read(...)?
-    //reminder: set myLevel2D object to Pilot, et cetera
-    //removed by Mike, 20210830
-//    return false;
-    
-/* //removed by Mike, 20210912
-    printf(">>>> isLevel2DCollideWith; iCurrentLevelMapContainerOffsetY: %i;\n",iCurrentLevelMapContainerOffsetY);
-    printf(">>>> isLevel2DCollideWith; iCurrentLevelMapContainerOffsetX: %i;\n",iCurrentLevelMapContainerOffsetX);
-*/
     
     if ((!checkIsCollidable())||(!mdo->checkIsCollidable()))    
     {
     		printf(">>>>>NOT COLLIDABLE");
         return false;
     }
-/*
-    if (!checkIsCollidable())
-    {
-//    		printf(">>>>>LEVEL2D NOT COLLIDABLE");
-        return false;
-    }
-
-		//OK; collidable
-		//mdo example: Pilot
-    if (!mdo->checkIsCollidable())
-    {
-//    		printf(">>>>>PILOT NOT COLLIDABLE");
-        return false;
-    }
-
- printf(">>>>>COLLIDABLE");
  
- //    int iRowCountMax=10;
- //    return false;
- */
-    
-    
         //edited by Mike, 20210911
 /*		for (int iRowCount=0; iRowCount<iRowCountMax; iRowCount++) {
                 for (int iColumnCount=0; iColumnCount<iColumnCountMax; iColumnCount++) {
@@ -1666,11 +1481,11 @@ bool Level2D::isLevel2DCollideWith(MyDynamicObject* mdo)
     //TO-DO: -fix: problem with forward movement, then backward movement;
     //if forward +3 tiles, then backward movement -1 tile, based on auto-drawn tiles
  //removed by Mike, 20210915    
-//printf(">>>> iCurrentLevelMapContainerOffsetY: %i;",iCurrentLevelMapContainerOffsetY);
-printf(">>>> iCurrentLevelMapContainerOffsetX: %i;\n",iCurrentLevelMapContainerOffsetX);
+printf(">>>> iCurrentLevelMapContainerOffsetY: %i;",iCurrentLevelMapContainerOffsetY);
+//printf(">>>> iCurrentLevelMapContainerOffsetX: %i;\n",iCurrentLevelMapContainerOffsetX);
   
-//printf(">>>> iCurrentLevelMapContainerOffsetMaxViewPortY: %i;",iCurrentLevelMapContainerOffsetMaxViewPortY);
-printf(">>>> iCurrentLevelMapContainerOffsetMaxViewPortX: %i;\n",iCurrentLevelMapContainerOffsetMaxViewPortX);
+printf(">>>> iCurrentLevelMapContainerOffsetMaxViewPortY: %i;",iCurrentLevelMapContainerOffsetMaxViewPortY);
+//printf(">>>> iCurrentLevelMapContainerOffsetMaxViewPortX: %i;\n",iCurrentLevelMapContainerOffsetMaxViewPortX);
 
     int iStartRowCount=0; //7;
     int iStartColumnCount=0; //1//6; //7;
@@ -1702,87 +1517,22 @@ printf(">>>> iCurrentLevelMapContainerOffsetMaxViewPortX: %i;\n",iCurrentLevelMa
             if (sCurrentLevelMapContainer[iRowCount][iColumnCount].compare("0") == 0) { //TRUE
             }
             else {
-//                printf(">>>>>>>> DITO");
-//                printf(">>>> iRowCount: %i; iColumnCount: %i;",iRowCount,iColumnCount);
-//                printf(">>>> iColumnCount: %i;",iColumnCount);
- 									//edited by Mike, 20210913
-//                    if (mdo->collideWithLevel2DTileRect(0.0f+fGridSquareWidth*(iColumnCount),0.0f+fGridSquareHeight*(iRowCount), fGridSquareWidth, fGridSquareHeight)) {
-                /* //edited by Mike, 20210916
-                 float fGridSquareWidthOffset=30.0f;//fGridSquareWidth/5;
-                 float fGridSquareHeightOffset=fGridSquareHeight/5;
-                 
-                 if (mdo->collideWithLevel2DTileRect(0.0f+fGridSquareWidth*(iColumnCount-iCurrentLevelMapContainerOffsetX)+fGridSquareWidthOffset,0.0f+fGridSquareHeight*(iRowCount), fGridSquareWidth-fGridSquareWidthOffset, fGridSquareHeight)) {
-                 */
-
-								//edited by Mike, 20210918
-//                if (mdo->collideWithLevel2DTileRect(0.0f+fGridSquareWidth*(iColumnCount-iCurrentLevelMapContainerOffsetX),0.0f+fGridSquareHeight*(iRowCount), fGridSquareWidth, fGridSquareHeight)) {
-
-/*                //edited by Mike, 20210919
-                if (mdo->collideWithLevel2DTileRect(0.0f+fGridSquareWidth*(iColumnCount-iCurrentLevelMapContainerOffsetX),0.0f+fGridSquareHeight*(iRowCount-iCurrentLevelMapContainerOffsetY), fGridSquareWidth, fGridSquareHeight)) {
-                    
-*/
-/* //edited by Mike, 20210920
-                if (mdo->collideWithLevel2DTileRect(0.0f+fGridSquareWidth*(iColumnCount-iCurrentLevelMapContainerOffsetX)-fStepMovemenGridX,0.0f+fGridSquareHeight*(iRowCount-iCurrentLevelMapContainerOffsetY)-fStepMovemenGridY, fGridSquareWidth, fGridSquareHeight)) {
-*/
+/*            		//edited by Mike, 20210921
                 if (mdo->collideWithLevel2DTileRect(0.0f+fGridSquareWidth*(iColumnCount-iCurrentLevelMapContainerOffsetX-1)-fStepMovemenGridX,0.0f+fGridSquareHeight*(iRowCount-iCurrentLevelMapContainerOffsetY)-fStepMovemenGridY, fGridSquareWidth, fGridSquareHeight)) {
+*/
+                if (mdo->collideWithLevel2DTileRect(0.0f+fGridSquareWidth*(iColumnCount-iCurrentLevelMapContainerOffsetX-1)-fStepMovemenGridX,0.0f+fGridSquareHeight*(iRowCount-iCurrentLevelMapContainerOffsetY-1)-fStepMovemenGridY, fGridSquareWidth, fGridSquareHeight)) {
                     
-
-/* //edited by Mike, 20210918
-                if (mdo->collideWithLevel2DTileRect(0.0f+fGridSquareWidth*(iColumnCount),0.0f+fGridSquareHeight*(iRowCount), fGridSquareWidth, fGridSquareHeight)) {
-*/
-
                 printf(">>>>> fGridSquareWidth: %f",fGridSquareWidth);
-                
-/* //removed by Mike, 20210915
-                        //TO-DO: -reverify: if NOT dash, Pilot climb angle incorrect
- //removed by Mike, 20210912
-printf(">>>> collideWithLevel2DTileRect TRUE;");
-                        
-                        std::cout << "iRowCount: " << iRowCount << "\n";
-                        std::cout << "iColumnCount: " << iColumnCount << "\n";
-                        
-                        std::cout << "sCurrentLevelMapContainer[iRowCount][iColumnCount]): " << sCurrentLevelMapContainer[iRowCount][iColumnCount] << "\n";
-*/
-
-                                //added by Mike, 20210725; added by Mike, 20210831;
-                                //edited by Mike, 20210913
-/*                               return this->hitByAtTile(mdo, sCurrentLevelMapContainer[iRowCount][iColumnCount],
-                                					0.0f+fGridSquareWidth*(iColumnCount), //note: no -1 in iColumnCount
-                                					0.0f+fGridSquareHeight*(iRowCount));
-*/
-
-/* //edited by Mike, 20210918                               					
-                               return this->hitByAtTile(mdo, sCurrentLevelMapContainer[iRowCount][iColumnCount-iCurrentLevelMapContainerOffsetX],
-                                					0.0f+fGridSquareWidth*(iColumnCount-iCurrentLevelMapContainerOffsetX),
-                                					0.0f+fGridSquareHeight*(iRowCount));
-*/
-
-/*                            //edited by Mike, 20210919
-                               return this->hitByAtTile(mdo, sCurrentLevelMapContainer[iRowCount][iColumnCount],
-                                					0.0f+fGridSquareWidth*(iColumnCount-iCurrentLevelMapContainerOffsetX),
-                                					0.0f+fGridSquareHeight*(iRowCount-iCurrentLevelMapContainerOffsetY));
-*/
-/* //edited by Mike, 20210920
+  	
+/*  									//edited by Mike, 20210921          
                     return this->hitByAtTile(mdo, sCurrentLevelMapContainer[iRowCount][iColumnCount],
-                                             0.0f+fGridSquareWidth*(iColumnCount-iCurrentLevelMapContainerOffsetX)-fStepMovemenGridX,
+                                             0.0f+fGridSquareWidth*(iColumnCount-iCurrentLevelMapContainerOffsetX-1)-fStepMovemenGridX,
                                              0.0f+fGridSquareHeight*(iRowCount-iCurrentLevelMapContainerOffsetY)-fStepMovemenGridY);
 */
                     return this->hitByAtTile(mdo, sCurrentLevelMapContainer[iRowCount][iColumnCount],
                                              0.0f+fGridSquareWidth*(iColumnCount-iCurrentLevelMapContainerOffsetX-1)-fStepMovemenGridX,
-                                             0.0f+fGridSquareHeight*(iRowCount-iCurrentLevelMapContainerOffsetY)-fStepMovemenGridY);
+                                             0.0f+fGridSquareHeight*(iRowCount-iCurrentLevelMapContainerOffsetY-1)-fStepMovemenGridY);
 
-                    
-/*
-                               return this->hitByAtTile(mdo, sCurrentLevelMapContainer[iRowCount][iColumnCount],
-                                					0.0f+fGridSquareWidth*(iColumnCount),
-                                					0.0f+fGridSquareHeight*(iRowCount));
-*/
-
-/*
-                               return this->hitByAtTile(mdo, sCurrentLevelMapContainer[iRowCount+1][iColumnCount],
-                                					0.0f+fGridSquareWidth*(iColumnCount), //note: no -1 in iColumnCount
-                                					0.0f+fGridSquareHeight*(iRowCount+1));
-*/                                					
   									}  									
 		        }		        
 		   }
