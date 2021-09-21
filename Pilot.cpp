@@ -3660,7 +3660,7 @@ void Pilot::move(int key)
 		if (myLevel2D->getFMyCanvasPosY()-fGridSquareHeight<=0) {
 		}
 		//edited by Mike, 20210921
-		else if (myLevel2D->getFMyCanvasPosY()<=(fGridSquareHeight/2-getHeight())) {
+		else if (myLevel2D->getFMyCanvasPosY()<=(fMyWindowHeight/2-getHeight())) {
 //		else if (myLevel2D->getFMyCanvasPosY()>=(fGridSquareHeight/2-getHeight())) {
 
 				//edited by Mike, 20210921
@@ -3714,7 +3714,7 @@ void Pilot::moveSideScrollView(int key)
    //TO-DO: -add: bIsMovingLeft, etc, while facing up, etc
 
    //added by Mike, 20201226; removed by Mike, 2myZPosAsPixel0201226
-//   myKeysDown[key] = TRUE;	
+//   myKeysDown[key] = TRUE;	 
 
 	//removed by Mike, 20210203
 /*	//added by Mike, 20210203
