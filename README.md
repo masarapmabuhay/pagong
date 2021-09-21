@@ -14,10 +14,19 @@ Set of computer instructions with reusable component parts
 # 2. Additional Reference
 [Usbong Automotive](https://github.com/usbong/documentation/tree/master/Usbong/R%26D/Automotive)
 
-# 3. Add-on Software Tools
+# 3. Requirements
+## 3.1. Simple Directmedia Layer (SDL): SDL version 2.0 & SDL Image
+https://www.libsdl.org/download-2.0.php; last accessed: 20210922<br/>
+--> <b>Recommendation:</b> Reuse Image Compression instructions, e.g. loading .png image files  
+
+## 3.2. Open Graphics Library (OpenGL)
+https://www.opengl.org/; last accessed: 20210922<br/>
+--> <b>Recommendation:</b> Not to add OpenGL instructions for computer machines with classification: 32-bit Operating System (OS) without Graphic Acceleration Card
+
+# 4. Add-on Software Tools
 [LibreOffice Calc: Spreadsheet](https://www.libreoffice.org/discover/calc/)
 
-# 4. Open Source Software License
+# 5. Open Source Software License
 Copyright 2021 SYSON, MICHAEL B.
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at
