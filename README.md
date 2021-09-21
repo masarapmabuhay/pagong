@@ -11,10 +11,36 @@ Set of computer instructions with reusable component parts
 ## 1.3. Vertical Scroll Movement
 <img src="https://github.com/usbong/pagong/blob/main/screenshots/usbongPagongVerticalAndHorizontalScrollMovementOKV20210921T1648.gif" width="60%">
 
-# 2. Additional Reference
-[Usbong Automotive](https://github.com/usbong/documentation/tree/master/Usbong/R%26D/Automotive)
+# 2. Additional References
+## 2.1. [Usbong Automotive](https://github.com/usbong/documentation/tree/master/Usbong/R%26D/Automotive)
 
-# 3. Requirements
+## 2.2. Net Yarouze: Hobbyist Playstation Development Kit
+Internet = Database Storage + Network
+
+### <b>Cost:</b> USD 1,200; Year 1996
+
+### <b>Attributes:</b>
+a. Standard C Programming Libraries<br/>
+b. Playstation Math Libraries<br/>
+c. High Level 3-D Rendering Libraries<br/>
+d. Playstation Controller Interface Libraries<br/>
+e. Special Let's Create Sound Libraries<br/>
+f. Graphical File Format Conversion Utilities<br/>
+g. 3-D Object Creation/Conversion Utilities<br/>
+h. R3000 C Compiler<br/>
+i. Linker<br/>
+j. Debugger<br/>
+
+### <b>Requirements:</b>
+a. Personal Computer (PC)<br/>
+b. C Programming Language<br/>
+
+### <b>Reference:</b>
+a. Slate, C. (Ed), et al. (1996). "Ultra Game Players (December 1996)". USA: Image Publishing, Inc.
+
+# 3. Library Requirements
+Library: set of reusable instructions
+
 ## 3.1. Simple Directmedia Layer (SDL): SDL version 2.0 & SDL Image
 https://www.libsdl.org/download-2.0.php; last accessed: 20210922<br/>
 --> <b>Recommendation:</b> Reuse Image Compression instructions, e.g. loading .png image files  
