@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20200926
- * @date updated: 20210921
+ * @date updated: 20210922
  * @website address: http://www.usbong.ph
  *
  * Reference:
@@ -1160,8 +1160,17 @@ void Level2D::drawLevelMapInViewPort(GLfloat fMyCanvasPosXInput, GLfloat fMyCanv
     if (fMyCanvasPosY==0) {
         fMyCanvasPosPrevY=0;
     }
+		
+		//added by Mike, 20210922
+		//TO-DO: -fix: fMyCanvasPosX adds negatively when moving left at left-most border
+		//TO-DO: -reverify: fMyCanvasPosY 
 
 //    printf(">>getStepX(): %f\n",getStepX());
+
+		//added by Mike, 20210922		
+	  printf(">>fMyCanvasPosPrevX: %f; fMyCanvasPosX: %f\n",fMyCanvasPosPrevX,fMyCanvasPosX);
+    printf(">>fX: %f\n",fX);    
+    printf(">>fMyWindowWidth/2: %f\n",fMyWindowWidth/2);    		
 		
 		//edited by Mike, 20210920
 //	if (fMyCanvasPosPrevX!=fMyCanvasPosX) {
@@ -1222,10 +1231,11 @@ void Level2D::drawLevelMapInViewPort(GLfloat fMyCanvasPosXInput, GLfloat fMyCanv
 }
 
 //-------------------------------------------------		
+/*
 	  printf(">>fMyCanvasPosPrevY: %f; fMyCanvasPosY: %f\n",fMyCanvasPosPrevY,fMyCanvasPosY);
     printf(">>fY: %f\n",fY);    
     printf(">>fMyWindowHeight/2: %f\n",fMyWindowHeight/2);    
-		
+*/		
 		//reminder: TOP-LEFT origin
 		//added by Mike, 20210921
 		//edited by Mike, 20210921
