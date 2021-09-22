@@ -1224,10 +1224,16 @@ void Level2D::drawLevelMapInViewPort(GLfloat fMyCanvasPosXInput, GLfloat fMyCanv
                 
     //added by Mike, 20210916
     //TO-DO: -reverify: if there exists as input DASH Command
-    if (fX<=0) {
+    //edited by Mike, 20210922
+//    if (fX<=0) {
+    if ((fX<=0) || (fX<fGridSquareWidth)){
     	fMyCanvasPosX=0;
     	iCurrentLevelMapContainerOffsetX=0;
-    }    
+    	
+    	//added by Mike, 20210922
+			fX=0;
+			fStepMovemenGridX=0;
+    }        
 }
 
 //-------------------------------------------------		
@@ -1284,11 +1290,22 @@ void Level2D::drawLevelMapInViewPort(GLfloat fMyCanvasPosXInput, GLfloat fMyCanv
 
 		
     iCurrentLevelMapContainerOffsetY += (int) fMovementGridY;
-                
+                   
+    //added by Mike, 20210922
+    //TO-DO: -reverify: excess fStepMovemenGridY to cause incorrect grids for auto-drawing and collision detection 
+    //TO-DO: -reverify: excess fStepMovemenGridX to cause incorrect grids for auto-drawing and collision detection 
+                   
+    //added by Mike, 20210916
     //TO-DO: -reverify: if there exists as input DASH Command
-    if (fY<=0) {
+    //edited by Mike, 20210922
+//    if (fY<=0) {
+    if ((fY<=0) || (fY<fGridSquareHeight)){
     	fMyCanvasPosY=0;
     	iCurrentLevelMapContainerOffsetY=0;
+    	
+    	//added by Mike, 20210922
+			fY=0;
+			fStepMovemenGridY=0;
     }    
 }
 //-------------------------------------------------		

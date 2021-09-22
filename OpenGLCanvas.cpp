@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20200926
- * @date updated: 20210921
+ * @date updated: 20210922
  * @website address: http://www.usbong.ph
  *
  * References:
@@ -1472,6 +1472,18 @@ void OpenGLCanvas::update()
         else if (myPilot->getY()+myPilot->getHeight() +myPilot->getStepY() > myWindowHeight) {
             myPilot->setYPos(myWindowHeight-myPilot->getHeight()-myPilot->getStepY());
         }
+        
+        //added by Mike, 20210922
+        //TO-DO: -add: action if max canvas pos x reached
+        if (myCanvasPosX<0) {
+            myCanvasPosX=0;
+        }
+
+        //TO-DO: -add: action if max canvas pos x reached
+        if (myCanvasPosY<0) {
+            myCanvasPosY=0;
+        }
+
         
 /*	//removed by Mike, 20210920        
         //added by Mike, 20210911; edited by Mike, 20210913
