@@ -38,6 +38,9 @@ b. C Programming Language<br/>
 ### <b>Reference:</b>
 a. Slate, C. (Ed), et al. (1996). "Ultra Game Players (December 1996)". USA: Image Publishing, Inc.
 
+## 2.3. Web Service: Math is Fun
+### Example: https://www.mathsisfun.com/algebra/sohcahtoa.html; last accessed: 20210922
+
 # 3. Library Requirements
 Library: set of reusable instructions
 
