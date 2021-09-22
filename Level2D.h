@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20210613
- * @date updated: 20210920
+ * @date updated: 20210922
  * @website address: http://www.usbong.ph
  *
  * Acknowledgments:
@@ -190,10 +190,15 @@ private:
     float fMyCanvasPosPrevY;
     float fMyCanvasPosPrevZ;
     
-    //added by Mike, 20210916
+/*    
+    //added by Mike, 20210916; edited by Mike, 20210922
     GLfloat fMyCanvasPosX;
     GLfloat fMyCanvasPosY;
     GLfloat fMyCanvasPosZ;
+*/
+    float fMyCanvasPosX;
+    float fMyCanvasPosY;
+    float fMyCanvasPosZ;
     
     //added by Mike, 20210910
     float fStepMovemenGridZ,
@@ -383,7 +388,7 @@ public:
     UsbongUtils *myUsbongUtils;
  
  
-     //added by Mike, 20210916
+/*  //added by Mike, 20210916; edited by Mike, 20210922
     GLfloat getFMyCanvasPosX() {
     	return fMyCanvasPosX;
     }
@@ -395,10 +400,28 @@ public:
     GLfloat getFMyCanvasPosZ() {
     	return fMyCanvasPosZ;
     }
+*/
+    float getFMyCanvasPosX() {
+    	return fMyCanvasPosX;
+    }
+
+    float getFMyCanvasPosY() {
+    	return fMyCanvasPosY;
+    }
+    
+    float getFMyCanvasPosZ() {
+    	return fMyCanvasPosZ;
+    }
+    
+    //added by Mike, 20210922
+    void setFMyCanvasPosX(float fInput) {
+    	fMyCanvasPosX=fInput;
+    }
        
     //added by Mike, 20210703
 		void setupLevel(int myLevelTextureObject);
-		void draw_char(GLfloat x, GLfloat y, GLfloat z, char c);
+		//removed by Mike, 20210922
+		//void draw_char(GLfloat x, GLfloat y, GLfloat z, char c);
     
     //added by Mike, 20210917
     void drawGrid();
@@ -474,8 +497,10 @@ public:
 //				drawTileAsQuadWithTexture("0-0");
     }
         
-    //added by Mike, 20210703
-    void drawTileAsQuadWithTexture(GLfloat x, GLfloat y, GLfloat z, char c);
+    //added by Mike, 20210703; edited by Mike, 20210922
+//    void drawTileAsQuadWithTexture(GLfloat x, GLfloat y, GLfloat z, char c);
+    void drawTileAsQuadWithTexture(float x, float y, float z, char c);
+
     void drawTileAsQuadWithTexturePrev(std::string sTileId); //added by Mike, 20210828
     void drawLevelWithTexture();
 		void drawLevelWithTextureUsingInputFileNoScrollYet(); //edited by Mike, 20210910
@@ -487,13 +512,17 @@ public:
 		/*void drawLevelMapInViewPortNoteDrawBasedOnPilotLocationAsWithCollisionDetection
 		(GLfloat fMyCanvasPosX, GLfloat fMyCanvasPosY, GLfloat fMyCanvasPosZ, GLfloat fX, GLfloat fY, GLfloat fZ);
 */		
+/* //edited by Mike, 20210922
 		void drawLevelMapInViewPort(GLfloat fMyCanvasPosX, GLfloat fMyCanvasPosY, GLfloat fMyCanvasPosZ, GLfloat fX, GLfloat fY, GLfloat fZ);
+*/
+		void drawLevelMapInViewPort(float fMyCanvasPosX, float fMyCanvasPosY, float fMyCanvasPosZ, float fX, float fY, float fZ);
 		
     //removed by Mike, 20210705
 //    void drawLevelMapInViewPort(GLfloat fX, GLfloat fY, GLfloat fZ, GLfloat fXSize, GLfloat fYSize, GLfloat fZSize);
 
-		//added by Mike, 20210706
-		void drawLevel(GLfloat x, GLfloat y, GLfloat z, char *string);	
+		//added by Mike, 20210706; edited by Mike, 20210922
+//		void drawLevel(GLfloat x, GLfloat y, GLfloat z, char *string);	
+		void drawLevel(float x, float y, float z, char *string);	
 
     //added by Mike, 20210423
     void update(float dt);

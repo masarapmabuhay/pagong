@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B. 
  * @date created: 20200930
- * @date updated: 20210921
+ * @date updated: 20210922
  * @website address: http://www.usbong.ph
  *
  * Reference: 
@@ -4381,11 +4381,21 @@ void Pilot::moveSideScrollView(int key)
         if (myXPos<=(fMyWindowWidth/2-getWidth())) {
         }
         else {
-            myXPos=fMyWindowWidth/2-getWidth();
+        		//edited by Mike, 20210922
+          myXPos=fMyWindowWidth/2-getWidth();
+//            myXPos=fMyWindowWidth/2-getWidth()-getStepX();
+
+            //added by Mike, 20210922
+//            myLevel2D->setFMyCanvasPosX(myLevel2D->getFMyCanvasPosX()+getStepX());
         }
 		}
 		else {
-			myXPos=fMyWindowWidth/2-getWidth();
+      //edited by Mike, 20210922
+    myXPos=fMyWindowWidth/2-getWidth();
+//      myXPos=fMyWindowWidth/2-getWidth()-getStepX();
+
+      //added by Mike, 20210922
+//      myLevel2D->setFMyCanvasPosX(myLevel2D->getFMyCanvasPosX()+getStepX());
 		}
 
     //added by Mike, 20210804

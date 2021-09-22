@@ -1171,12 +1171,16 @@ void Level2D::drawLevelMapInViewPort(GLfloat fMyCanvasPosXInput, GLfloat fMyCanv
 	  printf(">>fMyCanvasPosPrevX: %f; fMyCanvasPosX: %f\n",fMyCanvasPosPrevX,fMyCanvasPosX);
     printf(">>fX: %f\n",fX);    
     printf(">>fMyWindowWidth/2: %f\n",fMyWindowWidth/2);    		
+    printf(">>getStepX(): %f\n",getStepX()); //added by Mike, 20210922
 		
-		//edited by Mike, 20210920
+		//edited by Mike, 20210922
+/*				
 //	if (fMyCanvasPosPrevX!=fMyCanvasPosX) {
 		if ((fX==(fMyWindowWidth/2-getWidth())) &&
     		(fMyCanvasPosPrevX!=fMyCanvasPosX)) {
-
+*/
+		if (fX==(fMyWindowWidth/2-getWidth())) {
+    		if (fMyCanvasPosPrevX!=fMyCanvasPosX) {
 /*
 	  printf(">>fMyCanvasPosPrevX: %f; fMyCanvasPosX: %f\n",fMyCanvasPosPrevX,fMyCanvasPosX);
     printf(">>fX: %f\n",fX);    
@@ -1217,25 +1221,73 @@ void Level2D::drawLevelMapInViewPort(GLfloat fMyCanvasPosXInput, GLfloat fMyCanv
     }
     
 
-    std::cout << "fMovementGridX: " << fMovementGridX << "\n";
-
+    		std::cout << "fMovementGridX: " << fMovementGridX << "\n";
 		
-    iCurrentLevelMapContainerOffsetX += (int) fMovementGridX;
-                
-    //added by Mike, 20210916
-    //TO-DO: -reverify: if there exists as input DASH Command
-    //edited by Mike, 20210922
-//    if (fX<=0) {
-    if ((fX<=0) || (fX<fGridSquareWidth)){
-    	fMyCanvasPosX=0;
-    	iCurrentLevelMapContainerOffsetX=0;
-    	
-    	//added by Mike, 20210922
-			fX=0;
-			fStepMovemenGridX=0;
-    }        
-}
+				
+    		iCurrentLevelMapContainerOffsetX += (int) fMovementGridX;
+                		
+    		//added by Mike, 20210916
+    		//TO-DO: -reverify: if there exists as input DASH Command
+    		//edited by Mike, 20210922
+		//    if (fX<=0) {
+    		if ((fX<=0) || (fX<fGridSquareWidth)){
+    			//edited by Mike, 20210922
+    			fMyCanvasPosX=0;
+//    			fMyCanvasPosX=0+getStepX();
+    		    			    			
+    			iCurrentLevelMapContainerOffsetX=0;
+    			
+    			//added by Mike, 20210922
+					fX=0;
+					fStepMovemenGridX=0;
+    		}        
+		}
 
+   	//added by Mike, 20210922
+    else {
+//    	   fStepMovemenGridX = fMyWindowWidth/2-myWidth+fX; 
+
+/*	//note: using std::cout, float value trimmed or rounded
+    std::cout << ">>>>getFMyCanvasPosX(): " << getFMyCanvasPosX() << "\n";
+    std::cout << ">>>>fX: " << fX << "\n";
+*/
+
+		printf("getFMyCanvasPosX: %f\n",getFMyCanvasPosX());    
+		printf("fX: %f\n",fX);    
+/*
+		//notes:
+>>fMyCanvasPosPrevX: 607.111023; fMyCanvasPosX: 607.111023
+>>fX: 607.111084
+>>fMyWindowWidth/2: 683.000000
+getFMyCanvasPosX: 607.111023
+
+--
+
+>>fMyCanvasPosPrevX: 614.699890; fMyCanvasPosX: 614.699890
+>>fX: 607.111084
+>>fMyWindowWidth/2: 683.000000
+getFMyCanvasPosX: 614.699890
+
+--
+
+>>getStepX(): 7.588889
+
+//excess stepX
+*/
+
+/*
+				if (getFMyCanvasPosX()<=(fMyWindowWidth/2-getWidth())) {
+        	if (fX<=(fMyWindowWidth/2-getWidth())) {
+						fMyCanvasPosX=fMyCanvasPosX+getStepX();
+        	}
+				}        	
+*/				
+				//TO-DO: -reverify: this
+				if (getFMyCanvasPosX()==(fMyWindowWidth/2-getWidth())) {
+						fMyCanvasPosX=fMyCanvasPosX+getStepX();
+				}      
+    }    
+}
 //-------------------------------------------------		
 /*
 	  printf(">>fMyCanvasPosPrevY: %f; fMyCanvasPosY: %f\n",fMyCanvasPosPrevY,fMyCanvasPosY);
@@ -1245,10 +1297,13 @@ void Level2D::drawLevelMapInViewPort(GLfloat fMyCanvasPosXInput, GLfloat fMyCanv
 		//reminder: TOP-LEFT origin
 		//added by Mike, 20210921
 		//edited by Mike, 20210921
+/*	//edited by Mike, 20210922		
 		if ((fY==(fMyWindowHeight/2-getHeight())) &&
 //		if ((fY==(fMyWindowHeight/2+getHeight())) &&
     		(fMyCanvasPosPrevY!=fMyCanvasPosY)) {
-
+*/
+		if (fY==(fMyWindowHeight/2-getHeight())) {		
+    		if (fMyCanvasPosPrevY!=fMyCanvasPosY) {
 /*
 	  printf(">>fMyCanvasPosPrevY: %f; fMyCanvasPosY: %f\n",fMyCanvasPosPrevY,fMyCanvasPosY);
     printf(">>fY: %f\n",fY);    
@@ -1299,13 +1354,18 @@ void Level2D::drawLevelMapInViewPort(GLfloat fMyCanvasPosXInput, GLfloat fMyCanv
     //TO-DO: -reverify: if there exists as input DASH Command
     //edited by Mike, 20210922
 //    if (fY<=0) {
-    if ((fY<=0) || (fY<fGridSquareHeight)){
-    	fMyCanvasPosY=0;
-    	iCurrentLevelMapContainerOffsetY=0;
+    	if ((fY<=0) || (fY<fGridSquareHeight)){
+    		fMyCanvasPosY=0;
+    		iCurrentLevelMapContainerOffsetY=0;
+    		
+    		//added by Mike, 20210922
+				fY=0;
+				fStepMovemenGridY=0;
+    	}    
+    }
+    //added by Mike, 20210922
+    else {
     	
-    	//added by Mike, 20210922
-			fY=0;
-			fStepMovemenGridY=0;
     }    
 }
 //-------------------------------------------------		
