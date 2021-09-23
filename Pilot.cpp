@@ -3223,8 +3223,8 @@ void Pilot::move(int key)
           currentMovingState=WALKING_MOVING_STATE;
           break;
 
-		   //edited by Mike, 20210812
-           return;
+		   //edited by Mike, 20210812; removed by Mike, 20210923
+//           return;
 //           break;
 
  //     case KEY_DOWN:  //removed by Mike, 20210130
@@ -3294,8 +3294,8 @@ void Pilot::move(int key)
 
            currentMovingState=WALKING_MOVING_STATE;
           break;
-        //added by Mike, 20210806; edited by Mike, 20210812
-           return;
+        //added by Mike, 20210806; removed by Mike, 20210923
+//           return;
 //			break;
 			
 			
@@ -3643,8 +3643,11 @@ void Pilot::move(int key)
 		//TO-DO: -delete: excess instructions; OpenGLCanvas.cpp, Level2D.cpp, Pilot.cpp
     //TO-DO: -reverify: this; incorrect output when with as input DASH Command
 		//TO-DO: -update: if received as input DASH Command
+		//edited by Mike, 20210923
 //		if (myLevel2D->getFMyCanvasPosX()-fGridSquareWidth<=0) {
-		if (myLevel2D->getFMyCanvasPosX()<=0) {
+		//edited by Mike, 20210923
+//		if (myLevel2D->getFMyCanvasPosX()<=0) {
+		if (myLevel2D->getFMyCanvasPosX()<0) {
 						//added by Mike, 20210923
             myXPos=0;
         }
@@ -3673,7 +3676,7 @@ void Pilot::move(int key)
         else {
             //edited by Mike, 20210923
 //            myXPos=fMyWindowWidth/2-getWidth();
-//            myXPos=fMyWindowWidth/2-getWidth()-stepX
+            myXPos=fMyWindowWidth/2-getWidth()-stepX;
 //            myXPos=fMyWindowWidth/2-getWidth()-stepX-stepX*(myLevel2D->getFMyCanvasPosX()/(fMyWindowWidth/2-getWidth()));
 //            myXPos=fMyWindowWidth/2-getWidth()-stepX-stepX*(myLevel2D->getFMyCanvasPosX()%(fMyWindowWidth/2-getWidth()));
 				
@@ -3702,19 +3705,30 @@ void Pilot::move(int key)
             myXPos=fMyWindowWidth/2-getWidth();
         }
 		
-		//added by Mike, 20210921
-		if (myLevel2D->getFMyCanvasPosY()-fGridSquareHeight<=0) {
-		}
+		//edited by Mike, 20210923
+//		if (myLevel2D->getFMyCanvasPosY()-fGridSquareHeight<=0) {
+		//edited by Mike, 20210923
+//		if (myLevel2D->getFMyCanvasPosY()<=0) {
+		if (myLevel2D->getFMyCanvasPosY()<0) {
+
+						//added by Mike, 20210923
+            myYPos=0;
+    }				
 		//edited by Mike, 20210921
 		else if (myLevel2D->getFMyCanvasPosY()<=(fMyWindowHeight/2-getHeight())) {
 //		else if (myLevel2D->getFMyCanvasPosY()>=(fGridSquareHeight/2-getHeight())) {
+
+			printf(">>>>Pilot myYPos: %f",myYPos);
+
 
 				//edited by Mike, 20210921
         if (myYPos<=(fMyWindowHeight/2-getHeight())) {
 //        if (myYPos>=(fMyWindowHeight/2-getHeight())) {
         }
         else {
-            myYPos=fMyWindowHeight/2-getHeight();
+            //edited by Mike, 20210923
+//            myYPos=fMyWindowHeight/2-getHeight();
+            myYPos=fMyWindowHeight/2-getHeight()-stepY;
         }
 		}
 		else {

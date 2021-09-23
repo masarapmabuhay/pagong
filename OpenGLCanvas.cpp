@@ -522,8 +522,9 @@ bool OpenGLCanvas::init(int myWindowWidthAsPixelInput, int myWindowHeightAsPixel
     myPilot->setAsPlayer1(); //added by Mike, 20210601    
     //added by Mike, 20210830
     myPilot->setLevel2D(myLevel2D);
-    //added by Mike, 20210911
+    //added by Mike, 20210911; edited by Mike, 20210923
     myLevel2D->setPilotStep(myPilot->getStepX(), myPilot->getStepY(), myPilot->getStepZ());
+//		myLevel2D->setPilot(myPilot);    
     
     //added by Mike, 20210903
     //note: positions re-set inside function
@@ -905,8 +906,10 @@ void OpenGLCanvas::update()
         		//removed by Mike, 20210901; added by Mike, 20210921
             myPilot->move(KEY_W);       
             
-            //added by Mike, 20210921
-            myCanvasPosY-=myPilot->getStepY();
+            //added by Mike, 20210921; edited by Mike, 20210923
+//            myCanvasPosY-=myPilot->getStepY();
+//            myLevel2D->move(KEY_W);
+            myLevel2D->move(KEY_W, myPilot);
             						
             //removed by Mike, 20200929
             //			sound->play_sound_clip(thrust);
@@ -920,8 +923,10 @@ void OpenGLCanvas::update()
         		//removed by Mike, 20210901; added by Mike, 20210921        
             myPilot->move(KEY_S);               
                 
-            //added by Mike, 20210921
-            myCanvasPosY+=myPilot->getStepY();
+            //added by Mike, 20210921; edited by Mike, 20210923
+//            myCanvasPosY+=myPilot->getStepY();
+//            myLevel2D->move(KEY_S);            
+            myLevel2D->move(KEY_S, myPilot);
         
             //edited by Mike, 20201115; edited again by Mike, 20210128
             //myRobotShip->move(KEY_DOWN);
@@ -948,7 +953,8 @@ void OpenGLCanvas::update()
 */
             //edited by Mike, 20210923
 //						myCanvasPosX+=myPilot->getStepX();
-            myLevel2D->move(KEY_D);
+//            myLevel2D->move(KEY_D);
+            myLevel2D->move(KEY_D, myPilot);
 
             
   
@@ -999,8 +1005,8 @@ void OpenGLCanvas::update()
 */
 			//edited by Mike, 20210923
 //            myCanvasPosX-=myPilot->getStepX();
-            myLevel2D->move(KEY_A);
-			
+//            myLevel2D->move(KEY_A);
+            myLevel2D->move(KEY_A, myPilot);
 			
 /* //removed by Mike, 20210825                    
             //added by Mike, 20210524
@@ -1507,12 +1513,13 @@ void OpenGLCanvas::update()
             }
         }
 */
-        
+
+/* //removed by Mike, 20210923        
         //TO-DO: -add: action if max canvas pos x reached
         if (myCanvasPosY<0) {
             myCanvasPosY=0;
         }
-
+*/
         
 /*	//removed by Mike, 20210920        
         //added by Mike, 20210911; edited by Mike, 20210913

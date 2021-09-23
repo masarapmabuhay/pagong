@@ -36,6 +36,7 @@
 
 #include "OpenGLCanvas.h"
 #include "MyDynamicObject.h"
+//#include "Pilot.h" //added by Mike, 20210923
 
 //added by Mike, 20201019
 #include "PolygonUtils.h"
@@ -221,6 +222,9 @@ private:
     float fButtonAnimationFrameOffset;
     
     OpenGLCanvas *myOpenGLCanvas;
+    
+    //added by Mike, 20210923
+//    Pilot *myPilot;
     
 		//row, column
 		//y-axis, instead of z-axis
@@ -481,8 +485,9 @@ public:
         currentFacingState = iNewFacingState;
     }
     
-    //added by Mike, 20210911
+    //added by Mike, 20210911; edited by Mike, 20210923
     void setPilotStep(float fPilotStepX, float fPilotStepY, float fPilotStepZ);
+//		void setPilot(Pilot* myPilotInput);
     
     //added by Mike, 20210614MAX_TEXT_CHAR_ROW
     void readInputText(char *inputFilename);    	
@@ -535,7 +540,11 @@ public:
     // changes the robot's state
     void changeState(int s);
     
-    void move(int key);
+    //edited by Mike, 20210923
+//    void move(int key);
+    void move(int key, MyDynamicObject* mdoPilot);
+    
+    
     
     //added by Mike, 20201226
     void keyDown(int keyCode);	

@@ -1117,6 +1117,7 @@ printf("autoConvertFromPixelToVertexPointY: %f",myUsbongUtils->autoConvertFromPi
     
 }
 
+ //edited by Mike, 20210923
 //added by Mike, 20210911
 void Level2D::setPilotStep(float fPilotStepX, float fPilotStepY, float fPilotStepZ) {
     
@@ -1126,6 +1127,12 @@ void Level2D::setPilotStep(float fPilotStepX, float fPilotStepY, float fPilotSte
     stepY=fPilotStepY;
     stepZ=fPilotStepZ;
 }
+
+/*
+void Level2D::setPilot(Pilot* myPilotInput) {
+	myPilot = myPilotInput;
+}
+*/
 
 //added by Mike, 20210708; edited by Mike, 20210712
 //TO-DO: -add: function with tile patterns
@@ -1169,6 +1176,8 @@ void Level2D::drawLevelMapInViewPort(float fX, float fY, float fZ)
     if (fMyCanvasPosY<=0) {
 				fMyCanvasPosY=0;
         fMyCanvasPosPrevY=0;
+    		iCurrentLevelMapContainerOffsetY=0;
+				fStepMovemenGridY=0;        
     }
 		
 		//added by Mike, 20210922
@@ -1177,13 +1186,19 @@ void Level2D::drawLevelMapInViewPort(float fX, float fY, float fZ)
 
 //    printf(">>getStepX(): %f\n",getStepX());
 
+/*
 		//added by Mike, 20210922		
 	  printf(">>fMyCanvasPosPrevX: %f; fMyCanvasPosX: %f\n",fMyCanvasPosPrevX,fMyCanvasPosX);
     printf(">>fX: %f\n",fX);    
 //    printf(">>fMyWindowWidth/2: %f\n",fMyWindowWidth/2);    		
     printf(">>fMyWindowWidth/2-getWidth(): %f\n",fMyWindowWidth/2-getWidth());    		
-
     printf(">>getStepX(): %f\n",getStepX()); //added by Mike, 20210922
+*/
+	  printf(">>fMyCanvasPosPrevY: %f; fMyCanvasPosY: %f\n",fMyCanvasPosPrevY,fMyCanvasPosY);
+    printf(">>fY: %f\n",fY);    
+//    printf(">>fMyWindowWidth/2: %f\n",fMyWindowWidth/2);    		
+    printf(">>fMyWindowHeight/2-getHeight(): %f\n",fMyWindowHeight/2-getHeight());    		
+    printf(">>getStepY(): %f\n",getStepY()); //added by Mike, 20210922
 		
 		//edited by Mike, 20210922
 /*				
@@ -1338,12 +1353,12 @@ getFMyCanvasPosX: 614.699890 //macOS: 554.666687
  
    //y-axis
    if (fMovementGridY < 0) { //moved upward
-     fStepMovemenGridY=(fStepMovemenGridY-getStepY());
-   }
+     fStepMovemenGridY=(fStepMovemenGridY-getStepY());				
+		}
    else if (fMovementGridY == 0) { //no movement in Y-axis
    }
    else {
-     fStepMovemenGridY=(fStepMovemenGridY+getStepY());
+     fStepMovemenGridY=(fStepMovemenGridY+getStepY());     
    }	
    
 //    std::cout << "fStepMovemenGridY: " << fStepMovemenGridY << "\n";
@@ -1568,22 +1583,73 @@ void Level2D::keyUp(int keyCode) {
     myKeysDown[keyCode] = FALSE;
 }
 
-void Level2D::move(int key)
+//edited by Mike, 20210923
+//void Level2D::move(int key)
+void Level2D::move(int key, MyDynamicObject* mdoPilot)
 {
     switch(key) {
         case KEY_A:
+        		//edited by Mike, 20210923
             fMyCanvasPosX = fMyCanvasPosX-stepX;
+/*
+    				if (fMyCanvasPosX==fMyWindowWidth-getWidth()-stepX) {
+            printf(">>>>DITO: %f",fMyCanvasPosX);
+						}
+						else {
+            	fMyCanvasPosX = fMyCanvasPosX-stepX;
+						}						
+*/						
             break;
         case KEY_D:
+        		//edited by Mike, 20210923
             fMyCanvasPosX = fMyCanvasPosX+stepX;
             
-            printf(">>>>getWidth(): %f",getWidth());
 /*            
     				if (fMyCanvasPosX==fMyWindowWidth-getWidth()-stepX) {
-    					fMyCanvasPosX = fMyCanvasPosX+stepX;
+    				}
+    				else {
+           		fMyCanvasPosX = fMyCanvasPosX+stepX;
     				}
 */            				
             break;
+       case KEY_W:
+       			//edited by Mike, 20210923
+            fMyCanvasPosY = fMyCanvasPosY-stepY;
+/*
+						//note: -reverify: getHeight() to cause the excess in position of tile in grid
+//						if (getFMyCanvasPosY()<=(fMyWindowHeight/2-getHeight())) {
+						if (mdoPilot->getY() <fMyWindowHeight/2-getHeight()-getStepY()) {
+//	            fMyCanvasPosY = fMyCanvasPosY-stepY;
+						}
+						else {
+	            fMyCanvasPosY = fMyCanvasPosY-stepY;
+						}
+*/						
+            break;
+        case KEY_S:
+        			//edited by Mike, 20210923
+        			//TO-DO: -reverify: this due to fMyCanvasPosY 
+        			//should be set to zero until Pilot is at center vertically
+        			//to correctly execute collision detection with tiles
+            fMyCanvasPosY = fMyCanvasPosY+stepY;
+//						if (getFMyCanvasPosY()<=(fMyWindowHeight/2-getHeight())) {
+//						if (getFMyCanvasPosY()<fMyWindowHeight/2) {
+/*
+					printf(">>>mdoPilot->getY()+getStepY(): %f",mdoPilot->getY()+getStepY());
+					printf(">>>fMyWindowHeight/2-getHeight()-getStepY(): %f",fMyWindowHeight/2-getHeight()-getStepY());
+*/
+/*
+//						if (mdoPilot->getY() <fMyWindowHeight/2-getHeight()-getStepY()) {
+//						if ((mdoPilot->getY()+getStepY()) <fMyWindowHeight/2-getHeight()-getStepY()) {
+						if (mdoPilot->getY()+getStepY()==fMyWindowHeight/2-getHeight()-getStepY()) {
+//	            fMyCanvasPosY = fMyCanvasPosY+stepY;
+						}
+						else {
+	            fMyCanvasPosY = fMyCanvasPosY+stepY;
+						}
+*/						
+
+            break;            
     }        
 }
 
