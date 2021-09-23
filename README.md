@@ -53,7 +53,14 @@ https://www.opengl.org/; last accessed: 20210922<br/>
 --> <b>Recommendation:</b> Not to add OpenGL instructions for computer machines with classification: 32-bit Operating System (OS) without Graphic Acceleration Card
 
 # 4. Add-on Software Tools
-[LibreOffice Calc: Spreadsheet](https://www.libreoffice.org/discover/calc/)
+## 4.1. [LibreOffice Calc: Spreadsheet](https://www.libreoffice.org/discover/calc/)<br/>
+--> <b>Note:</b> Row & Column Editing Tool
+
+## 4.2. [GNU Image Manipulation Program (GIMP)](https://www.gimp.org/)<br/>
+--> <b>Note:</b> Multi-layered Image Editing Tool with Compression Techniques, e.g. .png, .jpg. 
+
+## 4.3. [Microsoft Paint](https://support.microsoft.com/en-us/windows/get-microsoft-paint-a6b9578c-ed1c-5b09-0699-4ed8115f9aa9)
+--> <b>Note:</b> Quick Single-layered Image Editing Tool
 
 # 5. Open Source Software License
 Copyright 2021 SYSON, MICHAEL B.
