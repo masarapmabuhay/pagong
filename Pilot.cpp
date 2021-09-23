@@ -3643,25 +3643,58 @@ void Pilot::move(int key)
 		//TO-DO: -delete: excess instructions; OpenGLCanvas.cpp, Level2D.cpp, Pilot.cpp
     //TO-DO: -reverify: this; incorrect output when with as input DASH Command
 		//TO-DO: -update: if received as input DASH Command
-		if (myLevel2D->getFMyCanvasPosX()-fGridSquareWidth<=0) {
+//		if (myLevel2D->getFMyCanvasPosX()-fGridSquareWidth<=0) {
+		if (myLevel2D->getFMyCanvasPosX()<=0) {
+						//added by Mike, 20210923
+            myXPos=0;
         }
-		else if (myLevel2D->getFMyCanvasPosX()<=(fMyWindowWidth/2-getWidth())) {
+    //edited by Mike, 20210923
+/*    
+//		else if (myLevel2D->getFMyCanvasPosX()<=(fMyWindowWidth/2-getWidth())) {
+		else if (myLevel2D->getFMyCanvasPosX()==(fMyWindowWidth/2-getWidth())) {
+//            myXPos=fMyWindowWidth/2-getWidth()-stepX;
+		}
+*/
+		//edited by Mike, 20210923
+		//TO-DO: -reverify: this
+		else if (myLevel2D->getFMyCanvasPosX()<(fMyWindowWidth/2-getWidth())) {
+//		else if (myLevel2D->getFMyCanvasPosX()/(fMyWindowWidth/2-getWidth())<1.0f) {
+//		else if ((myLevel2D->getFMyCanvasPosX()%(fMyWindowWidth/2-getWidth()))<(fMyWindowWidth/2-getWidth())) {
+//		else if (myLevel2D->getFMyCanvasPosX()-(myLevel2D->getFMyCanvasPosX()*(myLevel2D->getFMyCanvasPosX()/(fMyWindowWidth/2-getWidth()))) <(fMyWindowWidth/2-getWidth())) {
+
+//			printf(">>(myLevel2D->getFMyCanvasPosX()%(fMyWindowWidth/2-getWidth())): %f",(myLevel2D->getFMyCanvasPosX()%(fMyWindowWidth/2-getWidth())));
+			printf(">>>>Pilot myXPos: %f",myXPos);
+					
+				//TO-DO: -reverify myCanvasPosX = Pilot's fX...	
         if (myXPos<=(fMyWindowWidth/2-getWidth())) {
+        	//added by Mike, 20210923
+        	//TO-DO: -reverify: instruction to eliminate excess stepX
         }
         else {
             //edited by Mike, 20210923
-            myXPos=fMyWindowWidth/2-getWidth();
+//            myXPos=fMyWindowWidth/2-getWidth();
+//            myXPos=fMyWindowWidth/2-getWidth()-stepX
+//            myXPos=fMyWindowWidth/2-getWidth()-stepX-stepX*(myLevel2D->getFMyCanvasPosX()/(fMyWindowWidth/2-getWidth()));
+//            myXPos=fMyWindowWidth/2-getWidth()-stepX-stepX*(myLevel2D->getFMyCanvasPosX()%(fMyWindowWidth/2-getWidth()));
+				
+				//edited by Mike, 20210923
+//				myXPos=fMyWindowWidth/2-getWidth()+stepX-stepX*(myLevel2D->getFMyCanvasPosX()/(fMyWindowWidth/2-getWidth()));
+
+//				myXPos=fMyWindowWidth/2-getWidth()+stepX+stepX*(myLevel2D->getFMyCanvasPosX()/(fMyWindowWidth/2-getWidth()));
+				
+/*				
+				printf(">>(myLevel2D->getFMyCanvasPosX()/(fMyWindowWidth/2-getWidth())): %f",(myLevel2D->getFMyCanvasPosX()/(fMyWindowWidth/2-getWidth())));
+				myXPos=fMyWindowWidth/2-getWidth()+stepX*(myLevel2D->getFMyCanvasPosX()/(fMyWindowWidth/2-getWidth()));
+*/
+
+//			printf(">>(((fMyWindowWidth/2-getWidth())-myLevel2D->getFMyCanvasPosX())/stepX): %f",(((fMyWindowWidth/2-getWidth())-myLevel2D->getFMyCanvasPosX())/stepX));
+
+//            myXPos=fMyWindowWidth/2-getWidth()-stepX*(((fMyWindowWidth/2-getWidth())-myLevel2D->getFMyCanvasPosX())/stepX);
+
 /*
-            if (myXPos<=fMyWindowWidth/2-getWidth()+stepX) {
-                myXPos=fMyWindowWidth/2-getWidth()-stepX;
-            }
-            else {
-                myXPos=fMyWindowWidth/2-getWidth();
-            }
-            
-            if (myLevel2D->getFMyCanvasPosX()<0) {
-                myXPos=myXPos+stepX;
-            }
+			printf(">>(fMyWindowWidth/2-getWidth())/myLevel2D->getFMyCanvasPosX(): %f",(fMyWindowWidth/2-getWidth())/myLevel2D->getFMyCanvasPosX());
+
+            myXPos=fMyWindowWidth/2-getWidth()-stepX-stepX*((fMyWindowWidth/2-getWidth())/myLevel2D->getFMyCanvasPosX());
 */
         }
 		}

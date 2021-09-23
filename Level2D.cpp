@@ -1158,12 +1158,16 @@ void Level2D::drawLevelMapInViewPort(float fX, float fY, float fZ)
     printf(">>fX: %f\n",fX);    
 */
     
-    if (fMyCanvasPosX==0) {
-        fMyCanvasPosPrevX=0;
+    if (fMyCanvasPosX<=0) {
+    		fMyCanvasPosX=0;
+        fMyCanvasPosPrevX=0;        
+    		iCurrentLevelMapContainerOffsetX=0;
+				fStepMovemenGridX=0;        
     }
     
     //added by Mike, 20210921
-    if (fMyCanvasPosY==0) {
+    if (fMyCanvasPosY<=0) {
+				fMyCanvasPosY=0;
         fMyCanvasPosPrevY=0;
     }
 		
@@ -1176,7 +1180,9 @@ void Level2D::drawLevelMapInViewPort(float fX, float fY, float fZ)
 		//added by Mike, 20210922		
 	  printf(">>fMyCanvasPosPrevX: %f; fMyCanvasPosX: %f\n",fMyCanvasPosPrevX,fMyCanvasPosX);
     printf(">>fX: %f\n",fX);    
-    printf(">>fMyWindowWidth/2: %f\n",fMyWindowWidth/2);    		
+//    printf(">>fMyWindowWidth/2: %f\n",fMyWindowWidth/2);    		
+    printf(">>fMyWindowWidth/2-getWidth(): %f\n",fMyWindowWidth/2-getWidth());    		
+
     printf(">>getStepX(): %f\n",getStepX()); //added by Mike, 20210922
 		
 		//edited by Mike, 20210922
@@ -1314,7 +1320,7 @@ getFMyCanvasPosX: 614.699890 //macOS: 554.666687
 		//reminder: TOP-LEFT origin
 		//added by Mike, 20210921
 		//edited by Mike, 20210921
-/*	//edited by Mike, 20210922		
+/*	//edited by Mike, 2fMyCanvasPosX0210922		
 		if ((fY==(fMyWindowHeight/2-getHeight())) &&
 //		if ((fY==(fMyWindowHeight/2+getHeight())) &&
     		(fMyCanvasPosPrevY!=fMyCanvasPosY)) {
@@ -1565,16 +1571,20 @@ void Level2D::keyUp(int keyCode) {
 void Level2D::move(int key)
 {
     switch(key) {
-        KEY_A:
+        case KEY_A:
             fMyCanvasPosX = fMyCanvasPosX-stepX;
-            
-            printf(">>>Level2D:move: %f",fMyCanvasPosX);
             break;
-        KEY_D:
+        case KEY_D:
             fMyCanvasPosX = fMyCanvasPosX+stepX;
+            
+            printf(">>>>getWidth(): %f",getWidth());
+/*            
+    				if (fMyCanvasPosX==fMyWindowWidth-getWidth()-stepX) {
+    					fMyCanvasPosX = fMyCanvasPosX+stepX;
+    				}
+*/            				
             break;
-    }
-    
+    }        
 }
 
 //added by Mike, 20210724; edited by Mike, 20210725
