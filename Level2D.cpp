@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20200926
- * @date updated: 20210922
+ * @date updated: 20210923
  * @website address: http://www.usbong.ph
  *
  * Reference:
@@ -233,6 +233,11 @@ Level2D::Level2D(float xPos, float yPos, float zPos, float fWindowWidth, float f
     myXPosAsPixel=(int)xPos;//320;//(int)xPos;
     myYPosAsPixel=(int)yPos;
     myZPosAsPixel=(int)zPos;
+    
+    //added by Mike, 20210923
+    fMyCanvasPosX=0;
+    fMyCanvasPosY=0;
+    fMyCanvasPosZ=0;
     
     //    printf(">>myXPosAsPixel: %i\n",myXPosAsPixel);
     
@@ -1129,17 +1134,18 @@ void Level2D::setPilotStep(float fPilotStepX, float fPilotStepY, float fPilotSte
 //TO-DO: -update: instructions to already auto-draw the column after the 1st column or last column of viewport
 //This action is to eliminate noticeable drawing of tile during scroll movement, e.g. horizontal scroll action
 
-//TO-DO: -reverify: vertical scroll action
+//edited by Mike, 20210923
+//void Level2D::drawLevelMapInViewPort(GLfloat fMyCanvasPosXInput, GLfloat fMyCanvasPosYInput, GLfloat fMyCanvasPosZInput, GLfloat fX, GLfloat fY, GLfloat fZ)
+void Level2D::drawLevelMapInViewPort(float fX, float fY, float fZ)
 
-//edited by Mike, 20210913
-void Level2D::drawLevelMapInViewPort(GLfloat fMyCanvasPosXInput, GLfloat fMyCanvasPosYInput, GLfloat fMyCanvasPosZInput, GLfloat fX, GLfloat fY, GLfloat fZ)
-
-{	
+{
+/* //removed by Mike, 20210923
 	 //added by Mike, 20210916
 	  fMyCanvasPosX = fMyCanvasPosXInput;
     fMyCanvasPosY = fMyCanvasPosYInput;
     fMyCanvasPosZ = fMyCanvasPosYInput;
-	
+*/
+    
     float fMovementGridZ=0.0f;
     float fMovementGridX=0.0f;
     float fMovementGridY=0.0f;
@@ -1228,7 +1234,7 @@ void Level2D::drawLevelMapInViewPort(GLfloat fMyCanvasPosXInput, GLfloat fMyCanv
                 		
     		//added by Mike, 20210916
     		//TO-DO: -reverify: if there exists as input DASH Command
-    		//edited by Mike, 20210922
+            //edited by Mike, 20210922
 		//    if (fX<=0) {
     		if ((fX<=0) || (fX<fGridSquareWidth)){
     			//edited by Mike, 20210922
@@ -1239,8 +1245,16 @@ void Level2D::drawLevelMapInViewPort(GLfloat fMyCanvasPosXInput, GLfloat fMyCanv
     			
     			//added by Mike, 20210922
 					fX=0;
+                
+                //edited by Mike, 20210923
+                //TO-DO: -reverify: cause of need for Pilot to return to fX <=0
+                //to stop excess fMyCanvasPosX + Pilot's stepX for 1 time.
+                //afterward, excess stepX canvas movement returns;
+                //return to fX <=0 to again stop
 					fStepMovemenGridX=0;
-    		}        
+//                fStepMovemenGridX=0+getStepX();
+
+            }
 		}
 
    	//added by Mike, 20210922
@@ -1259,22 +1273,23 @@ void Level2D::drawLevelMapInViewPort(GLfloat fMyCanvasPosXInput, GLfloat fMyCanv
 >>fMyCanvasPosPrevX: 607.111023; fMyCanvasPosX: 607.111023
 >>fX: 607.111084
 >>fMyWindowWidth/2: 683.000000
-getFMyCanvasPosX: 607.111023
+getFMyCanvasPosX: 607.111023 //macOS: 561.777771
 
 --
 
 >>fMyCanvasPosPrevX: 614.699890; fMyCanvasPosX: 614.699890
 >>fX: 607.111084
 >>fMyWindowWidth/2: 683.000000
-getFMyCanvasPosX: 614.699890
+getFMyCanvasPosX: 614.699890 //macOS: 554.666687
 
 --
 
->>getStepX(): 7.588889
+>>getStepX(): 7.588889 //macOS: 7.111112
 
 //excess stepX
 */
 
+        
 /*
 				if (getFMyCanvasPosX()<=(fMyWindowWidth/2-getWidth())) {
         	if (fX<=(fMyWindowWidth/2-getWidth())) {
@@ -1282,10 +1297,12 @@ getFMyCanvasPosX: 614.699890
         	}
 				}        	
 */				
-				//TO-DO: -reverify: this
+/* //removed by Mike, 20210922
+        //TO-DO: -reverify: this
 				if (getFMyCanvasPosX()==(fMyWindowWidth/2-getWidth())) {
-						fMyCanvasPosX=fMyCanvasPosX+getStepX();
-				}      
+						fMyCanvasPosX=fMyCanvasPosX-getStepX();
+				}
+*/
     }    
 }
 //-------------------------------------------------		
@@ -1547,6 +1564,17 @@ void Level2D::keyUp(int keyCode) {
 
 void Level2D::move(int key)
 {
+    switch(key) {
+        KEY_A:
+            fMyCanvasPosX = fMyCanvasPosX-stepX;
+            
+            printf(">>>Level2D:move: %f",fMyCanvasPosX);
+            break;
+        KEY_D:
+            fMyCanvasPosX = fMyCanvasPosX+stepX;
+            break;
+    }
+    
 }
 
 //added by Mike, 20210724; edited by Mike, 20210725

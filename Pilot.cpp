@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B. 
  * @date created: 20200930
- * @date updated: 20210922
+ * @date updated: 20210923
  * @website address: http://www.usbong.ph
  *
  * Reference: 
@@ -3644,17 +3644,30 @@ void Pilot::move(int key)
     //TO-DO: -reverify: this; incorrect output when with as input DASH Command
 		//TO-DO: -update: if received as input DASH Command
 		if (myLevel2D->getFMyCanvasPosX()-fGridSquareWidth<=0) {
-		}
+        }
 		else if (myLevel2D->getFMyCanvasPosX()<=(fMyWindowWidth/2-getWidth())) {
         if (myXPos<=(fMyWindowWidth/2-getWidth())) {
         }
         else {
+            //edited by Mike, 20210923
             myXPos=fMyWindowWidth/2-getWidth();
+/*
+            if (myXPos<=fMyWindowWidth/2-getWidth()+stepX) {
+                myXPos=fMyWindowWidth/2-getWidth()-stepX;
+            }
+            else {
+                myXPos=fMyWindowWidth/2-getWidth();
+            }
+            
+            if (myLevel2D->getFMyCanvasPosX()<0) {
+                myXPos=myXPos+stepX;
+            }
+*/
         }
 		}
 		else {
-			myXPos=fMyWindowWidth/2-getWidth();
-		}
+            myXPos=fMyWindowWidth/2-getWidth();
+        }
 		
 		//added by Mike, 20210921
 		if (myLevel2D->getFMyCanvasPosY()-fGridSquareHeight<=0) {
@@ -4375,8 +4388,11 @@ void Pilot::moveSideScrollView(int key)
 		//TO-DO: -delete: excess instructions; OpenGLCanvas.cpp, Level2D.cpp, Pilot.cpp
     //TO-DO: -reverify: this; incorrect output when with as input DASH Command
 		//TO-DO: -update: if received as input DASH Command
+        //edited by Mike, 20210922
 		if (myLevel2D->getFMyCanvasPosX()-fGridSquareWidth<=0) {
-		}
+//        if (myLevel2D->getFMyCanvasPosX()<=0) {
+
+        }
 		else if (myLevel2D->getFMyCanvasPosX()<=(fMyWindowWidth/2-getWidth())) {
         if (myXPos<=(fMyWindowWidth/2-getWidth())) {
         }

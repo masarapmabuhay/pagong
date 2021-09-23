@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20200926
- * @date updated: 20210922
+ * @date updated: 20210923
  * @website address: http://www.usbong.ph
  *
  * References:
@@ -414,6 +414,7 @@ bool OpenGLCanvas::init(int myWindowWidthAsPixelInput, int myWindowHeightAsPixel
     myWindowWidth = myWindowWidthAsPixel;
     myWindowHeight = myWindowHeightAsPixel;
 
+    /* //removed by Mike, 20210923
 		//added by Mike, 20210913
 		//edited by Mike, 20210916
 //    myCanvasPosX=0.0f+myWindowWidth/3;
@@ -421,6 +422,7 @@ bool OpenGLCanvas::init(int myWindowWidthAsPixelInput, int myWindowHeightAsPixel
 
     myCanvasPosY=0.0f;
     myCanvasPosZ=0.0f;
+*/
     myCanvasEyePosX=0.0f;
 
 
@@ -774,8 +776,10 @@ void OpenGLCanvas::render()
   	//edited by Mike, 20210910
 //    myLevel2D->draw();
 
-    //edited by Mike, 20210913
-	myLevel2D->drawLevelMapInViewPort(myCanvasPosX, myCanvasPosY, myCanvasPosZ, myPilot->getX(),myPilot->getY(),myPilot->getZ());
+    //edited by Mike, 20210923
+//	myLevel2D->drawLevelMapInViewPort(myCanvasPosX, myCanvasPosY, myCanvasPosZ, myPilot->getX(),myPilot->getY(),myPilot->getZ());
+    myLevel2D->drawLevelMapInViewPort(myPilot->getX(),myPilot->getY(),myPilot->getZ());
+
     
     //added by Mike, 20210917
     myLevel2D->drawGrid();
@@ -942,7 +946,10 @@ void OpenGLCanvas::update()
 						myCanvasPosY-=cos(myCanvasLookAtAngle)*myCanvasStepY;
 						myCanvasPosX+=sin(myCanvasLookAtAngle)*myCanvasStepX;            
 */
-						myCanvasPosX+=myPilot->getStepX();            
+            //edited by Mike, 20210923
+//						myCanvasPosX+=myPilot->getStepX();
+            myLevel2D->move(KEY_D);
+
             
   
 /* //removed by Mike, 20210825                    
@@ -990,7 +997,9 @@ void OpenGLCanvas::update()
 						myCanvasPosY+=cos(myCanvasLookAtAngle)*myCanvasStepY;
 						myCanvasPosX-=sin(myCanvasLookAtAngle)*myCanvasStepX;            
 */
-						myCanvasPosX-=myPilot->getStepX();            
+			//edited by Mike, 20210923
+//            myCanvasPosX-=myPilot->getStepX();
+            myLevel2D->move(KEY_A);
 			
 			
 /* //removed by Mike, 20210825                    
@@ -1449,10 +1458,13 @@ void OpenGLCanvas::update()
         
         //note: we verify if we continue with step, hit collision
         //if so, we do not add step to position
-        if (myPilot->getX() -myPilot->getStepX() < 0) {        
-        		//edited by Mike, 20210916
+        //edited by Mike, 20210923
+        if (myPilot->getX() -myPilot->getStepX() < 0) {
+//        if (myPilot->getX() < 0) {
+        //edited by Mike, 20210923
 //            myPilot->setXPos(0+myPilot->getStepX());
             myPilot->setXPos(0);
+//         myPilot->setXPos(0-myPilot->getStepX());
         }
         
         //max movement with set
@@ -1475,10 +1487,27 @@ void OpenGLCanvas::update()
         
         //added by Mike, 20210922
         //TO-DO: -add: action if max canvas pos x reached
+/* //removed by Mike, 20210923
+        //edited by Mike, 20210923
         if (myCanvasPosX<0) {
+//        if ((myCanvasPosX-myPilot->getWidth()-myPilot->getStepX())<0) {
+//        if ((myCanvasPosX-myPilot->getWidth())<0) {
             myCanvasPosX=0;
         }
-
+*/
+        
+/*  //removed by Mike, 20210922
+        //added by Mike, 20210922
+        else if (myCanvasPosX<=(myWindowWidth/2-myPilot->getWidth())) {
+            if (myCanvasPosX<=(myWindowWidth/2-myPilot->getWidth())) {
+            }
+            else {
+                //edited by Mike, 20210922
+                myCanvasPosX=myWindowWidth/2-myPilot->getWidth();
+            }
+        }
+*/
+        
         //TO-DO: -add: action if max canvas pos x reached
         if (myCanvasPosY<0) {
             myCanvasPosY=0;
