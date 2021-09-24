@@ -3647,22 +3647,18 @@ void Pilot::move(int key)
 //		if (myLevel2D->getFMyCanvasPosX()-fGridSquareWidth<=0) {
 		//edited by Mike, 20210923
 //		if (myLevel2D->getFMyCanvasPosX()<=0) {
-		if (myLevel2D->getFMyCanvasPosX()<0) {
+		//edited by Mike, 20210924
+//		if (myLevel2D->getFMyCanvasPosX()<0) {
+		if (myXPos<0) {	
 						//added by Mike, 20210923
             myXPos=0;
-        }
-    //edited by Mike, 20210923
-/*    
-//		else if (myLevel2D->getFMyCanvasPosX()<=(fMyWindowWidth/2-getWidth())) {
-		else if (myLevel2D->getFMyCanvasPosX()==(fMyWindowWidth/2-getWidth())) {
-//            myXPos=fMyWindowWidth/2-getWidth()-stepX;
-		}
-*/
+    }
 		//edited by Mike, 20210923
 		//TO-DO: -reverify: this
 		else if (myLevel2D->getFMyCanvasPosX()<(fMyWindowWidth/2-getWidth())) {
 			printf(">>>>Pilot myXPos: %f",myXPos);
-					
+
+/*					
 				//TO-DO: -reverify myCanvasPosX = Pilot's fX...	
         if (myXPos<=(fMyWindowWidth/2-getWidth())) {
         	//added by Mike, 20210923
@@ -3672,12 +3668,12 @@ void Pilot::move(int key)
             //edited by Mike, 20210924
             myXPos=fMyWindowWidth/2-getWidth();
         }
-        
-  			//TO-DO: -reverify: this      
-/*        
+*/        
+
 				if ((currentFacingState==FACING_LEFT) &&
 						(currentMovingState==WALKING_MOVING_STATE)) {
-						myXPos=myXPos-stepX/2;
+  						//TO-DO: -reverify: this due to still has excess acceleration        
+							myXPos=myXPos+stepX/2;
 				}
 				else {
         	if (myXPos<(fMyWindowWidth/2-getWidth())) {
@@ -3685,21 +3681,19 @@ void Pilot::move(int key)
 					else {
           	myXPos=fMyWindowWidth/2-getWidth();
 					}
-				}        
-*/				
+				}							
 		}
 		else {
             myXPos=fMyWindowWidth/2-getWidth();
     }
-		
-		//added by Mike, 20210924
-		//TO-DO: -update: myCanvas x-axis movement to cause collision detection to be OK
-		
+				
 		//edited by Mike, 20210923
 //		if (myLevel2D->getFMyCanvasPosY()-fGridSquareHeight<=0) {
 		//edited by Mike, 20210923
 //		if (myLevel2D->getFMyCanvasPosY()<=0) {
-		if (myLevel2D->getFMyCanvasPosY()<0) {
+		//edited by Mike, 20210924
+//		if (myLevel2D->getFMyCanvasPosY()<0) {
+		if (myYPos<0) {
 						//added by Mike, 20210923
             myYPos=0;
     }				
@@ -3716,8 +3710,8 @@ void Pilot::move(int key)
 
 				if ((currentFacingState==FACING_UP) &&
 						(currentMovingState==WALKING_MOVING_STATE)) {
-						myYPos=myYPos+stepX/2;
-//							myYPos=myYPos+stepX; //shall not move upward
+						myYPos=myYPos+stepY/2;
+//							myYPos=myYPos+stepY; //shall not move upward
 				}
 				else {
         	if (myYPos<(fMyWindowHeight/2-getHeight())) {
@@ -3956,6 +3950,7 @@ void Pilot::moveSideScrollView(int key)
 //         		  if ((bHasHitWall)) {
          		  	return;
          		  }
+         		       
          		           		  
          		                    //edited by Mike, 20210805
                 //in macOS machine, Pilot does not move up due to gravity;

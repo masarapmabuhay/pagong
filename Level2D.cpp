@@ -1187,27 +1187,26 @@ void Level2D::drawLevelMapInViewPort(float fX, float fY, float fZ)
 
 //    printf(">>getStepX(): %f\n",getStepX());
 
-/*
+
 		//added by Mike, 20210922		
 	  printf(">>fMyCanvasPosPrevX: %f; fMyCanvasPosX: %f\n",fMyCanvasPosPrevX,fMyCanvasPosX);
     printf(">>fX: %f\n",fX);    
 //    printf(">>fMyWindowWidth/2: %f\n",fMyWindowWidth/2);    		
     printf(">>fMyWindowWidth/2-getWidth(): %f\n",fMyWindowWidth/2-getWidth());    		
     printf(">>getStepX(): %f\n",getStepX()); //added by Mike, 20210922
-*/
+
+
+/*
 	  printf(">>fMyCanvasPosPrevY: %f; fMyCanvasPosY: %f\n",fMyCanvasPosPrevY,fMyCanvasPosY);
     printf(">>fY: %f\n",fY);    
 //    printf(">>fMyWindowWidth/2: %f\n",fMyWindowWidth/2);    		
     printf(">>fMyWindowHeight/2-getHeight(): %f\n",fMyWindowHeight/2-getHeight());    		
     printf(">>getStepY(): %f\n",getStepY()); //added by Mike, 20210922
-		
-		//edited by Mike, 20210922
-/*				
-//	if (fMyCanvasPosPrevX!=fMyCanvasPosX) {
-		if ((fX==(fMyWindowWidth/2-getWidth())) &&
-    		(fMyCanvasPosPrevX!=fMyCanvasPosX)) {
 */
-		if (fX==(fMyWindowWidth/2-getWidth())) {
+		
+		//edited by Mike, 20210924
+//		if (fX==(fMyWindowWidth/2-getWidth())) {
+		if (fX<=(fMyWindowWidth/2-getWidth())) {
     		if (fMyCanvasPosPrevX!=fMyCanvasPosX) {
 /*
 	  printf(">>fMyCanvasPosPrevX: %f; fMyCanvasPosX: %f\n",fMyCanvasPosPrevX,fMyCanvasPosX);
@@ -1321,7 +1320,7 @@ getFMyCanvasPosX: 614.699890 //macOS: 554.666687
 */				
 /* //removed by Mike, 20210922
         //TO-DO: -reverify: this
-				if (getFMyCanvasPosX()==(fMyWindowWidth/2-getWidth())) {
+				if (getFMyCanvasPosX()==(fMyWfMyWindowWidthindowWidth/2-getWidth())) {
 						fMyCanvasPosX=fMyCanvasPosX-getStepX();
 				}
 */
@@ -1604,16 +1603,15 @@ void Level2D::move(int key, MyDynamicObject* mdoPilot)
 */						
             break;
         case KEY_D:
-        		//edited by Mike, 20210923
-            fMyCanvasPosX = fMyCanvasPosX+stepX;
+        		//edited by Mike, 20210924
+//            fMyCanvasPosX = fMyCanvasPosX+stepX;
             
-/*            
-    				if (fMyCanvasPosX==fMyWindowWidth-getWidth()-stepX) {
-    				}
-    				else {
-           		fMyCanvasPosX = fMyCanvasPosX+stepX;
-    				}
-*/            				
+            if (mdoPilot->getX()<=fMyWindowWidth/2-getWidth()-getStepX()) {
+						}
+						else {
+            	fMyCanvasPosX = fMyCanvasPosX+stepX;
+						}
+						
             break;
        case KEY_W:
        			//edited by Mike, 20210924
