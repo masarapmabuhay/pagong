@@ -3661,11 +3661,6 @@ void Pilot::move(int key)
 		//edited by Mike, 20210923
 		//TO-DO: -reverify: this
 		else if (myLevel2D->getFMyCanvasPosX()<(fMyWindowWidth/2-getWidth())) {
-//		else if (myLevel2D->getFMyCanvasPosX()/(fMyWindowWidth/2-getWidth())<1.0f) {
-//		else if ((myLevel2D->getFMyCanvasPosX()%(fMyWindowWidth/2-getWidth()))<(fMyWindowWidth/2-getWidth())) {
-//		else if (myLevel2D->getFMyCanvasPosX()-(myLevel2D->getFMyCanvasPosX()*(myLevel2D->getFMyCanvasPosX()/(fMyWindowWidth/2-getWidth()))) <(fMyWindowWidth/2-getWidth())) {
-
-//			printf(">>(myLevel2D->getFMyCanvasPosX()%(fMyWindowWidth/2-getWidth())): %f",(myLevel2D->getFMyCanvasPosX()%(fMyWindowWidth/2-getWidth())));
 			printf(">>>>Pilot myXPos: %f",myXPos);
 					
 				//TO-DO: -reverify myCanvasPosX = Pilot's fX...	
@@ -3674,62 +3669,63 @@ void Pilot::move(int key)
         	//TO-DO: -reverify: instruction to eliminate excess stepX
         }
         else {
-            //edited by Mike, 20210923
-//            myXPos=fMyWindowWidth/2-getWidth();
-            myXPos=fMyWindowWidth/2-getWidth()-stepX;
-//            myXPos=fMyWindowWidth/2-getWidth()-stepX-stepX*(myLevel2D->getFMyCanvasPosX()/(fMyWindowWidth/2-getWidth()));
-//            myXPos=fMyWindowWidth/2-getWidth()-stepX-stepX*(myLevel2D->getFMyCanvasPosX()%(fMyWindowWidth/2-getWidth()));
-				
-				//edited by Mike, 20210923
-//				myXPos=fMyWindowWidth/2-getWidth()+stepX-stepX*(myLevel2D->getFMyCanvasPosX()/(fMyWindowWidth/2-getWidth()));
-
-//				myXPos=fMyWindowWidth/2-getWidth()+stepX+stepX*(myLevel2D->getFMyCanvasPosX()/(fMyWindowWidth/2-getWidth()));
-				
-/*				
-				printf(">>(myLevel2D->getFMyCanvasPosX()/(fMyWindowWidth/2-getWidth())): %f",(myLevel2D->getFMyCanvasPosX()/(fMyWindowWidth/2-getWidth())));
-				myXPos=fMyWindowWidth/2-getWidth()+stepX*(myLevel2D->getFMyCanvasPosX()/(fMyWindowWidth/2-getWidth()));
-*/
-
-//			printf(">>(((fMyWindowWidth/2-getWidth())-myLevel2D->getFMyCanvasPosX())/stepX): %f",(((fMyWindowWidth/2-getWidth())-myLevel2D->getFMyCanvasPosX())/stepX));
-
-//            myXPos=fMyWindowWidth/2-getWidth()-stepX*(((fMyWindowWidth/2-getWidth())-myLevel2D->getFMyCanvasPosX())/stepX);
-
-/*
-			printf(">>(fMyWindowWidth/2-getWidth())/myLevel2D->getFMyCanvasPosX(): %f",(fMyWindowWidth/2-getWidth())/myLevel2D->getFMyCanvasPosX());
-
-            myXPos=fMyWindowWidth/2-getWidth()-stepX-stepX*((fMyWindowWidth/2-getWidth())/myLevel2D->getFMyCanvasPosX());
-*/
+            //edited by Mike, 20210924
+            myXPos=fMyWindowWidth/2-getWidth();
         }
+        
+  			//TO-DO: -reverify: this      
+/*        
+				if ((currentFacingState==FACING_LEFT) &&
+						(currentMovingState==WALKING_MOVING_STATE)) {
+						myXPos=myXPos-stepX/2;
+				}
+				else {
+        	if (myXPos<(fMyWindowWidth/2-getWidth())) {
+					}
+					else {
+          	myXPos=fMyWindowWidth/2-getWidth();
+					}
+				}        
+*/				
 		}
 		else {
             myXPos=fMyWindowWidth/2-getWidth();
-        }
+    }
+		
+		//added by Mike, 20210924
+		//TO-DO: -update: myCanvas x-axis movement to cause collision detection to be OK
 		
 		//edited by Mike, 20210923
 //		if (myLevel2D->getFMyCanvasPosY()-fGridSquareHeight<=0) {
 		//edited by Mike, 20210923
 //		if (myLevel2D->getFMyCanvasPosY()<=0) {
 		if (myLevel2D->getFMyCanvasPosY()<0) {
-
 						//added by Mike, 20210923
             myYPos=0;
     }				
 		//edited by Mike, 20210921
-		else if (myLevel2D->getFMyCanvasPosY()<=(fMyWindowHeight/2-getHeight())) {
-//		else if (myLevel2D->getFMyCanvasPosY()>=(fGridSquareHeight/2-getHeight())) {
+		//TO-DO: -reverify: excess acceleration when Pilot and Canvas both move
+//		else if (myLevel2D->getFMyCanvasPosY()<=(fMyWindowHeight/2-getHeight())) {
+		else if (myLevel2D->getFMyCanvasPosY()<(fMyWindowHeight/2-getHeight())) {
+//		else if (myLevel2D->getFMyCanvasPosY()<=fMyWindowHeight/2) {
+//		else if (myLevel2D->getFMyCanvasPosY()<=(fMyWindowHeight/2-getHeight()-stepY)) {
 
 			printf(">>>>Pilot myYPos: %f",myYPos);
 
+//      myYPos=fMyWindowHeight/2-getHeight();
 
-				//edited by Mike, 20210921
-        if (myYPos<=(fMyWindowHeight/2-getHeight())) {
-//        if (myYPos>=(fMyWindowHeight/2-getHeight())) {
-        }
-        else {
-            //edited by Mike, 20210923
-//            myYPos=fMyWindowHeight/2-getHeight();
-            myYPos=fMyWindowHeight/2-getHeight()-stepY;
-        }
+				if ((currentFacingState==FACING_UP) &&
+						(currentMovingState==WALKING_MOVING_STATE)) {
+						myYPos=myYPos+stepX/2;
+//							myYPos=myYPos+stepX; //shall not move upward
+				}
+				else {
+        	if (myYPos<(fMyWindowHeight/2-getHeight())) {
+					}
+					else {
+          	myYPos=fMyWindowHeight/2-getHeight();
+					}
+				}
 		}
 		else {
 			myYPos=fMyWindowHeight/2-getHeight();
