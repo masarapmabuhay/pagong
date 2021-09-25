@@ -50,7 +50,7 @@ https://www.libsdl.org/download-2.0.php; last accessed: 20210922<br/>
 
 ## 3.2. Open Graphics Library (OpenGL)
 https://www.opengl.org/; last accessed: 20210922<br/>
---> <b>Recommendation:</b> Not to add OpenGL instructions for computer machines with classification: 32-bit Operating System (OS) without Graphic Acceleration Card
+--> <b>Recommendation:</b> Not to add OpenGL instructions for computer machines with classification: 32-bit Operating System (OS) without 3-D Graphic Acceleration Card
 
 # 4. Add-on Software Tools
 ## 4.1. [LibreOffice Calc: Spreadsheet](https://www.libreoffice.org/discover/calc/)<br/>
