@@ -247,7 +247,11 @@ void Pilot::openGLDrawTexture(float x, float y, float textw, float texth)
         || (currentFacingState==FACING_RIGHT_AND_UP) || (currentFacingState==FACING_RIGHT_AND_DOWN)) {
         
         glTranslatef(textw,0.0f,0.0f);
-        
+  
+/*
+        //added by Mike, 20210925
+        glRotatef(45,1.0f,0.0f,0.0f);
+*/
 			//set vertex counter-clock-wise
 			glBegin(GL_QUADS);
 				glTexCoord2f(0+fTaoAnimationFrameOffset, 0+fTaoAnimationFrameOffsetYAxis);

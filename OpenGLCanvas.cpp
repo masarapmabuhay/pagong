@@ -552,6 +552,57 @@ bool OpenGLCanvas::shutdown()
     return true;
 }
 
+/*
+//added by Mike, 20210925
+//reference: https://www.khronos.org/opengl/wiki/GluLookAt_code;
+//last accessed: 20210925
+//glh library (OpenGL Helper Library), LGPL license v3.0;
+//https://sourceforge.net/projects/glhlib;
+//last accessed: 20210925
+//TO-DO: reverify: this
+void glhLookAtf2( float *matrix, float *eyePosition3D,
+                 float *center3D, float *upVector3D )
+{
+    float forward[3], side[3], up[3];
+    float matrix2[16], resultMatrix[16];
+    // --------------------
+    forward[0] = center3D[0] - eyePosition3D[0];
+    forward[1] = center3D[1] - eyePosition3D[1];
+    forward[2] = center3D[2] - eyePosition3D[2];
+    NormalizeVector(forward);
+    // --------------------
+    // Side = forward x up
+    ComputeNormalOfPlane(side, forward, upVector3D);
+    NormalizeVector(side);
+    --------------------
+    // Recompute up as: up = side x forward
+    ComputeNormalOfPlane(up, side, forward);
+    // --------------------
+    matrix2[0] = side[0];
+    matrix2[4] = side[1];
+    matrix2[8] = side[2];
+    matrix2[12] = 0.0;
+    // --------------------
+    matrix2[1] = up[0];
+    matrix2[5] = up[1];
+    matrix2[9] = up[2];
+    matrix2[13] = 0.0;
+    // --------------------
+    matrix2[2] = -forward[0];
+    matrix2[6] = -forward[1];
+    matrix2[10] = -forward[2];
+    matrix2[14] = 0.0;
+    // --------------------
+    matrix2[3] = matrix2[7] = matrix2[11] = 0.0;
+    matrix2[15] = 1.0;
+    // --------------------
+    MultiplyMatrices4by4OpenGL_FLOAT(resultMatrix, matrix, matrix2);
+    glhTranslatef2(resultMatrix,
+                   -eyePosition3D[0], -eyePosition3D[1], -eyePosition3D[2]);
+    // --------------------
+    memcpy(matrix, resultMatrix, 16*sizeof(float));
+}
+*/
 
 bool OpenGLCanvas::setupProjection()
 {
@@ -771,10 +822,9 @@ void OpenGLCanvas::render()
   //-----
 	//part 2: 3D draw instructions
   //-----
-	glMatrixMode(GL_PROJECTION);
+    glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();	
-	
-	
+
 	//TOP-LEFT origin
 	glOrtho(0.0f, //left
         	1.0f, //right
@@ -783,7 +833,8 @@ void OpenGLCanvas::render()
         	0.0f, //zNear; minimum
         	1.0f //zFar; maximum
       	);
-
+    
+/*  //removed by Mike, 20210925; deprecated computer instructions in macOS 10.9; "GLKMatrix4MakeLookAt..."
   gluPerspective(90.0, // field-of-view angle
                    4.0 / 4.0, // aspect ratio
                    0.1, // near plane
@@ -796,19 +847,24 @@ void OpenGLCanvas::render()
 	myCanvasCenterPosY=0;
 	myCanvasCenterPosZ=0;
 
-/*
-	gluLookAt(myCanvasEyePosX, myCanvasEyePosY, myCanvasEyePosZ+10.0f, // eye position
-			  myCanvasCenterPosX, myCanvasCenterPosY, myCanvasCenterPosZ, // look-at point
-              0.0, 1.0, 0.0); // up-direction
-*/	
+////	gluLookAt(myCanvasEyePosX, myCanvasEyePosY, myCanvasEyePosZ+10.0f, // eye position
+////			  myCanvasCenterPosX, myCanvasCenterPosY, myCanvasCenterPosZ, // look-at point
+////              0.0, 1.0, 0.0); // up-direction
+	
 	gluLookAt(myCanvasEyePosX, myCanvasEyePosY, myCanvasEyePosZ, // eye position
 			  myCanvasCenterPosX, myCanvasCenterPosY, myCanvasCenterPosZ, // look-at point
               0.0, 0.0, 1.0); // up-direction
-
+*/
+    
 	
 	//solves problem with quad face image texture merging
 	glEnable(GL_CULL_FACE);
 
+/* //TO-DO: -reverify: rotated x-axis to add height in view, instead of flat due to TOP-VIEW
+    //added by Mike, 20210925
+    glRotatef(45,1.0f,0.0f,0.0f);
+*/
+    
 
 //	glRotatef(120, 1.0f, 0.0f, 0.0f);
 //	glRotatef(120, 0.0f, 1.0f, 0.0f);
