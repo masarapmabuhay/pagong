@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20200929
- * @date updated: 20210902
+ * @date updated: 20210925
  * @website address: http://www.usbong.ph
  *
  * Acknowledgments:
@@ -165,6 +165,10 @@
 
 //added by Mike, 20210827
 class Level2D;
+
+//added by Mike, 20210925
+class Level3D;
+
 class Pilot;
 class Text; //added by Mike, 20210902
 
@@ -201,6 +205,11 @@ private:
 */    
     //added by Mike, 20210827
     Level2D *myLevel2D;
+    
+    //added by Mike, 20210925
+    Level3D *myLevel3D;
+    
+    
     Pilot *myPilot;
     Text *myText; //added by Mike, 20210902
 

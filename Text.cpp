@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20200926
- * @date updated: 20210907
+ * @date updated: 20210925
  * @website address: http://www.usbong.ph
  *
  * Reference:
@@ -305,28 +305,6 @@ Text::Text(float xPos, float yPos, float zPos, float fWindowWidth, float fWindow
     myYPos=fMyWindowHeight-(fMyWindowHeight-myHeight);
     myZPos=0.0f;
     
-/* //removed by Mike, 20210903    
-    rotationAngle=0.0f;//360.0f;//90.0;
-    rotationStep=10.0;//1.0f;
-    thrust=0.0f;
-    thrustMax=0.8f;
-    xVel;
-    yVel;
-    //edited by Mike, 20201001
-    maxXVel=0.04f;//1.0f;
-    maxYVel=0.04f;//1.0f;
-    
-    //boundary = 8.0f;
-    
-    tricount = 120;
-    isMovingForward = 0;
-    
-    //added by Mike, 20210122
-    iPunchAnimationCountDelay=0;
-    //added by Mike, 20210123
-    iPunchAnimationCount=0;
-*/    
-    
     //added by Mike, 20210616
     iTextCurrentMaxColumnCount=0;
     //added by Mike, 20210617
@@ -389,8 +367,7 @@ Text::Text(float xPos, float yPos, float zPos, float fWindowWidth, float fWindow
 		setup();
 		
 		printf(">>glIFontTexture : %i\n",glIFontTexture);				
-		printf(">>openGLITexture: %i\n",openGLITexture);
-		
+		printf(">>openGLITexture: %i\n",openGLITexture);	
 }
 
 Text::~Text()

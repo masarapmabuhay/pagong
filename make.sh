@@ -11,7 +11,7 @@
 # @company: USBONG
 # @author: SYSON, MICHAEL B.
 # @date created: 20200930
-# @last updated: 20210902
+# @last updated: 20210925
 # @website address: http://www.usbong.ph
 #
 # Reference:
@@ -32,40 +32,12 @@ g++ -c UsbongUtils.cpp
 g++ -c PolygonUtils.cpp
 g++ -c MyDynamicObject.cpp
 g++ -c Level2D.cpp
+g++ -c Level3D.cpp
 g++ -c Pilot.cpp
 g++ -c Font.cpp
 g++ -c Text.cpp
 
-#g++ -c RobotShip.cpp
-#g++ -c Font.cpp
-#g++ -c Beam.cpp
-#g++ -c Asteroid.cpp
-#g++ -c Level.cpp
-#g++ -c CTargaImage.cpp
-#g++ -c UsbongUtils.cpp
-#g++ -c Button.cpp
-#g++ -c Ball.cpp
-#g++ -c Text.cpp
-#g++ -c Level2D.cpp
-
-#g++ -o mainOutput main.o OpenGLCanvas.o -lGL -lGLU -lglut
-# edited by Mike, 20210126
-# g++ -o ./output/mainOutputLinux mainLinux.o OpenGLCanvas.o MyDynamicObject.o RobotShip.o Font.o Beam.o Asteroid.o Level.o PolygonUtils.o CTargaImage.o Pilot.o UsbongUtils.o -lGL -lGLU -lglut
-
-#edited by Mike, 20210815
-#g++ -o ./output/UsbongStoryLinux mainLinux.o OpenGLCanvas.o MyDynamicObject.o RobotShip.o Font.o Beam.o Asteroid.o Level.o PolygonUtils.o CTargaImage.o Pilot.o UsbongUtils.o Button.o Ball.o Text.o Level2D.o -lGL -lGLU -lglut
-#g++ -o ./output/UsbongStoryLinux mainLinux.o OpenGLCanvas.o MyDynamicObject.o RobotShip.o Font.o PolygonUtils.o CTargaImage.o Pilot.o UsbongUtils.o Button.o Text.o Level2D.o -lGL -lGLU -lglut
-#edited by Mike, 20210816
-#g++ -o ./output/UsbongStoryLinux mainLinux.o OpenGLCanvas.o MyDynamicObject.o RobotShip.o Font.o Beam.o Asteroid.o Level.o PolygonUtils.o CTargaImage.o Pilot.o UsbongUtils.o Button.o Ball.o Text.o Level2D.o -lGL -lGLU -lglut
-#edited by Mike, 20210818
-#g++ -o ./output/UsbongStoryLinux mainLinux.o OpenGLCanvas.o MyDynamicObject.o RobotShip.o Font.o Beam.o Asteroid.o Level.o PolygonUtils.o CTargaImage.o Pilot.o UsbongUtils.o Button.o Ball.o Text.o Level2D.o -lGL -lGLU -lglut -lSDL2 -lSDL2_image
-
-#edited by Mike, 20210826
-#g++ -o ./output/UsbongPagongLinux mainLinux.o OpenGLCanvas.o -lGL -lGLU -lglut -lSDL2 -lSDL2_image
-#edited by Mike, 20210902
-#g++ -o ./output/UsbongPagongLinux mainLinux.o OpenGLCanvas.o UsbongUtils.o PolygonUtils.o MyDynamicObject.o Level2D.o Pilot.o -lGL -lGLU -lglut -lSDL2 -lSDL2_image
-
-g++ -o ./output/UsbongPagongLinux mainLinux.o OpenGLCanvas.o UsbongUtils.o PolygonUtils.o MyDynamicObject.o Level2D.o Pilot.o Font.o Text.o -lGL -lGLU -lglut -lSDL2 -lSDL2_image
+g++ -o ./output/UsbongPagongLinux mainLinux.o OpenGLCanvas.o UsbongUtils.o PolygonUtils.o MyDynamicObject.o Level2D.o Level3D.o Pilot.o Font.o Text.o -lGL -lGLU -lglut -lSDL2 -lSDL2_image
 
 
 #added by Mike, 20210220; removed by Mike, 20210818

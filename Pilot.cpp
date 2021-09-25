@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B. 
  * @date created: 20200930
- * @date updated: 20210923
+ * @date updated: 20210925
  * @website address: http://www.usbong.ph
  *
  * Reference: 
@@ -102,8 +102,13 @@
 //added by Mike, 20210523
 #include "UsbongUtils.h"
 
+/*	//removed by Mike, 20210925; TO-DO: -add: this
 //added by Mike, 20210725
 #include "Level2D.h"
+*/
+
+#include "Level3D.h"
+
 
 #include <string.h>
 
@@ -3146,7 +3151,7 @@ void Pilot::move(int key)
 //added by Mike, 20210521
 //----------
          //added by Mike, 20210725
-         if (myLevel2D->isLevel2DCollideWith(this)) {
+         if (myLevel3D->isLevel2DCollideWith(this)) {
 //            printf(">>>>COLLISION!");
 //							currentMovingState=IDLE_MOVING_STATE;
 							bHasHitWall=true;
@@ -3240,7 +3245,7 @@ void Pilot::move(int key)
     			}
 				else {
          			//added by Mike, 20210725
-         			if (myLevel2D->isLevel2DCollideWith(this)) {
+         			if (myLevel3D->isLevel2DCollideWith(this)) {
 			//            printf(">>>>COLLISION!");
 //										currentMovingState=IDLE_MOVING_STATE;
 										bHasHitWall=true;
@@ -3319,7 +3324,7 @@ void Pilot::move(int key)
     				}
 					else {
          				//added by Mike, 20210728
-         				if (myLevel2D->isLevel2DCollideWith(this)) {
+         				if (myLevel3D->isLevel2DCollideWith(this)) {
 				//            printf(">>>>COLLISION!");
 //											currentMovingState=IDLE_MOVING_STATE;
 											bHasHitWall=true;
@@ -3429,7 +3434,7 @@ void Pilot::move(int key)
     		}
 				else {
       			//added by Mike, 20210728
-      			if (myLevel2D->isLevel2DCollideWith(this)) {
+      			if (myLevel3D->isLevel2DCollideWith(this)) {
 			//            printf(">>>>COLLISION!");
 //							currentMovingState=IDLE_MOVING_STATE;
 							bHasHitWall=true;
@@ -3556,7 +3561,7 @@ void Pilot::move(int key)
           
 /* //removed by Mike, 20210921; gravity          
           //added by Mike, 20210807
-          if (myLevel2D->isLevel2DCollideWith(this)) {          	
+          if (myLevel3D->isLevel2DCollideWith(this)) {          	
           }
           else {
           	//+gravity when at free fall
@@ -3569,7 +3574,7 @@ void Pilot::move(int key)
 						//note: this set of instructions NOT executed 
 						//when there exists input to execute LEFT or RIGHT movement
 						//TO-DO: -update: instructions when computer receives both LEFT and RIGHT input Commands
-						if (myLevel2D->isLevel2DCollideWith(this)) {    
+						if (myLevel3D->isLevel2DCollideWith(this)) {    
 						}
 						else {
         			//edited by Mike, 20210830								          	
@@ -3644,18 +3649,18 @@ void Pilot::move(int key)
     //TO-DO: -reverify: this; incorrect output when with as input DASH Command
 		//TO-DO: -update: if received as input DASH Command
 		//edited by Mike, 20210923
-//		if (myLevel2D->getFMyCanvasPosX()-fGridSquareWidth<=0) {
+//		if (myLevel3D->getFMyCanvasPosX()-fGridSquareWidth<=0) {
 		//edited by Mike, 20210923
-//		if (myLevel2D->getFMyCanvasPosX()<=0) {
+//		if (myLevel3D->getFMyCanvasPosX()<=0) {
 		//edited by Mike, 20210924
-//		if (myLevel2D->getFMyCanvasPosX()<0) {
+//		if (myLevel3D->getFMyCanvasPosX()<0) {
 		if (myXPos<0) {	
 						//added by Mike, 20210923
             myXPos=0;
     }
 		//edited by Mike, 20210923
 		//TO-DO: -reverify: this
-		else if (myLevel2D->getFMyCanvasPosX()<(fMyWindowWidth/2-getWidth())) {
+		else if (myLevel3D->getFMyCanvasPosX()<(fMyWindowWidth/2-getWidth())) {
 			printf(">>>>Pilot myXPos: %f",myXPos);
 
 /*					
@@ -3688,21 +3693,21 @@ void Pilot::move(int key)
     }
 				
 		//edited by Mike, 20210923
-//		if (myLevel2D->getFMyCanvasPosY()-fGridSquareHeight<=0) {
+//		if (myLevel3D->getFMyCanvasPosY()-fGridSquareHeight<=0) {
 		//edited by Mike, 20210923
-//		if (myLevel2D->getFMyCanvasPosY()<=0) {
+//		if (myLevel3D->getFMyCanvasPosY()<=0) {
 		//edited by Mike, 20210924
-//		if (myLevel2D->getFMyCanvasPosY()<0) {
+//		if (myLevel3D->getFMyCanvasPosY()<0) {
 		if (myYPos<0) {
 						//added by Mike, 20210923
             myYPos=0;
     }				
 		//edited by Mike, 20210921
 		//TO-DO: -reverify: excess acceleration when Pilot and Canvas both move
-//		else if (myLevel2D->getFMyCanvasPosY()<=(fMyWindowHeight/2-getHeight())) {
-		else if (myLevel2D->getFMyCanvasPosY()<(fMyWindowHeight/2-getHeight())) {
-//		else if (myLevel2D->getFMyCanvasPosY()<=fMyWindowHeight/2) {
-//		else if (myLevel2D->getFMyCanvasPosY()<=(fMyWindowHeight/2-getHeight()-stepY)) {
+//		else if (myLevel3D->getFMyCanvasPosY()<=(fMyWindowHeight/2-getHeight())) {
+		else if (myLevel3D->getFMyCanvasPosY()<(fMyWindowHeight/2-getHeight())) {
+//		else if (myLevel3D->getFMyCanvasPosY()<=fMyWindowHeight/2) {
+//		else if (myLevel3D->getFMyCanvasPosY()<=(fMyWindowHeight/2-getHeight()-stepY)) {
 
 			printf(">>>>Pilot myYPos: %f",myYPos);
 
@@ -3728,7 +3733,7 @@ void Pilot::move(int key)
 /* //removed by Mike, 20210921
     //added by Mike, 20210804
     //gravity
-    if (myLevel2D->isLevel2DCollideWith(this)) {
+    if (myLevel3D->isLevel2DCollideWith(this)) {
         bHasHitWall=true;
         return;
     }
@@ -3936,7 +3941,7 @@ void Pilot::moveSideScrollView(int key)
 //added by Mike, 20210521
 //----------
          //added by Mike, 20210725
-         if (myLevel2D->isLevel2DCollideWith(this)) {
+         if (myLevel3D->isLevel2DCollideWith(this)) {
 //            printf(">>>>COLLISION!");
 //							currentMovingState=IDLE_MOVING_STATE;
 							bHasHitWall=true;
@@ -4024,7 +4029,7 @@ void Pilot::moveSideScrollView(int key)
     			}
 				else {
          			//added by Mike, 20210725
-         			if (myLevel2D->isLevel2DCollideWith(this)) {
+         			if (myLevel3D->isLevel2DCollideWith(this)) {
 			//            printf(">>>>COLLISION!");
 //										currentMovingState=IDLE_MOVING_STATE;
 										bHasHitWall=true;
@@ -4103,7 +4108,7 @@ void Pilot::moveSideScrollView(int key)
     				}
 					else {
          				//added by Mike, 20210728
-         				if (myLevel2D->isLevel2DCollideWith(this)) {
+         				if (myLevel3D->isLevel2DCollideWith(this)) {
 				//            printf(">>>>COLLISION!");
 //											currentMovingState=IDLE_MOVING_STATE;
 											bHasHitWall=true;
@@ -4213,7 +4218,7 @@ void Pilot::moveSideScrollView(int key)
     		}
 				else {
       			//added by Mike, 20210728
-      			if (myLevel2D->isLevel2DCollideWith(this)) {
+      			if (myLevel3D->isLevel2DCollideWith(this)) {
 			//            printf(">>>>COLLISION!");
 //							currentMovingState=IDLE_MOVING_STATE;
 							bHasHitWall=true;
@@ -4340,7 +4345,7 @@ void Pilot::moveSideScrollView(int key)
           
 					//note: gravity          
           //added by Mike, 20210807
-          if (myLevel2D->isLevel2DCollideWith(this)) {          	
+          if (myLevel3D->isLevel2DCollideWith(this)) {          	
           }
           else {
           	//+gravity when at free fall
@@ -4353,7 +4358,7 @@ void Pilot::moveSideScrollView(int key)
 						//note: this set of instructions NOT executed 
 						//when there exists input to execute LEFT or RIGHT movement
 						//TO-DO: -update: instructions when computer receives both LEFT and RIGHT input Commands
-						if (myLevel2D->isLevel2DCollideWith(this)) {    
+						if (myLevel3D->isLevel2DCollideWith(this)) {    
 						}
 						else {
         			//edited by Mike, 20210830								          	
@@ -4427,11 +4432,11 @@ void Pilot::moveSideScrollView(int key)
     //TO-DO: -reverify: this; incorrect output when with as input DASH Command
 		//TO-DO: -update: if received as input DASH Command
         //edited by Mike, 20210922
-		if (myLevel2D->getFMyCanvasPosX()-fGridSquareWidth<=0) {
-//        if (myLevel2D->getFMyCanvasPosX()<=0) {
+		if (myLevel3D->getFMyCanvasPosX()-fGridSquareWidth<=0) {
+//        if (myLevel3D->getFMyCanvasPosX()<=0) {
 
         }
-		else if (myLevel2D->getFMyCanvasPosX()<=(fMyWindowWidth/2-getWidth())) {
+		else if (myLevel3D->getFMyCanvasPosX()<=(fMyWindowWidth/2-getWidth())) {
         if (myXPos<=(fMyWindowWidth/2-getWidth())) {
         }
         else {
@@ -4440,7 +4445,7 @@ void Pilot::moveSideScrollView(int key)
 //            myXPos=fMyWindowWidth/2-getWidth()-getStepX();
 
             //added by Mike, 20210922
-//            myLevel2D->setFMyCanvasPosX(myLevel2D->getFMyCanvasPosX()+getStepX());
+//            myLevel3D->setFMyCanvasPosX(myLevel3D->getFMyCanvasPosX()+getStepX());
         }
 		}
 		else {
@@ -4449,12 +4454,12 @@ void Pilot::moveSideScrollView(int key)
 //      myXPos=fMyWindowWidth/2-getWidth()-getStepX();
 
       //added by Mike, 20210922
-//      myLevel2D->setFMyCanvasPosX(myLevel2D->getFMyCanvasPosX()+getStepX());
+//      myLevel3D->setFMyCanvasPosX(myLevel3D->getFMyCanvasPosX()+getStepX());
 		}
 
     //added by Mike, 20210804
     //gravity
-    if (myLevel2D->isLevel2DCollideWith(this)) {
+    if (myLevel3D->isLevel2DCollideWith(this)) {
         bHasHitWall=true;
         return;
     }

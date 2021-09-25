@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20200926
- * @date updated: 20210924
+ * @date updated: 20210925
  * @website address: http://www.usbong.ph
  *
  * References:
@@ -103,8 +103,10 @@
 
 #include "OpenGLCanvas.h"
 
-//added by Mike, 20210827
-#include "Level2D.h"
+//added by Mike, 20210827; edited by Mike, 20210925
+//#include "Level2D.h"
+#include "Level3D.h"
+
 #include "Pilot.h" 
 
 //added by Mike, 20210902
@@ -458,49 +460,8 @@ bool OpenGLCanvas::init(int myWindowWidthAsPixelInput, int myWindowHeightAsPixel
     fMyWindowWidthAsPixelRatioToHeightPixel=1.0f;
     iMyWindowWidthAsPixelOffset=0; //added by Mike, 20210701
     
-/* //removed by Mike, 20210827	
-	iPilotX=myWindowWidthAsPixel/2;
-	iPilotY=myWindowHeightAsPixel/2;
-*/    
-    
 
-/* //removed by Mike, 20210825            
-    //added by Mike, 20210516
-    myUsbongUtils = new UsbongUtils();
-    myUsbongUtils->setWindowWidthHeight(myWindowWidthAsPixel, myWindowHeightAsPixel);
-*/
-    
-//    printf("OpenGLCanvas.cpp myWindowWidthAsPixel: %f\n",myWindowWidthAsPixel);
-    
-    
-    //added by Mike, 20210517; edited by Mike, 20210606
-    /*    myWindowWidthAsPixel = myWindowWidth;
-     myWindowHeightAsPixel = myWindowHeight;
-     */
-    /* //edited by Mike, 20210625
-     myWindowWidthAsPixel = myWindowWidthAsPixelInput;
-     myWindowHeightAsPixel = myWindowHeightAsPixelInput;
-     */
-    
-/* //removed by Mike, 20210825
-    //added by Mike, 20201001
-    //edited by Mike, 20201115
-    //myRobotShip = new RobotShip;
-    //edited by Mike, 20210211
-    //myRobotShip = new RobotShip(0.0f,0.0f,0.0f,myWindowWidth,myWindowHeight);
-    
-    //added by Mike, 20210321
-    //TO-DO: -update: these due to getMaxXAxisViewport()... already the actual size
-    
-    //	printf("%d",myLevel->getMaxXAxisViewport());
-    myRobotShip = new RobotShip(0.0f,0.0f,0.0f,myLevel->getMaxXAxisViewport()*fGridSquareWidth,myLevel->getMaxZAxisViewport()*fGridSquareHeight);
-    //edited by Mike, 20210522
-    //	myRobotShip->setOpenGLCanvas(this);
-    //edited by Mike, 20210710
-    //    myRobotShip->setOpenGLCanvas(this, fGridSquareWidth);
-    myRobotShip->setOpenGLCanvas(this, fGridSquareWidth, fGridSquareHeight);
-*/
-
+/* //removed by Mike, 20210925
     myLevel2D = new Level2D(0.0f,0.0f,0.0f,myWindowWidthAsPixelInput,myWindowHeightAsPixelInput);
     //note: width and height not equal due to Window
     //to cause square tile to NOT be square
@@ -508,24 +469,32 @@ bool OpenGLCanvas::init(int myWindowWidthAsPixelInput, int myWindowHeightAsPixel
 
     //removed by Mike, 20210828
     //myLevel2D->setupLevel(LEVEL_2D_TEXTURE);
+*/
+    myLevel3D = new Level3D(0.0f,0.0f,0.0f,myWindowWidthAsPixelInput,myWindowHeightAsPixelInput);
+    //note: width and height not equal due to Window
+    //to cause square tile to NOT be square
+    myLevel3D->setOpenGLCanvas(this, fGridSquareWidth, fGridSquareHeight);
 
-    //added by Mike, 20210830; edited by Mike, 20210914
-//    myPilot = new Pilot(myWindowWidthAsPixel/3,myWindowHeightAsPixel/2,0.0f,myWindowWidthAsPixel,myWindowHeightAsPixel);
-		//edited by Mike, 20210916
-//    myPilot = new Pilot(myWindowWidthAsPixel/2,myWindowHeightAsPixel/2,0.0f,myWindowWidthAsPixel,myWindowHeightAsPixel);
-		//edited by Mike, 20210921
-//    myPilot = new Pilot(0.0f,myWindowHeightAsPixel/2,0.0f,myWindowWidthAsPixel,myWindowHeightAsPixel);
     myPilot = new Pilot(0.0f,0.0f,0.0f,myWindowWidthAsPixel,myWindowHeightAsPixel);
-
-
     myPilot->setOpenGLCanvas(this, fGridSquareWidth, fGridSquareHeight);    
     myPilot->setAsPlayer1(); //added by Mike, 20210601    
+    
+/*  //removed by Mike, 20210925
     //added by Mike, 20210830
     myPilot->setLevel2D(myLevel2D);
-    //added by Mike, 20210911; edited by Mike, 20210923
+*/
+    myPilot->setLevel3D(myLevel3D);
+
+/*
+    //added by Mike, 20210911; edited by Mike, 20210925
     myLevel2D->setPilotStep(myPilot->getStepX(), myPilot->getStepY(), myPilot->getStepZ());
 //		myLevel2D->setPilot(myPilot);    
+*/
+    myLevel3D->setPilotStep(myPilot->getStepX(), myPilot->getStepY(), myPilot->getStepZ());
     
+    
+    	    printf(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> DITO");
+
     //added by Mike, 20210903
     //note: positions re-set inside function
     myText = new Text(-1.0f,-1.0f,-1.0f,myWindowWidthAsPixel,myWindowHeightAsPixel);
@@ -773,24 +742,19 @@ void OpenGLCanvas::render()
 	//TO-DO: -reverify: this
 //	int iLeftMarginColumnCount=3;
 
+/* //removed by Mike, 20210925
   glPushMatrix();
   	//edited by Mike, 20210910
 //    myLevel2D->draw();
-
-    //edited by Mike, 20210923
-//	myLevel2D->drawLevelMapInViewPort(myCanvasPosX, myCanvasPosY, myCanvasPosZ, myPilot->getX(),myPilot->getY(),myPilot->getZ());
     myLevel2D->drawLevelMapInViewPort(myPilot->getX(),myPilot->getY(),myPilot->getZ());
-
-    
-    //added by Mike, 20210917
     myLevel2D->drawGrid();
+  glPopMatrix();
+*/
 
-/*    
-    //TO-DO: -update: this to be in function update(...)
-    myCanvasPosX=0;
-    myCanvasPosY=0;
-    myCanvasPosZ=0;
-*/    
+
+  glPushMatrix();
+    myLevel3D->drawLevelMapInViewPort(myPilot->getX(),myPilot->getY(),myPilot->getZ());
+    myLevel3D->drawGrid();
   glPopMatrix();
 
 	//edited by Mike, 20210902
@@ -909,7 +873,9 @@ void OpenGLCanvas::update()
             //added by Mike, 20210921; edited by Mike, 20210923
 //            myCanvasPosY-=myPilot->getStepY();
 //            myLevel2D->move(KEY_W);
-            myLevel2D->move(KEY_W, myPilot);
+						//edited by Mike, 20210925
+//            myLevel2D->move(KEY_W, myPilot);
+            myLevel3D->move(KEY_W, myPilot);
             						
             //removed by Mike, 20200929
             //			sound->play_sound_clip(thrust);
@@ -926,7 +892,9 @@ void OpenGLCanvas::update()
             //added by Mike, 20210921; edited by Mike, 20210923
 //            myCanvasPosY+=myPilot->getStepY();
 //            myLevel2D->move(KEY_S);            
-            myLevel2D->move(KEY_S, myPilot);
+						//edited by Mike, 20210925
+//            myLevel2D->move(KEY_S, myPilot);
+            myLevel3D->move(KEY_S, myPilot);
         
             //edited by Mike, 20201115; edited again by Mike, 20210128
             //myRobotShip->move(KEY_DOWN);
@@ -954,8 +922,9 @@ void OpenGLCanvas::update()
             //edited by Mike, 20210923
 //						myCanvasPosX+=myPilot->getStepX();
 //            myLevel2D->move(KEY_D);
-            myLevel2D->move(KEY_D, myPilot);
-
+						//edited by Mike, 20210925
+//            myLevel2D->move(KEY_D, myPilot);
+            myLevel3D->move(KEY_D, myPilot);
             
   
 /* //removed by Mike, 20210825                    
@@ -1006,7 +975,10 @@ void OpenGLCanvas::update()
 			//edited by Mike, 20210923
 //            myCanvasPosX-=myPilot->getStepX();
 //            myLevel2D->move(KEY_A);
-            myLevel2D->move(KEY_A, myPilot);
+						//edited by Mike, 20210925
+//            myLevel2D->move(KEY_A, myPilot);
+            myLevel3D->move(KEY_A, myPilot);
+
 			
 /* //removed by Mike, 20210825                    
             //added by Mike, 20210524

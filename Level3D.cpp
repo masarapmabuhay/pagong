@@ -119,7 +119,7 @@
  */
 
 //added by Mike, 20210613
-#include "Level2D.h"
+#include "Level3D.h"
 
 
 //added by Mike, 20210614; removed by Mike, 20210703
@@ -198,7 +198,7 @@ enum Keys
 };
 
 //TO-DO: -put: in MyDynamicObject
-GLboolean Level2D::test_pow2(GLushort i)
+GLboolean Level3D::test_pow2(GLushort i)
 {
     while (i % 2 == 0)
         i /= 2;
@@ -209,12 +209,12 @@ GLboolean Level2D::test_pow2(GLushort i)
 }
 
 //edited by Mike, 20201001
-//Level2D::RobotShip(): MyDynamicObject(0,0,300)
+//Level3D::RobotShip(): MyDynamicObject(0,0,300)
 //edited by Mike, 20201115
-//Level2D::RobotShip(): MyDynamicObject(0,0,0)
+//Level3D::RobotShip(): MyDynamicObject(0,0,0)
 //edited by Mike, 20210625
-//Level2D::Text(float xPos, float yPos, float zPos, int windowWidth, int windowHeight): MyDynamicObject(xPos,yPos,0.0f, windowWidth, windowHeight)
-Level2D::Level2D(float xPos, float yPos, float zPos, float fWindowWidth, float fWindowHeight): MyDynamicObject(xPos,yPos,0.0f, fWindowWidth, fWindowHeight)
+//Level3D::Text(float xPos, float yPos, float zPos, int windowWidth, int windowHeight): MyDynamicObject(xPos,yPos,0.0f, windowWidth, windowHeight)
+Level3D::Level3D(float xPos, float yPos, float zPos, float fWindowWidth, float fWindowHeight): MyDynamicObject(xPos,yPos,0.0f, fWindowWidth, fWindowHeight)
 {
     //edited by Mike, 20201001
     //currentState=IN_TITLE_STATE;//MOVING_STATE;
@@ -279,7 +279,7 @@ Level2D::Level2D(float xPos, float yPos, float zPos, float fWindowWidth, float f
     fGridSquareWidth = (fMyWindowWidth)/iColumnCountMax; //example: 136.60
     fGridSquareHeight = (fMyWindowHeight)/iRowCountMax; //example: 76.80
     
-    printf("Level2D.cpp; fGridSquareWidth: %f",fGridSquareWidth); //75.888885, instead of 75.000000
+    printf("Level3D.cpp; fGridSquareWidth: %f",fGridSquareWidth); //75.888885, instead of 75.000000
     
     //auto-set width and height based on grid tile
     myWidthAsPixel=fGridSquareWidth;
@@ -364,75 +364,7 @@ Level2D::Level2D(float xPos, float yPos, float zPos, float fWindowWidth, float f
     myHeight=fGridSquareHeight; //64; //16;
         
     
-//    printf("Level2D.cpp myWindowWidth: %f\n",myWindowWidth);
-    
-/* //removed by Mike, 20210829
-    rotationAngle=0.0f;//360.0f;//90.0;
-    rotationStep=10.0;//1.0f;
-    thrust=0.0f;
-    thrustMax=0.8f;
-*/
-     
-/* //removed by Mike, 20210826
-    xVel;
-    yVel;
-*/
-    
-/* //removed by Mike, 20210829
-    //edited by Mike, 20201001
-    maxXVel=0.04f;//1.0f;
-    maxYVel=0.04f;//1.0f;
-    
-    //boundary = 8.0f;
-    
-    tricount = 120;
-    isMovingForward = 0;
-    
-    //added by Mike, 20210122
-    iPunchAnimationCountDelay=0;
-    //added by Mike, 20210123
-    iPunchAnimationCount=0;
-    
-    //added by Mike, 20210616
-    iTextCurrentMaxColumnCount=0;
-    //added by Mike, 20210617
-    iTextCurrentMaxRowCount=0;
-    
-    //init default values
-    //previousFacingState=FACING_UP;
-    //currentFacingState=FACING_UP;
-    
-    //added by Mike, 20201225
-    bIsFiringBeam=false;
-    
-    //added by Mike, 20210126
-    //	bIsExecutingDash=false, //removed by Mike, 20210128
-    bIsDashReady=false;
-    //edited by Mike, 20210128
-    //	iInputWaitCount=0;
-    
-    //added by Mike, 20210202
-    for (int iCount=0; iCount<iNumOfKeyTypes; iCount++) {
-        myKeysDown[iCount]=false;
-    }
-    
-    //added by Mike, 20210128
-    for (int iCount=0; iCount<PILOT_MAX_DIRECTIONAL_KEY_DASH_COUNT; iCount++) {
-        bIsExecutingDashArray[iCount]=false;
-        
-        //added by Mike, 20210128
-        iInputWaitCountArray[iCount]=0;
-    }
-    
-    //edited by Mike, 20201201; edited by Mike, 20210502
-    //	currentFacingState=FACING_UP;
-    currentFacingState=FACING_RIGHT;
-*/
-    
-    //removed by Mike, 20210423
-    /*	loadTexture(myBodyTexture, "bodyTexture.tga", &myBodyTextureObject);
-     loadTexture(myHeadTexture, "headTexture.tga", &myHeadTextureObject);
-     */
+//    printf("Level3D.cpp myWindowWidth: %f\n",myWindowWidth); 
     
     //added by Mike, 20210618
     isAtMaxTextCharRow=false;
@@ -454,29 +386,22 @@ Level2D::Level2D(float xPos, float yPos, float zPos, float fWindowWidth, float f
     //    readInputText("inputLevel1.csv");
     read((char*)"inputLevel1.csv");
     
-    //edited by Mike, 20210707; removed by Mike, 20210827
-//    setupLevel(LEVEL_2D_TEXTURE); //LEVEL_TEXTURE
-    //edited by Mike, 20210831
-//    openGLITexture = openGLLoadTexture((char*)"textures/level2D.png", &fMyWindowWidth, &fMyWindowHeight);
-    openGLITexture = openGLLoadTexture((char*)"textures/level2D.png", fMyWindowWidth, fMyWindowHeight);
+    //TO-DO: -update: this
+		//openGLITexture = openGLLoadTexture((char*)"textures/Level3D.png", fMyWindowWidth, fMyWindowHeight);
+    openGLITexture = openGLLoadTexture((char*)"textures/Level2D.png", fMyWindowWidth, fMyWindowHeight);
 
 //    printf("openGLITexture: %i",openGLITexture);
 }
 
-Level2D::~Level2D()
+Level3D::~Level3D()
 {
 }
 
 //added by Mike, 20210826
 //TO-DO: -add: CAD tool to assist in identify excess markings in image file
 //-add: CAD tool to verify animating sequence
-//edited by Mike, 20210830
-//void Level2D::openGLDrawTexture(int x, int y, GLuint textureId, int textw, int texth)
-//TO-DO: -update: to use hungarian in the containers, e.g. float fX;
 //reminder: we use floating point type, instead of integer to receive exact values after computing as input the screen width and height 
-//edited by Mike, 20210830
-//void Level2D::openGLDrawTexture(float x, float y, float textw, float texth)
-void Level2D::openGLDrawTexture(float x, float y, float textw, float texth, std::string sTileId)
+void Level3D::openGLDrawTexture(float x, float y, float textw, float texth, std::string sTileId)
 {
 	glBindTexture(GL_TEXTURE_2D, openGLITexture); //textureId);
 	glEnable(GL_TEXTURE_2D);
@@ -522,7 +447,7 @@ void Level2D::openGLDrawTexture(float x, float y, float textw, float texth, std:
 
 //added by Mike, 20210827
 //TO-DO: -remove: this
-void Level2D::setupLevel(int myLevelTextureObject)
+void Level3D::setupLevel(int myLevelTextureObject)
 {
     //removed by Mike, 20201010
     //due to blank output
@@ -537,9 +462,9 @@ void Level2D::setupLevel(int myLevelTextureObject)
 /* //removed by Mike, 20210826    
     //edited by Mike, 20210420; edited again by Mike, 20210818
 		//TO-DO: -add: version using SDL without OpenGL    
-    load_tga("textures/level2D.tga");
+    load_tga("textures/Level3D.tga");
 */        
-//    load_png("textures/level2D.tga");
+//    load_png("textures/Level3D.tga");
     
     //    load_tga("textures/concrete.tga");
     
@@ -587,7 +512,7 @@ void Level2D::setupLevel(int myLevelTextureObject)
 
 //added by Mike, 20210130
 //TO-DO: -reverify: this
-float* Level2D::getXYZPos()
+float* Level3D::getXYZPos()
 {
     //float myXYZ[3];
     float* myXYZ;
@@ -601,7 +526,7 @@ float* Level2D::getXYZPos()
 }
 
 //edited by Mike, 20210712
-void Level2D::drawTileAsQuadWithoutTexture()
+void Level3D::drawTileAsQuadWithoutTexture()
 {
     glDisable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D, 0);
@@ -675,10 +600,10 @@ void Level2D::drawTileAsQuadWithoutTexture()
 }
 
 //edited by Mike, 20210716; edited by Mike, 20210828
-//void Level2D::drawTileAsQuadWithTexture()
+//void Level3D::drawTileAsQuadWithTexture()
 //edited by Mike, 20210720
-//void Level2D::drawTileAsQuadWithTexture(std::string sTileId)
-void Level2D::drawTileAsQuadWithTexturePrev(std::string sTileId)
+//void Level3D::drawTileAsQuadWithTexture(std::string sTileId)
+void Level3D::drawTileAsQuadWithTexturePrev(std::string sTileId)
 {
 
 	//added by Mike, 20210827
@@ -861,7 +786,7 @@ void Level2D::drawTileAsQuadWithTexturePrev(std::string sTileId)
 }
 
 //added by Mike, 20210917
-void Level2D::drawGrid() {
+void Level3D::drawGrid() {
 /*
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
@@ -951,11 +876,11 @@ void Level2D::drawGrid() {
 }
 
 //edited by Mike, 20210716; edited by Mike, 20210828
-//void Level2D::drawTileAsQuadWithTexture()
+//void Level3D::drawTileAsQuadWithTexture()
 //edited by Mike, 20210720
-//void Level2D::drawTileAsQuadWithTexture(std::string sTileId)
+//void Level3D::drawTileAsQuadWithTexture(std::string sTileId)
 	//TO-DO: -update: this
-void Level2D::drawTileAsQuadWithTexture(std::string sTileId)
+void Level3D::drawTileAsQuadWithTexture(std::string sTileId)
 {
 	//added by Mike, 20210826
 //	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //removed by Mike, 20210829
@@ -1008,7 +933,7 @@ void Level2D::drawTileAsQuadWithTexture(std::string sTileId)
 }
 
 /*//removed by Mike, 20210830
-void Level2D::drawTileAsQuadWithTexture(std::string sTileId)
+void Level3D::drawTileAsQuadWithTexture(std::string sTileId)
 {
     //added by Mike, 20210826
     //	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //removed by Mike, 20210829
@@ -1033,7 +958,7 @@ void Level2D::drawTileAsQuadWithTexture(std::string sTileId)
 
 //added by Mike, 20210708; edited by Mike, 20210910
 //TO-DO: -add: function with tile patterns
-void Level2D::drawLevelWithTextureUsingInputFileNoScrollYet()
+void Level3D::drawLevelWithTextureUsingInputFileNoScrollYet()
 {
     /*
      for (int iRowCountToSetDefault=0; iRowCountToSetDefault<MAX_TEXT_CHAR_ROW_RAM; iRowCountToSetDefault++) {
@@ -1119,7 +1044,7 @@ printf("autoConvertFromPixelToVertexPointY: %f",myUsbongUtils->autoConvertFromPi
 
  //edited by Mike, 20210923
 //added by Mike, 20210911
-void Level2D::setPilotStep(float fPilotStepX, float fPilotStepY, float fPilotStepZ) {
+void Level3D::setPilotStep(float fPilotStepX, float fPilotStepY, float fPilotStepZ) {
     
 //    printf(">>fPilotStepX: %f",fPilotStepX);
     
@@ -1129,7 +1054,7 @@ void Level2D::setPilotStep(float fPilotStepX, float fPilotStepY, float fPilotSte
 }
 
 /*
-void Level2D::setPilot(Pilot* myPilotInput) {
+void Level3D::setPilot(Pilot* myPilotInput) {
 	myPilot = myPilotInput;
 }
 */
@@ -1142,8 +1067,8 @@ void Level2D::setPilot(Pilot* myPilotInput) {
 //This action is to eliminate noticeable drawing of tile during scroll movement, e.g. horizontal scroll action
 
 //edited by Mike, 20210923
-//void Level2D::drawLevelMapInViewPort(GLfloat fMyCanvasPosXInput, GLfloat fMyCanvasPosYInput, GLfloat fMyCanvasPosZInput, GLfloat fX, GLfloat fY, GLfloat fZ)
-void Level2D::drawLevelMapInViewPort(float fX, float fY, float fZ)
+//void Level3D::drawLevelMapInViewPort(GLfloat fMyCanvasPosXInput, GLfloat fMyCanvasPosYInput, GLfloat fMyCanvasPosZInput, GLfloat fX, GLfloat fY, GLfloat fZ)
+void Level3D::drawLevelMapInViewPort(float fX, float fY, float fZ)
 
 {
 /* //removed by Mike, 20210923
@@ -1545,7 +1470,7 @@ getFMyCanvasPosX: 614.699890 //macOS: 554.666687
 }
 
 //added by Mike, 20210423
-void Level2D::update(float dt)
+void Level3D::update(float dt)
 {
 /*	//removed by Mike, 20210804
     switch (currentState)
@@ -1571,23 +1496,23 @@ void Level2D::update(float dt)
 
 }
 
-void Level2D::changeState(int s)
+void Level3D::changeState(int s)
 {
     currentState=s;
 }
 
 //added by Mike, 20201226
-void Level2D::keyDown(int keyCode) {
+void Level3D::keyDown(int keyCode) {
     myKeysDown[keyCode] = TRUE;
 }
 
-void Level2D::keyUp(int keyCode) {
+void Level3D::keyUp(int keyCode) {
     myKeysDown[keyCode] = FALSE;
 }
 
 //edited by Mike, 20210923
-//void Level2D::move(int key)
-void Level2D::move(int key, MyDynamicObject* mdoPilot)
+//void Level3D::move(int key)
+void Level3D::move(int key, MyDynamicObject* mdoPilot)
 {
     switch(key) {
         case KEY_A:
@@ -1647,7 +1572,7 @@ void Level2D::move(int key, MyDynamicObject* mdoPilot)
 }
 
 //added by Mike, 20210724; edited by Mike, 20210725
-bool Level2D::isLevel2DCollideWith(MyDynamicObject* mdo)
+bool Level3D::isLevel2DCollideWith(MyDynamicObject* mdo)
 {
     
     if ((!checkIsCollidable())||(!mdo->checkIsCollidable()))    
@@ -1726,10 +1651,10 @@ printf(">>>> iCurrentLevelMapContainerOffsetMaxViewPortY: %i;",iCurrentLevelMapC
 }
 
 //added by Mike, 20210725; edited by Mike, 20210728
-//void Level2D::hitByAtTile(MyDynamicObject* mdo, std::string sTileId)
+//void Level3D::hitByAtTile(MyDynamicObject* mdo, std::string sTileId)
 //edited by Mike, 20210803
-//void Level2D::hitByAtTile(MyDynamicObject* mdo, std::string sTileId, int iTileXPos, int iTileYPos)
-bool Level2D::hitByAtTile(MyDynamicObject* mdo, std::string sTileId, int iTileXPos, int iTileYPos)
+//void Level3D::hitByAtTile(MyDynamicObject* mdo, std::string sTileId, int iTileXPos, int iTileYPos)
+bool Level3D::hitByAtTile(MyDynamicObject* mdo, std::string sTileId, int iTileXPos, int iTileYPos)
 {    
     //added by Mike, 20210725
 //    int iTileColumn = myUsbongUtils->autoIdentifyColumnInputInLevelMapContainer(sTileId); //column
@@ -1912,7 +1837,7 @@ bool Level2D::hitByAtTile(MyDynamicObject* mdo, std::string sTileId, int iTileXP
     //reset();
 }
 
-void Level2D::hitBy(MyDynamicObject* mdo)
+void Level3D::hitBy(MyDynamicObject* mdo)
 {
     //changeState(DEATH_STATE);
     //setCollidable(false);
@@ -1928,13 +1853,13 @@ void Level2D::hitBy(MyDynamicObject* mdo)
 }
 
 /*	//removed by Mike, 20210522
- void Level2D::setOpenGLCanvas(OpenGLCanvas* c)
+ void Level3D::setOpenGLCanvas(OpenGLCanvas* c)
  {
  myOpenGLCanvas = c;
  }
  */
 
-void Level2D::reset()
+void Level3D::reset()
 {
 /* //removed by Mike, 20210801
     changeState(INITIALIZING_STATE);
@@ -1946,13 +1871,13 @@ void Level2D::reset()
     invincibleCounter=0;
 */
 }
-int Level2D::getState()
+int Level3D::getState()
 {
     return currentState;
 }
 
 //added by Mike, 20201016
-void Level2D::destroy()
+void Level3D::destroy()
 {
     /*
      for(int i = 0; i < MAX_EXPLOSION_PARTICLES; ++i) {
@@ -1963,13 +1888,13 @@ void Level2D::destroy()
 }
 
 //added by Mike, 20210712
-void Level2D::read(char *inputFilename) {
+void Level3D::read(char *inputFilename) {
     int c;
     FILE *file;
     
     
     //added by Mike, 20210712
-    printf(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Level2D read(...)\n");
+    printf(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Level3D read(...)\n");
     
     
     //TO-DO: update: this

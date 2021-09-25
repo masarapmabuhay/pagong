@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20200930
- * @date updated: 20210916
+ * @date updated: 20210925
  * @website address: http://www.usbong.ph
  *
  * Acknowledgments:
@@ -136,6 +136,9 @@ class OpenGLCanvas;
 //added by Mike, 20210725
 class Level2D;
 
+//added by Mike, 20210725
+class Level3D;
+
 class MyDynamicObject
 {
 private:
@@ -237,6 +240,10 @@ public:
     
     //added by Mike, 20210725
     Level2D *myLevel2D;
+
+    //added by Mike, 20210925
+    Level3D *myLevel3D;
+
     
     //added by Mike, 202105023
     UsbongUtils *myUsbongUtils;
@@ -545,6 +552,12 @@ public:
     virtual void setLevel2D(Level2D* myLevel2DInput) {
         myLevel2D = myLevel2DInput;
     };
+
+    //added by Mike, 20210925
+    virtual void setLevel3D(Level3D* myLevel3DInput) {
+        myLevel3D = myLevel3DInput;
+    };
+
     
     //added by Mike, 20210524
     virtual void setCurrentMovingState(int iMovingState) {
