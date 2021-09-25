@@ -932,59 +932,29 @@ void Level3D::drawTileAsQuadWithTexture(std::string sTileId)
     openGLDrawTexture(myXPos-myWidth, myYPos-myHeight, myWidth, myHeight, sTileId);    
 }
 
-//added by Mike, 20210925
-void Level3D::drawTileAsCubeWithTexture(std::string sTileId)
+/*//removed by Mike, 20210830
+void Level3D::drawTileAsQuadWithTexture(std::string sTileId)
 {
-	//added by Mike, 20210826
-//	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //removed by Mike, 20210829
-	glLoadIdentity();
-    
-    //added by Mike, 20210830; removed by Mike, 20210830
-//    glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+    //added by Mike, 20210826
+    //	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //removed by Mike, 20210829
+    glLoadIdentity();
     
     
-/*  //edited by Mike, 20210830
-    myXPosAsPixel=0;//300; //0;
-    myYPosAsPixel=0;//300;//0;
-*/
+    myXPosAsPixel=300; //0;
+    myYPosAsPixel=300;//0;
+    
     //note: we increase the size value to make texture larger than the actual pixel size in the image file
     //TO-DO: -reverify: larger image to be blurred
     //edited by Mike, 20210830
-    myWidth=fGridSquareWidth; //64; //16;
-    myHeight=fGridSquareHeight; //64; //16;
-
-//    glTranslatef(myUsbongUtils->autoConvertFromPixelToVertexPointX(myXPosAsPixel), myUsbongUtils->autoConvertFromPixelToVertexPointY(myYPosAsPixel), 0);
-
-		//added by Mike, 20210830
-    //triangle tile with 90degrees angle
-    if (sTileId.compare("0-2") == 0) {//True    
-        glBegin(GL_TRIANGLES);
-          glVertex3f(0.0f, 0.0f, 0.0f);
-          glVertex3f(0.0f-myWidth, 0.0f-myHeight, 0.0f);
-          glVertex3f(0.0f, 0.0f-myHeight, 0.0f);
-        glEnd();
-    }
-    else {
-      //note: 3rd quadrant; counter clock-wise
-      	//edited by Mike, 20210925; TO-DO: -add: in PolygonUtils.cpp
-//      glBegin(GL_QUADS); // Each set of 4 vertices form a quad
-		//TO-DO: -reverify: this due to wireframe still drawn with cube
-			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-      	glBegin(GL_QUADS); // Each set of 4 vertices form a quad
-    	
-    	  //TO-DO: -add: remaining cube faces
-    	  
-    		//TOP FACE
-    	  glVertex3f(0.0f, 0.0f, 0.0f);   	
-    	  glVertex3f(0.0f-myWidth, 0.0f, 0.0f);    	
-    	  glVertex3f(0.0f-myWidth, 0.0f-myHeight, 0.0f);    	
-    	  glVertex3f(0.0f, 0.0f-myHeight, 0.0f);
-   	  glEnd();
-    }
+    myWidth=64; //16;
+    myHeight=64; //16;
     
-    openGLDrawTexture(myXPos-myWidth, myYPos-myHeight, myWidth, myHeight, sTileId);    
+    glTranslatef(myUsbongUtils->autoConvertFromPixelToVertexPointX(myXPosAsPixel), myUsbongUtils->autoConvertFromPixelToVertexPointY(myYPosAsPixel), 0);
+    
+    //TO-DO: -remove: openGLITexture in input parameter of function
+    openGLDrawTexture(myXPosAsPixel, myYPosAsPixel, openGLITexture, myWidth, myHeight);
 }
-
+*/
 
 //added by Mike, 20210708; edited by Mike, 20210910
 //TO-DO: -add: function with tile patterns

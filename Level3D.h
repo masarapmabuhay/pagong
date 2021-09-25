@@ -371,6 +371,9 @@ private:
 		//edited by Mike, 20210719
 //    void drawTileAsQuadWithTexture(); //added by Mike, 20210717
     void drawTileAsQuadWithTexture(std::string sTileId);    
+
+		//added by Mike, 20210925
+    void drawTileAsCubeWithTexture(std::string sTileId);    
     
 public:
     Level3D(float xPos, float yPos, float zPos, float fWindowWidth, float fWindowHeight);

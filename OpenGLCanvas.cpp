@@ -730,17 +730,33 @@ void OpenGLCanvas::render()
 {
 	//added by Mike, 20210826
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glLoadIdentity();
+//	glLoadIdentity(); //removed by Mike, 20210925
 	
-//	draw(texture, iPilotX, iPilotY);
-	//edited by Mike, 20210826
-	//draw(texture, iPilotX, iPilotY, mySDLRenderer);	
-/* //removed by Mike, 20210827
-	openGLDrawTexture(iPilotX, iPilotY, openGLITexture, iTextureWidth, iTextureHeight);	
+	//added by Mike, 20201207
+	//Reference: https://www.khronos.org/opengl/wiki/Depth_Test;
+	//last accessed: 20201206
+	//TO-DO: -add: Z-sort, i.e. sort objects by Z-axis when computer auto-draws
+	glEnable(GL_DEPTH_TEST);
+	glDepthFunc(GL_ALWAYS);
+
+/*
+	//Reference: https://community.khronos.org/t/gradient-background/54348/2;
+	//last accessed: 20201122
+	//answer by: NiCo1, 2008-03
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();	
 */
 
-	//TO-DO: -reverify: this
-//	int iLeftMarginColumnCount=3;
+  //-----
+	//part 1: 2D draw instructions
+  //-----
+  
+  //TO-DO: -add: here
+  
+  		
 
 /* //removed by Mike, 20210925
   glPushMatrix();
@@ -752,10 +768,66 @@ void OpenGLCanvas::render()
 */
 
 
+  //-----
+	//part 2: 3D draw instructions
+  //-----
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();	
+	
+	
+	//TOP-LEFT origin
+	glOrtho(0.0f, //left
+        	1.0f, //right
+        	1.0f, //bottom
+        	0.0f, //top
+        	0.0f, //zNear; minimum
+        	1.0f //zFar; maximum
+      	);
+
+  gluPerspective(90.0, // field-of-view angle
+                   4.0 / 4.0, // aspect ratio
+                   0.1, // near plane
+                   100); // far plane
+		
+	myCanvasEyePosX=0;
+	myCanvasEyePosY=0;
+	myCanvasEyePosZ=0;
+	myCanvasCenterPosX=0;
+	myCanvasCenterPosY=0;
+	myCanvasCenterPosZ=0;
+
+/*
+	gluLookAt(myCanvasEyePosX, myCanvasEyePosY, myCanvasEyePosZ+10.0f, // eye position
+			  myCanvasCenterPosX, myCanvasCenterPosY, myCanvasCenterPosZ, // look-at point
+              0.0, 1.0, 0.0); // up-direction
+*/	
+	gluLookAt(myCanvasEyePosX, myCanvasEyePosY, myCanvasEyePosZ, // eye position
+			  myCanvasCenterPosX, myCanvasCenterPosY, myCanvasCenterPosZ, // look-at point
+              0.0, 0.0, 1.0); // up-direction
+
+	
+	//solves problem with quad face image texture merging
+	glEnable(GL_CULL_FACE);
+
+
+//	glRotatef(120, 1.0f, 0.0f, 0.0f);
+//	glRotatef(120, 0.0f, 1.0f, 0.0f);
+	
+//	glTranslatef(-fGridSquareWidth*(iRowCountMax-4), 0.0f, -fGridSquareHeight*(iColumnCountMax-1));
+/*	
+	glTranslatef(myUsbongUtils->autoConvertFromPixelToVertexPointX(-myWindowWidth/2), 
+							 myUsbongUtils->autoConvertFromPixelToVertexPointX(-myWindowHeight/2), 
+							 myUsbongUtils->autoConvertFromPixelToVertexPointX(0.0f));
+*/
+
+//	glTranslatef(0.0f, 0.0f, 100.0f);
+
+/*	//removed by Mike, 20210925
   glPushMatrix();
     myLevel3D->drawLevelMapInViewPort(myPilot->getX(),myPilot->getY(),myPilot->getZ());
     myLevel3D->drawGrid();
   glPopMatrix();
+*/
 
 	//edited by Mike, 20210902
  	glPushMatrix();

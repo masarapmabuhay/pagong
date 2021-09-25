@@ -743,11 +743,43 @@ void Pilot::drawPilotObject()
 {
 	//added by Mike, 20210826
 //	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //removed by Mike, 20210829
-		glLoadIdentity();
+		glLoadIdentity(); //removed by Mike, 20210925
+    
+    glDisable(GL_CULL_FACE);
+
     
     //edited by Mike, 20210830
 //	openGLDrawTexture(myXPosAsPixel, myYPosAsPixel, openGLITexture, myWidth, myHeight);
-    openGLDrawTexture(myXPos, myYPos, myWidth, myHeight);
+    
+/* //TO-DO: -reverify: this    
+    glTranslatef(1.0f, 
+							 	 1.0f, 
+							   0.0f);
+*/
+
+/*
+		//TO-DO: -add: in openGLDrawTexture(...)
+		glTranslatef(-2.0f, 
+							 	 2.0f, 
+							   0.0f);
+
+    glRotatef(180, 0.0f, 0.0f, 1.0f); //flip vertically
+    glRotatef(180, 1.0f, 0.0f, 0.0f);		
+//    glRotatef(180, 0.0f, 1.0f, 0.0f); //note: update: axis movement
+*/  
+  
+    
+//    glScalef(0.5f, 0.5f, 0.5f);
+//    glScalef(0.75f, 0.75f, 0.75f);
+    glScalef(1.0f, 1.0f, 1.0f);
+
+    //TO-DO: -reuse: in OpenGLCanvas.cpp, et cetera, 
+    //myUsbongUtils->autoConvertFromPixelToVertexPointX(...) with position computations    
+    openGLDrawTexture(myUsbongUtils->autoConvertFromPixelToVertexPointX(myXPos), 
+    									myUsbongUtils->autoConvertFromPixelToVertexPointX(myYPos), 
+    									myUsbongUtils->autoConvertFromPixelToVertexPointX(myWidth), 
+    									myUsbongUtils->autoConvertFromPixelToVertexPointX(myHeight));
+
 }
 
 //added by Mike, 20210727
