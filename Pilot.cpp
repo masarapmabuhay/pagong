@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B. 
  * @date created: 20200930
- * @date updated: 20210925
+ * @date updated: 20210927
  * @website address: http://www.usbong.ph
  *
  * Reference: 
@@ -245,14 +245,16 @@ void Pilot::openGLDrawTexture(float x, float y, float textw, float texth)
         (((currentFacingState==FACING_UP) || (currentFacingState==FACING_DOWN)) and
             (prevFacingState==FACING_RIGHT))
         || (currentFacingState==FACING_RIGHT_AND_UP) || (currentFacingState==FACING_RIGHT_AND_DOWN)) {
-        
-        glTranslatef(textw,0.0f,0.0f);
+  
+  			//removed by Mike, 20210927      
+//        glTranslatef(textw,0.0f,0.0f);
   
 /*
         //added by Mike, 20210925
         glRotatef(45,1.0f,0.0f,0.0f);
 */
 			//set vertex counter-clock-wise
+/* //edited by Mike, 20210927			
 			glBegin(GL_QUADS);
 				glTexCoord2f(0+fTaoAnimationFrameOffset, 0+fTaoAnimationFrameOffsetYAxis);
 				glVertex3f(x, y, 0);
@@ -268,10 +270,26 @@ void Pilot::openGLDrawTexture(float x, float y, float textw, float texth)
 				glTexCoord2f(0+fTaoAnimationFrameOffset, fTaoAnimationFrameOffsetYAxis+0.25f);
 //				glVertex3f(x, y + texth, 0);
 				glVertex3f(x, y + texth, 0);
-
 			glEnd();
+*/
+			//note: texture positions inverted
+			//set vertex clock-wise
+			glBegin(GL_QUADS);
+				glTexCoord2f(0+fTaoAnimationFrameOffset, fTaoAnimationFrameOffsetYAxis+0.25f);				
+				glVertex3f(x, y, 0);
+				
+				glTexCoord2f(0+fTaoAnimationFrameOffset, 0+fTaoAnimationFrameOffsetYAxis);				
+				glVertex3f(x, y + texth, 0);
+
+				glTexCoord2f(0.25f+fTaoAnimationFrameOffset, 0+fTaoAnimationFrameOffsetYAxis);
+				glVertex3f(x + textw, y + texth, 0);
+
+				glTexCoord2f(0.25f+fTaoAnimationFrameOffset, fTaoAnimationFrameOffsetYAxis+0.25f);
+				glVertex3f(x + textw, y, 0);
+			glEnd();			
 		}
 		else {		
+/* //edited by Mike, 20210927		
 			//added by Mike, 20210827
 			//set vertex counter-clock-wise
 			glBegin(GL_QUADS);
@@ -287,6 +305,23 @@ void Pilot::openGLDrawTexture(float x, float y, float textw, float texth)
 				glTexCoord2f(0+fTaoAnimationFrameOffset, fTaoAnimationFrameOffsetYAxis+0.25f);
 				glVertex3f(x, y + texth, 0);
 			glEnd();
+*/
+			//note: texture positions inverted
+			//set vertex clock-wise
+			glBegin(GL_QUADS);
+				glTexCoord2f(0.25f+fTaoAnimationFrameOffset, fTaoAnimationFrameOffsetYAxis+0.25f);
+				glVertex3f(x, y, 0);
+				
+				glTexCoord2f(0.25f+fTaoAnimationFrameOffset, 0+fTaoAnimationFrameOffsetYAxis);
+				glVertex3f(x, y + texth, 0);
+
+				glTexCoord2f(0+fTaoAnimationFrameOffset, 0+fTaoAnimationFrameOffsetYAxis);				
+				glVertex3f(x + textw, y + texth, 0);
+
+				glTexCoord2f(0+fTaoAnimationFrameOffset, fTaoAnimationFrameOffsetYAxis+0.25f);				
+				glVertex3f(x + textw, y, 0);
+			glEnd();
+			
 	}	
 			
 	glDisable(GL_TEXTURE_2D);
@@ -751,6 +786,10 @@ void Pilot::drawPilotObject()
     
     glDisable(GL_CULL_FACE);
 
+		//added by Mike, 20210927
+		glTranslatef(1.0f, -1.0f, 0.0f);
+
+//    glRotatef(180, 0.0f, 0.0f, 1.0f); //flip vertically
     
     //edited by Mike, 20210830
 //	openGLDrawTexture(myXPosAsPixel, myYPosAsPixel, openGLITexture, myWidth, myHeight);
@@ -772,17 +811,23 @@ void Pilot::drawPilotObject()
 //    glRotatef(180, 0.0f, 1.0f, 0.0f); //note: update: axis movement
 */  
   
-    
-//    glScalef(0.5f, 0.5f, 0.5f);
+  	//edited by Mike, 20210927  
+//	  glScalef(0.5f, 0.5f, 0.5f);
 //    glScalef(0.75f, 0.75f, 0.75f);
-    glScalef(1.0f, 1.0f, 1.0f);
+//    glScalef(1.0f, 1.0f, 1.0f); 
+		 //use correct width x height ratio; window 10x18; row x column
+	   //glScalef(0.25f, 0.25f, 0.25f);
+	   glScalef(0.20f, 0.35f, 0.0f);
+	   
+	   //added by Mike, 20210927
+	  //TO-DO: -reverify: pixel to vertex position computation
 
     //TO-DO: -reuse: in OpenGLCanvas.cpp, et cetera, 
     //myUsbongUtils->autoConvertFromPixelToVertexPointX(...) with position computations    
     openGLDrawTexture(myUsbongUtils->autoConvertFromPixelToVertexPointX(myXPos), 
-    									myUsbongUtils->autoConvertFromPixelToVertexPointX(myYPos), 
+    									myUsbongUtils->autoConvertFromPixelToVertexPointY(myYPos), 
     									myUsbongUtils->autoConvertFromPixelToVertexPointX(myWidth), 
-    									myUsbongUtils->autoConvertFromPixelToVertexPointX(myHeight));
+    									myUsbongUtils->autoConvertFromPixelToVertexPointY(myHeight));
 
 }
 

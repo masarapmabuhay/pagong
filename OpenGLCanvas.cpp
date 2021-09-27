@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20200926
- * @date updated: 20210925
+ * @date updated: 20210927
  * @website address: http://www.usbong.ph
  *
  * References:
@@ -859,6 +859,10 @@ void OpenGLCanvas::render()
 	
 	//solves problem with quad face image texture merging
 	glEnable(GL_CULL_FACE);
+	
+	//added by Mike, 20210927
+//	glTranslatef(-2.0f, 0.0f, 0.0f);
+
 
 /* //TO-DO: -reverify: rotated x-axis to add height in view, instead of flat due to TOP-VIEW
     //added by Mike, 20210925
@@ -877,6 +881,7 @@ void OpenGLCanvas::render()
 */
 
 //	glTranslatef(0.0f, 0.0f, 100.0f);
+
 
 /*	//removed by Mike, 20210925
   glPushMatrix();
