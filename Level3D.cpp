@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20200926
- * @date updated: 20210925
+ * @date updated: 20210927
  * @website address: http://www.usbong.ph
  *
  * Reference:
@@ -411,6 +411,13 @@ void Level3D::openGLDrawTexture(float x, float y, float textw, float texth, std:
 	float fTaoAnimationFrameOffset=0.0f;
 	float fTaoAnimationFrameOffsetYAxis=0.0f;
 */	
+
+
+	//added by Mike, 20210927
+	//note: updated: texture and vertex positions to be clock-wise 1st quadrant
+	glTranslatef(-textw,-texth,0.0f);
+	glColor3f(1.0f, 1.0f, 1.0f); // white
+	
 		//added by Mike, 20210830
    	float fTx = 0.0f;
     float fTy = 0.0f;
@@ -425,6 +432,7 @@ void Level3D::openGLDrawTexture(float x, float y, float textw, float texth, std:
 	//added by Mike, 20210826
 //	glColor3f(1.0f, 1.0f, 1.0f); // white
 
+/*	//edited by Mike, 20210927
 	//added by Mike, 20210827
 	//set vertex counter-clock-wise
 	glBegin(GL_QUADS);
@@ -440,6 +448,22 @@ void Level3D::openGLDrawTexture(float x, float y, float textw, float texth, std:
 		glTexCoord2f(0+fTx, fTy+0.0625f);
 		glVertex3f(x, y + texth, 0);
 	glEnd();
+*/
+
+		//set vertex clock-wise; 1st quadrant; inverted Y-axis
+		glBegin(GL_QUADS);
+			glTexCoord2f(0.0625f+fTx, fTy+0.0625f);		
+			glVertex3f(x, y, 0);
+	
+			glTexCoord2f(0.0625f+fTx, 0+fTy);
+			glVertex3f(x, y + texth, 0);
+			
+			glTexCoord2f(0+fTx, 0+fTy);			
+			glVertex3f(x + textw, y + texth, 0);
+
+			glTexCoord2f(0+fTx, fTy+0.0625f);
+			glVertex3f(x + textw, y, 0);
+		glEnd();
     
     glDisable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D, 0); //added by Mike, 20210918
@@ -817,26 +841,39 @@ void Level3D::drawGrid() {
      // Draw a Green Line
      //rows
      for (int iRowCount=0; iRowCount<=iRowCountMax; iRowCount++) {
-     // Draw a Green Line top-left origin
-     //horizontal line
-     glBegin(GL_LINES);
-     glColor3f(0.0f, 0.8f, 0.0f); // Green
-     
-     glVertex2f(0.0f, fGridSquareHeight*iRowCount);    // x, y
-     glVertex2f(fGridSquareWidth*iColumnCountMax, fGridSquareHeight*iRowCount);
-     glEnd();
+     	 // Draw a Green Line top-left origin
+     	 //horizontal line
+     	 glBegin(GL_LINES);
+     	   glColor3f(0.0f, 0.8f, 0.0f); // Green
+/*	//edited by Mike, 20210927     	
+     		glVertex2f(0.0f, fGridSquareHeight*iRowCount);    // x, y
+     		glVertex2f(fGridSquareWidth*iColumnCountMax, fGridSquareHeight*iRowCount);
+*/     		
+				 // x, y
+     		 glVertex2f(myUsbongUtils->autoConvertFromPixelToVertexPointX(0.0f), 
+     		 						myUsbongUtils->autoConvertFromPixelToVertexPointY(fGridSquareHeight*iRowCount));
+     		 glVertex2f(myUsbongUtils->autoConvertFromPixelToVertexPointX(fGridSquareWidth*iColumnCountMax), 
+     		 						myUsbongUtils->autoConvertFromPixelToVertexPointY(fGridSquareHeight*iRowCount));
+       glEnd();
      }
      
      //columns
      for (int iColumnCount=0; iColumnCount<=iColumnCountMax; iColumnCount++) {
-     // Draw a Green Line top-left origin
-     //vertical line
-     glBegin(GL_LINES);
-     glColor3f(0.0f, 0.8f, 0.0f); // Green
-     
-     glVertex2f(fGridSquareWidth*iColumnCount, 0.0f);    // x,y
-     glVertex2f(fGridSquareWidth*iColumnCount, fGridSquareHeight*iRowCountMax);
-     glEnd();
+     		// Draw a Green Line top-left origin
+     		//vertical line
+     		glBegin(GL_LINES);
+     			glColor3f(0.0f, 0.8f, 0.0f); // Green
+/*     		
+     			//edited by Mike, 20210927
+     			glVertex2f(fGridSquareWidth*iColumnCount, 0.0f);    // x,y
+     			glVertex2f(fGridSquareWidth*iColumnCount, fGridSquareHeight*iRowCountMax);
+*/
+					// x,y
+     			glVertex2f(myUsbongUtils->autoConvertFromPixelToVertexPointX(fGridSquareWidth*iColumnCount), 
+     								 myUsbongUtils->autoConvertFromPixelToVertexPointY(0.0f));
+     			glVertex2f(myUsbongUtils->autoConvertFromPixelToVertexPointX(fGridSquareWidth*iColumnCount), 		
+     								 myUsbongUtils->autoConvertFromPixelToVertexPointY(fGridSquareHeight*iRowCountMax));	
+     		glEnd();
      }
      
     
@@ -850,10 +887,18 @@ void Level3D::drawGrid() {
      
          //horizontal line
          glBegin(GL_LINES);
-         glColor3f(0.8f, 0.0f, 0.0f); // Red
-         
-         glVertex2f(0.0f, fGridSquareHeight*iRowCount);    // x, y
-         glVertex2f(fGridSquareWidth*iColumnCountMax, fGridSquareHeight*iRowCount);
+         	 glColor3f(0.8f, 0.0f, 0.0f); // Red
+
+/* //edited by Mike, 20210927         
+         	 glVertex2f(0.0f, fGridSquareHeight*iRowCount);    // x, y
+         	 glVertex2f(fGridSquareWidth*iColumnCountMax, fGridSquareHeight*iRowCount);
+*/
+					 // x, y
+         	 glVertex2f(myUsbongUtils->autoConvertFromPixelToVertexPointX(0.0f), 
+         	 						myUsbongUtils->autoConvertFromPixelToVertexPointY(fGridSquareHeight*iRowCount));
+         	 glVertex2f(myUsbongUtils->autoConvertFromPixelToVertexPointX(fGridSquareWidth*iColumnCountMax), 
+         	 						myUsbongUtils->autoConvertFromPixelToVertexPointY(fGridSquareHeight*iRowCount));
+         	 
          glEnd();
     }
 		
@@ -863,10 +908,18 @@ void Level3D::drawGrid() {
 
         //vertical line
         glBegin(GL_LINES);
-        glColor3f(0.8f, 0.0f, 0.0f); // Red
+        	glColor3f(0.8f, 0.0f, 0.0f); // Red
         
+/* //edited by Mike, 20210927         
         glVertex2f(fGridSquareWidth*iColumnCount, 0.0f);    // x,y
         glVertex2f(fGridSquareWidth*iColumnCount, fGridSquareHeight*iRowCountMax);
+*/
+					// x,y
+					glVertex2f(myUsbongUtils->autoConvertFromPixelToVertexPointX(fGridSquareWidth*iColumnCount), 
+										 myUsbongUtils->autoConvertFromPixelToVertexPointY(0.0f));    
+	        glVertex2f(myUsbongUtils->autoConvertFromPixelToVertexPointX(fGridSquareWidth*iColumnCount), 
+	        					 myUsbongUtils->autoConvertFromPixelToVertexPointY(fGridSquareHeight*iRowCountMax));
+        
         glEnd();
     }
 
@@ -886,6 +939,9 @@ void Level3D::drawTileAsQuadWithTexture(std::string sTileId)
 //	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //removed by Mike, 20210829
 	glLoadIdentity();
     
+  //added by Mike, 20210927
+  glDisable(GL_CULL_FACE);
+    
     //added by Mike, 20210830; removed by Mike, 20210830
 //    glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
     
@@ -902,6 +958,7 @@ void Level3D::drawTileAsQuadWithTexture(std::string sTileId)
 
 //    glTranslatef(myUsbongUtils->autoConvertFromPixelToVertexPointX(myXPosAsPixel), myUsbongUtils->autoConvertFromPixelToVertexPointY(myYPosAsPixel), 0);
 
+/* //removed by Mike, 20210927; TO-DO: -reverify: if shall need to add this
 		//added by Mike, 20210830
     //triangle tile with 90degrees angle
     if (sTileId.compare("0-2") == 0) {//True    
@@ -920,16 +977,23 @@ void Level3D::drawTileAsQuadWithTexture(std::string sTileId)
     	  glVertex3f(0.0f, 0.0f-myHeight, 0.0f);
    	  glEnd();
     }
+*/    
+
+		//TO-DO: -reverify: x, y tile positions
     
-    //TO-DO: -remove: openGLITexture in input parameter of function
-    //edited by Mike, 20210830
-//	openGLDrawTexture(myXPosAsPixel, myYPosAsPixel, openGLITexture, myWidth, myHeight);
-//    openGLDrawTexture(myXPos, myYPos, myWidth, myHeight);
-		//edited by Mike, 20210920
-//    openGLDrawTexture(myXPos, myYPos, myWidth, myHeight, sTileId);    
-		//edited by Mike, 20210921
-//    openGLDrawTexture(myXPos-myWidth, myYPos, myWidth, myHeight, sTileId);    
-    openGLDrawTexture(myXPos-myWidth, myYPos-myHeight, myWidth, myHeight, sTileId);    
+		//removed by Mike, 20210927
+//    openGLDrawTexture(myXPos-myWidth, myYPos-myHeight, myWidth, myHeight, sTileId);    
+
+    glTranslatef(myUsbongUtils->autoConvertFromPixelToVertexPointX(myXPos-myWidth), myUsbongUtils->autoConvertFromPixelToVertexPointY(myYPos-myHeight), 0);
+
+//    glTranslatef(myUsbongUtils->autoConvertFromPixelToVertexPointX(myXPos), myUsbongUtils->autoConvertFromPixelToVertexPointY(myYPos), 0);
+		
+		//added by Mike, 20210927
+		//add scale COMMAND after translate COMMAND for auto-computed positions to be correct
+		//use correct width x height ratio; window 10x18; row x column
+		glScalef(0.20f, 0.35f, 0.0f);
+
+	  openGLDrawTexture(0.0f, 0.0f, myWidth, myHeight, sTileId);    
 }
 
 //added by Mike, 20210925
@@ -1616,7 +1680,7 @@ bool Level3D::isLevel2DCollideWith(MyDynamicObject* mdo)
                 for (int iColumnCount=0; iColumnCount<iColumnCountMax; iColumnCount++) {
 */
     
-
+/*	//removed by Mike, 20210927
     //TO-DO: -fix: problem with forward movement, then backward movement;
     //if forward +3 tiles, then backward movement -1 tile, based on auto-drawn tiles
  //removed by Mike, 20210915    
@@ -1625,6 +1689,7 @@ printf(">>>> iCurrentLevelMapContainerOffsetY: %i;",iCurrentLevelMapContainerOff
   
 printf(">>>> iCurrentLevelMapContainerOffsetMaxViewPortY: %i;",iCurrentLevelMapContainerOffsetMaxViewPortY);
 //printf(">>>> iCurrentLevelMapContainerOffsetMaxViewPortX: %i;\n",iCurrentLevelMapContainerOffsetMaxViewPortX);
+*/
 
     int iStartRowCount=0; //7;
     int iStartColumnCount=0; //1//6; //7;

@@ -883,12 +883,10 @@ void OpenGLCanvas::render()
 //	glTranslatef(0.0f, 0.0f, 100.0f);
 
 
-/*	//removed by Mike, 20210925
   glPushMatrix();
     myLevel3D->drawLevelMapInViewPort(myPilot->getX(),myPilot->getY(),myPilot->getZ());
     myLevel3D->drawGrid();
   glPopMatrix();
-*/
 
 	//edited by Mike, 20210902
  	glPushMatrix();
@@ -1595,6 +1593,7 @@ void OpenGLCanvas::update()
         else if (myPilot->getY()+myPilot->getHeight() +myPilot->getStepY() > myWindowHeight) {
             myPilot->setYPos(myWindowHeight-myPilot->getHeight()-myPilot->getStepY());
         }
+        
         
         //added by Mike, 20210922
         //TO-DO: -add: action if max canvas pos x reached

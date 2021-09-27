@@ -236,6 +236,10 @@ void Pilot::openGLDrawTexture(float x, float y, float textw, float texth)
 	
 	//TO-DO: -update: Pilot shoes; animation sequence
 
+	//added by Mike, 20210927
+	//note: updated: texture and vertex positions to be clock-wise 1st quadrant
+	glTranslatef(-textw,-texth,0.0f);
+
 	//added by Mike, 20210918
 	glColor3f(1.0f, 1.0f, 1.0f); // white
 
@@ -481,7 +485,7 @@ Pilot::Pilot(float xPos, float yPos, float zPos, float fWindowWidth, float fWind
 //  myUsbongUtils->setWindowWidthHeight(windowWidth, windowHeight);
 	//edited by Mike, 20210815
 //  	myUsbongUtils->setWindowWidthHeight(myWindowWidth, myWindowHeight);
-  	myUsbongUtils->setWindowWidthHeight(fMyWindowWidth, fMyWindowHeight);
+	  	myUsbongUtils->setWindowWidthHeight(fMyWindowWidth, fMyWindowHeight);
     
 //    myWidthX=0.5;
 
@@ -787,7 +791,7 @@ void Pilot::drawPilotObject()
     glDisable(GL_CULL_FACE);
 
 		//added by Mike, 20210927
-		glTranslatef(1.0f, -1.0f, 0.0f);
+//		glTranslatef(1.0f, -1.0f, 0.0f);
 
 //    glRotatef(180, 0.0f, 0.0f, 1.0f); //flip vertically
     
@@ -817,18 +821,37 @@ void Pilot::drawPilotObject()
 //    glScalef(1.0f, 1.0f, 1.0f); 
 		 //use correct width x height ratio; window 10x18; row x column
 	   //glScalef(0.25f, 0.25f, 0.25f);
-	   glScalef(0.20f, 0.35f, 0.0f);
+	   //removed by Mike, 20210927
+//	   glScalef(0.20f, 0.35f, 0.0f);
 	   
 	   //added by Mike, 20210927
 	  //TO-DO: -reverify: pixel to vertex position computation
+	  
+	  printf(">>myXPos: %f; vertexPosX: %f\n",myXPos,myUsbongUtils->autoConvertFromPixelToVertexPointX(myXPos));
+	  
 
     //TO-DO: -reuse: in OpenGLCanvas.cpp, et cetera, 
     //myUsbongUtils->autoConvertFromPixelToVertexPointX(...) with position computations    
+/*	//edited by Mike, 20210927    
     openGLDrawTexture(myUsbongUtils->autoConvertFromPixelToVertexPointX(myXPos), 
     									myUsbongUtils->autoConvertFromPixelToVertexPointY(myYPos), 
-    									myUsbongUtils->autoConvertFromPixelToVertexPointX(myWidth), 
-    									myUsbongUtils->autoConvertFromPixelToVertexPointY(myHeight));
+    									myUsbongUtils->autoConvertFromPixelToVertexGridTileWidth(myWidth), 
+    									myUsbongUtils->autoConvertFromPixelToVertexGridTileHeight(myHeight));
+*/
 
+    glTranslatef(myUsbongUtils->autoConvertFromPixelToVertexPointX(myXPos), myUsbongUtils->autoConvertFromPixelToVertexPointY(myYPos), 0);
+		
+		//added by Mike, 20210927
+		//add scale COMMAND after translate COMMAND for auto-computed positions to be correct
+		//use correct width x height ratio; window 10x18; row x column
+		glScalef(0.20f, 0.35f, 0.0f);
+
+    openGLDrawTexture(0.0f, 
+    									0.0f, 
+    									myUsbongUtils->autoConvertFromPixelToVertexGridTileWidth(myWidth), 
+    									myUsbongUtils->autoConvertFromPixelToVertexGridTileHeight(myHeight));
+
+    
 }
 
 //added by Mike, 20210727
@@ -3725,7 +3748,6 @@ void Pilot::move(int key)
 	}
 */
 		
-
 		//TO-DO: -delete: excess instructions; OpenGLCanvas.cpp, Level2D.cpp, Pilot.cpp
     //TO-DO: -reverify: this; incorrect output when with as input DASH Command
 		//TO-DO: -update: if received as input DASH Command
@@ -3742,20 +3764,7 @@ void Pilot::move(int key)
 		//edited by Mike, 20210923
 		//TO-DO: -reverify: this
 		else if (myLevel3D->getFMyCanvasPosX()<(fMyWindowWidth/2-getWidth())) {
-			printf(">>>>Pilot myXPos: %f",myXPos);
-
-/*					
-				//TO-DO: -reverify myCanvasPosX = Pilot's fX...	
-        if (myXPos<=(fMyWindowWidth/2-getWidth())) {
-        	//added by Mike, 20210923
-        	//TO-DO: -reverify: instruction to eliminate excess stepX
-        }
-        else {
-            //edited by Mike, 20210924
-            myXPos=fMyWindowWidth/2-getWidth();
-        }
-*/        
-
+//			printf(">>>>Pilot myXPos: %f",myXPos); 
 				if ((currentFacingState==FACING_LEFT) &&
 						(currentMovingState==WALKING_MOVING_STATE)) {
   						//TO-DO: -reverify: this due to still has excess acceleration        
@@ -3790,7 +3799,7 @@ void Pilot::move(int key)
 //		else if (myLevel3D->getFMyCanvasPosY()<=fMyWindowHeight/2) {
 //		else if (myLevel3D->getFMyCanvasPosY()<=(fMyWindowHeight/2-getHeight()-stepY)) {
 
-			printf(">>>>Pilot myYPos: %f",myYPos);
+//			printf(">>>>Pilot myYPos: %f",myYPos);
 
 //      myYPos=fMyWindowHeight/2-getHeight();
 
