@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20200926
- * @date updated: 20210927
+ * @date updated: 20210928
  * @website address: http://www.usbong.ph
  *
  * References:
@@ -470,7 +470,10 @@ bool OpenGLCanvas::init(int myWindowWidthAsPixelInput, int myWindowHeightAsPixel
     //removed by Mike, 20210828
     //myLevel2D->setupLevel(LEVEL_2D_TEXTURE);
 */
-    myLevel3D = new Level3D(0.0f,0.0f,0.0f,myWindowWidthAsPixelInput,myWindowHeightAsPixelInput);
+		//edited by Mike, 20210928
+//    myLevel3D = new Level3D(0.0f,0.0f,0.0f,myWindowWidthAsPixelInput,myWindowHeightAsPixelInput);
+    myLevel3D = new Level3D(0.0f,0.0f,0.0f,myWindowWidthAsPixel,myWindowHeightAsPixel);
+    
     //note: width and height not equal due to Window
     //to cause square tile to NOT be square
     myLevel3D->setOpenGLCanvas(this, fGridSquareWidth, fGridSquareHeight);
@@ -493,7 +496,7 @@ bool OpenGLCanvas::init(int myWindowWidthAsPixelInput, int myWindowHeightAsPixel
     myLevel3D->setPilotStep(myPilot->getStepX(), myPilot->getStepY(), myPilot->getStepZ());
     
     
-    	    printf(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> DITO");
+//    	    printf(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> DITO");
 
     //added by Mike, 20210903
     //note: positions re-set inside function

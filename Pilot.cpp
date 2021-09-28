@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B. 
  * @date created: 20200930
- * @date updated: 20210927
+ * @date updated: 20210928
  * @website address: http://www.usbong.ph
  *
  * Reference: 
@@ -827,7 +827,7 @@ void Pilot::drawPilotObject()
 	   //added by Mike, 20210927
 	  //TO-DO: -reverify: pixel to vertex position computation
 	  
-	  printf(">>myXPos: %f; vertexPosX: %f\n",myXPos,myUsbongUtils->autoConvertFromPixelToVertexPointX(myXPos));
+//	  printf(">>myXPos: %f; vertexPosX: %f\n",myXPos,myUsbongUtils->autoConvertFromPixelToVertexPointX(myXPos));
 	  
 
     //TO-DO: -reuse: in OpenGLCanvas.cpp, et cetera, 

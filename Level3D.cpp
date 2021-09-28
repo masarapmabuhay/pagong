@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20200926
- * @date updated: 20210927
+ * @date updated: 20210928
  * @website address: http://www.usbong.ph
  *
  * Reference:
@@ -388,9 +388,11 @@ Level3D::Level3D(float xPos, float yPos, float zPos, float fWindowWidth, float f
     
     //TO-DO: -update: this
 		//openGLITexture = openGLLoadTexture((char*)"textures/Level3D.png", fMyWindowWidth, fMyWindowHeight);
-    openGLITexture = openGLLoadTexture((char*)"textures/Level2D.png", fMyWindowWidth, fMyWindowHeight);
+		//edited by Mike, 20210928
+//    openGLITexture = openGLLoadTexture((char*)"textures/Level2D.png", fMyWindowWidth, fMyWindowHeight);
+    openGLITexture = openGLLoadTexture((char*)"textures/Level2D.png", myWidth, myHeight);
 
-//    printf("openGLITexture: %i",openGLITexture);
+   printf(">>>>openGLITexture: %i",openGLITexture);
 }
 
 Level3D::~Level3D()
@@ -405,7 +407,7 @@ void Level3D::openGLDrawTexture(float x, float y, float textw, float texth, std:
 {
 	glBindTexture(GL_TEXTURE_2D, openGLITexture); //textureId);
 	glEnable(GL_TEXTURE_2D);
-	
+		
 //    printf("openGLITexture: %i",openGLITexture);
 /*    
 	float fTaoAnimationFrameOffset=0.0f;
@@ -415,9 +417,12 @@ void Level3D::openGLDrawTexture(float x, float y, float textw, float texth, std:
 
 	//added by Mike, 20210927
 	//note: updated: texture and vertex positions to be clock-wise 1st quadrant
-	glTranslatef(-textw,-texth,0.0f);
-	glColor3f(1.0f, 1.0f, 1.0f); // white
-	
+	//removed by Mike, 20210928
+/*	
+		glTranslatef(-textw,-texth,0.0f);
+		glColor3f(1.0f, 1.0f, 1.0f); // white
+*/
+
 		//added by Mike, 20210830
    	float fTx = 0.0f;
     float fTy = 0.0f;
@@ -429,10 +434,46 @@ void Level3D::openGLDrawTexture(float x, float y, float textw, float texth, std:
 	  fTx = 0.0f+0.0625f*(myUsbongUtils->autoIdentifyColumnInputInLevelMapContainer(sTileId)); //column
     fTy = 0.0f+0.0625f*(myUsbongUtils->autoIdentifyRowInputInLevelMapContainer(sTileId)); //row    
 	
-	//added by Mike, 20210826
-//	glColor3f(1.0f, 1.0f, 1.0f); // white
 
-/*	//edited by Mike, 20210927
+	//added by Mike, 20210928
+	//note: updated: texture and vertex positions to be clock-wise 1st quadrant
+	glTranslatef(-textw,-texth,0.0f);
+//	glTranslatef(-textw*2,-texth*2,0.0f);
+
+	//added by Mike, 20210918
+	glColor3f(1.0f, 1.0f, 1.0f); // white
+	
+	//added by Mike, 20210830
+  //triangle tile with 90degrees angle
+  if (sTileId.compare("0-2") == 0) {//True    
+      glBegin(GL_TRIANGLES);
+        glVertex3f(0.0f, 0.0f, 0.0f);
+        glVertex3f(0.0f-textw, 0.0f-texth, 0.0f);
+        glVertex3f(0.0f, 0.0f-texth, 0.0f);
+      glEnd();
+  }
+  else {
+/*    
+    //note: 3rd quadrant; counter clock-wise
+    glBegin(GL_QUADS); // Each set of 4 vertices form a quad
+    	glVertex3f(0.0f, 0.0f, 0.0f);   	
+    	glVertex3f(0.0f-myWidth, 0.0f, 0.0f);    	
+    	glVertex3f(0.0f-myWidth, 0.0f-myHeight, 0.0f);    	
+    	glVertex3f(0.0f, 0.0f-myHeight, 0.0f);
+   	glEnd();
+*/   	  
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+    //note: 1st quadrant; clock-wise
+    glBegin(GL_QUADS); // Each set of 4 vertices form a quad
+    	glVertex3f(0.0f, 0.0f, 0.0f);   	
+    	glVertex3f(0.0f, 0.0f+texth, 0.0f);
+    	glVertex3f(0.0f+textw, 0.0f+texth, 0.0f);    	
+    	glVertex3f(0.0f+textw, 0.0f, 0.0f);    	
+   	glEnd();
+ 	}
+
+/*
+	//edited by Mike, 20210927
 	//added by Mike, 20210827
 	//set vertex counter-clock-wise
 	glBegin(GL_QUADS);
@@ -950,50 +991,79 @@ void Level3D::drawTileAsQuadWithTexture(std::string sTileId)
     myXPosAsPixel=0;//300; //0;
     myYPosAsPixel=0;//300;//0;
 */
+
+/* //removed by Mike, 20210928
     //note: we increase the size value to make texture larger than the actual pixel size in the image file
     //TO-DO: -reverify: larger image to be blurred
     //edited by Mike, 20210830
     myWidth=fGridSquareWidth; //64; //16;
     myHeight=fGridSquareHeight; //64; //16;
+*/    
 
 //    glTranslatef(myUsbongUtils->autoConvertFromPixelToVertexPointX(myXPosAsPixel), myUsbongUtils->autoConvertFromPixelToVertexPointY(myYPosAsPixel), 0);
-
-/* //removed by Mike, 20210927; TO-DO: -reverify: if shall need to add this
-		//added by Mike, 20210830
-    //triangle tile with 90degrees angle
-    if (sTileId.compare("0-2") == 0) {//True    
-        glBegin(GL_TRIANGLES);
-          glVertex3f(0.0f, 0.0f, 0.0f);
-          glVertex3f(0.0f-myWidth, 0.0f-myHeight, 0.0f);
-          glVertex3f(0.0f, 0.0f-myHeight, 0.0f);
-        glEnd();
-    }
-    else {
-      //note: 3rd quadrant; counter clock-wise
-      glBegin(GL_QUADS); // Each set of 4 vertices form a quad
-    	  glVertex3f(0.0f, 0.0f, 0.0f);   	
-    	  glVertex3f(0.0f-myWidth, 0.0f, 0.0f);    	
-    	  glVertex3f(0.0f-myWidth, 0.0f-myHeight, 0.0f);    	
-    	  glVertex3f(0.0f, 0.0f-myHeight, 0.0f);
-   	  glEnd();
-    }
-*/    
 
 		//TO-DO: -reverify: x, y tile positions
     
 		//removed by Mike, 20210927
 //    openGLDrawTexture(myXPos-myWidth, myYPos-myHeight, myWidth, myHeight, sTileId);    
 
-    glTranslatef(myUsbongUtils->autoConvertFromPixelToVertexPointX(myXPos-myWidth), myUsbongUtils->autoConvertFromPixelToVertexPointY(myYPos-myHeight), 0);
+//    glTranslatef(myUsbongUtils->autoConvertFromPixelToVertexPointX(myXPos-myWidth), myUsbongUtils->autoConvertFromPixelToVertexPointY(myYPos-myHeight), 0);
 
-//    glTranslatef(myUsbongUtils->autoConvertFromPixelToVertexPointX(myXPos), myUsbongUtils->autoConvertFromPixelToVertexPointY(myYPos), 0);
+    glTranslatef(myUsbongUtils->autoConvertFromPixelToVertexPointX(myXPos), myUsbongUtils->autoConvertFromPixelToVertexPointY(myYPos), 0);
 		
 		//added by Mike, 20210927
 		//add scale COMMAND after translate COMMAND for auto-computed positions to be correct
 		//use correct width x height ratio; window 10x18; row x column
-		glScalef(0.20f, 0.35f, 0.0f);
+//		glScalef(0.20f, 0.35f, 0.0f);
+//		glScalef(0.12f, 0.22f, 0.0f);
 
-	  openGLDrawTexture(0.0f, 0.0f, myWidth, myHeight, sTileId);    
+ //edited by Mike, 20210928
+//	  openGLDrawTexture(0.0f, 0.0f, myWidth, myHeight, sTileId);    
+/*
+	  openGLDrawTexture(0.0f, 
+	  									0.0f, 
+	  								  myUsbongUtils->autoConvertFromPixelToVertexGridTileWidth(myWidth),
+	  								  myUsbongUtils->autoConvertFromPixelToVertexGridTileHeight(myHeight),
+	  								  sTileId);    
+*/
+/*
+	  openGLDrawTexture(0.0f, 
+	  									0.0f, 
+	  								  myUsbongUtils->autoConvertFromPixelToVertexGridTileWidth(1.0f),
+	  								  myUsbongUtils->autoConvertFromPixelToVertexGridTileHeight(1.0f),
+	  								  sTileId);    
+*/
+/*
+		//note: 1.0f half of width; max height: 10 rows
+		//1.0f half of height; max width: 18 columns
+	  openGLDrawTexture(0.0f, 
+	  									0.0f, 
+	  								  myUsbongUtils->autoConvertFromPixelToVertexGridTileWidth(1.0f/9.0f),
+	  								  myUsbongUtils->autoConvertFromPixelToVertexGridTileHeight(1.0f/5.0f),
+	  								  sTileId);    
+*/
+
+		glScalef(1.0f/9.0f, 1.0f/5.0f, 0.0f);
+
+/*
+		//TO-DO: -reverify: cause of myWidth and myHeight inputs, output: NOT whole tile
+		//myUsbongUtils->autoConvertFromPixelToVertexGridTileWidth(...) instructions?
+		//myUsbongUtils->autoConvertFromPixelToVertexGridTileHeight(...) instructions?
+		
+	  openGLDrawTexture(0.0f, 
+	  									0.0f, 
+	  								  myUsbongUtils->autoConvertFromPixelToVertexGridTileWidth(0.0001f),
+	  								  myUsbongUtils->autoConvertFromPixelToVertexGridTileHeight(0.0001f),
+	  								  sTileId);    
+*/
+		//TO-DO: -update: texture computations due to output: white tile
+
+	  openGLDrawTexture(0.0f, 
+	  									0.0f, 
+	  								  myUsbongUtils->autoConvertFromPixelToVertexGridTileWidth(1.0f),
+	  								  myUsbongUtils->autoConvertFromPixelToVertexGridTileHeight(1.0f),
+	  								  sTileId);    
+
 }
 
 //added by Mike, 20210925
@@ -1542,7 +1612,12 @@ getFMyCanvasPosX: 614.699890 //macOS: 554.666687
 									//edited by Mike, 20210916
                 	myYPos=0.0f+(fGridSquareHeight)*(iRowCount-iCurrentLevelMapContainerOffsetY)-fStepMovemenGridY;
 								}
+								
+								//printf(">>>>myXPos: %f; myYPos: %f\n",myXPos,myYPos);
 
+							  printf(">>myXPos: %f; vertexPosX: %f\n",myXPos,myUsbongUtils->autoConvertFromPixelToVertexPointX(myXPos));
+							  printf(">>myYPos: %f; vertexPosY: %f\n",myYPos,myUsbongUtils->autoConvertFromPixelToVertexPointY(myYPos));
+	  
 
  										//edited by Mike, 20210719
 //                	drawTileA	glBindTexture(GL_TEXTURE_2D, textureid);
