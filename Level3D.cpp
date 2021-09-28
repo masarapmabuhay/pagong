@@ -429,10 +429,14 @@ void Level3D::openGLDrawTexture(float x, float y, float textw, float texth, std:
     
     //added by Mike, 20210725; removed by Mike, 20210725
     //sTileId="0-0";
-//    std::cout << "sTileId: " << sTileId << "\n";
+    std::cout << "sTileId: " << sTileId << "\n";
 		
 	  fTx = 0.0f+0.0625f*(myUsbongUtils->autoIdentifyColumnInputInLevelMapContainer(sTileId)); //column
     fTy = 0.0f+0.0625f*(myUsbongUtils->autoIdentifyRowInputInLevelMapContainer(sTileId)); //row    
+	
+
+    std::cout << "fTx: " << fTx << "\n";
+    std::cout << "fTy: " << fTy << "\n";
 	
 
 	//added by Mike, 20210928
@@ -462,6 +466,7 @@ void Level3D::openGLDrawTexture(float x, float y, float textw, float texth, std:
     	glVertex3f(0.0f, 0.0f-myHeight, 0.0f);
    	glEnd();
 */   	  
+/* //removed by Mike, 20210928
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
     //note: 1st quadrant; clock-wise
     glBegin(GL_QUADS); // Each set of 4 vertices form a quad
@@ -470,6 +475,7 @@ void Level3D::openGLDrawTexture(float x, float y, float textw, float texth, std:
     	glVertex3f(0.0f+textw, 0.0f+texth, 0.0f);    	
     	glVertex3f(0.0f+textw, 0.0f, 0.0f);    	
    	glEnd();
+*/   	
  	}
 
 /*
@@ -490,7 +496,8 @@ void Level3D::openGLDrawTexture(float x, float y, float textw, float texth, std:
 		glVertex3f(x, y + texth, 0);
 	glEnd();
 */
-
+/*
+ 		//edited by Mike, 20210928
 		//set vertex clock-wise; 1st quadrant; inverted Y-axis
 		glBegin(GL_QUADS);
 			glTexCoord2f(0.0625f+fTx, fTy+0.0625f);		
@@ -503,6 +510,25 @@ void Level3D::openGLDrawTexture(float x, float y, float textw, float texth, std:
 			glVertex3f(x + textw, y + texth, 0);
 
 			glTexCoord2f(0+fTx, fTy+0.0625f);
+			glVertex3f(x + textw, y, 0);
+		glEnd();
+*/		
+
+		//TO-DO: -reverify: this
+
+		//set vertex clock-wise; 1st quadrant; NOT inverted Y-axis
+		//texture: TOP-LEFT origin
+		glBegin(GL_QUADS);
+			glTexCoord2f(0+fTx, 0-fTy);			
+			glVertex3f(x, y, 0);
+	
+			glTexCoord2f(0+fTx, fTy-0.0625f);
+			glVertex3f(x, y + texth, 0);
+			
+			glTexCoord2f(0.0625f+fTx, fTy-0.0625f);		
+			glVertex3f(x + textw, y + texth, 0);
+
+			glTexCoord2f(0.0625f+fTx, 0-fTy);
 			glVertex3f(x + textw, y, 0);
 		glEnd();
     
