@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20200926
- * @date updated: 20210928
+ * @date updated: 20210929
  * @website address: http://www.usbong.ph
  *
  * References:
@@ -103,8 +103,8 @@
 
 #include "OpenGLCanvas.h"
 
-//added by Mike, 20210827; edited by Mike, 20210925
-//#include "Level2D.h"
+//added by Mike, 20210827; edited by Mike, 20210929
+#include "Level2D.h"
 #include "Level3D.h"
 
 #include "Pilot.h" 
@@ -461,7 +461,7 @@ bool OpenGLCanvas::init(int myWindowWidthAsPixelInput, int myWindowHeightAsPixel
     iMyWindowWidthAsPixelOffset=0; //added by Mike, 20210701
     
 
-/* //removed by Mike, 20210925
+	 //removed by Mike, 20210925
     myLevel2D = new Level2D(0.0f,0.0f,0.0f,myWindowWidthAsPixelInput,myWindowHeightAsPixelInput);
     //note: width and height not equal due to Window
     //to cause square tile to NOT be square
@@ -469,7 +469,8 @@ bool OpenGLCanvas::init(int myWindowWidthAsPixelInput, int myWindowHeightAsPixel
 
     //removed by Mike, 20210828
     //myLevel2D->setupLevel(LEVEL_2D_TEXTURE);
-*/
+
+
 		//edited by Mike, 20210928
 //    myLevel3D = new Level3D(0.0f,0.0f,0.0f,myWindowWidthAsPixelInput,myWindowHeightAsPixelInput);
     myLevel3D = new Level3D(0.0f,0.0f,0.0f,myWindowWidthAsPixel,myWindowHeightAsPixel);
@@ -482,17 +483,14 @@ bool OpenGLCanvas::init(int myWindowWidthAsPixelInput, int myWindowHeightAsPixel
     myPilot->setOpenGLCanvas(this, fGridSquareWidth, fGridSquareHeight);    
     myPilot->setAsPlayer1(); //added by Mike, 20210601    
     
-/*  //removed by Mike, 20210925
+  //removed by Mike, 20210925
     //added by Mike, 20210830
     myPilot->setLevel2D(myLevel2D);
-*/
     myPilot->setLevel3D(myLevel3D);
 
-/*
-    //added by Mike, 20210911; edited by Mike, 20210925
+
+    //added by Mike, 20210911; edited by Mike, 20210929
     myLevel2D->setPilotStep(myPilot->getStepX(), myPilot->getStepY(), myPilot->getStepZ());
-//		myLevel2D->setPilot(myPilot);    
-*/
     myLevel3D->setPilotStep(myPilot->getStepX(), myPilot->getStepY(), myPilot->getStepZ());
     
     
@@ -792,6 +790,7 @@ void OpenGLCanvas::render()
 	//TO-DO: -add: Z-sort, i.e. sort objects by Z-axis when computer auto-draws
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_ALWAYS);
+	
 
 /*
 	//Reference: https://community.khronos.org/t/gradient-background/54348/2;
@@ -808,11 +807,9 @@ void OpenGLCanvas::render()
 	//part 1: 2D draw instructions
   //-----
   
-  //TO-DO: -add: here
-  
-  		
-
-/* //removed by Mike, 20210925
+/*  
+ //added by Mike, 20210925
+ //note: row 1 and column 1 NOT auto-drawn
   glPushMatrix();
   	//edited by Mike, 20210910
 //    myLevel2D->draw();
@@ -821,11 +818,10 @@ void OpenGLCanvas::render()
   glPopMatrix();
 */
 
-
-  //-----
+	//-----
 	//part 2: 3D draw instructions
   //-----
-    glMatrixMode(GL_PROJECTION);
+  glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();	
 
 	//TOP-LEFT origin
@@ -836,6 +832,7 @@ void OpenGLCanvas::render()
         	0.0f, //zNear; minimum
         	1.0f //zFar; maximum
       	);
+
     
 /*  //removed by Mike, 20210925; deprecated computer instructions in macOS 10.9; "GLKMatrix4MakeLookAt..."
   gluPerspective(90.0, // field-of-view angle
@@ -863,29 +860,6 @@ void OpenGLCanvas::render()
 	//solves problem with quad face image texture merging
 	glEnable(GL_CULL_FACE);
 	
-	//added by Mike, 20210927
-//	glTranslatef(-2.0f, 0.0f, 0.0f);
-
-
-/* //TO-DO: -reverify: rotated x-axis to add height in view, instead of flat due to TOP-VIEW
-    //added by Mike, 20210925
-    glRotatef(45,1.0f,0.0f,0.0f);
-*/
-    
-
-//	glRotatef(120, 1.0f, 0.0f, 0.0f);
-//	glRotatef(120, 0.0f, 1.0f, 0.0f);
-	
-//	glTranslatef(-fGridSquareWidth*(iRowCountMax-4), 0.0f, -fGridSquareHeight*(iColumnCountMax-1));
-/*	
-	glTranslatef(myUsbongUtils->autoConvertFromPixelToVertexPointX(-myWindowWidth/2), 
-							 myUsbongUtils->autoConvertFromPixelToVertexPointX(-myWindowHeight/2), 
-							 myUsbongUtils->autoConvertFromPixelToVertexPointX(0.0f));
-*/
-
-//	glTranslatef(0.0f, 0.0f, 100.0f);
-
-
   glPushMatrix();
     myLevel3D->drawLevelMapInViewPort(myPilot->getX(),myPilot->getY(),myPilot->getZ());
     myLevel3D->drawGrid();

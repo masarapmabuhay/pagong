@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B. 
  * @date created: 20200930
- * @date updated: 20210928
+ * @date updated: 20210929
  * @website address: http://www.usbong.ph
  *
  * Reference: 
@@ -278,6 +278,7 @@ void Pilot::openGLDrawTexture(float x, float y, float textw, float texth)
 */
 			//note: texture positions inverted
 			//set vertex clock-wise
+			//texture positions U shape, counter clock-wise
 			glBegin(GL_QUADS);
 				glTexCoord2f(0+fTaoAnimationFrameOffset, fTaoAnimationFrameOffsetYAxis+0.25f);				
 				glVertex3f(x, y, 0);
@@ -312,6 +313,7 @@ void Pilot::openGLDrawTexture(float x, float y, float textw, float texth)
 */
 			//note: texture positions inverted
 			//set vertex clock-wise
+			//texture positions U shape, clock-wise			
 			glBegin(GL_QUADS);
 				glTexCoord2f(0.25f+fTaoAnimationFrameOffset, fTaoAnimationFrameOffsetYAxis+0.25f);
 				glVertex3f(x, y, 0);

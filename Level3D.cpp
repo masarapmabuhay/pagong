@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20200926
- * @date updated: 20210928
+ * @date updated: 20210929
  * @website address: http://www.usbong.ph
  *
  * Reference:
@@ -390,7 +390,14 @@ Level3D::Level3D(float xPos, float yPos, float zPos, float fWindowWidth, float f
 		//openGLITexture = openGLLoadTexture((char*)"textures/Level3D.png", fMyWindowWidth, fMyWindowHeight);
 		//edited by Mike, 20210928
 //    openGLITexture = openGLLoadTexture((char*)"textures/Level2D.png", fMyWindowWidth, fMyWindowHeight);
-    openGLITexture = openGLLoadTexture((char*)"textures/Level2D.png", myWidth, myHeight);
+		//edited by Mike, 20210929
+//    openGLITexture = openGLLoadTexture((char*)"textures/Level2D.png", myWidth, myHeight);
+		//edited by Mike, 20210929
+		//OK
+//		openGLITexture = openGLLoadTexture((char*)"textures/imageSpriteExampleMikeWithoutBG.png", myWidth, myHeight);	
+//    openGLITexture = openGLLoadTexture((char*)"textures/Level3D.png", myWidth, myHeight);
+		openGLITexture = openGLLoadTexture((char*)"textures/level3D.png", myWidth, myHeight);	
+
 
    printf(">>>>openGLITexture: %i",openGLITexture);
 }
@@ -403,12 +410,14 @@ Level3D::~Level3D()
 //TO-DO: -add: CAD tool to assist in identify excess markings in image file
 //-add: CAD tool to verify animating sequence
 //reminder: we use floating point type, instead of integer to receive exact values after computing as input the screen width and height 
+//solution: -reverify: saved .png output file; action: reused imageSpriteExampleMikeWithoutBG.xcf
 void Level3D::openGLDrawTexture(float x, float y, float textw, float texth, std::string sTileId)
 {
 	glBindTexture(GL_TEXTURE_2D, openGLITexture); //textureId);
 	glEnable(GL_TEXTURE_2D);
 		
-//    printf("openGLITexture: %i",openGLITexture);
+//    printf(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>openGLITexture: %i",openGLITexture);
+
 /*    
 	float fTaoAnimationFrameOffset=0.0f;
 	float fTaoAnimationFrameOffsetYAxis=0.0f;
@@ -430,11 +439,10 @@ void Level3D::openGLDrawTexture(float x, float y, float textw, float texth, std:
     //added by Mike, 20210725; removed by Mike, 20210725
     //sTileId="0-0";
     std::cout << "sTileId: " << sTileId << "\n";
-		
+	
 	  fTx = 0.0f+0.0625f*(myUsbongUtils->autoIdentifyColumnInputInLevelMapContainer(sTileId)); //column
     fTy = 0.0f+0.0625f*(myUsbongUtils->autoIdentifyRowInputInLevelMapContainer(sTileId)); //row    
 	
-
     std::cout << "fTx: " << fTx << "\n";
     std::cout << "fTy: " << fTy << "\n";
 	
@@ -446,15 +454,30 @@ void Level3D::openGLDrawTexture(float x, float y, float textw, float texth, std:
 
 	//added by Mike, 20210918
 	glColor3f(1.0f, 1.0f, 1.0f); // white
+//	glColor3f(0.0f, 0.0f, 1.0f); // blue
 	
-	//added by Mike, 20210830
-  //triangle tile with 90degrees angle
+	
+	//TO-DO: -reverify: rotated x-axis to add height in view, instead of flat due to TOP-VIEW
+	//TO-DO: -update: instructions to use cubes
+  //added by Mike, 20210929
+//  glRotatef(45,1.0f,0.0f,0.0f);
+//  glRotatef(45,1.0f,0.0f,1.0f);
+	//isometric view of auto-drawn objects; 
+	//Recommended Reference: Newsletter 2020-09;
+	//https://www.usbong.ph/excel/excel-2020-09; last accessed: 20210929
+  glRotatef(45,1.0f,0.0f,0.0f);
+	glRotatef(60,0.0f,0.0f,1.0f);
+
+	
   if (sTileId.compare("0-2") == 0) {//True    
+/* //removed by Mike, 20210929  
+  		//TO-DO: -reverify: this
       glBegin(GL_TRIANGLES);
         glVertex3f(0.0f, 0.0f, 0.0f);
         glVertex3f(0.0f-textw, 0.0f-texth, 0.0f);
         glVertex3f(0.0f, 0.0f-texth, 0.0f);
       glEnd();
+*/      
   }
   else {
 /*    
@@ -465,8 +488,9 @@ void Level3D::openGLDrawTexture(float x, float y, float textw, float texth, std:
     	glVertex3f(0.0f-myWidth, 0.0f-myHeight, 0.0f);    	
     	glVertex3f(0.0f, 0.0f-myHeight, 0.0f);
    	glEnd();
-*/   	  
-/* //removed by Mike, 20210928
+*/
+/*   	  
+ //removed by Mike, 20210928
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
     //note: 1st quadrant; clock-wise
     glBegin(GL_QUADS); // Each set of 4 vertices form a quad
@@ -516,24 +540,147 @@ void Level3D::openGLDrawTexture(float x, float y, float textw, float texth, std:
 
 		//TO-DO: -reverify: this
 
-		//set vertex clock-wise; 1st quadrant; NOT inverted Y-axis
+/*
+		//set vertex clock-wise; 1st quadrant; NOT inverted Y-axis;
+		//texture position counter-clock-wise
 		//texture: TOP-LEFT origin
 		glBegin(GL_QUADS);
-			glTexCoord2f(0+fTx, 0-fTy);			
+			glTexCoord2f(0+fTx, fTy+0.0625f);
 			glVertex3f(x, y, 0);
-	
-			glTexCoord2f(0+fTx, fTy-0.0625f);
+
+			glTexCoord2f(0+fTx, 0+fTy);				
 			glVertex3f(x, y + texth, 0);
 			
-			glTexCoord2f(0.0625f+fTx, fTy-0.0625f);		
+			glTexCoord2f(fTx+0.0625f, 0+fTy);
 			glVertex3f(x + textw, y + texth, 0);
 
-			glTexCoord2f(0.0625f+fTx, 0-fTy);
+			glTexCoord2f(fTx+0.0625f, fTy+0.0625f);		
 			glVertex3f(x + textw, y, 0);
 		glEnd();
+*/		
+		//set vertex clock-wise; 1st quadrant; NOT inverted Y-axis;
+		//texture position clock-wise
+		//texture: TOP-LEFT origin
+		//texture positions U shape, clock-wise			
+		glBegin(GL_QUADS);
+			glTexCoord2f(fTx+0.0625f, fTy+0.0625f);		
+			glVertex3f(x, y, 0);
+
+			glTexCoord2f(fTx+0.0625f, 0+fTy);
+			glVertex3f(x, y + texth, 0);
+			
+			glTexCoord2f(0+fTx, 0+fTy);				
+			glVertex3f(x + textw, y + texth, 0);
+
+			glTexCoord2f(0+fTx, fTy+0.0625f);
+			glVertex3f(x + textw, y, 0);
+		glEnd();
+
+/*		
+		//set vertex clock-wise; 1st quadrant; NOT inverted Y-axis;
+		//texture position clock-wise
+		//texture: TOP-LEFT origin
+		glBegin(GL_QUADS);
+			glTexCoord2f(fTx+0.0625f, fTy+0.0625f);		
+			glVertex3f(x, y, 0);
+
+			glTexCoord2f(fTx+0.0625f, 0+fTy);
+			glVertex3f(x, y + texth, 0);
+			
+			glTexCoord2f(0+fTx, 0+fTy);				
+			glVertex3f(x + textw, y + texth, 0);
+
+			glTexCoord2f(0+fTx, fTy+0.0625f);
+			glVertex3f(x + textw, y, 0);
+		glEnd();
+*/
+/*    
+		//set vertex clock-wise; 1st quadrant; NOT inverted Y-axis;
+		//texture position clock-wise
+		//texture: TOP-LEFT origin
+		glBegin(GL_QUADS);
+			glTexCoord2f(0+fTx, 0+fTy);				
+			glVertex3f(x, y, 0);
+
+			glTexCoord2f(0+fTx, fTy+0.0625f);
+			glVertex3f(x, y + texth, 0);
+	
+			glTexCoord2f(fTx+0.0625f, fTy+0.0625f);					
+			glVertex3f(x + textw, y + texth, 0);
+
+			glTexCoord2f(fTx+0.0625f, 0+fTy);
+			glVertex3f(x + textw, y, 0);
+		glEnd();
+*/
+/*    
+		//set vertex clock-wise; 1st quadrant; NOT inverted Y-axis;
+		//texture position clock-wise
+		//texture: TOP-LEFT origin
+		glBegin(GL_QUADS);
+			glTexCoord2f(0+fTx, 0+fTy);				
+			glVertex3f(x, y, 0);
+
+			glTexCoord2f(0+fTx, fTy+0.0625f);
+			glVertex3f(x, y + texth, 0);
+	
+			glTexCoord2f(fTx+0.0625f, fTy+0.0625f);					
+			glVertex3f(x + textw, y + texth, 0);
+
+			glTexCoord2f(fTx+0.0625f, 0+fTy);
+			glVertex3f(x + textw, y, 0);
+		glEnd();
+*/		
     
     glDisable(GL_TEXTURE_2D);
-    glBindTexture(GL_TEXTURE_2D, 0); //added by Mike, 20210918
+    
+    //removed by Mike, 20210929
+//    glBindTexture(GL_TEXTURE_2D, 0); //added by Mike, 20210918
+}
+
+//edited by Mike, 20210929
+//void Level3D::openGLDrawTexture(float x, float y, float textw, float texth)
+//instructions from Pilot.cpp
+void Level3D::openGLDrawTextureOK(float x, float y, float textw, float texth, std::string sTileId)
+{
+	glBindTexture(GL_TEXTURE_2D, openGLITexture); //textureId);
+	glEnable(GL_TEXTURE_2D);
+	
+/*	//removed by Mike, 20210901	
+	float fTaoAnimationFrameOffset=0.0f;
+	float fTaoAnimationFrameOffsetYAxis=0.0f;
+*/
+	
+	//TO-DO: -update: Pilot shoes; animation sequence
+
+	//added by Mike, 20210927
+	//note: updated: texture and vertex positions to be clock-wise 1st quadrant
+	glTranslatef(-textw,-texth,0.0f);
+
+	//added by Mike, 20210918
+	glColor3f(1.0f, 1.0f, 1.0f); // white
+
+	float fTaoAnimationFrameOffset=0;
+	float fTaoAnimationFrameOffsetYAxis=0;
+		
+			//note: texture positions inverted
+			//set vertex clock-wise
+			//texture positions U shape, clock-wise			
+			glBegin(GL_QUADS);
+				glTexCoord2f(0.25f+fTaoAnimationFrameOffset, fTaoAnimationFrameOffsetYAxis+0.25f);
+				glVertex3f(x, y, 0);
+				
+				glTexCoord2f(0.25f+fTaoAnimationFrameOffset, 0+fTaoAnimationFrameOffsetYAxis);
+				glVertex3f(x, y + texth, 0);
+
+				glTexCoord2f(0+fTaoAnimationFrameOffset, 0+fTaoAnimationFrameOffsetYAxis);				
+				glVertex3f(x + textw, y + texth, 0);
+
+				glTexCoord2f(0+fTaoAnimationFrameOffset, fTaoAnimationFrameOffsetYAxis+0.25f);				
+				glVertex3f(x + textw, y, 0);
+			glEnd();
+			
+			
+	glDisable(GL_TEXTURE_2D);
 }
 
 //added by Mike, 20210827
@@ -1068,8 +1215,10 @@ void Level3D::drawTileAsQuadWithTexture(std::string sTileId)
 	  								  myUsbongUtils->autoConvertFromPixelToVertexGridTileHeight(1.0f/5.0f),
 	  								  sTileId);    
 */
-
-		glScalef(1.0f/9.0f, 1.0f/5.0f, 0.0f);
+		
+		//edited by Mike, 20210929
+//		glScalef(1.0f/9.0f, 1.0f/5.0f, 0.0f);
+		glScalef(1.0f/8.2f, 1.0f/4.2f, 0.0f);
 
 /*
 		//TO-DO: -reverify: cause of myWidth and myHeight inputs, output: NOT whole tile
@@ -1083,13 +1232,18 @@ void Level3D::drawTileAsQuadWithTexture(std::string sTileId)
 	  								  sTileId);    
 */
 		//TO-DO: -update: texture computations due to output: white tile
-
+/*
 	  openGLDrawTexture(0.0f, 
 	  									0.0f, 
 	  								  myUsbongUtils->autoConvertFromPixelToVertexGridTileWidth(1.0f),
 	  								  myUsbongUtils->autoConvertFromPixelToVertexGridTileHeight(1.0f),
 	  								  sTileId);    
-
+*/
+	  openGLDrawTexture(0.0f, 
+	  									0.0f, 
+	  								  myUsbongUtils->autoConvertFromPixelToVertexGridTileWidth(myWidth),
+	  								  myUsbongUtils->autoConvertFromPixelToVertexGridTileHeight(myHeight),
+	  								  sTileId);    
 }
 
 //added by Mike, 20210925
@@ -1258,6 +1412,7 @@ void Level3D::setPilot(Pilot* myPilotInput) {
 
 //edited by Mike, 20210923
 //void Level3D::drawLevelMapInViewPort(GLfloat fMyCanvasPosXInput, GLfloat fMyCanvasPosYInput, GLfloat fMyCanvasPosZInput, GLfloat fX, GLfloat fY, GLfloat fZ)
+//TO-DO: -reverify: instructions due to fMyCanvasPosX and fMyCanvasPosY do NOT execute movement
 void Level3D::drawLevelMapInViewPort(float fX, float fY, float fZ)
 
 {
