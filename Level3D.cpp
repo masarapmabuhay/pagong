@@ -411,7 +411,7 @@ Level3D::~Level3D()
 //-add: CAD tool to verify animating sequence
 //reminder: we use floating point type, instead of integer to receive exact values after computing as input the screen width and height 
 //solution: -reverify: saved .png output file; action: reused imageSpriteExampleMikeWithoutBG.xcf
-void Level3D::openGLDrawTexture(float x, float y, float textw, float texth, std::string sTileId)
+void Level3D::openGLDrawTextureQuadOKNotYetCube(float x, float y, float textw, float texth, std::string sTileId)
 {
 	glBindTexture(GL_TEXTURE_2D, openGLITexture); //textureId);
 	glEnable(GL_TEXTURE_2D);
@@ -529,6 +529,201 @@ void Level3D::openGLDrawTexture(float x, float y, float textw, float texth, std:
 			glVertex3f(x + textw, y, 0);
 		glEnd();
 
+    
+    glDisable(GL_TEXTURE_2D);
+    
+    //removed by Mike, 20210929
+//    glBindTexture(GL_TEXTURE_2D, 0); //added by Mike, 20210918
+}
+
+//TO-DO: -add: float z
+void Level3D::openGLDrawTexture(float x, float y, float z, float textw, float texth, std::string sTileId)
+{
+	glBindTexture(GL_TEXTURE_2D, openGLITexture); //textureId);
+	glEnable(GL_TEXTURE_2D);
+		
+		//added by Mike, 20210830
+   	float fTx = 0.0f;
+    float fTy = 0.0f;
+    
+    //added by Mike, 20210725; removed by Mike, 20210725
+    //sTileId="0-0";
+    std::cout << "sTileId: " << sTileId << "\n";
+	
+	  fTx = 0.0f+0.0625f*(myUsbongUtils->autoIdentifyColumnInputInLevelMapContainer(sTileId)); //column
+    fTy = 0.0f+0.0625f*(myUsbongUtils->autoIdentifyRowInputInLevelMapContainer(sTileId)); //row    
+	
+    std::cout << "fTx: " << fTx << "\n";
+    std::cout << "fTy: " << fTy << "\n";
+	
+
+	//added by Mike, 20210928
+	//note: updated: texture and vertex positions to be clock-wise 1st quadrant
+	glTranslatef(-textw,-texth,0.0f);
+
+	//added by Mike, 20210918
+	glColor3f(1.0f, 1.0f, 1.0f); // white
+//	glColor3f(0.0f, 0.0f, 1.0f); // blue
+	
+	
+	//isometric view of auto-drawn objects; 
+	//Recommended Reference: Newsletter 2020-09;
+	//https://www.usbong.ph/excel/excel-2020-09; last accessed: 20210929
+/* //edited by Mike, 20210930;
+	//note: there exists space between tiles as quad; NOT yet cube
+  glRotatef(45,1.0f,0.0f,0.0f);
+	glRotatef(60,0.0f,0.0f,1.0f);
+*/
+  glRotatef(30,1.0f,0.0f,0.0f);
+	glRotatef(60,0.0f,0.0f,1.0f);
+
+	//TO-DO: -eliminate excess instructions
+	
+  if (sTileId.compare("0-2") == 0) {//True    
+/* //removed by Mike, 20210929  
+  		//TO-DO: -reverify: this
+      glBegin(GL_TRIANGLES);
+        glVertex3f(0.0f, 0.0f, 0.0f);
+        glVertex3f(0.0f-textw, 0.0f-texth, 0.0f);
+        glVertex3f(0.0f, 0.0f-texth, 0.0f);
+      glEnd();
+*/      
+  }
+  else {
+/*    
+    //note: 3rd quadrant; counter clock-wise
+    glBegin(GL_QUADS); // Each set of 4 vertices form a quad
+    	glVertex3f(0.0f, 0.0f, 0.0f);   	
+    	glVertex3f(0.0f-myWidth, 0.0f, 0.0f);    	
+    	glVertex3f(0.0f-myWidth, 0.0f-myHeight, 0.0f);    	
+    	glVertex3f(0.0f, 0.0f-myHeight, 0.0f);
+   	glEnd();
+*/
+/*   	  
+ //removed by Mike, 20210928
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+    //note: 1st quadrant; clock-wise
+    glBegin(GL_QUADS); // Each set of 4 vertices form a quad
+    	glVertex3f(0.0f, 0.0f, 0.0f);   	
+    	glVertex3f(0.0f, 0.0f+texth, 0.0f);
+    	glVertex3f(0.0f+textw, 0.0f+texth, 0.0f);    	
+    	glVertex3f(0.0f+textw, 0.0f, 0.0f);    	
+   	glEnd();
+*/   	
+ 	}
+
+		//set vertex clock-wise; 1st quadrant; NOT inverted Y-axis;
+		//texture position clock-wise
+		//texture: TOP-LEFT origin
+		//texture positions U shape, clock-wise			
+/* //edited by Mike, 20210930
+		glBegin(GL_QUADS);
+			glTexCoord2f(fTx+0.0625f, fTy+0.0625f);		
+			glVertex3f(x, y, 0);
+
+			glTexCoord2f(fTx+0.0625f, 0+fTy);
+			glVertex3f(x, y + texth, 0);
+			
+			glTexCoord2f(0+fTx, 0+fTy);				
+			glVertex3f(x + textw, y + texth, 0);
+
+			glTexCoord2f(0+fTx, fTy+0.0625f);
+			glVertex3f(x + textw, y, 0);
+		glEnd();
+*/
+		//note: wire line NOT all sides auto-drawn
+//		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
+		glBegin(GL_QUADS);
+		
+			//note: texture coordinate positions equal with all faces
+/*		
+			// bottom face; OK; isometric rotated, now still bottom side
+			glTexCoord2f(fTx+0.0625f, fTy+0.0625f);		
+			glVertex3f(x, y, 0+texth);
+
+			glTexCoord2f(fTx+0.0625f, 0+fTy);
+			glVertex3f(x, y + texth, 0+texth);
+			
+			glTexCoord2f(0+fTx, 0+fTy);				
+			glVertex3f(x + textw, y + texth, 0+texth);
+
+			glTexCoord2f(0+fTx, fTy+0.0625f);
+			glVertex3f(x + textw, y, 0+texth);
+*/			
+
+			// top face; OK; isometric rotated, now still top side
+			glTexCoord2f(fTx+0.0625f, fTy+0.0625f);		
+			glVertex3f(x, y, 0);
+
+			glTexCoord2f(fTx+0.0625f, 0+fTy);
+			glVertex3f(x, y + texth, 0);
+			
+			glTexCoord2f(0+fTx, 0+fTy);				
+			glVertex3f(x + textw, y + texth, 0);
+
+			glTexCoord2f(0+fTx, fTy+0.0625f);
+			glVertex3f(x + textw, y, 0);
+			
+/*			
+			// front face; OK; isometric rotated, now right side
+			glTexCoord2f(fTx+0.0625f, fTy+0.0625f);		
+			glVertex3f(x, 0, z);
+
+			glTexCoord2f(fTx+0.0625f, 0+fTy);
+			glVertex3f(x, 0, z + texth);
+			
+			glTexCoord2f(0+fTx, 0+fTy);				
+			glVertex3f(x + textw, 0, z + texth);
+
+			glTexCoord2f(0+fTx, fTy+0.0625f);
+			glVertex3f(x + textw, 0, z);
+						
+			// back face; OK; isometric rotated, now left side
+			glTexCoord2f(fTx+0.0625f, fTy+0.0625f);		
+			glVertex3f(x, 0 + texth, z);
+
+			glTexCoord2f(fTx+0.0625f, 0+fTy);
+			glVertex3f(x, 0 + texth, z + texth);
+			
+			glTexCoord2f(0+fTx, 0+fTy);				
+			glVertex3f(x + textw, 0 + texth, z + texth);
+
+			glTexCoord2f(0+fTx, fTy+0.0625f);
+			glVertex3f(x + textw, 0 + texth, z);
+*/
+	
+			
+			// right face; OK; isometric rotated, now top-right side 
+			glTexCoord2f(fTx+0.0625f, fTy+0.0625f);		
+			glVertex3f(0, y, z);
+
+			glTexCoord2f(fTx+0.0625f, 0+fTy);
+			glVertex3f(0, y + texth, z);
+			
+			glTexCoord2f(0+fTx, 0+fTy);				
+			glVertex3f(0, y + texth, z + texth);
+
+			glTexCoord2f(0+fTx, fTy+0.0625f);
+			glVertex3f(0, y, z + texth);
+												
+			// left face; OK; isometric rotated, now bottom-left side 
+			glTexCoord2f(fTx+0.0625f, fTy+0.0625f);		
+			glVertex3f(0 + textw, y, z);
+
+			glTexCoord2f(fTx+0.0625f, 0+fTy);
+			glVertex3f(0 + textw, y + texth, z);
+			
+			glTexCoord2f(0+fTx, 0+fTy);				
+			glVertex3f(0 + textw, y + texth, z + texth);
+
+			glTexCoord2f(0+fTx, fTy+0.0625f);
+			glVertex3f(0 + textw, y, z + texth);
+
+		glEnd();
+
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
     
     glDisable(GL_TEXTURE_2D);
     
@@ -1138,11 +1333,20 @@ void Level3D::drawTileAsQuadWithTexture(std::string sTileId)
 	  								  myUsbongUtils->autoConvertFromPixelToVertexGridTileHeight(1.0f),
 	  								  sTileId);    
 */
+/* //edited by Mike, 20210930
 	  openGLDrawTexture(0.0f, 
 	  									0.0f, 
 	  								  myUsbongUtils->autoConvertFromPixelToVertexGridTileWidth(myWidth),
 	  								  myUsbongUtils->autoConvertFromPixelToVertexGridTileHeight(myHeight),
 	  								  sTileId);    
+*/
+	  openGLDrawTexture(0.0f, 
+	  									0.0f, 
+	  									0.0f, 
+	  								  myUsbongUtils->autoConvertFromPixelToVertexGridTileWidth(myWidth),
+	  								  myUsbongUtils->autoConvertFromPixelToVertexGridTileHeight(myHeight),
+	  								  sTileId);    
+	  								  
 }
 
 //added by Mike, 20210925
@@ -1195,7 +1399,8 @@ void Level3D::drawTileAsCubeWithTexture(std::string sTileId)
    	  glEnd();
     }
     
-    openGLDrawTexture(myXPos-myWidth, myYPos-myHeight, myWidth, myHeight, sTileId);    
+    //removed by Mike, 20210930
+    //openGLDrawTexture(myXPos-myWidth, myYPos-myHeight, myWidth, myHeight, sTileId);    
 }
 
 
@@ -1361,7 +1566,7 @@ void Level3D::drawLevelMapInViewPort(float fX, float fY, float fZ)
 	  printf(">>fMyCanvasPosPrevX: %f; fMyCanvasPosX: %f\n",fMyCanvasPosPrevX,fMyCanvasPosX);
     printf(">>fX: %f\n",fX);    
 //    printf(">>fMyWindowWidth/2: %f\n",fMyWindowWidth/2);    		
-    printf(">>fMyWindowWidth/2-getWidth(): %f\n",fMyWindowWidth/2-getWidth());    		
+    printf(">>fMyWindowWidth/2-getWidth(): %f\n",fMyWindowWidth/2-getWidth());
     printf(">>getStepX(): %f\n",getStepX()); //added by Mike, 20210922
 
 

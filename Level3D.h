@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20210613
- * @date updated: 20210929
+ * @date updated: 20210930
  * @website address: http://www.usbong.ph
  *
  * Acknowledgments:
@@ -556,8 +556,9 @@ public:
 		//edited by Mike, 20210830
 //    virtual void openGLDrawTexture(float x, float y, float textw, float texth);
    
-		//edited by Mike, 20210929
-    void openGLDrawTexture(float x, float y, float textw, float texth, std::string sTileId);
+		//edited by Mike, 20210930
+    void openGLDrawTexture(float x, float y, float z, float textw, float texth, std::string sTileId);
+    void openGLDrawTextureQuadOKNotYetCube(float x, float y, float textw, float texth, std::string sTileId);
 		void openGLDrawTextureOK(float x, float y, float textw, float texth, std::string sTileId);    
     
     
