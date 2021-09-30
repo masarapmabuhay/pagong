@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20200926
- * @date updated: 20210929
+ * @date updated: 20210930
  * @website address: http://www.usbong.ph
  *
  * Reference:
@@ -465,7 +465,13 @@ void Level3D::openGLDrawTexture(float x, float y, float textw, float texth, std:
 	//isometric view of auto-drawn objects; 
 	//Recommended Reference: Newsletter 2020-09;
 	//https://www.usbong.ph/excel/excel-2020-09; last accessed: 20210929
+/* //edited by Mike, 20210930;
+	//note: there exists space between tiles as quad; NOT yet cube
   glRotatef(45,1.0f,0.0f,0.0f);
+	glRotatef(60,0.0f,0.0f,1.0f);
+*/
+//  glRotatef(45,1.0f,0.0f,0.0f);
+  glRotatef(30,1.0f,0.0f,0.0f);
 	glRotatef(60,0.0f,0.0f,1.0f);
 
 	
@@ -501,63 +507,10 @@ void Level3D::openGLDrawTexture(float x, float y, float textw, float texth, std:
    	glEnd();
 */   	
  	}
-
-/*
-	//edited by Mike, 20210927
-	//added by Mike, 20210827
-	//set vertex counter-clock-wise
-	glBegin(GL_QUADS);
-		glTexCoord2f(0+fTx, 0+fTy);
-		glVertex3f(x, y, 0);
-		
-		glTexCoord2f(0.0625f+fTx, 0+fTy);
-		glVertex3f(x + textw, y, 0);
-		
-		glTexCoord2f(0.0625f+fTx, fTy+0.0625f);
-		glVertex3f(x + textw, y + texth, 0);
-		
-		glTexCoord2f(0+fTx, fTy+0.0625f);
-		glVertex3f(x, y + texth, 0);
-	glEnd();
-*/
-/*
- 		//edited by Mike, 20210928
-		//set vertex clock-wise; 1st quadrant; inverted Y-axis
-		glBegin(GL_QUADS);
-			glTexCoord2f(0.0625f+fTx, fTy+0.0625f);		
-			glVertex3f(x, y, 0);
-	
-			glTexCoord2f(0.0625f+fTx, 0+fTy);
-			glVertex3f(x, y + texth, 0);
-			
-			glTexCoord2f(0+fTx, 0+fTy);			
-			glVertex3f(x + textw, y + texth, 0);
-
-			glTexCoord2f(0+fTx, fTy+0.0625f);
-			glVertex3f(x + textw, y, 0);
-		glEnd();
-*/		
-
+		//edited by Mike, 20210930
+		//TO-DO: -add: more quads to make Cube
 		//TO-DO: -reverify: this
 
-/*
-		//set vertex clock-wise; 1st quadrant; NOT inverted Y-axis;
-		//texture position counter-clock-wise
-		//texture: TOP-LEFT origin
-		glBegin(GL_QUADS);
-			glTexCoord2f(0+fTx, fTy+0.0625f);
-			glVertex3f(x, y, 0);
-
-			glTexCoord2f(0+fTx, 0+fTy);				
-			glVertex3f(x, y + texth, 0);
-			
-			glTexCoord2f(fTx+0.0625f, 0+fTy);
-			glVertex3f(x + textw, y + texth, 0);
-
-			glTexCoord2f(fTx+0.0625f, fTy+0.0625f);		
-			glVertex3f(x + textw, y, 0);
-		glEnd();
-*/		
 		//set vertex clock-wise; 1st quadrant; NOT inverted Y-axis;
 		//texture position clock-wise
 		//texture: TOP-LEFT origin
@@ -576,60 +529,6 @@ void Level3D::openGLDrawTexture(float x, float y, float textw, float texth, std:
 			glVertex3f(x + textw, y, 0);
 		glEnd();
 
-/*		
-		//set vertex clock-wise; 1st quadrant; NOT inverted Y-axis;
-		//texture position clock-wise
-		//texture: TOP-LEFT origin
-		glBegin(GL_QUADS);
-			glTexCoord2f(fTx+0.0625f, fTy+0.0625f);		
-			glVertex3f(x, y, 0);
-
-			glTexCoord2f(fTx+0.0625f, 0+fTy);
-			glVertex3f(x, y + texth, 0);
-			
-			glTexCoord2f(0+fTx, 0+fTy);				
-			glVertex3f(x + textw, y + texth, 0);
-
-			glTexCoord2f(0+fTx, fTy+0.0625f);
-			glVertex3f(x + textw, y, 0);
-		glEnd();
-*/
-/*    
-		//set vertex clock-wise; 1st quadrant; NOT inverted Y-axis;
-		//texture position clock-wise
-		//texture: TOP-LEFT origin
-		glBegin(GL_QUADS);
-			glTexCoord2f(0+fTx, 0+fTy);				
-			glVertex3f(x, y, 0);
-
-			glTexCoord2f(0+fTx, fTy+0.0625f);
-			glVertex3f(x, y + texth, 0);
-	
-			glTexCoord2f(fTx+0.0625f, fTy+0.0625f);					
-			glVertex3f(x + textw, y + texth, 0);
-
-			glTexCoord2f(fTx+0.0625f, 0+fTy);
-			glVertex3f(x + textw, y, 0);
-		glEnd();
-*/
-/*    
-		//set vertex clock-wise; 1st quadrant; NOT inverted Y-axis;
-		//texture position clock-wise
-		//texture: TOP-LEFT origin
-		glBegin(GL_QUADS);
-			glTexCoord2f(0+fTx, 0+fTy);				
-			glVertex3f(x, y, 0);
-
-			glTexCoord2f(0+fTx, fTy+0.0625f);
-			glVertex3f(x, y + texth, 0);
-	
-			glTexCoord2f(fTx+0.0625f, fTy+0.0625f);					
-			glVertex3f(x + textw, y + texth, 0);
-
-			glTexCoord2f(fTx+0.0625f, 0+fTy);
-			glVertex3f(x + textw, y, 0);
-		glEnd();
-*/		
     
     glDisable(GL_TEXTURE_2D);
     
