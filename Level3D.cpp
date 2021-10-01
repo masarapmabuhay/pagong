@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20200926
- * @date updated: 20210930
+ * @date updated: 20211001
  * @website address: http://www.usbong.ph
  *
  * Reference:
@@ -536,7 +536,9 @@ void Level3D::openGLDrawTextureQuadOKNotYetCube(float x, float y, float textw, f
 //    glBindTexture(GL_TEXTURE_2D, 0); //added by Mike, 20210918
 }
 
-//TO-DO: -add: float z
+//note: draw tile as cube sequence left to right, top to bottom;
+//right-most over left-most
+//bottom-most over top-most
 void Level3D::openGLDrawTexture(float x, float y, float z, float textw, float texth, std::string sTileId)
 {
 	glBindTexture(GL_TEXTURE_2D, openGLITexture); //textureId);
@@ -637,8 +639,8 @@ void Level3D::openGLDrawTexture(float x, float y, float z, float textw, float te
 
 		glBegin(GL_QUADS);
 		
-			//note: texture coordinate positions equal with all faces
-/*		
+			//note: texture coordinate positions equal with all faces		
+/*			
 			// bottom face; OK; isometric rotated, now still bottom side
 			glTexCoord2f(fTx+0.0625f, fTy+0.0625f);		
 			glVertex3f(x, y, 0+texth);
@@ -650,9 +652,8 @@ void Level3D::openGLDrawTexture(float x, float y, float z, float textw, float te
 			glVertex3f(x + textw, y + texth, 0+texth);
 
 			glTexCoord2f(0+fTx, fTy+0.0625f);
-			glVertex3f(x + textw, y, 0+texth);
-*/			
-
+			glVertex3f(x + textw, y, 0+texth);			
+*/
 			// top face; OK; isometric rotated, now still top side
 			glTexCoord2f(fTx+0.0625f, fTy+0.0625f);		
 			glVertex3f(x, y, 0);
@@ -665,8 +666,7 @@ void Level3D::openGLDrawTexture(float x, float y, float z, float textw, float te
 
 			glTexCoord2f(0+fTx, fTy+0.0625f);
 			glVertex3f(x + textw, y, 0);
-			
-/*			
+						
 			// front face; OK; isometric rotated, now right side
 			glTexCoord2f(fTx+0.0625f, fTy+0.0625f);		
 			glVertex3f(x, 0, z);
@@ -679,7 +679,8 @@ void Level3D::openGLDrawTexture(float x, float y, float z, float textw, float te
 
 			glTexCoord2f(0+fTx, fTy+0.0625f);
 			glVertex3f(x + textw, 0, z);
-						
+
+/*						
 			// back face; OK; isometric rotated, now left side
 			glTexCoord2f(fTx+0.0625f, fTy+0.0625f);		
 			glVertex3f(x, 0 + texth, z);
