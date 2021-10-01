@@ -1971,7 +1971,7 @@ void Level3D::move(int key, MyDynamicObject* mdoPilot)
 {
     switch(key) {
         case KEY_A:
-        		//edited by Mike, 20210923
+        		//edited by Mike, 20210923        		
             fMyCanvasPosX = fMyCanvasPosX-stepX;
 /*
     				if (fMyCanvasPosX==fMyWindowWidth-getWidth()-stepX) {
@@ -1983,15 +1983,22 @@ void Level3D::move(int key, MyDynamicObject* mdoPilot)
 */						
             break;
         case KEY_D:
-        		//edited by Mike, 20210924
-//            fMyCanvasPosX = fMyCanvasPosX+stepX;
+        		//edited by Mike, 20211001
+        		//TO-DO: -fix: noticeable auto-drawing of tiles @left-most column
+        		//--> shift column x1 leftward; 
+        		//--> fix: Pilot step movement noticeably slows at canvasPosX = 0
+            fMyCanvasPosX = fMyCanvasPosX+stepX;
             
+/*	//TO-DO: -reverify: this;   					
+  					//edited by Mike, 20211001
+  					//note: Level3D 
             if (mdoPilot->getX()<=fMyWindowWidth/2-getWidth()-getStepX()) {
+//            if (mdoPilot->getX()<fMyWindowWidth/2) {
 						}
 						else {
             	fMyCanvasPosX = fMyCanvasPosX+stepX;
 						}
-						
+*/						
             break;
        case KEY_W:
        			//edited by Mike, 20210924
@@ -2009,12 +2016,13 @@ void Level3D::move(int key, MyDynamicObject* mdoPilot)
 */						
             break;
         case KEY_S:
-        			//edited by Mike, 20210924
-        			//TO-DO: -reverify: this due to fMyCanvasPosY 
-        			//should be set to zero until Pilot is at center vertically
-        			//to correctly execute collision detection with tiles
-//            fMyCanvasPosY = fMyCanvasPosY+stepY;
+        		//edited by Mike, 20211001
+        		//TO-DO: -fix: noticeable auto-drawing of tiles @top-most row
+        		//--> shift row x1 upward; 
+        		//--> fix: Pilot step movement noticeably slows at canvasPosY = 0
+          	fMyCanvasPosY = fMyCanvasPosY+stepY;
             
+/* //removed by Mike, 20211001; TO-DO: -reverify: this            
             //edited by Mike, 20210924
 //            if (mdoPilot->getY()+getStepY()<fMyWindowHeight/2-getHeight()-getStepY()) {
             if (mdoPilot->getY()<=fMyWindowHeight/2-getHeight()-getStepY()) {
@@ -2022,6 +2030,7 @@ void Level3D::move(int key, MyDynamicObject* mdoPilot)
 						else {
             	fMyCanvasPosY = fMyCanvasPosY+stepY;
 						}
+*/						
             break;            
     }        
 }
