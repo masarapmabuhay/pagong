@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20210613
- * @date updated: 20210930
+ * @date updated: 20211002
  * @website address: http://www.usbong.ph
  *
  * Acknowledgments:
@@ -212,10 +212,16 @@ private:
 		
 		int iCurrentLevelMapContainerOffsetMaxViewPortX,
 			  iCurrentLevelMapContainerOffsetMaxViewPortY;
-    
+        
     //added by Mike, 20210911
     int MAX_X_AXIS_VIEWPORT;
     int MAX_Y_AXIS_VIEWPORT;
+
+		//added by Mike, 20211002
+		float fKahonRotation;
+		
+		//added by Mike, 20211002
+		//TO-DO: -remove: excess instructions
     
     //added by Mike, 20210423
     int iCountTaoAnimationFrame;

@@ -340,8 +340,7 @@ Level3D::Level3D(float xPos, float yPos, float zPos, float fWindowWidth, float f
     
     fStepMovemenGridZ=0;
     fStepMovemenGridX=0;
-	fStepMovemenGridY=0;
-    
+		fStepMovemenGridY=0;    
     
     /*
      printf("fGridSquareWidth: %f\n",fGridSquareWidth);
@@ -369,6 +368,9 @@ Level3D::Level3D(float xPos, float yPos, float zPos, float fWindowWidth, float f
     //added by Mike, 20210618
     isAtMaxTextCharRow=false;
     idrawPressNextSymbolCount=0;
+    
+    //added by Mike, 20211002
+    fKahonRotation=0;
     
     //removed by Mike, 20201001; added by Mike, 20210423;
     //removed by Mike, 20210722
@@ -582,8 +584,24 @@ void Level3D::openGLDrawTexture(float x, float y, float z, float textw, float te
   glRotatef(45,1.0f,0.0f,0.0f);
 	glRotatef(60,0.0f,0.0f,1.0f);
 */
+		
+ //edited by Mike, 20211002
+	//isometric view
   glRotatef(30,1.0f,0.0f,0.0f);
 	glRotatef(60,0.0f,0.0f,1.0f);
+
+	glRotatef(fKahonRotation, 0.0f, 0.0f, 1.0f);
+
+	fKahonRotation+=1;//10;
+
+	if (fKahonRotation>=360) { //note: % operation uses integer, i.e. whole number
+		fKahonRotation=0;
+	}
+
+	//added by Mike, 20211002
+	//to rotate @center, add after rotation Command
+	glTranslatef(-textw/2,-texth/2,0.0f);
+
 
 	//TO-DO: -eliminate excess instructions
 	
@@ -686,7 +704,7 @@ void Level3D::openGLDrawTexture(float x, float y, float z, float textw, float te
 			glTexCoord2f(0+fTx, fTy+0.0625f);
 			glVertex3f(x + textw, 0, z);
 
-/*						
+			//note: does NOT need to be auto-drawn when isometric view						
 			// back face; OK; isometric rotated, now left side
 			glTexCoord2f(fTx+0.0625f, fTy+0.0625f);		
 			glVertex3f(x, 0 + texth, z);
@@ -699,7 +717,7 @@ void Level3D::openGLDrawTexture(float x, float y, float z, float textw, float te
 
 			glTexCoord2f(0+fTx, fTy+0.0625f);
 			glVertex3f(x + textw, 0 + texth, z);
-*/
+
 	
 			
 			// right face; OK; isometric rotated, now top-right side 
