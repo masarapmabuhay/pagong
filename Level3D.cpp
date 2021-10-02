@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20200926
- * @date updated: 20211001
+ * @date updated: 20211002
  * @website address: http://www.usbong.ph
  *
  * Reference:
@@ -561,7 +561,13 @@ void Level3D::openGLDrawTexture(float x, float y, float z, float textw, float te
 
 	//added by Mike, 20210928
 	//note: updated: texture and vertex positions to be clock-wise 1st quadrant
-	glTranslatef(-textw,-texth,0.0f);
+	//removed by Mike, 20211002; put cube at center of grid tile
+//	glTranslatef(-textw,-texth,0.0f);
+	
+	//added by Mike, 20211002; put collision detection box at center of grid tile
+	//This instruction removes object pop-up in y-axis
+	glTranslatef(0.0f,0.0f+texth,0.0f);
+
 
 	//added by Mike, 20210918
 	glColor3f(1.0f, 1.0f, 1.0f); // white
@@ -1563,21 +1569,22 @@ void Level3D::drawLevelMapInViewPort(float fX, float fY, float fZ)
 //    printf(">>getStepX(): %f\n",getStepX());
 
 
+/*
 		//added by Mike, 20210922		
 	  printf(">>fMyCanvasPosPrevX: %f; fMyCanvasPosX: %f\n",fMyCanvasPosPrevX,fMyCanvasPosX);
     printf(">>fX: %f\n",fX);    
 //    printf(">>fMyWindowWidth/2: %f\n",fMyWindowWidth/2);    		
     printf(">>fMyWindowWidth/2-getWidth(): %f\n",fMyWindowWidth/2-getWidth());
     printf(">>getStepX(): %f\n",getStepX()); //added by Mike, 20210922
+*/
 
 
-/*
 	  printf(">>fMyCanvasPosPrevY: %f; fMyCanvasPosY: %f\n",fMyCanvasPosPrevY,fMyCanvasPosY);
     printf(">>fY: %f\n",fY);    
 //    printf(">>fMyWindowWidth/2: %f\n",fMyWindowWidth/2);    		
     printf(">>fMyWindowHeight/2-getHeight(): %f\n",fMyWindowHeight/2-getHeight());    		
     printf(">>getStepY(): %f\n",getStepY()); //added by Mike, 20210922
-*/
+
 		
 		//edited by Mike, 20210924
 //		if (fX==(fMyWindowWidth/2-getWidth())) {
@@ -1900,10 +1907,11 @@ getFMyCanvasPosX: 614.699890 //macOS: 554.666687
 								}
 								
 								//printf(">>>>myXPos: %f; myYPos: %f\n",myXPos,myYPos);
-
+								
+/*	//removed by Mike, 20211002
 							  printf(">>myXPos: %f; vertexPosX: %f\n",myXPos,myUsbongUtils->autoConvertFromPixelToVertexPointX(myXPos));
 							  printf(">>myYPos: %f; vertexPosY: %f\n",myYPos,myUsbongUtils->autoConvertFromPixelToVertexPointY(myYPos));
-	  
+*/	  
 
  										//edited by Mike, 20210719
 //                	drawTileA	glBindTexture(GL_TEXTURE_2D, textureid);
@@ -1965,77 +1973,79 @@ void Level3D::keyUp(int keyCode) {
     myKeysDown[keyCode] = FALSE;
 }
 
-//edited by Mike, 20210923
+//edited by Mike, 20211002
 //void Level3D::move(int key)
+//note: isometric view
 void Level3D::move(int key, MyDynamicObject* mdoPilot)
 {
     switch(key) {
         case KEY_A:
-        		//edited by Mike, 20210923        		
-            fMyCanvasPosX = fMyCanvasPosX-stepX;
-/*
-    				if (fMyCanvasPosX==fMyWindowWidth-getWidth()-stepX) {
-            printf(">>>>DITO: %f",fMyCanvasPosX);
+        		//edited by Mike, 20211002
+//            fMyCanvasPosX = fMyCanvasPosX-stepX;
+
+//    				if (fMyCanvasPosX==fMyWindowWidth-getWidth()-stepX) {
+//    				if (fMyCanvasPosX==fMyWindowWidth-getWidth()-stepX*2) {
+    				if (fMyCanvasPosX==fMyWindowWidth-getWidth()) {
+            	printf(">>>>DITO: %f",fMyCanvasPosX);
 						}
 						else {
             	fMyCanvasPosX = fMyCanvasPosX-stepX;
-						}						
-*/						
+						}												
             break;
         case KEY_D:
         		//edited by Mike, 20211001
         		//TO-DO: -fix: noticeable auto-drawing of tiles @left-most column
         		//--> shift column x1 leftward; 
         		//--> fix: Pilot step movement noticeably slows at canvasPosX = 0
-            fMyCanvasPosX = fMyCanvasPosX+stepX;
+//            fMyCanvasPosX = fMyCanvasPosX+stepX;
             
-/*	//TO-DO: -reverify: this;   					
   					//edited by Mike, 20211001
   					//note: Level3D 
-            if (mdoPilot->getX()<=fMyWindowWidth/2-getWidth()-getStepX()) {
-//            if (mdoPilot->getX()<fMyWindowWidth/2) {
+  					//edited by Mike, 20211002
+//            if (mdoPilot->getX()<=fMyWindowWidth/2-getWidth()-getStepX()) {
+            if (mdoPilot->getX()<=fMyWindowWidth/2-getWidth()-getStepX()*2) {
 						}
 						else {
             	fMyCanvasPosX = fMyCanvasPosX+stepX;
 						}
-*/						
             break;
        case KEY_W:
        			//edited by Mike, 20210924
-            fMyCanvasPosY = fMyCanvasPosY-stepY;
+//            fMyCanvasPosY = fMyCanvasPosY-stepY;
                        
-/*						
-						//edited by Mike, 20210924
-            if (mdoPilot->getY()<=fMyWindowHeight/2-getHeight()-getStepY()) {
-//            if (fMyCanvasPosY<=fMyWindowHeight/2-getHeight()-getStepY()) {
-
+						
+						//edited by Mike, 20211002						
+//            if (mdoPilot->getY()<=fMyWindowHeight/2-getHeight()-getStepY()) {
+//           	if (mdoPilot->getY()<=fMyWindowHeight/2-getHeight()-getStepY()*2) {
+            if (mdoPilot->getY()<=fMyWindowHeight/2-getHeight()) {
             	fMyCanvasPosY = fMyCanvasPosY-stepY;
 						}
 						else {
-						}
-*/						
+						}						
             break;
         case KEY_S:
         		//edited by Mike, 20211001
         		//TO-DO: -fix: noticeable auto-drawing of tiles @top-most row
         		//--> shift row x1 upward; 
         		//--> fix: Pilot step movement noticeably slows at canvasPosY = 0
-          	fMyCanvasPosY = fMyCanvasPosY+stepY;
+//          	fMyCanvasPosY = fMyCanvasPosY+stepY;
             
-/* //removed by Mike, 20211001; TO-DO: -reverify: this            
             //edited by Mike, 20210924
 //            if (mdoPilot->getY()+getStepY()<fMyWindowHeight/2-getHeight()-getStepY()) {
-            if (mdoPilot->getY()<=fMyWindowHeight/2-getHeight()-getStepY()) {
+						//edited by Mike, 20211002
+//            if (mdoPilot->getY()<=fMyWindowHeight/2-getHeight()-getStepY()) {
+//            if (mdoPilot->getY()<=fMyWindowHeight/2-getHeight()) {
+           	if (mdoPilot->getY()<=fMyWindowHeight/2-getHeight()-getStepY()*2) {
 						}
 						else {
             	fMyCanvasPosY = fMyCanvasPosY+stepY;
 						}
-*/						
             break;            
     }        
 }
 
-//added by Mike, 20210724; edited by Mike, 20210725
+//added by Mike, 20210724; edited by Mike, 20211002
+//note: isometric view computations
 bool Level3D::isLevel2DCollideWith(MyDynamicObject* mdo)
 {
     
@@ -2094,6 +2104,9 @@ printf(">>>> iCurrentLevelMapContainerOffsetMaxViewPortY: %i;",iCurrentLevelMapC
 /*            		//edited by Mike, 20210921
                 if (mdo->collideWithLevel2DTileRect(0.0f+fGridSquareWidth*(iColumnCount-iCurrentLevelMapContainerOffsetX-1)-fStepMovemenGridX,0.0f+fGridSquareHeight*(iRowCount-iCurrentLevelMapContainerOffsetY)-fStepMovemenGridY, fGridSquareWidth, fGridSquareHeight)) {
 */
+/* //edited by Mike, 20211002
+                if (mdo->collideWithLevel2DTileRect(0.0f+fGridSquareWidth*(iColumnCount-iCurrentLevelMapContainerOffsetX-1)-fStepMovemenGridX,0.0f+fGridSquareHeight*(iRowCount-iCurrentLevelMapContainerOffsetY-1)-fStepMovemenGridY, fGridSquareWidth, fGridSquareHeight)) {
+*/
                 if (mdo->collideWithLevel2DTileRect(0.0f+fGridSquareWidth*(iColumnCount-iCurrentLevelMapContainerOffsetX-1)-fStepMovemenGridX,0.0f+fGridSquareHeight*(iRowCount-iCurrentLevelMapContainerOffsetY-1)-fStepMovemenGridY, fGridSquareWidth, fGridSquareHeight)) {
                     
                 printf(">>>>> fGridSquareWidth: %f",fGridSquareWidth);
@@ -2102,6 +2115,11 @@ printf(">>>> iCurrentLevelMapContainerOffsetMaxViewPortY: %i;",iCurrentLevelMapC
                     return this->hitByAtTile(mdo, sCurrentLevelMapContainer[iRowCount][iColumnCount],
                                              0.0f+fGridSquareWidth*(iColumnCount-iCurrentLevelMapContainerOffsetX-1)-fStepMovemenGridX,
                                              0.0f+fGridSquareHeight*(iRowCount-iCurrentLevelMapContainerOffsetY)-fStepMovemenGridY);
+*/
+/* //edited by Mike, 20211002
+                    return this->hitByAtTile(mdo, sCurrentLevelMapContainer[iRowCount][iColumnCount],
+                                             0.0f+fGridSquareWidth*(iColumnCount-iCurrentLevelMapContainerOffsetX-1)-fStepMovemenGridX,
+                                             0.0f+fGridSquareHeight*(iRowCount-iCurrentLevelMapContainerOffsetY-1)-fStepMovemenGridY);
 */
                     return this->hitByAtTile(mdo, sCurrentLevelMapContainer[iRowCount][iColumnCount],
                                              0.0f+fGridSquareWidth*(iColumnCount-iCurrentLevelMapContainerOffsetX-1)-fStepMovemenGridX,
@@ -2272,9 +2290,11 @@ bool Level3D::hitByAtTile(MyDynamicObject* mdo, std::string sTileId, int iTileXP
 				//edited by Mike, 20210830
 				//reminder: added: gravity to exist in world
 				//TO-DO: -add: container to store gravity value
-            //edited by Mike, 20210917
+            //edited by Mike, 20211002
+          //origin, i.e. 0,0, @TOP-LEFT
         mdo->setYPos(mdo->getY()-mdo->getStepY());
 //            mdo->setYPos(mdo->getY()-mdo->getStepY()-1);
+//        mdo->setYPos(mdo->getY()+mdo->getStepY()); //note: use with wall for up movement
             
 				//added by Mike, 20210901
 				//note: bounce spring action from ground; sonic 1 via game gear machine?
@@ -2282,7 +2302,9 @@ bool Level3D::hitByAtTile(MyDynamicObject* mdo, std::string sTileId, int iTileXP
         if (mdo->collideWithLevel2DTileRect(iTileXPos,iTileYPos, fGridSquareWidth, fGridSquareHeight)) {
 //            if (mdo->collideWithLevel2DTileRect(iTileXPos+10,iTileYPos+10, fGridSquareWidth-10, fGridSquareHeight-10)) {
         //            mdo->setYPos(mdo->getY()-mdo->getStepY()-1);
+        		//edited by Mike, 20211002
             mdo->setYPos(mdo->getY()-mdo->getStepY());
+//            mdo->setYPos(mdo->getY()+mdo->getStepY()); //note: use with wall for up movement
 
         }
 				
