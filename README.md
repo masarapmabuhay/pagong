@@ -11,6 +11,9 @@ Set of computer instructions with reusable component parts
 ## 1.3. Vertical Scroll Movement
 <img src="https://github.com/usbong/pagong/blob/main/screenshots/usbongPagongVerticalAndHorizontalScrollMovementOKV20210921T1648.gif" width="60%">
 
+## 1.4. 3-Dimensional Object Movement and Collision Detection
+<img src="https://github.com/usbong/pagong/blob/main/screenshots/usbongPagong3DLevelTileAsCubeRotatingAtItsCenterWithCollisionActionV20211002T1245.gif" width="60%">
+
 # 2. Additional References
 ## 2.1. [Usbong Automotive](https://github.com/usbong/documentation/tree/master/Usbong/R%26D/Automotive)
 
