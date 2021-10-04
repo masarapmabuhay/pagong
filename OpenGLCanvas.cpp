@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20200926
- * @date updated: 20211001
+ * @date updated: 20211004
  * @website address: http://www.usbong.ph
  *
  * References:
@@ -859,25 +859,26 @@ void OpenGLCanvas::render()
 	
 	//solves problem with quad face image texture merging
 	glEnable(GL_CULL_FACE);
-	
+
+/*	
   glPushMatrix();
     myLevel3D->drawLevelMapInViewPort(myPilot->getX(),myPilot->getY(),myPilot->getZ());
     myLevel3D->drawGrid();
   glPopMatrix();
 
+
 	//edited by Mike, 20210902
  	glPushMatrix();
 		myPilot->draw();
   glPopMatrix();
-	
+*/	
 
-/* //removed by Mike, 20210911
     //added by Mike, 20210903
     glPushMatrix();
 //    	glScalef(fMyWindowWidthAsPixelRatioToHeightPixel,1.0f,1.0f);
     	myText->draw();
     glPopMatrix();
-*/
+
     
 }
 

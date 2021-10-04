@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20200926
- * @date updated: 20211002
+ * @date updated: 20211004
  * @website address: http://www.usbong.ph
  *
  * Reference:
@@ -1274,6 +1274,7 @@ void Level3D::drawTileAsQuadWithTexture(std::string sTileId)
     
   //added by Mike, 20210927
   glDisable(GL_CULL_FACE);
+  
     
     //added by Mike, 20210830; removed by Mike, 20210830
 //    glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);

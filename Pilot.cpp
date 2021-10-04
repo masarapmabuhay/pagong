@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B. 
  * @date created: 20200930
- * @date updated: 20211002
+ * @date updated: 20211004
  * @website address: http://www.usbong.ph
  *
  * Reference: 
@@ -452,9 +452,17 @@ Pilot::Pilot(float xPos, float yPos, float zPos, float fWindowWidth, float fWind
 		
 		//added by Mike, 20210831
 		//we NOW use floating-point numbers, instead of integers, i.e. whole numbers
- //edited by Mike, 20210916
+ 		//edited by Mike, 20211004
     myWidth=fGridSquareWidth;
     myHeight=fGridSquareHeight;
+
+/*    
+	  //note: shall need to update collision detection computation; TO-DO: -reverify: cause
+    myWidth=fGridSquareWidth/2.0f;
+    myHeight=fGridSquareHeight/2.0f;
+*/
+    
+    
 /*
     float fGridSquareWidthOffset=20.0f;
     float fGridSquareHeightOffset=20.0f;
@@ -847,6 +855,10 @@ void Pilot::drawPilotObject()
 		//add scale COMMAND after translate COMMAND for auto-computed positions to be correct
 		//use correct width x height ratio; window 10x18; row x column
 		glScalef(0.20f, 0.35f, 0.0f);
+
+		//added by Mike, 20211004
+		//note: shall need to update collision detection computation; TO-DO: -reverify: cause		
+//		glScalef(0.50f, 0.50f, 0.0f);
 
     openGLDrawTexture(0.0f, 
     									0.0f, 

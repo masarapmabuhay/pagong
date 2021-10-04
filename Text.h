@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20210613
- * @date updated: 20210907
+ * @date updated: 20211004
  * @website address: http://www.usbong.ph
  *
  * Acknowledgments:
@@ -278,6 +278,7 @@ private:
     //added by Mike, 20210618; edited by Mike, 20210907
     void drawPressNextSymbolPrev();
     void drawPressNextSymbol();
+    void drawPressNextSymbolWith2DLevelOK(); //edited by Mike, 20211004
     
 public:
     //edited by Mike, 20201115
@@ -380,15 +381,13 @@ public:
     void readInputText(char *inputFilename);
     
     virtual void draw() {
-        //edited by Mike, 20210903
-//        drawTextBackgroundAsQuadWithTexture();
-        
         drawTextBackgroundAsQuadWithTexture();      
     }
     
     //edited by Mike, 20210615
     void drawTextBackgroundAsQuadWithTexturePrev();
     void drawTextBackgroundAsQuadWithTexture();
+    void drawTextBackgroundAsQuadWithTextureWith2DLevelOK(); //added by Mike, 20211004
     void drawTextBackgroundObject();
     
     /*	//removed by Mike, 20210514
@@ -432,9 +431,12 @@ public:
     
     //added by Mike, 20210902
     virtual void openGLDrawTexture(float x, float y, float textw, float texth);
+    virtual void openGLDrawTextureWith2DLevelOK(float x, float y, float textw, float texth); //edited by Mike, 20211004
             
 		//added by Mike, 20210903
-    virtual void drawTextFontAsQuadWithTexture(float x, float y, float textw, float texth);            
+    virtual void drawTextFontAsQuadWithTexture(float x, float y);            
+    //added by Mike, 20211004
+		virtual void drawTextFontAsQuadWithTexture2DLevelOK(float x, float y, float textw, float texth);            
 
             
     /*	//removed by Mike, 20210522	
