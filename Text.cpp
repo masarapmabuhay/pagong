@@ -766,9 +766,9 @@ void Text::drawTextBackgroundAsQuadWithTexture()
     //edited by Mike, 20211004
 //   	drawTextFontAsQuadWithTexture(myXPos, myYPos, myWidth, myHeight);
 		//TO-DO: -reverify: this
-//   	drawTextFontAsQuadWithTexture(0, 0);
+   	drawTextFontAsQuadWithTexture(0, 0);
 
-/* //removed by Mike, 20211004   	
+ //removed by Mike, 20211004   	
    	//added by Mike, 20210907
 		if (isAtMaxTextCharRow) {
 		
@@ -780,9 +780,9 @@ void Text::drawTextBackgroundAsQuadWithTexture()
         idrawPressNextSymbolCount=idrawPressNextSymbolCount+1;
 	 //removed by Mike, 20211004   	
     }              	
-*/
 
-	drawPressNextSymbol();	
+
+//	drawPressNextSymbol();	
 
 }
 
@@ -859,7 +859,7 @@ for (iRowCount=0; iRowCount<iTextCurrentMaxRowCount;) {
             tempText[iRowCount+iRowCountPageNumber*MAX_TEXT_CHAR_ROW][iColumnCount]=cCurrentTextContainer[iRowCount+iRowCountPageNumber*MAX_TEXT_CHAR_ROW][iColumnCount];
   }
   
-  //printf(">>tempText: %s\n",tempText[iRowCount+iRowCountPageNumber*MAX_TEXT_CHAR_ROW]);
+//  printf(">>tempText: %s\n",tempText[iRowCount+iRowCountPageNumber*MAX_TEXT_CHAR_ROW]);
   
   //edited by Mike, 20210903      
 //  draw_string(glIFontTexture, 0.05f, 1.2f, 0.0f, tempText[iRowCount+iRowCountPageNumber*MAX_TEXT_CHAR_ROW]);
