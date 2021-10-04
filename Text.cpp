@@ -514,7 +514,7 @@ void Text::drawTextBackgroundAsQuadWithTexture()
     //edited by Mike, 20211004
 //   	drawTextFontAsQuadWithTexture(myXPos, myYPos, myWidth, myHeight);
 		//TO-DO: -reverify: this
-//   	drawTextFontAsQuadWithTexture(0, 0);
+   	drawTextFontAsQuadWithTexture(0, 0);
    	
    	//added by Mike, 20210907
 		if (isAtMaxTextCharRow) {
@@ -745,7 +745,7 @@ for (iRowCount=0; iRowCount<iTextCurrentMaxRowCount;) {
             tempText[iRowCount+iRowCountPageNumber*MAX_TEXT_CHAR_ROW][iColumnCount]=cCurrentTextContainer[iRowCount+iRowCountPageNumber*MAX_TEXT_CHAR_ROW][iColumnCount];
   }
   
-  //printf(">>tempText: %s\n",tempText[iRowCount+iRowCountPageNumber*MAX_TEXT_CHAR_ROW]);
+  printf(">>tempText: %s\n",tempText[iRowCount+iRowCountPageNumber*MAX_TEXT_CHAR_ROW]);
   
   //edited by Mike, 20210903      
 //  draw_string(glIFontTexture, 0.05f, 1.2f, 0.0f, tempText[iRowCount+iRowCountPageNumber*MAX_TEXT_CHAR_ROW]);
@@ -756,7 +756,12 @@ for (iRowCount=0; iRowCount<iTextCurrentMaxRowCount;) {
 	//edited by Mike, 20210907
 //  draw_string(glIFontTexture, x+(20.0f*2.0f), y+iRowCount*(20.0f*2.0f)+20.0f, 0.0f, tempText[iRowCount+iRowCountPageNumber*MAX_TEXT_CHAR_ROW]);
 	//centered; to remove excess margin to the right
+/*
+//edited by Mike, 20211004	
   draw_string(glIFontTexture, x+(20.0f*2.0f)+20.0f, y+iRowCount*(20.0f*2.0f)+20.0f, 0.0f, tempText[iRowCount+iRowCountPageNumber*MAX_TEXT_CHAR_ROW]);
+*/
+  draw_string(glIFontTexture, myUsbongUtils->autoConvertFromPixelToVertexPointX(x+(20.0f*2.0f)+20.0f), myUsbongUtils->autoConvertFromPixelToVertexPointY(y+iRowCount*(20.0f*2.0f)+20.0f), 0.0f, tempText[iRowCount+iRowCountPageNumber*MAX_TEXT_CHAR_ROW]);
+
   
 //  glTranslatef(0.0f+0.05f,0.0f+1.2f+0.1f+0.05f,0.0f);
 
