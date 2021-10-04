@@ -2521,9 +2521,11 @@ void Level3D::read(char *inputFilename) {
                  printf("%s:",ch);
                  printf("%i,",iColumnCount);
                  */
+
+/* //removed by Mike, 20211004                 
                 printf("HALLO %i:",iColumnCount);
                 printf("%s,",ch);
-                
+*/                
                 iColumnCount=iColumnCount+1;
                 ch = strtok(NULL, ",");
             }

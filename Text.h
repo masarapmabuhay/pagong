@@ -277,8 +277,10 @@ private:
     
     //added by Mike, 20210618; edited by Mike, 20210907
     void drawPressNextSymbolPrev();
+    void drawPressNextSymbolBuggy(); //added by Mike, 20211004
     void drawPressNextSymbol();
     void drawPressNextSymbolWith2DLevelOK(); //edited by Mike, 20211004
+    void drawPressNextSymbolRedSquareQuadOK(); //edited by Mike, 20211004
     
 public:
     //edited by Mike, 20201115

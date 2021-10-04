@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20200926
- * @date updated: 20210925
+ * @date updated: 20211004
  * @website address: http://www.usbong.ph
  *
  * Reference:
@@ -2090,8 +2090,11 @@ void Level2D::read(char *inputFilename) {
                  printf("%s:",ch);
                  printf("%i,",iColumnCount);
                  */
+                 
+/* //removed by Mike, 20211004                                  
                 printf("HALLO %i:",iColumnCount);
                 printf("%s,",ch);
+*/
                 
                 iColumnCount=iColumnCount+1;
                 ch = strtok(NULL, ",");

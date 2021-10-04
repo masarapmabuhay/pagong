@@ -401,10 +401,12 @@ float* Text::getXYZPos()
  */
 
 //added by Mike, 20210907
-void Text::drawPressNextSymbol()
+void Text::drawPressNextSymbolPrev()
 {
     glDisable(GL_TEXTURE_2D);
-    glBindTexture(GL_TEXTURE_2D, 0);
+    
+    	//removed by Mike, 20211004
+//    glBindTexture(GL_TEXTURE_2D, 0);
  
     glColor3f(1.0f,0.0f,0.0f); //red
   		
@@ -418,12 +420,38 @@ void Text::drawPressNextSymbol()
 */
       float fMySideLength = myWidth/20.0f/1.5f;
 
-			float fY=myYPos+myHeight/2-fMySideLength;
-			float fX=myXPos+myWidth/2;
+			float fY=myYPos;
+			float fX=myXPos;
+			
+			//set position to be at bottom center
+//			glScalef(4.0f, 4.0f, 0.0f);
+//			glTranslatef(0.0f,-fMySideLength/2,0.0f);						
+
+
+			printf(">>>>>> fMySideLength: %f; vertex fMySideLength: %f",fMySideLength, myUsbongUtils->autoConvertFromPixelToVertexGridTileWidth(fMySideLength));
 
 			fMySideLength = myUsbongUtils->autoConvertFromPixelToVertexGridTileWidth(fMySideLength);
+
+/*			
 			fY = myUsbongUtils->autoConvertFromPixelToVertexPointY(fY);
 			fX = myUsbongUtils->autoConvertFromPixelToVertexPointX(fX);
+*/
+			fY = myUsbongUtils->autoConvertFromPixelToVertexPointY(0);
+			fX = myUsbongUtils->autoConvertFromPixelToVertexPointX(0);
+
+			printf(">>>>>> fY: %f, fX: %f;",fY,fX);
+
+			glTranslatef(fX, fY, 0.0f);	
+
+/*
+			//added by Mike, 20211004
+			glTranslatef(x,y,0.0f);			
+
+			x=0;
+			y=0;
+*/			
+
+
 
 /*
     	//counter-clockwise sequence to auto-draw front face    	    	
@@ -436,6 +464,7 @@ void Text::drawPressNextSymbol()
 			//added by Mike, 20211004; removed by Mike, 20211004; TO-DO: -reverify: positions
 //			glTranslatef(0.0f, 0.0f-fMySideLength*2, 0.0f);
 			
+/*				//edited by Mike, 20211004
     	//counter-clockwise sequence to auto-draw front face
     	//note: origin TOP-LEFT  	
     	glBegin(GL_TRIANGLES);
@@ -443,10 +472,229 @@ void Text::drawPressNextSymbol()
     		glVertex3f(fX,fY+fMySideLength,0.0f); //BOTTOM-CENTER vertex
     		glVertex3f(fX+fMySideLength,fY,0.0f); //RIGHT vertex
     	glEnd();
+*/
+    	//counter-clockwise sequence to auto-draw front face
+    	//note: origin TOP-LEFT  	
+    	glBegin(GL_TRIANGLES);
+    		glVertex3f(0.0f-fMySideLength,fY,0.0f); //LEFT vertex
+    		glVertex3f(0.0f,0.0f+fMySideLength,0.0f); //BOTTOM-CENTER vertex
+    		glVertex3f(0.0f+fMySideLength,fY,0.0f); //RIGHT vertex
+    	glEnd();
     	    	
     	glColor3f(1.0f,1.0f,1.0f); //reset to white
     	
 //    glPopMatrix();
+}
+
+
+
+//edited by Mike, 20211004
+void Text::drawPressNextSymbolBuggy()
+{
+//	glBindTexture(GL_TEXTURE_2D, openGLITexture); //textureId);
+//	glEnable(GL_TEXTURE_2D);
+	
+  glDisable(GL_TEXTURE_2D);
+
+  glColor3f(1.0f,0.0f,0.0f); //red	
+
+	//removed by Mike, 20210903
+//	textw=textw*2;
+
+	float x=myUsbongUtils->autoConvertFromPixelToVertexPointX(myXPos); //0
+	float y=myUsbongUtils->autoConvertFromPixelToVertexPointY(myYPos); //0
+		
+	float textw=myUsbongUtils->autoConvertFromPixelToVertexGridTileWidth(myWidth);
+	float texth=myUsbongUtils->autoConvertFromPixelToVertexGridTileHeight(myHeight);
+
+
+			printf(">>>>>> x: %f, y: %f;",x,y);
+	
+			//added by Mike, 20211004
+			glTranslatef(x,y,0.0f);			
+
+			x=0;
+			y=0;
+
+			//set position to be at bottom center
+			glScalef(4.0f, 4.0f, 0.0f);
+			glTranslatef(0.0f,-texth/2,0.0f);				
+	
+/*	
+	float fMySideLength = myWidth/20.0f/1.5f;
+
+	float textw=myUsbongUtils->autoConvertFromPixelToVertexGridTileWidth(fMySideLength);
+	float texth=myUsbongUtils->autoConvertFromPixelToVertexGridTileHeight(fMySideLength);
+*/
+	
+	glBegin(GL_QUADS);
+//		glTexCoord2f(0.0f, 0.0f);
+		glVertex3f(0, 0, 0);
+		
+//		glTexCoord2f(0.0f+0.5f, 0.0f);
+		glVertex3f(0 + textw, 0, 0);
+		
+//		glTexCoord2f(0.0f+0.5f, 0.0f+0.5f);
+		glVertex3f(0 + textw, 0 + texth, 0);
+		
+//		glTexCoord2f(0.0f, 0.0f+0.5f);
+		glVertex3f(0, 0 + texth, 0);
+	glEnd();
+		
+//	glDisable(GL_TEXTURE_2D);
+
+	//reset
+	glColor3f(1.0f,1.0f,1.0f); //white
+}
+
+void Text::drawPressNextSymbolRedSquareQuadOK()
+{
+/* //removed by Mike, 20211004
+	glBindTexture(GL_TEXTURE_2D, openGLITexture); //textureId);
+	glEnable(GL_TEXTURE_2D);
+*/
+  glDisable(GL_TEXTURE_2D);
+  glColor3f(1.0f,0.0f,0.0f); //red	
+
+
+    float x=myUsbongUtils->autoConvertFromPixelToVertexPointX(myXPos);
+    float y=myUsbongUtils->autoConvertFromPixelToVertexPointY(myYPos);
+/* //edited by Mike, 20211004
+    float textw=myUsbongUtils->autoConvertFromPixelToVertexGridTileWidth(myWidth);
+    float texth=myUsbongUtils->autoConvertFromPixelToVertexGridTileHeight(myHeight);
+*/
+  
+/*    
+    float fMySideLength = myWidth/20.0f/1.5f;
+        
+    float textw=myUsbongUtils->autoConvertFromPixelToVertexGridTileWidth(fMySideLength);
+    float texth=myUsbongUtils->autoConvertFromPixelToVertexGridTileHeight(fMySideLength);
+*/
+    float textw=myUsbongUtils->autoConvertFromPixelToVertexGridTileWidth(myWidth);
+    float texth=myUsbongUtils->autoConvertFromPixelToVertexGridTileHeight(myHeight);
+
+	
+			
+			//added by Mike, 20211004
+			glTranslatef(x,y,0.0f);			
+
+			//edited by Mike, 20211004
+//			glScalef(0.1f, 0.1f, 0.0f);
+		//add scale COMMAND after translate COMMAND for auto-computed positions to be correct
+		//use correct width x height ratio; window 10x18; row x column
+		glScalef(0.20f, 0.35f, 0.0f);
+
+
+			x=0;
+			y=0;
+
+/*
+			//set position to be at bottom center
+			glScalef(4.0f, 4.0f, 0.0f);
+			glTranslatef(0.0f,-texth/2,0.0f);			
+*/			
+				//note: texture positions inverted
+				//set vertex clock-wise
+				//texture positions U shape, clock-wise			
+				glBegin(GL_QUADS);
+//					glTexCoord2f(0.0f+0.5f, 0.0f+0.5f);
+					glVertex3f(x, y, 0);
+					
+//					glTexCoord2f(0.0f+0.5f, 0.0f);
+					glVertex3f(x, y + texth, 0);
+	
+//					glTexCoord2f(0.0f, 0.0f);				
+					glVertex3f(x + textw, y + texth, 0);
+	
+//					glTexCoord2f(0.0f, 0.0f+0.5f);				
+					glVertex3f(x + textw, y, 0);
+				glEnd();
+
+			//added by Mike, 20211004
+			//reset
+//			glTranslatef(0.0f,texth/2,0.0f);			
+			glScalef(1.0f, 1.0f, 1.0f);
+			glTranslatef(-x,-y,0.0f);			
+			
+//	glDisable(GL_TEXTURE_2D);
+	
+	//reset
+	glColor3f(1.0f,1.0f,1.0f); //white	
+}
+
+void Text::drawPressNextSymbol()
+{
+/* //removed by Mike, 20211004
+	glBindTexture(GL_TEXTURE_2D, openGLITexture); //textureId);
+	glEnable(GL_TEXTURE_2D);
+*/
+  glDisable(GL_TEXTURE_2D);
+  glColor3f(1.0f,0.0f,0.0f); //red	
+
+
+    float x=myUsbongUtils->autoConvertFromPixelToVertexPointX(myXPos);
+    float y=myUsbongUtils->autoConvertFromPixelToVertexPointY(myYPos);
+/* //edited by Mike, 20211004
+    float textw=myUsbongUtils->autoConvertFromPixelToVertexGridTileWidth(myWidth);
+    float texth=myUsbongUtils->autoConvertFromPixelToVertexGridTileHeight(myHeight);
+*/
+  
+/*    
+    float fMySideLength = myWidth/20.0f/1.5f;
+        
+    float textw=myUsbongUtils->autoConvertFromPixelToVertexGridTileWidth(fMySideLength);
+    float texth=myUsbongUtils->autoConvertFromPixelToVertexGridTileHeight(fMySideLength);
+*/
+    float textw=myUsbongUtils->autoConvertFromPixelToVertexGridTileWidth(myWidth);
+    float texth=myUsbongUtils->autoConvertFromPixelToVertexGridTileHeight(myHeight);
+
+	
+			
+			//added by Mike, 20211004
+			glTranslatef(x,y,0.0f);			
+
+			//edited by Mike, 20211004
+//			glScalef(0.1f, 0.1f, 0.0f);
+		//add scale COMMAND after translate COMMAND for auto-computed positions to be correct
+		//use correct width x height ratio; window 10x18; row x column
+		glScalef(0.20f, 0.35f, 0.0f);
+
+
+			x=0;
+			y=0;
+
+/*
+			//set position to be at bottom center
+			glScalef(4.0f, 4.0f, 0.0f);
+			glTranslatef(0.0f,-texth/2,0.0f);			
+*/			
+				//note: texture positions inverted
+				//set vertex clock-wise
+				//texture positions U shape, clock-wise			
+				glBegin(GL_QUADS);
+//					glTexCoord2f(0.0f+0.5f, 0.0f+0.5f);
+					glVertex3f(x, y, 0);
+					
+//					glTexCoord2f(0.0f+0.5f, 0.0f);
+					glVertex3f(x, y + texth, 0);
+	
+//					glTexCoord2f(0.0f, 0.0f);				
+					glVertex3f(x + textw, y + texth, 0);
+	
+//					glTexCoord2f(0.0f, 0.0f+0.5f);				
+					glVertex3f(x + textw, y, 0);
+				glEnd();
+
+			//added by Mike, 20211004
+			//reset
+//			glTranslatef(0.0f,texth/2,0.0f);			
+			glScalef(1.0f, 1.0f, 1.0f);
+			glTranslatef(-x,-y,0.0f);			
+			
+//	glDisable(GL_TEXTURE_2D);
+	
+	//reset
+	glColor3f(1.0f,1.0f,1.0f); //white	
 }
 
 void Text::drawPressNextSymbolWith2DLevelOK()
@@ -507,24 +755,35 @@ void Text::drawTextBackgroundAsQuadWithTexture()
 		//edited by Mike, 20211004        
     //openGLDrawTexture(myXPos, myYPos, myWidth, myHeight);
     
-    openGLDrawTexture(myUsbongUtils->autoConvertFromPixelToVertexPointX(myXPos), myUsbongUtils->autoConvertFromPixelToVertexPointY(myYPos), myUsbongUtils->autoConvertFromPixelToVertexGridTileWidth(myWidth), myUsbongUtils->autoConvertFromPixelToVertexGridTileHeight(myHeight));
-
+/*    
+    openGLDrawTexture(myUsbongUtils->autoConvertFromPixelToVertexPointX(myXPos), 
+    									myUsbongUtils->autoConvertFromPixelToVertexPointY(myYPos), 
+    									myUsbongUtils->autoConvertFromPixelToVertexGridTileWidth(myWidth), 
+    									myUsbongUtils->autoConvertFromPixelToVertexGridTileHeight(myHeight));
+*/
     
     //TO-DO: -update: this due to myWidth, myHeight NOT used
     //edited by Mike, 20211004
 //   	drawTextFontAsQuadWithTexture(myXPos, myYPos, myWidth, myHeight);
 		//TO-DO: -reverify: this
-   	drawTextFontAsQuadWithTexture(0, 0);
-   	
+//   	drawTextFontAsQuadWithTexture(0, 0);
+
+/* //removed by Mike, 20211004   	
    	//added by Mike, 20210907
 		if (isAtMaxTextCharRow) {
+		
         if ((idrawPressNextSymbolCount)%2==0) {
         		//added by Mike, 20211004
         		//TO-DO: -reverify: this
             drawPressNextSymbol();
         }
         idrawPressNextSymbolCount=idrawPressNextSymbolCount+1;
+	 //removed by Mike, 20211004   	
     }              	
+*/
+
+	drawPressNextSymbol();	
+
 }
 
 //added by Mike, 20210827
@@ -541,7 +800,8 @@ void Text::drawTextBackgroundAsQuadWithTextureWith2DLevelOK()
         }
     }		
     
-    openGLDrawTexture(myXPos, myYPos, myWidth, myHeight);
+    //removed by Mike, 20211004
+//    openGLDrawTexture(myXPos, myYPos, myWidth, myHeight);
     
     //TO-DO: -update: this due to myWidth, myHeight NOT used
     //edited by Mike, 20211004
@@ -1853,11 +2113,14 @@ void Text::openGLDrawTexture(float x, float y, float textw, float texth)
 
 			//added by Mike, 20211004
 			//reset
-			glScalef(1.0f, 1.0f, 0.0f);
 			glTranslatef(0.0f,texth/2,0.0f);			
-		
+			glScalef(1.0f, 1.0f, 0.0f);
+			glTranslatef(-x,-y,0.0f);			
+			
 	glDisable(GL_TEXTURE_2D);
 }
+
+
 
 
 void Text::reset()
@@ -2031,8 +2294,9 @@ void Text::readInputText(char *inputFilename) {
             //TO-DO: -add: auto-pause for text with several rows
             strcpy(tempInputTextLine,inputTextLine);
             
+/* //removed by Mike, 20211004            
             printf(">>> inputTextLine: %s\n",inputTextLine);
-            
+*/            
             
             /* 	//edited by Mike, 20210616
              //note: add "-1" for empty
