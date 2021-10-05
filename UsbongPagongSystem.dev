@@ -29,7 +29,7 @@ IncludeVersionInfo=0
 SupportXPThemes=0
 CompilerSet=3
 CompilerSettings=0000000100000000001000000
-UnitCount=17
+UnitCount=22
 
 [VersionInfo]
 Major=1
@@ -211,7 +211,7 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit18]
-FileName=CTargaImage.cpp
+FileName=Level3D.h
 CompileCpp=1
 Folder=
 Compile=1
@@ -221,7 +221,7 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit19]
-FileName=UsbongUtils.h
+FileName=Sound.h
 CompileCpp=1
 Folder=
 Compile=1
@@ -231,7 +231,7 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit20]
-FileName=UsbongUtils.cpp
+FileName=SoundClip.h
 CompileCpp=1
 Folder=
 Compile=1
@@ -241,7 +241,7 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit21]
-FileName=Pilot.h
+FileName=Level3D.cpp
 CompileCpp=1
 Folder=
 Compile=1
@@ -251,7 +251,7 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit22]
-FileName=Pilot.cpp
+FileName=Sound.cpp
 CompileCpp=1
 Folder=
 Compile=1

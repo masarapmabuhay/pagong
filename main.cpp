@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20200926
- * @date updated: 20210905
+ * @date updated: 20211005
  * @website address: http://www.usbong.ph
  *
  * References:
@@ -115,6 +115,8 @@
 #include <unistd.h>
 #include <iostream>
 
+//added by Mike, 20211005
+#include "Sound.h"
 
 /*	//removed by Mike, 20210819
 //added by Mike, 20200930
@@ -143,6 +145,10 @@ OpenGLCanvas *myOpenGLCanvas = NULL;
 //added by Mike, 20210819
 SDL_Window *mySDLWindow = NULL;
 SDL_Renderer *mySDLRenderer = NULL;
+
+//added by Mike, 20211005
+Sound *sound;
+SoundClip *explosion;
 
 //added by Mike, 20210819
 int iPilotX;
@@ -753,6 +759,12 @@ myWindowHeightAsPixel = static_cast<int>(GetSystemMetrics(SM_CYSCREEN));
  	//removed by Mike, 20210818
 	//atexit(cleanup);
 
+	//added by Mike, 20211005
+    sound = new Sound();    
+	sound->sound_start();
+	explosion = sound->load_sound_clip((char*)EXPLOSIONSOUND);
+	sound->play_sound_clip(explosion);
+ 
 	while (1)
 	{
 		prepareScene();
@@ -860,6 +872,9 @@ myWindowHeightAsPixel = static_cast<int>(GetSystemMetrics(SM_CYSCREEN));
 */
 
 
+	//added by Mike, 20211005
+	sound->unload_sound_clip(explosion);
+    sound->sound_stop();
 
 
     /* destroy the window explicitly */

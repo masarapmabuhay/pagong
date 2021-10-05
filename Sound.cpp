@@ -16,7 +16,7 @@
  * @author: VIDAL, ERIC E. (2006)
  * @editor: SYSON, MICHAEL B. (PRESENT)
  * @date created: 2006
- * @date updated: 20211004
+ * @date updated: 20211005
  * @website address: http://www.usbong.ph
  *
  * Reference: 
@@ -36,6 +36,23 @@
  */
 
 #include "Sound.h"
+
+/*
+//note: not needed to execute
+
+//added by Mike, 20211005; to execute printf(...) Command
+#include <stdio.h>
+
+//added by Mike, 20211005
+#ifdef _WIN32 //Windows machine
+	#include <SDL.h>
+	#include <SDL_image.h>
+#else
+	#include <SDL2/SDL.h>
+	#include <SDL2/SDL_image.h>
+#endif
+*/
+
 
 /* array of sound clip pointers to keep track of running sounds */
 SoundClip *sound_clip_ptrs[MAX_SOUND_CLIPS];
@@ -110,6 +127,13 @@ void Sound::sound_start()
     /* make sure we start with a clean slate */
     memset(sound_clip_ptrs, 0, sizeof(sound_clip_ptrs));
 
+	//added by Mike, 20211005
+	//reference: https://stackoverflow.com/questions/44186167/sdl-2-on-windows-works-incorrectly-with-audio-device;
+	//last accessed: 20211005
+	//answer by: Bartlomiej Lewandowski, 20170525T1951
+	//TO-DO: -reverify: with non-Windows, e.g. Linux, machine
+	putenv("SDL_AUDIODRIVER=DirectSound");
+
     /* open audio device */
     desired.freq = 44100;
     desired.format = AUDIO_S16SYS;
@@ -123,6 +147,7 @@ void Sound::sound_start()
         /* audio is not available (or audio format is not supported);
          * we simply terminate here in this example, but ideally we
          * should allow the game to continue without sound */
+                  
         SDL_Quit();
         exit(1);
     }
