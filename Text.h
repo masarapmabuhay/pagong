@@ -111,6 +111,10 @@
 //added by Mike, 20210516
 class UsbongUtils;
 
+//added by Mike, 20211005
+class Font;
+
+
 //TO-DO: -update: this
 class Text: public MyDynamicObject
 {
@@ -290,12 +294,14 @@ public:
     //    Text(float xPos, float yPos, float zPos,int windowWidth,int windowHeight);
     //edited by Mike, 20210815
 //    Text(float xPos, float yPos, float zPos, float windowWidth, float windowHeight);
-    Text(float xPos, float yPos, float zPos, float fWindowWidth, float fWindowHeight);
-    
+    Text(float xPos, float yPos, float zPos, float fWindowWidth, float fWindowHeight);    
     ~Text();
     
     //added by Mike, 20210523
     UsbongUtils *myUsbongUtils;
+    
+    //added by Mike, 20211005
+    Font *myFont;
     
     //added by Mike, 20201226
     //note: we classify this container as public;

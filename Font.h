@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B. 
  * @date created: 20201010
- * @date updated: 20201903
+ * @date updated: 2021005
  *
  * Acknowledgments:
  * 1) "Bulalakaw Wars" Team (2007): 
@@ -28,20 +28,47 @@
 //#include <string.h>
 #include <string>
 
-//edited by Mike, 20210903 
-void setupFontPrev(int myFontTextureObject);
+//added by Mike, 20210516
+class UsbongUtils;
 
-GLuint setupFont(char *filename, float fMyWidth, float fMyHeight);
-GLuint openGLLoadTexture(char *filename, float fMyWidth, float fMyHeight);
+class Font
+{
+private:
+		float fMyWindowWidth,
+					fMyWindowHeight;
+					
+    float myWidth,
+    		  myHeight;    
+					
+		GLboolean test_pow2(GLushort i);
+		
+public:
+    Font(float fWindowWidth, float fWindowHeight);    
+    ~Font();
+    
+    UsbongUtils *myUsbongUtils;
 
-//edited by Mike, 20201017
-//void draw_string(GLfloat x, GLfloat y, char *string);
-//void draw_char(GLfloat x, GLfloat y, char c);
-/* //edited by Mike, 20210903
-void draw_string(GLfloat x, GLfloat y, GLfloat z, char *string);
-void draw_char(GLfloat x, GLfloat y, GLfloat z, char c);
-*/
-void draw_string(GLuint glIFontTexture, GLfloat x, GLfloat y, GLfloat z, char *string);
-void draw_char(GLuint glIFontTexture, GLfloat x, GLfloat y, GLfloat z, char c);
-
-//void draw_string(GLfloat x, GLfloat y, std::string string);
+		//edited by Mike, 20210903 
+		void setupFontPrev(int myFontTextureObject);
+		
+		GLuint setupFont(char *filename, float fMyWidth, float fMyHeight);
+		GLuint openGLLoadTexture(char *filename, float fMyWidth, float fMyHeight);
+		
+		//edited by Mike, 20201017
+		//void draw_string(GLfloat x, GLfloat y, char *string);
+		//void draw_char(GLfloat x, GLfloat y, char c);
+		/* //edited by Mike, 20210903
+		void draw_string(GLfloat x, GLfloat y, GLfloat z, char *string);
+		void draw_char(GLfloat x, GLfloat y, GLfloat z, char c);
+		*/
+		void draw_string(GLuint glIFontTexture, GLfloat x, GLfloat y, GLfloat z, char *string);
+		void draw_char(GLuint glIFontTexture, GLfloat x, GLfloat y, GLfloat z, char c);
+		
+		//edited by Mike, 20211005
+		void draw_charRedSquareOK(GLuint glIFontTexture, GLfloat x, GLfloat y, GLfloat z, char c);
+		void draw_charBuggy(GLuint glIFontTexture, GLfloat x, GLfloat y, GLfloat z, char c);
+		void draw_charWith2DLevelOK(GLuint glIFontTexture, GLfloat x, GLfloat y, GLfloat z, char c);
+		
+		//void draw_string(GLfloat x, GLfloat y, std::string string);
+};
+	

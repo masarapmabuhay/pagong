@@ -297,6 +297,9 @@ Text::Text(float xPos, float yPos, float zPos, float fWindowWidth, float fWindow
 //    myUsbongUtils->setWindowWidthHeight(myWindowWidth, myWindowHeight); //added by Mike, 20210626
     myUsbongUtils->setWindowWidthHeight(fMyWindowWidth, fMyWindowHeight); //added by Mike, 20210626
     
+    //added by Mike, 20211005
+    myFont = new Font(fWindowWidth, fWindowHeight);
+        
     //added by Mike, 20210903
     myWidth=fMyWindowWidth/1.5f;
     myHeight=fMyWindowHeight/1.5f;
@@ -363,9 +366,10 @@ Text::Text(float xPos, float yPos, float zPos, float fWindowWidth, float fWindow
     //added by Mike, 20210614; edited by Mike, 20210903
 //    setupFont(FONT_TEXTURE);		
 
-	//removed by Mike, 20211004; TO-DO: -add: this
-		glIFontTexture = setupFont((char*)"textures/font.png", fMyWindowWidth, fMyWindowHeight);       
-				
+		//edited by Mike, 20211005
+//		glIFontTexture = setupFont((char*)"textures/font.png", fMyWindowWidth, fMyWindowHeight);       
+		glIFontTexture = myFont->setupFont((char*)"textures/font.png", fMyWindowWidth, fMyWindowHeight);       
+											
 		setup();
 		
 		
@@ -489,7 +493,8 @@ void Text::drawPressNextSymbol()
 
 	//bottom-center
 	x=x+windowWidth/2+textw/2;
-	y=0+windowHeight-texth/2;
+	//note: /4, instead of 2 due to scale again by 0.5f
+	y=0+windowHeight-texth/4; //-texth/2;
 			
 	//added by Mike, 20211004
 	glTranslatef(x,y,0.0f);			
@@ -497,6 +502,7 @@ void Text::drawPressNextSymbol()
 	//add scale COMMAND after translate COMMAND for auto-computed positions to be correct
 	//use correct width x height ratio; window 10x18; row x column
 	glScalef(0.20f, 0.35f, 0.0f);
+	glScalef(0.5f, 0.5f, 0.0f); //added by Mike, 20211005
 
 	x=0;
 	y=0;
@@ -768,8 +774,12 @@ for (iRowCount=0; iRowCount<iTextCurrentMaxRowCount;) {
 //  draw_string(glIFontTexture, x, y+iRowCount*20.0f, 0.0f, tempText[iRowCount+iRowCountPageNumber*MAX_TEXT_CHAR_ROW]);
 	//edited by Mike, 20210907
 //  draw_string(glIFontTexture, x+(20.0f*2.0f), y+iRowCount*(20.0f*2.0f)+20.0f, 0.0f, tempText[iRowCount+iRowCountPageNumber*MAX_TEXT_CHAR_ROW]);
+	
+	//edited by Mike, 20211005
 	//centered; to remove excess margin to the right
-  draw_string(glIFontTexture, x+(20.0f*2.0f)+20.0f, y+iRowCount*(20.0f*2.0f)+20.0f, 0.0f, tempText[iRowCount+iRowCountPageNumber*MAX_TEXT_CHAR_ROW]);
+//  draw_string(glIFontTexture, x+(20.0f*2.0f)+20.0f, y+iRowCount*(20.0f*2.0f)+20.0f, 0.0f, tempText[iRowCount+iRowCountPageNumber*MAX_TEXT_CHAR_ROW]);
+  
+  myFont->draw_string(glIFontTexture, x+(20.0f*2.0f)+20.0f, y+iRowCount*(20.0f*2.0f)+20.0f, 0.0f, tempText[iRowCount+iRowCountPageNumber*MAX_TEXT_CHAR_ROW]);
   
 //  glTranslatef(0.0f+0.05f,0.0f+1.2f+0.1f+0.05f,0.0f);
 
@@ -922,9 +932,21 @@ for (iRowCount=0; iRowCount<iTextCurrentMaxRowCount;) {
 //edited by Mike, 20211004	
   draw_string(glIFontTexture, x+(20.0f*2.0f)+20.0f, y+iRowCount*(20.0f*2.0f)+20.0f, 0.0f, tempText[iRowCount+iRowCountPageNumber*MAX_TEXT_CHAR_ROW]);
 */
-  draw_string(glIFontTexture, myUsbongUtils->autoConvertFromPixelToVertexPointX(x+(20.0f*2.0f)+20.0f), myUsbongUtils->autoConvertFromPixelToVertexPointY(y+iRowCount*(20.0f*2.0f)+20.0f), 0.0f, tempText[iRowCount+iRowCountPageNumber*MAX_TEXT_CHAR_ROW]);
 
-  
+	//edited by Mike, 20211005
+//  draw_string(glIFontTexture, myUsbongUtils->autoConvertFromPixelToVertexPointX(x+(20.0f*2.0f)+20.0f), myUsbongUtils->autoConvertFromPixelToVertexPointY(y+iRowCount*(20.0f*2.0f)+20.0f), 0.0f, tempText[iRowCount+iRowCountPageNumber*MAX_TEXT_CHAR_ROW]);
+
+	//edited by Mike, 20211005
+	//centered; to remove excess margin to the right
+  //draw_string(glIFontTexture, x+(20.0f*2.0f)+20.0f, y+iRowCount*(20.0f*2.0f)+20.0f, 0.0f, tempText[iRowCount+iRowCountPageNumber*MAX_TEXT_CHAR_ROW]);
+/*  
+  myFont->draw_string(glIFontTexture, myXPos, myYPos, 0.0f, tempText[iRowCount+iRowCountPageNumber*MAX_TEXT_CHAR_ROW]);
+*/
+	//edited by Mike, 20211005
+//  myFont->draw_string(glIFontTexture, x, y, 0.0f, tempText[iRowCount+iRowCountPageNumber*MAX_TEXT_CHAR_ROW]);
+//  myFont->draw_string(glIFontTexture, x, y-iRowCount*0.1f, 0.0f, tempText[iRowCount+iRowCountPageNumber*MAX_TEXT_CHAR_ROW]);
+    myFont->draw_string(glIFontTexture, myUsbongUtils->autoConvertFromPixelToVertexPointX(myXPos+75.0f), myUsbongUtils->autoConvertFromPixelToVertexPointY(myYPos)-iRowCount*0.1f, 0.0f, tempText[iRowCount+iRowCountPageNumber*MAX_TEXT_CHAR_ROW]);
+
 //  glTranslatef(0.0f+0.05f,0.0f+1.2f+0.1f+0.05f,0.0f);
 
   iTextAnimationCountDelay=0;

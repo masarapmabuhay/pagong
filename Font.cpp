@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B. 
  * @date created: 20201010
- * @date updated: 20211004
+ * @date updated: 20211005
  *
  * Acknowledgments:
  * 1) "Bulalakaw Wars" Team (2007): 
@@ -69,9 +69,13 @@
 //added by Mike, 20201011
 #include <iostream>
 
+//added by Mike, 20211005
+#include "Font.h"
+#include "UsbongUtils.h"
+
 /*****************************************************************************/
 
-GLboolean test_pow2(GLushort i)
+GLboolean Font::test_pow2(GLushort i)
 {
     while (i % 2 == 0)
         i /= 2;
@@ -81,14 +85,338 @@ GLboolean test_pow2(GLushort i)
         return GL_FALSE;
 }
 
+//added by Mike, 20211005
+Font::Font(float fWindowWidth, float fWindowHeight)
+{    
+		myUsbongUtils = new UsbongUtils();
+    myUsbongUtils->setWindowWidthHeight(fMyWindowWidth, fMyWindowHeight);
+    
+    //added by Mike, 20211005
+    myWidth=fMyWindowWidth/1.5f;
+    myHeight=fMyWindowHeight/1.5f;    
+}
+
 
 /*****************************************************************************/
 
 /* text drawing */
 
+void Font::draw_char(GLuint glIFontTexture, float x, float y, float z, char c)
+{
+		//added by Mike, 20211005
+	glLoadIdentity();
+	
+ //removed by Mike, 20211004
+	glBindTexture(GL_TEXTURE_2D, glIFontTexture); 
+	glEnable(GL_TEXTURE_2D);
+
+/*
+  glDisable(GL_TEXTURE_2D);
+  glColor3f(1.0f,0.0f,0.0f); //red	
+*/
+
+    GLfloat tx, ty, tz;
+
+    // check if the character is valid
+    if (c < ' ' || c > '~') {
+        return;
+    }
+
+    //subtract 32, since the first character in the font texture
+    //is the space (ascii value 32)
+    c = c - 32;
+
+    //each character in the font texture image file
+    //has a width-height ratio of 10:16
+    tx = c % 12 * 0.078125f;
+    
+//    printf(">>c: %i\n",c);
+
+    ty = (c / 12 * 0.125f);    
+       
+      
+/*    
+    float fMySideLength = myWidth/20.0f/1.5f;        
+    float textw=myUsbongUtils->autoConvertFromPixelToVertexGridTileWidth(fMySideLength);
+    float texth=myUsbongUtils->autoConvertFromPixelToVertexGridTileHeight(fMySideLength);
+*/
+
+/* //edited by Mike, 20211004
+    x=myUsbongUtils->autoConvertFromPixelToVertexPointX(x);
+    y=myUsbongUtils->autoConvertFromPixelToVertexPointY(y);
+*/
+
+/*
+		x=0;
+		y=0;
+*/
+    float textw=myUsbongUtils->autoConvertFromPixelToVertexGridTileWidth(myWidth);
+    float texth=myUsbongUtils->autoConvertFromPixelToVertexGridTileHeight(myHeight);
+
+			
+			//added by Mike, 20211004
+			glTranslatef(x,y,0.0f);			
+
+			//edited by Mike, 20211004
+//			glScalef(0.1f, 0.1f, 0.0f);
+		//add scale COMMAND after translate COMMAND for auto-computed positions to be correct
+		//use correct width x height ratio; window 10x18; row x column
+		glScalef(0.20f, 0.35f, 0.0f);
+		glScalef(0.6f, 0.8f, 0.0f); //added by Mike, 20211005
+
+/*
+			//set position to be at bottom center
+			glScalef(4.0f, 4.0f, 0.0f);
+			glTranslatef(0.0f,-texth/2,0.0f);			
+*/			
+				//note: updated this set of instructions to fix NOT auto-drawn problem
+				//note: texture positions inverted
+				//set vertex clock-wise
+				//texture positions U shape, clock-wise			
+/* //edited by Mike, 20211005
+				glBegin(GL_QUADS);
+        	glTexCoord2f(tx, ty);
+					glVertex3f(x, y, 0);
+					
+        	glTexCoord2f(tx + 0.078125f, ty);
+					glVertex3f(x, y + texth, 0);
+	
+        	glTexCoord2f(tx + 0.078125f, ty + 0.125f);
+					glVertex3f(x + textw, y + texth, 0);
+	
+        	glTexCoord2f(tx, ty + 0.125f);
+					glVertex3f(x + textw, y, 0);      		
+				glEnd();
+*/
+/*
+//inverted texture; y-axis
+				glBegin(GL_QUADS);
+        	glTexCoord2f(tx + 0.078125f, ty + 0.125f);
+					glVertex3f(x, y, 0);
+					
+        	glTexCoord2f(tx + 0.078125f, ty);
+					glVertex3f(x, y + texth, 0);
+	
+        	glTexCoord2f(tx, ty);
+					glVertex3f(x + textw, y + texth, 0);
+	
+        	glTexCoord2f(tx, ty + 0.125f);
+					glVertex3f(x + textw, y, 0);      		
+				glEnd();
+*/
+				glBegin(GL_QUADS);
+        	glTexCoord2f(tx, ty);
+					glVertex3f(x, y, 0);
+
+        	glTexCoord2f(tx, ty + 0.125f);					
+					glVertex3f(x, y + texth, 0);
+
+        	glTexCoord2f(tx + 0.078125f, ty + 0.125f);	
+					glVertex3f(x + textw, y + texth, 0);
+
+        	glTexCoord2f(tx + 0.078125f, ty);	
+					glVertex3f(x + textw, y, 0);      		
+				glEnd();
+
+			//added by Mike, 20211004
+			//reset
+//			glTranslatef(0.0f,texth/2,0.0f);			
+			glScalef(1.0f, 1.0f, 1.0f);
+			glTranslatef(-x,-y,0.0f);			
+			
+//	glDisable(GL_TEXTURE_2D);
+	
+	//reset
+	glColor3f(1.0f,1.0f,1.0f); //white	
+}
+
+void Font::draw_charRedSquareOK(GLuint glIFontTexture, float x, float y, float z, char c)
+{
+		//added by Mike, 20211005
+	glLoadIdentity();
+	
+/* //removed by Mike, 20211004
+	glBindTexture(GL_TEXTURE_2D, openGLITexture); //textureId);
+	glEnable(GL_TEXTURE_2D);
+*/
+  glDisable(GL_TEXTURE_2D);
+  glColor3f(1.0f,0.0f,0.0f); //red	
+
+
+    x=myUsbongUtils->autoConvertFromPixelToVertexPointX(x);
+    y=myUsbongUtils->autoConvertFromPixelToVertexPointY(y);
+       
+    
+/* //edited by Mike, 20211004
+    float textw=myUsbongUtils->autoConvertFromPixelToVertexGridTileWidth(myWidth);
+    float texth=myUsbongUtils->autoConvertFromPixelToVertexGridTileHeight(myHeight);
+*/
+  
+/*    
+    float fMySideLength = myWidth/20.0f/1.5f;
+        
+    float textw=myUsbongUtils->autoConvertFromPixelToVertexGridTileWidth(fMySideLength);
+    float texth=myUsbongUtils->autoConvertFromPixelToVertexGridTileHeight(fMySideLength);
+*/
+    float textw=myUsbongUtils->autoConvertFromPixelToVertexGridTileWidth(myWidth);
+    float texth=myUsbongUtils->autoConvertFromPixelToVertexGridTileHeight(myHeight);
+
+			x=0;
+			y=0;
+
+			
+			//added by Mike, 20211004
+//			glTranslatef(x,y,0.0f);			
+
+			//edited by Mike, 20211004
+//			glScalef(0.1f, 0.1f, 0.0f);
+		//add scale COMMAND after translate COMMAND for auto-computed positions to be correct
+		//use correct width x height ratio; window 10x18; row x column
+		glScalef(0.20f, 0.35f, 0.0f);
+
+
+
+/*
+			//set position to be at bottom center
+			glScalef(4.0f, 4.0f, 0.0f);
+			glTranslatef(0.0f,-texth/2,0.0f);			
+*/			
+				//note: texture positions inverted
+				//set vertex clock-wise
+				//texture positions U shape, clock-wise			
+				glBegin(GL_QUADS);
+//					glTexCoord2f(0.0f+0.5f, 0.0f+0.5f);
+					glVertex3f(x, y, 0);
+					
+//					glTexCoord2f(0.0f+0.5f, 0.0f);
+					glVertex3f(x, y + texth, 0);
+	
+//					glTexCoord2f(0.0f, 0.0f);				
+					glVertex3f(x + textw, y + texth, 0);
+	
+//					glTexCoord2f(0.0f, 0.0f+0.5f);				
+					glVertex3f(x + textw, y, 0);
+				glEnd();
+
+			//added by Mike, 20211004
+			//reset
+//			glTranslatef(0.0f,texth/2,0.0f);			
+			glScalef(1.0f, 1.0f, 1.0f);
+			glTranslatef(-x,-y,0.0f);			
+			
+//	glDisable(GL_TEXTURE_2D);
+	
+	//reset
+	glColor3f(1.0f,1.0f,1.0f); //white	
+}
+
+
+void Font::draw_charBuggy(GLuint glIFontTexture, float x, float y, float z, char c)
+{
+	glLoadIdentity();
+
+	glBindTexture(GL_TEXTURE_2D, glIFontTexture);
+	glEnable(GL_TEXTURE_2D);
+/*
+  glDisable(GL_TEXTURE_2D);	
+*/
+	//removed by Mike, 20210903
+//	textw=textw*2;
+
+    GLfloat tx, ty, tz;
+
+    // check if the character is valid
+    if (c < ' ' || c > '~')
+        return;
+
+    //subtract 32, since the first character in the font texture
+    //is the space (ascii value 32)
+    c = c - 32;
+
+    //each character in the font texture image file
+    //has a width-height ratio of 10:16
+    tx = c % 12 * 0.078125f;
+    
+//    printf(">>c: %i\n",c);
+    
+    //edited by Mike, 20210905
+//    ty = 0.875f - (c / 12 * 0.125f);
+//    ty = 1.0f - (c / 7 * 0.125f);
+//    ty = 0.875f - (c / 12 * 0.125f);
+    ty = (c / 12 * 0.125f);
+
+//    printf(">>ty: %f\n",ty);
+
+/* //edited by Mike, 20211005    
+    //added by Mike, 20210904
+    //note: each character in the font texture image file has a width-height ratio of 10:16
+    float textw = 20*1.2f; //20*1.5f; //20*2; //20; //0.078125f;
+    float texth = 32*1.2f; //32*1.5f; //32*2; //32; //0.125f;
+*/    
+    //added by Mike, 20210903
+    float textw = fMyWindowWidth/1.5f;
+    float texth = fMyWindowHeight/1.5f;    
+    
+//    printf("tx: %f; ty: %f\n",tx,ty);
+
+/* //removed by Mike, 20210903    
+    //added by Mike, 20210903
+    //note: each character in the font texture image file has a width-height ratio of 10:16
+    float fTextWidth = 0.078125f;
+    float fTextHeight = 0.125f;
+*/
+
+
+	x=0;
+	y=0;
+
+	//added by Mike, 20211005	
+	x=myUsbongUtils->autoConvertFromPixelToVertexPointX(x);
+  y=myUsbongUtils->autoConvertFromPixelToVertexPointY(y);  
+  textw=myUsbongUtils->autoConvertFromPixelToVertexGridTileWidth(textw);
+  texth=myUsbongUtils->autoConvertFromPixelToVertexGridTileHeight(texth);	
+
+
+	//added by Mike, 20211004
+//	glTranslatef(x,y,0.0f);			
+
+	//add scale COMMAND after translate COMMAND for auto-computed positions to be correct
+	//use correct width x height ratio; window 10x18; row x column
+//	glScalef(0.20f, 0.35f, 0.0f);
+
+
+glColor3f(1.0f,0.0f,0.0f); //red	
+
+    printf("x: %f; y: %f\n",x,y);
+    printf("textw: %f; texth: %f\n",textw,texth);
+
+			//added by Mike, 20211005
+			glTranslatef(x,y,0.0f);			
+
+   glBegin(GL_QUADS);              // Each set of 4 vertices form a quad
+        glTexCoord2f(tx, ty);
+        glVertex3f(x, y, 0.0f);
+
+        glTexCoord2f(tx + 0.078125f, ty);
+      	glVertex3f(x+textw, y, 0.0f);      
+
+        glTexCoord2f(tx + 0.078125f, ty + 0.125f);
+      	glVertex3f(x+textw, y+texth, 0.0f);              
+
+        glTexCoord2f(tx, ty + 0.125f);
+      	glVertex3f(x, y+texth, 0.0f);      
+   glEnd();    
+   		
+   		//reset
+   		glColor3f(1.0f,1.0f,1.0f); //white
+
+	
+	glDisable(GL_TEXTURE_2D);
+}
+
 //added by Mike, 20210903
 //TO-DO: -reverify: this due to font char NOT drawn
-void draw_char(GLuint glIFontTexture, float x, float y, float z, char c)
+void Font::draw_charWith2DLevelOK(GLuint glIFontTexture, float x, float y, float z, char c)
 {
 	glBindTexture(GL_TEXTURE_2D, glIFontTexture);
 	glEnable(GL_TEXTURE_2D);
@@ -187,7 +515,7 @@ void draw_char(GLuint glIFontTexture, float x, float y, float z, char c)
 //edited by Mike, 20210805
 //TO-DO: -update: to be tool for Unit member to set font size, font spacing, et cetera?
 //void draw_string(GLfloat x, GLfloat y, char *string)
-void draw_string(GLuint glIFontTexture, GLfloat x, GLfloat y, GLfloat z, char *string)
+void Font::draw_string(GLuint glIFontTexture, GLfloat x, GLfloat y, GLfloat z, char *string)
 {
     
 //    printf(">>string: %s\n",string);
@@ -229,8 +557,10 @@ void draw_string(GLuint glIFontTexture, GLfloat x, GLfloat y, GLfloat z, char *s
         
         /* advance 10 pixels after each character */
 //TO-DO: -update: this
-        x += 20.0f; //(20.0f*1.2f); //(20.0f*1.5f); //40.0f;
-//        x += 0.1f;
+				//edited by Mike, 20211005
+//        x += 20.0f; //(20.0f*1.2f); //(20.0f*1.5f); //40.0f;
+//	        x += 0.1f;
+	        x += 0.03f;
 
         /* go to the next character in the string */
         string++;
@@ -239,7 +569,7 @@ void draw_string(GLuint glIFontTexture, GLfloat x, GLfloat y, GLfloat z, char *s
 }
 
 //added by Mike, 20210903
-GLuint openGLLoadTexture(char *filename, float fMyWidth, float fMyHeight)
+GLuint Font::openGLLoadTexture(char *filename, float fMyWidth, float fMyHeight)
 {
 	SDL_Surface *surface;
 	GLenum textureFormat;
@@ -329,7 +659,7 @@ GLuint openGLLoadTexture(char *filename, float fMyWidth, float fMyHeight)
 }
 
 //added by Mike, 20210903
-GLuint setupFont(char *filename, float fMyWidth, float fMyHeight)
+GLuint Font::setupFont(char *filename, float fMyWidth, float fMyHeight)
 {
 	return openGLLoadTexture(filename, fMyWidth, fMyHeight);
 }
