@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20210613
- * @date updated: 20211004
+ * @date updated: 20211005
  * @website address: http://www.usbong.ph
  *
  * Acknowledgments:
@@ -281,6 +281,7 @@ private:
     void drawPressNextSymbol();
     void drawPressNextSymbolWith2DLevelOK(); //edited by Mike, 20211004
     void drawPressNextSymbolRedSquareQuadOK(); //edited by Mike, 20211004
+    void drawPressNextSymbolWithLevel3DAsRedSquareOK(); //added by Mike, 20211005
     
 public:
     //edited by Mike, 20201115
