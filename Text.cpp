@@ -304,6 +304,16 @@ Text::Text(float xPos, float yPos, float zPos, float fWindowWidth, float fWindow
     myWidth=fMyWindowWidth/1.5f;
     myHeight=fMyWindowHeight/1.5f;
     
+    //added by Mike, 20211006
+  	//TO-DO: -add: receive as input the values for the following to execute cascading values
+  	iRowCountMax=10;
+  	iColumnCountMax=18;
+  	iHeightCountMax=10;
+  	
+    fGridSquareWidth = fMyWindowWidth/iColumnCountMax; //example: 136.60
+  	fGridSquareHeight = fMyWindowHeight/iRowCountMax; //example: 76.80
+	
+    
     myXPos=0.0f+(fMyWindowWidth-myWidth)/2;
     myYPos=fMyWindowHeight-(fMyWindowHeight-myHeight);
     myZPos=0.0f;
@@ -945,7 +955,11 @@ for (iRowCount=0; iRowCount<iTextCurrentMaxRowCount;) {
 	//edited by Mike, 20211005
 //  myFont->draw_string(glIFontTexture, x, y, 0.0f, tempText[iRowCount+iRowCountPageNumber*MAX_TEXT_CHAR_ROW]);
 //  myFont->draw_string(glIFontTexture, x, y-iRowCount*0.1f, 0.0f, tempText[iRowCount+iRowCountPageNumber*MAX_TEXT_CHAR_ROW]);
+/*
+		//edited by Mike, 20211006
     myFont->draw_string(glIFontTexture, myUsbongUtils->autoConvertFromPixelToVertexPointX(myXPos+75.0f), myUsbongUtils->autoConvertFromPixelToVertexPointY(myYPos)-iRowCount*0.1f, 0.0f, tempText[iRowCount+iRowCountPageNumber*MAX_TEXT_CHAR_ROW]);
+*/    
+    myFont->draw_string(glIFontTexture, myUsbongUtils->autoConvertFromPixelToVertexPointX(myXPos+fGridSquareWidth), myUsbongUtils->autoConvertFromPixelToVertexPointY(myYPos)-iRowCount*0.1f, 0.0f, tempText[iRowCount+iRowCountPageNumber*MAX_TEXT_CHAR_ROW]);
 
 //  glTranslatef(0.0f+0.05f,0.0f+1.2f+0.1f+0.05f,0.0f);
 

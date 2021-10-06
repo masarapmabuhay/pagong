@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20210613
- * @date updated: 20211005
+ * @date updated: 20211006
  * @website address: http://www.usbong.ph
  *
  * Acknowledgments:
@@ -150,6 +150,15 @@ private:
     //added by Mike, 20210423
     int iCountTaoAnimationFrame;
     float fButtonAnimationFrameOffset;
+    
+    //added by Mike, 20211006
+  	int iRowCountMax,
+  			iColumnCountMax,
+  			iHeightCountMax;
+    
+		float fGridSquareWidth,
+		    	fGridSquareHeight;
+	    
     
     OpenGLCanvas *myOpenGLCanvas;
     

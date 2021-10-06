@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B. 
  * @date created: 20200930
- * @date updated: 20211004
+ * @date updated: 20211006
  * @website address: http://www.usbong.ph
  *
  * Reference: 
@@ -2090,6 +2090,7 @@ void Pilot::drawAccelerationEffectAsQuadWithTexture()
     glColor3f(1.0f, 1.0f, 1.0f); //set to default, i.e. white
     //    glColor3f(1.0f, 0.0f, 0.0f); //red
 
+/* //edited by Mike, 20211006
     //added by Mike, 20210805
     if (currentFacingState==FACING_RIGHT) {
         //added by Mike, 20210805
@@ -2106,6 +2107,21 @@ void Pilot::drawAccelerationEffectAsQuadWithTexture()
         //note: y-axis:  0.0f-fGridTileHeightVertexPosition/2.0f at middle
 //        glTranslatef(0.0f+fGridTileWidthVertexPosition, 0.0f-fGridTileHeightVertexPosition/1.1f, 0.0f);
         glTranslatef(0.0f+fGridTileWidthVertexPosition/2.0f, 0.0f-fGridTileHeightVertexPosition/1.1f, 0.0f);
+    }
+*/
+/* //edited by Mike, 20211006
+    if (currentFacingState==FACING_RIGHT) {
+        glTranslatef(0.0f-fGridTileWidthVertexPosition*6.0, 0.0f+fGridTileHeightVertexPosition*0.5f, 0.0f);
+    }
+    else if (currentFacingState==FACING_LEFT) {
+        glTranslatef(0.0f-fGridTileWidthVertexPosition*2.0, 0.0f+fGridTileHeightVertexPosition*0.5f, 0.0f);
+    }
+*/
+    if (currentFacingState==FACING_RIGHT) {
+        glTranslatef(0.0f-fGridTileWidthVertexPosition*4.0, 0.0f+fGridTileHeightVertexPosition*0.5f, 0.0f);
+    }
+    else if (currentFacingState==FACING_LEFT) {
+        glTranslatef(0.0f-fGridTileWidthVertexPosition*3.0, 0.0f+fGridTileHeightVertexPosition*0.5f, 0.0f);
     }
     
     //Reference: https://stackoverflow.com/questions/46258919/drawing-circle-with-gl-polygon-radius-out-of-scale;
@@ -2131,13 +2147,15 @@ void Pilot::drawAccelerationEffectAsQuadWithTexture()
     //AND which side is longer
     //edited by Mike, 20210815
 //    glScalef(myWindowHeight/(myWindowWidth*1.0f), 1.0f, 1.0f);
-    glScalef(fMyWindowHeight/(fMyWindowWidth*1.0f), 1.0f, 1.0f);
+		//removed by Mike, 20211006
+//    glScalef(fMyWindowHeight/(fMyWindowWidth*1.0f), 1.0f, 1.0f);
     
 //--
 
     //TO-DO: -add: in loop, increasing size AND movement
 for (int iCount=0; iCount<3; iCount++) {
     
+/* //edited by Mike, 20211006    
     if (currentFacingState==FACING_RIGHT) {
         glTranslatef(0.0f-fGridTileWidthVertexPosition/4.0f, 0.0f, 0.0f);
     }
@@ -2148,7 +2166,26 @@ for (int iCount=0; iCount<3; iCount++) {
 	  	glPopMatrix();
 	  	return;
 	}
-    
+*/	
+/*
+		//edited by Mike, 20211006
+    if (currentFacingState==FACING_RIGHT) {
+        glTranslatef(0.0f-fGridTileWidthVertexPosition/1.5f, 0.0f, 0.0f);
+    }
+    else if (currentFacingState==FACING_LEFT) {
+        glTranslatef(0.0f+fGridTileWidthVertexPosition/1.5f, 0.0f, 0.0f);
+    }
+*/
+    if (currentFacingState==FACING_RIGHT) {
+        glTranslatef(0.0f-fGridTileWidthVertexPosition/2.0f, 0.0f, 0.0f);
+    }
+    else if (currentFacingState==FACING_LEFT) {
+        glTranslatef(0.0f+fGridTileWidthVertexPosition/2.0f, 0.0f, 0.0f);
+    }
+	else {
+	  	glPopMatrix();
+	  	return;
+	}    
 /*    
     //note: 3rd quadrant
     glBegin(GL_QUADS); // Each set of 4 vertices form a quad
@@ -2162,12 +2199,20 @@ for (int iCount=0; iCount<3; iCount++) {
         //added by Mike, 20210805
         //glScalef(1.0f*(iCount+1), 1.0f*(iCount+1), 1.0f);
         //glScalef(0.5f*(iCount+1), 0.5f*(iCount+1), 1.0f);
-        glScalef(0.6f*(iCount+1), 0.6f*(iCount+1), 1.0f);
+        //edited by Mike, 20211006
+//        glScalef(0.6f*(iCount+1), 0.6f*(iCount+1), 1.0f);
+      //edited by Mike, 20211006		
+//        glScalef(1.0f*(iCount+1), 1.0f*(iCount+1), 1.0f);
+			//edited by Mike, 20211006
+//        glScalef(1.0f+1.0f/(iCount+1), 1.0f+1.0f/(iCount+1), 1.0f);
+        glScalef(1.2f+1.0f/(iCount+1), 1.2f+1.0f/(iCount+1), 1.0f);
     
 		float fCircleCenterX=0.0f;
 		float fCircleCenterY=0.0f;
 		float fPI=3.14f;
-        float fRadius=0.02f;//0.25f; //0.1f; //0.25f;
+			//edited by Mike, 20211006
+//          float fRadius=0.02f;//0.25f; //0.1f; //0.25f;
+          float fRadius=0.03f;
 				
 		//draw ellipse
     glBegin(GL_POLYGON);
