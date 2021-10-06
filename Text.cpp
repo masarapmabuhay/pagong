@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20200926
- * @date updated: 20211005
+ * @date updated: 20211006
  * @website address: http://www.usbong.ph
  *
  * Reference:
@@ -170,7 +170,10 @@ GLboolean Text::test_pow2(GLushort i)
 //added by Mike, 20210902
 void Text::setup()
 {
-	openGLITexture = openGLLoadTexture((char*)"textures/textExampleV3.png", myWidth, myHeight);	
+	//edited by Mike, 20211006
+//	openGLITexture = openGLLoadTexture((char*)"textures/textExampleV3.png", myWidth, myHeight);	
+	openGLITexture = openGLLoadTexture((char*)"textures/textExampleV5.png", myWidth, myHeight);	
+
 }
 
 //edited by Mike, 20201001
@@ -788,8 +791,10 @@ for (iRowCount=0; iRowCount<iTextCurrentMaxRowCount;) {
 	//edited by Mike, 20211005
 	//centered; to remove excess margin to the right
 //  draw_string(glIFontTexture, x+(20.0f*2.0f)+20.0f, y+iRowCount*(20.0f*2.0f)+20.0f, 0.0f, tempText[iRowCount+iRowCountPageNumber*MAX_TEXT_CHAR_ROW]);
-  
-  myFont->draw_string(glIFontTexture, x+(20.0f*2.0f)+20.0f, y+iRowCount*(20.0f*2.0f)+20.0f, 0.0f, tempText[iRowCount+iRowCountPageNumber*MAX_TEXT_CHAR_ROW]);
+  //edited by Mike, 20211006
+//  myFont->draw_string(glIFontTexture, x+(20.0f*2.0f)+20.0f, y+iRowCount*(20.0f*2.0f)+20.0f, 0.0f, tempText[iRowCount+iRowCountPageNumber*MAX_TEXT_CHAR_ROW]);
+
+  myFont->draw_string(glIFontTexture, x+(20.0f*2.0f)+20.0f, y+iRowCount*(20.0f*2.0f)+10.0f, 0.0f, tempText[iRowCount+iRowCountPageNumber*MAX_TEXT_CHAR_ROW]);
   
 //  glTranslatef(0.0f+0.05f,0.0f+1.2f+0.1f+0.05f,0.0f);
 
@@ -885,10 +890,8 @@ for (iRowCount=0; iRowCount<iTextCurrentMaxRowCount;) {
 
 void Text::drawTextFontAsQuadWithTexture(float x, float y)
 {
-		char tempText[MAX_TEXT_CHAR_ROW_RAM][MAX_TEXT_CHAR_COLUMN];
-        
-    int iRowCount;
-    
+		char tempText[MAX_TEXT_CHAR_ROW_RAM][MAX_TEXT_CHAR_COLUMN];        
+    int iRowCount;    
     
     glPushMatrix();    
     
@@ -911,8 +914,10 @@ void Text::drawTextFontAsQuadWithTexture(float x, float y)
     glScalef(0.26f,0.26f,1.0f);
 */    
   
+/*  //removed by Mike, 20211006; reset in Font.cpp
   //TO-DO: -update: this  
-    glScalef(2.0f,2.0f,2.0f);
+    glScalef(2.0f,2.0f,2.0f);    
+*/    
     
     
 for (iRowCount=0; iRowCount<iTextCurrentMaxRowCount;) {
@@ -959,9 +964,14 @@ for (iRowCount=0; iRowCount<iTextCurrentMaxRowCount;) {
 		//edited by Mike, 20211006
     myFont->draw_string(glIFontTexture, myUsbongUtils->autoConvertFromPixelToVertexPointX(myXPos+75.0f), myUsbongUtils->autoConvertFromPixelToVertexPointY(myYPos)-iRowCount*0.1f, 0.0f, tempText[iRowCount+iRowCountPageNumber*MAX_TEXT_CHAR_ROW]);
 */    
+/*
+		//edited by Mike, 20211006
     myFont->draw_string(glIFontTexture, myUsbongUtils->autoConvertFromPixelToVertexPointX(myXPos+fGridSquareWidth), myUsbongUtils->autoConvertFromPixelToVertexPointY(myYPos)-iRowCount*0.1f, 0.0f, tempText[iRowCount+iRowCountPageNumber*MAX_TEXT_CHAR_ROW]);
+*/
+		//edited by Mike, 20211006
+    myFont->draw_string(glIFontTexture, myUsbongUtils->autoConvertFromPixelToVertexPointX(myXPos+fGridSquareWidth), myUsbongUtils->autoConvertFromPixelToVertexPointY(myYPos-fGridSquareHeight*0.2f)-iRowCount*0.1f, 0.0f, tempText[iRowCount+iRowCountPageNumber*MAX_TEXT_CHAR_ROW]);
 
-//  glTranslatef(0.0f+0.05f,0.0f+1.2f+0.1f+0.05f,0.0f);
+
 
   iTextAnimationCountDelay=0;
   
