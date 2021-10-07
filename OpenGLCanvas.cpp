@@ -780,6 +780,9 @@ void OpenGLCanvas::mouseActionUp(int iMouseActionId, int iXPos, int iYPos)
 
 void OpenGLCanvas::render()
 {
+    //added by Mike, 20211007
+    glClearColor(1.0f, 1.0f, 1.0f, 0.0f); // Set background color to white and not opaque
+    
 	//added by Mike, 20210826
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 //	glLoadIdentity(); //removed by Mike, 20210925
@@ -806,7 +809,7 @@ void OpenGLCanvas::render()
   //-----
 	//part 1: 2D draw instructions
   //-----
-  
+    
 /*  
  //added by Mike, 20210925
  //note: row 1 and column 1 NOT auto-drawn
@@ -855,12 +858,24 @@ void OpenGLCanvas::render()
 			  myCanvasCenterPosX, myCanvasCenterPosY, myCanvasCenterPosZ, // look-at point
               0.0, 0.0, 1.0); // up-direction
 */
-    
-	
+
 	//solves problem with quad face image texture merging
 	glEnable(GL_CULL_FACE);
-
-	
+ 
+    //added by Mike, 20211007
+//    glColor3f(0.22f, 0.12f, 0.05f); //dark brown; instead of black
+//    glColor3f(0.19f, 0.10f, 0.04f); //darker brown; instead of black
+    glColor3f(0.13f, 0.07f, 0.03f); //even darker brown; instead of black
+    
+    //-----
+    glBegin(GL_QUADS);
+      glVertex2f(0.0,0.0);
+      glVertex2f(0.0,1.0);
+      glVertex2f(1.0,1.0);
+      glVertex2f(1.0,0.0);
+    glEnd();
+    
+    
   glPushMatrix();
     myLevel3D->drawLevelMapInViewPort(myPilot->getX(),myPilot->getY(),myPilot->getZ());
     myLevel3D->drawGrid();
