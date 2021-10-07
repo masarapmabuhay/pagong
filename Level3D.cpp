@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20200926
- * @date updated: 20211004
+ * @date updated: 20211007
  * @website address: http://www.usbong.ph
  *
  * Reference:
@@ -461,20 +461,13 @@ void Level3D::openGLDrawTextureQuadOKNotYetCube(float x, float y, float textw, f
 	
 	//TO-DO: -reverify: rotated x-axis to add height in view, instead of flat due to TOP-VIEW
 	//TO-DO: -update: instructions to use cubes
-  //added by Mike, 20210929
-//  glRotatef(45,1.0f,0.0f,0.0f);
-//  glRotatef(45,1.0f,0.0f,1.0f);
-	//isometric view of auto-drawn objects; 
+
+    //isometric view of auto-drawn objects;
 	//Recommended Reference: Newsletter 2020-09;
 	//https://www.usbong.ph/excel/excel-2020-09; last accessed: 20210929
-/* //edited by Mike, 20210930;
-	//note: there exists space between tiles as quad; NOT yet cube
-  glRotatef(45,1.0f,0.0f,0.0f);
+    glRotatef(30,1.0f,0.0f,0.0f);
 	glRotatef(60,0.0f,0.0f,1.0f);
-*/
-//  glRotatef(45,1.0f,0.0f,0.0f);
-  glRotatef(30,1.0f,0.0f,0.0f);
-	glRotatef(60,0.0f,0.0f,1.0f);
+    
 
 	
   if (sTileId.compare("0-2") == 0) {//True    
@@ -566,28 +559,27 @@ void Level3D::openGLDrawTexture(float x, float y, float z, float textw, float te
 	//removed by Mike, 20211002; put cube at center of grid tile
 //	glTranslatef(-textw,-texth,0.0f);
 	
-	//added by Mike, 20211002; put collision detection box at center of grid tile
-	//This instruction removes object pop-up in y-axis
-	glTranslatef(0.0f,0.0f+texth,0.0f);
-
 
 	//added by Mike, 20210918
 	glColor3f(1.0f, 1.0f, 1.0f); // white
 //	glColor3f(0.0f, 0.0f, 1.0f); // blue
 	
-	
-	//isometric view of auto-drawn objects; 
+    //without isometric view instructions, displayed output equal with Level2D
+    
+/*
+//--------------------
+	//isometric view of auto-drawn objects; with rotating cubes
 	//Recommended Reference: Newsletter 2020-09;
 	//https://www.usbong.ph/excel/excel-2020-09; last accessed: 20210929
-/* //edited by Mike, 20210930;
-	//note: there exists space between tiles as quad; NOT yet cube
-  glRotatef(45,1.0f,0.0f,0.0f);
-	glRotatef(60,0.0f,0.0f,1.0f);
-*/
-		
+    
+ 
+	//added by Mike, 20211002; put collision detection box at center of grid tile
+	//This instruction removes object pop-up in y-axis
+	glTranslatef(0.0f,0.0f+texth,0.0f);
+
  //edited by Mike, 20211002
 	//isometric view
-  glRotatef(30,1.0f,0.0f,0.0f);
+       glRotatef(30,1.0f,0.0f,0.0f);
 	glRotatef(60,0.0f,0.0f,1.0f);
 
 	glRotatef(fKahonRotation, 0.0f, 0.0f, 1.0f);
@@ -602,6 +594,8 @@ void Level3D::openGLDrawTexture(float x, float y, float z, float textw, float te
 	//to rotate @center, add after rotation Command
 	glTranslatef(-textw/2,-texth/2,0.0f);
 
+ //--------------------
+ */
 
 	//TO-DO: -eliminate excess instructions
 	
@@ -613,7 +607,7 @@ void Level3D::openGLDrawTexture(float x, float y, float z, float textw, float te
         glVertex3f(0.0f-textw, 0.0f-texth, 0.0f);
         glVertex3f(0.0f, 0.0f-texth, 0.0f);
       glEnd();
-*/      
+*/
   }
   else {
 /*    
@@ -1274,7 +1268,6 @@ void Level3D::drawTileAsQuadWithTexture(std::string sTileId)
     
   //added by Mike, 20210927
   glDisable(GL_CULL_FACE);
-  
     
     //added by Mike, 20210830; removed by Mike, 20210830
 //    glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
@@ -1559,7 +1552,8 @@ void Level3D::drawLevelMapInViewPort(float fX, float fY, float fZ)
  
     fMovementGridX=0;
     fMovementGridY=0; //added by Mike, 20210921
-        
+    
+    
 /*	//removed by Mike, 20210914
     printf(">>fMyCanvasPosPrevX: %f; fMyCanvasPosX: %f\n",fMyCanvasPosPrevX,fMyCanvasPosX);
     printf(">>fX: %f\n",fX);    
@@ -2239,9 +2233,16 @@ bool Level3D::hitByAtTile(MyDynamicObject* mdo, std::string sTileId, int iTileXP
 				   }
 				   else {
            }
- //edited by Mike, 20210831           
+
+ //edited by Mike, 20211007
           	mdo->setYPos(mdo->getY()+mdo->getStepY()*(1+(mdo->getStepX()*0.02f*fStepDashMultiplier)/cos(iTileAngle))+1);
           	mdo->setXPos(mdo->getX()-mdo->getStepY()*(1+(mdo->getStepY()*0.02f*fStepDashMultiplier)/sin(iTileAngle))-1);
+
+/*
+                    mdo->setYPos(mdo->getY()+mdo->getStepY()*((mdo->getStepX()*0.02f*fStepDashMultiplier)/cos(iTileAngle))+1);
+                    mdo->setXPos(mdo->getX()-mdo->getStepY()*((mdo->getStepY()*0.02f*fStepDashMultiplier)/sin(iTileAngle))-1);
+*/
+                    
 /*          	
           	mdo->setYPos(mdo->getY()+mdo->getStepY()*(mdo->getStepX()*0.02f*fStepDashMultiplier)/cos(iTileAngle)+1);
           	mdo->setXPos(mdo->getX()-mdo->getStepY()*(mdo->getStepY()*0.02f*fStepDashMultiplier)/sin(iTileAngle)-1);
