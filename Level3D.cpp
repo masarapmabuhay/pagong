@@ -2123,22 +2123,18 @@ printf(">>>> iCurrentLevelMapContainerOffsetMaxViewPortY: %i;",iCurrentLevelMapC
                 if (mdo->collideWithLevel2DTileRect(0.0f+fGridSquareWidth*(iColumnCount-iCurrentLevelMapContainerOffsetX-1)-fStepMovemenGridX,0.0f+fGridSquareHeight*(iRowCount-iCurrentLevelMapContainerOffsetY-1)-fStepMovemenGridY, fGridSquareWidth, fGridSquareHeight)) {
                     
                 printf(">>>>> fGridSquareWidth: %f",fGridSquareWidth);
-  	
-/*  									//edited by Mike, 20210921          
+                   
+/* //edited by Mike, 20211007
                     return this->hitByAtTile(mdo, sCurrentLevelMapContainer[iRowCount][iColumnCount],
                                              0.0f+fGridSquareWidth*(iColumnCount-iCurrentLevelMapContainerOffsetX-1)-fStepMovemenGridX,
+                                             0.0f+fGridSquareHeight*(iRowCount-iCurrentLevelMapContainerOffsetY-1)-fStepMovemenGridY);
+*/
+                    return this->hitByAtTile(mdo, sCurrentLevelMapContainer[iRowCount][iColumnCount],
+                                             0.0f+fGridSquareWidth*(iColumnCount-iCurrentLevelMapContainerOffsetX)-fStepMovemenGridX,
                                              0.0f+fGridSquareHeight*(iRowCount-iCurrentLevelMapContainerOffsetY)-fStepMovemenGridY);
-*/
-/* //edited by Mike, 20211002
-                    return this->hitByAtTile(mdo, sCurrentLevelMapContainer[iRowCount][iColumnCount],
-                                             0.0f+fGridSquareWidth*(iColumnCount-iCurrentLevelMapContainerOffsetX-1)-fStepMovemenGridX,
-                                             0.0f+fGridSquareHeight*(iRowCount-iCurrentLevelMapContainerOffsetY-1)-fStepMovemenGridY);
-*/
-                    return this->hitByAtTile(mdo, sCurrentLevelMapContainer[iRowCount][iColumnCount],
-                                             0.0f+fGridSquareWidth*(iColumnCount-iCurrentLevelMapContainerOffsetX-1)-fStepMovemenGridX,
-                                             0.0f+fGridSquareHeight*(iRowCount-iCurrentLevelMapContainerOffsetY-1)-fStepMovemenGridY);
-
-  									}  									
+ 
+  									}  						
+ 
 		        }		        
 		   }
 		}
@@ -2316,6 +2312,8 @@ bool Level3D::hitByAtTile(MyDynamicObject* mdo, std::string sTileId, int iTileXP
 //            mdo->setYPos(mdo->getY()-mdo->getStepY()-1);
 //        mdo->setYPos(mdo->getY()+mdo->getStepY()); //note: use with wall for up movement
             
+            
+/* //removed by Mike, 20211007; OK if with gravity
 				//added by Mike, 20210901
 				//note: bounce spring action from ground; sonic 1 via game gear machine?
             //edited by Mike, 20210916
@@ -2327,6 +2325,7 @@ bool Level3D::hitByAtTile(MyDynamicObject* mdo, std::string sTileId, int iTileXP
 //            mdo->setYPos(mdo->getY()+mdo->getStepY()); //note: use with wall for up movement
 
         }
+*/
 				
         return false;      
     }

@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B. 
  * @date created: 20200930
- * @date updated: 20211006
+ * @date updated: 20211007
  * @website address: http://www.usbong.ph
  *
  * Reference: 
@@ -238,7 +238,9 @@ void Pilot::openGLDrawTexture(float x, float y, float textw, float texth)
 
 	//added by Mike, 20210927
 	//note: updated: texture and vertex positions to be clock-wise 1st quadrant
+    //edited by Mike, 20211007; Pilot height divided by 2
 	glTranslatef(-textw,-texth,0.0f);
+//    glTranslatef(-textw,-texth-(texth/2),0.0f);
 
 	//added by Mike, 20210918
 	glColor3f(1.0f, 1.0f, 1.0f); // white
@@ -276,6 +278,8 @@ void Pilot::openGLDrawTexture(float x, float y, float textw, float texth)
 				glVertex3f(x, y + texth, 0);
 			glEnd();
 */
+        
+
 			//note: texture positions inverted
 			//set vertex clock-wise
 			//texture positions U shape, counter clock-wise
@@ -292,7 +296,26 @@ void Pilot::openGLDrawTexture(float x, float y, float textw, float texth)
 				glTexCoord2f(0.25f+fTaoAnimationFrameOffset, fTaoAnimationFrameOffsetYAxis+0.25f);
 				glVertex3f(x + textw, y, 0);
 			glEnd();			
-		}
+
+/* //divide by 2 instructions causes turn from right to left to make Cartoon Pilot become big
+        //note: texture positions inverted
+        //set vertex clock-wise
+        //texture positions U shape, counter clock-wise
+        glBegin(GL_QUADS);
+        glTexCoord2f(0+fTaoAnimationFrameOffset, fTaoAnimationFrameOffsetYAxis+0.25f);
+        glVertex3f(x, y, 0);
+        
+        glTexCoord2f(0+fTaoAnimationFrameOffset, 0+fTaoAnimationFrameOffsetYAxis);
+        glVertex3f(x, y + texth/2, 0);
+        
+        glTexCoord2f(0.25f+fTaoAnimationFrameOffset, 0+fTaoAnimationFrameOffsetYAxis);
+        glVertex3f(x + textw/2, y + texth/2, 0);
+        
+        glTexCoord2f(0.25f+fTaoAnimationFrameOffset, fTaoAnimationFrameOffsetYAxis+0.25f);
+        glVertex3f(x + textw/2, y, 0);
+        glEnd();			
+*/
+    }
 		else {		
 /* //edited by Mike, 20210927		
 			//added by Mike, 20210827
@@ -456,13 +479,20 @@ Pilot::Pilot(float xPos, float yPos, float zPos, float fWindowWidth, float fWind
     myWidth=fGridSquareWidth;
     myHeight=fGridSquareHeight;
 
-/*    
-	  //note: shall need to update collision detection computation; TO-DO: -reverify: cause
+    //edited by Mike 20211007
+/*
+    //note: shall need to update collision detection computation; TO-DO: -reverify: cause
     myWidth=fGridSquareWidth/2.0f;
     myHeight=fGridSquareHeight/2.0f;
 */
+/*
+    myWidth=myWidth*0.20f;
+    myHeight=myHeight*0.35f;
     
-    
+    myWidth=myWidth/2.0f;
+    myHeight=myHeight/2.0f;
+*/
+
 /*
     float fGridSquareWidthOffset=20.0f;
     float fGridSquareHeightOffset=20.0f;
@@ -471,9 +501,14 @@ Pilot::Pilot(float xPos, float yPos, float zPos, float fWindowWidth, float fWind
     myHeight=fGridSquareHeight-fGridSquareHeightOffset;
 */
     
-  //edited by Mike, 20210916; used with collision detection
+  //edited by Mike, 20210916; used with collision detection; edited by Mike, 20211007
+/*
     iOffsetXPosAsPixel=fGridSquareWidth*0.28;
-    iOffsetYPosAsPixel=fGridSquareHeight*0.15;	
+    iOffsetYPosAsPixel=fGridSquareHeight*0.15;
+*/
+    iOffsetXPosAsPixel=fGridSquareWidth*0.28*2.0f;
+    iOffsetYPosAsPixel=fGridSquareHeight*0.15*4.0f; //note: divide Pilot height by 2.0f
+    
 
 /*  //note: if NOT set, CAN climb diagonal triangle tile; 
     //however, empty tile x1, Pilot does not fall through...
@@ -856,15 +891,23 @@ void Pilot::drawPilotObject()
 		//use correct width x height ratio; window 10x18; row x column
 		glScalef(0.20f, 0.35f, 0.0f);
 
-		//added by Mike, 20211004
+		//added by Mike, 20211007
 		//note: shall need to update collision detection computation; TO-DO: -reverify: cause		
 //		glScalef(0.50f, 0.50f, 0.0f);
-
+/*
+    //edited by Mike, 20211007
     openGLDrawTexture(0.0f, 
     									0.0f, 
     									myUsbongUtils->autoConvertFromPixelToVertexGridTileWidth(myWidth), 
     									myUsbongUtils->autoConvertFromPixelToVertexGridTileHeight(myHeight));
-
+*/
+    //note: if myWidth/2, instead of myUsbongUtils->autoConvertFromPixelToVertexGridTileWidth(myWidth)/2
+    //no change; TO-DO: -reverify: cause
+    openGLDrawTexture(0.0f,
+                      0.0f,
+                      myUsbongUtils->autoConvertFromPixelToVertexGridTileWidth(myWidth)/2,
+                      myUsbongUtils->autoConvertFromPixelToVertexGridTileHeight(myHeight)/2);
+    
     
 }
 
