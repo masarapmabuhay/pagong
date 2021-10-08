@@ -86,14 +86,20 @@ GLboolean Font::test_pow2(GLushort i)
 }
 
 //added by Mike, 20211005
-Font::Font(float fWindowWidth, float fWindowHeight)
+Font::Font(float fMyWindowWidthInput, float fMyWindowHeightInput)
 {    
 		myUsbongUtils = new UsbongUtils();
-    myUsbongUtils->setWindowWidthHeight(fMyWindowWidth, fMyWindowHeight);
+    myUsbongUtils->setWindowWidthHeight(fMyWindowWidthInput, fMyWindowHeightInput);
     
     //added by Mike, 20211005
-    myWidth=fMyWindowWidth/1.5f;
-    myHeight=fMyWindowHeight/1.5f;    
+    myWidth=fMyWindowWidthInput/1.5f;
+    myHeight=fMyWindowHeightInput/1.5f;
+    
+    //added by Mike, 20211008
+    myXPos=0;
+    myYPos=0;
+    fMyWindowWidth=fMyWindowWidthInput;
+    fMyWindowHeight=fMyWindowHeightInput;
 }
 
 
@@ -519,7 +525,7 @@ void Font::draw_charWith2DLevelOK(GLuint glIFontTexture, float x, float y, float
 //edited by Mike, 20210805
 //TO-DO: -update: to be tool for Unit member to set font size, font spacing, et cetera?
 //void draw_string(GLfloat x, GLfloat y, char *string)
-void Font::draw_string(GLuint glIFontTexture, GLfloat x, GLfloat y, GLfloat z, char *string)
+void Font::draw_stringBuggy(GLuint glIFontTexture, GLfloat x, GLfloat y, GLfloat z, char *string)
 {
     
 //    printf(">>string: %s\n",string);
@@ -571,6 +577,133 @@ void Font::draw_string(GLuint glIFontTexture, GLfloat x, GLfloat y, GLfloat z, c
 //        iStringCharCount++;
     }
 }
+
+//edited by Mike, 20211008
+//auto-draws arrow, e.g. right-most of textbox's background, only at select times
+//cause by myXPos, et cetera NOT yet set in memory to have value
+void Font::draw_stringOKDrawsRedTriangle(GLuint glIFontTexture, GLfloat xInput, GLfloat yInput, GLfloat zInput, char *string)
+{
+
+//added by Mike, 20211005
+glLoadIdentity();
+
+/* //removed by Mike, 20211004
+	glBindTexture(GL_TEXTURE_2D, openGLITexture); //textureId);
+	glEnable(GL_TEXTURE_2D);
+ */
+glDisable(GL_TEXTURE_2D);
+glColor3f(1.0f,0.0f,0.0f); //red
+
+float x=myUsbongUtils->autoConvertFromPixelToVertexPointX(myXPos);
+float y=myUsbongUtils->autoConvertFromPixelToVertexPointY(myYPos);
+float textw=myUsbongUtils->autoConvertFromPixelToVertexGridTileWidth(myWidth);
+float texth=myUsbongUtils->autoConvertFromPixelToVertexGridTileHeight(myHeight);
+
+float windowWidth=myUsbongUtils->autoConvertFromPixelToVertexGridTileWidth(fMyWindowWidth);
+float windowHeight=myUsbongUtils->autoConvertFromPixelToVertexGridTileHeight(fMyWindowHeight);
+
+//bottom-center
+x=x+windowWidth/2+textw/2;
+//note: /4, instead of 2 due to scale again by 0.5f
+//edited by Mike, 20211008
+//	y=0+windowHeight-texth/4; //-texth/2;
+//    y=0+windowHeight-texth/2; //-texth/4;
+y=0+windowHeight-texth; //-texth/4;
+
+//added by Mike, 20211004
+glTranslatef(x,y,0.0f);
+
+//add scale COMMAND after translate COMMAND for auto-computed positions to be correct
+//use correct width x height ratio; window 10x18; row x column
+glScalef(0.20f, 0.35f, 0.0f);
+glScalef(0.5f, 0.5f, 0.0f); //added by Mike, 20211005
+
+x=0;
+y=0;
+
+//counter-clockwise sequence to auto-draw front face
+//note: origin TOP-LEFT
+glBegin(GL_TRIANGLES);
+glVertex3f(x-textw,y,0.0f); //LEFT vertex
+glVertex3f(x,y+texth,0.0f); //BOTTOM-CENTER vertex
+glVertex3f(x+textw,y,0.0f); //RIGHT vertex
+glEnd();
+
+//added by Mike, 20211004
+//reset
+//			glTranslatef(0.0f,texth/2,0.0f);
+glScalef(1.0f, 1.0f, 1.0f);
+glTranslatef(-x,-y,0.0f);
+
+//	glDisable(GL_TEXTURE_2D);
+
+//reset
+glColor3f(1.0f,1.0f,1.0f); //white
+}
+
+//edited by Mike, 20211008
+//auto-draws arrow, e.g. right-most of textbox's background, only at select times
+//cause by myXPos, et cetera NOT yet set in memory to have value
+//TO-DO: -add: Font image for input string
+void Font::draw_string(GLuint glIFontTexture, GLfloat xInput, GLfloat yInput, GLfloat zInput, char *string)
+{    
+    //added by Mike, 20211005
+    glLoadIdentity();
+    
+    /* //removed by Mike, 20211004
+     glBindTexture(GL_TEXTURE_2D, openGLITexture); //textureId);
+     glEnable(GL_TEXTURE_2D);
+     */
+    glDisable(GL_TEXTURE_2D);
+    glColor3f(1.0f,0.0f,0.0f); //red
+    
+    float x=myUsbongUtils->autoConvertFromPixelToVertexPointX(myXPos);
+    float y=myUsbongUtils->autoConvertFromPixelToVertexPointY(myYPos);
+    float textw=myUsbongUtils->autoConvertFromPixelToVertexGridTileWidth(myWidth);
+    float texth=myUsbongUtils->autoConvertFromPixelToVertexGridTileHeight(myHeight);
+    
+    float windowWidth=myUsbongUtils->autoConvertFromPixelToVertexGridTileWidth(fMyWindowWidth);
+    float windowHeight=myUsbongUtils->autoConvertFromPixelToVertexGridTileHeight(fMyWindowHeight);
+    
+    //bottom-center
+    x=x+windowWidth/2+textw/2;
+    //note: /4, instead of 2 due to scale again by 0.5f
+    //edited by Mike, 20211008
+    //	y=0+windowHeight-texth/4; //-texth/2;
+    //    y=0+windowHeight-texth/2; //-texth/4;
+    y=0+windowHeight-texth; //-texth/4;
+    
+    //added by Mike, 20211004
+    glTranslatef(x,y,0.0f);
+    
+    //add scale COMMAND after translate COMMAND for auto-computed positions to be correct
+    //use correct width x height ratio; window 10x18; row x column
+    glScalef(0.20f, 0.35f, 0.0f);
+    glScalef(0.5f, 0.5f, 0.0f); //added by Mike, 20211005
+    
+    x=0;
+    y=0;
+    
+    //counter-clockwise sequence to auto-draw front face
+    //note: origin TOP-LEFT
+    glBegin(GL_TRIANGLES);
+    glVertex3f(x-textw,y,0.0f); //LEFT vertex
+    glVertex3f(x,y+texth,0.0f); //BOTTOM-CENTER vertex
+    glVertex3f(x+textw,y,0.0f); //RIGHT vertex
+    glEnd();
+    
+    //added by Mike, 20211004
+    //reset
+    //			glTranslatef(0.0f,texth/2,0.0f);
+    glScalef(1.0f, 1.0f, 1.0f);
+    glTranslatef(-x,-y,0.0f);
+    
+    //	glDisable(GL_TEXTURE_2D);
+    
+    //reset
+    glColor3f(1.0f,1.0f,1.0f); //white
+}
+
 
 //added by Mike, 20210903
 GLuint Font::openGLLoadTexture(char *filename, float fMyWidth, float fMyHeight)

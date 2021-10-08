@@ -689,13 +689,14 @@ void Text::drawTextBackgroundAsQuadWithTexture()
 //   	drawTextFontAsQuadWithTexture(myXPos, myYPos, myWidth, myHeight);
 		//TO-DO: -reverify: this; reuse drawPressNextSymbol() to identify cause of NOT auto-drawn FONT text using macOS machine
     //edited by Mike, 20211008
-//   	drawTextFontAsQuadWithTexture(0, 0);
+   	drawTextFontAsQuadWithTexture(0, 0);
 /*
     glTranslatef(0.0f, -0.5f, 0.0f);
         drawPressNextSymbol();
     glTranslatef(0.0f, 0.5f, 0.0f);
 */
-    drawPressNextSymbol();
+
+    //drawPressNextSymbol();
 
     
    	//added by Mike, 20210907
