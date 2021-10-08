@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20200926
- * @date updated: 20211006
+ * @date updated: 20211008
  * @website address: http://www.usbong.ph
  *
  * Reference:
@@ -487,7 +487,8 @@ void Text::drawPressNextSymbolRedSquareQuadOK()
 void Text::drawPressNextSymbol()
 {
 	//added by Mike, 20211005
-	glLoadIdentity();
+    //removed by Mike, 20211008
+//	glLoadIdentity();
 
 /* //removed by Mike, 20211004
 	glBindTexture(GL_TEXTURE_2D, openGLITexture); //textureId);
@@ -658,7 +659,8 @@ void Text::drawTextBackgroundAsQuadWithTexture()
 {
 	//added by Mike, 20210826
 //	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //removed by Mike, 20210829
-		glLoadIdentity();
+    //removed by Mike, 20211008
+		//glLoadIdentity();
 		
     //added by Mike, 20210907
     if (bHasReachedEndOfTextMessage) {
@@ -895,8 +897,8 @@ void Text::drawTextFontAsQuadWithTexture(float x, float y)
     
     glPushMatrix();    
     
-			//added by Mike, 20211005
-			glLoadIdentity();    
+			//added by Mike, 20211005; removed by Mike, 20211008
+//			glLoadIdentity();
 		
 /*    
     

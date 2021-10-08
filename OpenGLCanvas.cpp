@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20200926
- * @date updated: 20211007
+ * @date updated: 20211008
  * @website address: http://www.usbong.ph
  *
  * References:
@@ -780,8 +780,9 @@ void OpenGLCanvas::mouseActionUp(int iMouseActionId, int iXPos, int iYPos)
 
 void OpenGLCanvas::render()
 {
-    //added by Mike, 20211007
-    glClearColor(1.0f, 1.0f, 1.0f, 0.0f); // Set background color to white and not opaque
+    //added by Mike, 20211007; edited by Mike, 20211008
+//    glClearColor(1.0f, 1.0f, 1.0f, 0.0f); // Set background color to white and not opaque
+    glClearColor(0.13f, 0.07f, 0.03f, 0.0f); //even darker brown; instead of black
     
 	//added by Mike, 20210826
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -827,6 +828,7 @@ void OpenGLCanvas::render()
   glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();	
 
+/* //removed by Mike, 20211008
 	//TOP-LEFT origin
 	glOrtho(0.0f, //left
         	1.0f, //right
@@ -835,7 +837,21 @@ void OpenGLCanvas::render()
         	0.0f, //zNear; minimum
         	1.0f //zFar; maximum
       	);
-
+ 
+ //added by Mike, 20211007
+ //    glColor3f(0.22f, 0.12f, 0.05f); //dark brown; instead of black
+ //    glColor3f(0.19f, 0.10f, 0.04f); //darker brown; instead of black
+ glColor3f(0.13f, 0.07f, 0.03f); //even darker brown; instead of black
+ 
+ //-----
+ glBegin(GL_QUADS);
+   glVertex2f(0.0,0.0);
+   glVertex2f(0.0,1.0);
+   glVertex2f(1.0,1.0);
+   glVertex2f(1.0,0.0);
+ glEnd();
+ 
+*/
     
 /*  //removed by Mike, 20210925; deprecated computer instructions in macOS 10.9; "GLKMatrix4MakeLookAt..."
   gluPerspective(90.0, // field-of-view angle
@@ -859,22 +875,18 @@ void OpenGLCanvas::render()
               0.0, 0.0, 1.0); // up-direction
 */
 
+/*
+    //added by Mike, 20211008
+    //note: rotation, et cetera instructions NOW changes myLevel3D
+    //due to removed its glLoadIdentity();	COMMAND inside
+    //TO-DO: -reverify: display output
+    //isometric view
+//    glRotatef(30,1.0f,0.0f,0.0f);
+//    glRotatef(60,0.0f,0.0f,1.0f);
+*/
+    
 	//solves problem with quad face image texture merging
 	glEnable(GL_CULL_FACE);
- 
-    //added by Mike, 20211007
-//    glColor3f(0.22f, 0.12f, 0.05f); //dark brown; instead of black
-//    glColor3f(0.19f, 0.10f, 0.04f); //darker brown; instead of black
-    glColor3f(0.13f, 0.07f, 0.03f); //even darker brown; instead of black
-    
-    //-----
-    glBegin(GL_QUADS);
-      glVertex2f(0.0,0.0);
-      glVertex2f(0.0,1.0);
-      glVertex2f(1.0,1.0);
-      glVertex2f(1.0,0.0);
-    glEnd();
-    
     
   glPushMatrix();
     myLevel3D->drawLevelMapInViewPort(myPilot->getX(),myPilot->getY(),myPilot->getZ());

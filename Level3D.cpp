@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20200926
- * @date updated: 20211007
+ * @date updated: 20211008
  * @website address: http://www.usbong.ph
  *
  * Reference:
@@ -1152,7 +1152,8 @@ void Level3D::drawGrid() {
 //    glPushMatrix();
     
 //    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glLoadIdentity();
+    //removed by Mike, 20211008
+//    glLoadIdentity();
     
     /*     //added by Mike, 20210918
      glDisable(GL_TEXTURE_2D);
@@ -1264,7 +1265,8 @@ void Level3D::drawTileAsQuadWithTexture(std::string sTileId)
 {
 	//added by Mike, 20210826
 //	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //removed by Mike, 20210829
-	glLoadIdentity();
+    //removed by Mike, 20211008
+//	glLoadIdentity();
     
   //added by Mike, 20210927
   glDisable(GL_CULL_FACE);

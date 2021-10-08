@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B. 
  * @date created: 20201010
- * @date updated: 20211006
+ * @date updated: 20211008
  *
  * Acknowledgments:
  * 1) "Bulalakaw Wars" Team (2007): 
@@ -103,8 +103,8 @@ Font::Font(float fWindowWidth, float fWindowHeight)
 
 void Font::draw_char(GLuint glIFontTexture, float x, float y, float z, char c)
 {
-		//added by Mike, 20211005
-	glLoadIdentity();
+    //added by Mike, 20211005; removed by Mike, 20211008
+	//glLoadIdentity();
 	
  //removed by Mike, 20211004
 	glBindTexture(GL_TEXTURE_2D, glIFontTexture); 
@@ -224,10 +224,10 @@ void Font::draw_char(GLuint glIFontTexture, float x, float y, float z, char c)
 			glScalef(1.0f, 1.0f, 1.0f);
 			glTranslatef(-x,-y,0.0f);			
 			
-//	glDisable(GL_TEXTURE_2D);
+	glDisable(GL_TEXTURE_2D);
 	
-	//reset
-	glColor3f(1.0f,1.0f,1.0f); //white	
+	//reset; removed by Mike, 20211008
+//	glColor3f(1.0f,1.0f,1.0f); //white
 }
 
 void Font::draw_charRedSquareOK(GLuint glIFontTexture, float x, float y, float z, char c)
