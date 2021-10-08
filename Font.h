@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B. 
  * @date created: 20201010
- * @date updated: 2021005
+ * @date updated: 2021008
  *
  * Acknowledgments:
  * 1) "Bulalakaw Wars" Team (2007): 
@@ -28,10 +28,13 @@
 //#include <string.h>
 #include <string>
 
+//added by Mike, 20211008
+#include "MyDynamicObject.h"
+
 //added by Mike, 20210516
 class UsbongUtils;
 
-class Font
+class Font: public MyDynamicObject
 {
 private:
 		float fMyWindowWidth,
@@ -45,6 +48,9 @@ private:
 public:
     Font(float fWindowWidth, float fWindowHeight);    
     ~Font();
+    
+    //added by Mike, 20211008
+    Font(float xPos, float yPos, float zPos, float fWindowWidth, float fWindowHeight);
     
     UsbongUtils *myUsbongUtils;
 

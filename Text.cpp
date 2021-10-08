@@ -487,8 +487,7 @@ void Text::drawPressNextSymbolRedSquareQuadOK()
 void Text::drawPressNextSymbol()
 {
 	//added by Mike, 20211005
-    //removed by Mike, 20211008
-//	glLoadIdentity();
+	glLoadIdentity();
 
 /* //removed by Mike, 20211004
 	glBindTexture(GL_TEXTURE_2D, openGLITexture); //textureId);
@@ -508,10 +507,13 @@ void Text::drawPressNextSymbol()
 	//bottom-center
 	x=x+windowWidth/2+textw/2;
 	//note: /4, instead of 2 due to scale again by 0.5f
-	y=0+windowHeight-texth/4; //-texth/2;
-			
+    //edited by Mike, 20211008
+//	y=0+windowHeight-texth/4; //-texth/2;
+//    y=0+windowHeight-texth/2; //-texth/4;
+    y=0+windowHeight-texth; //-texth/4;
+
 	//added by Mike, 20211004
-	glTranslatef(x,y,0.0f);			
+	glTranslatef(x,y,0.0f);
 
 	//add scale COMMAND after translate COMMAND for auto-computed positions to be correct
 	//use correct width x height ratio; window 10x18; row x column
@@ -685,10 +687,17 @@ void Text::drawTextBackgroundAsQuadWithTexture()
     //TO-DO: -update: this due to myWidth, myHeight NOT used
     //edited by Mike, 20211004
 //   	drawTextFontAsQuadWithTexture(myXPos, myYPos, myWidth, myHeight);
-		//TO-DO: -reverify: this
-   	drawTextFontAsQuadWithTexture(0, 0);
+		//TO-DO: -reverify: this; reuse drawPressNextSymbol() to identify cause of NOT auto-drawn FONT text using macOS machine
+    //edited by Mike, 20211008
+//   	drawTextFontAsQuadWithTexture(0, 0);
+/*
+    glTranslatef(0.0f, -0.5f, 0.0f);
+        drawPressNextSymbol();
+    glTranslatef(0.0f, 0.5f, 0.0f);
+*/
+    drawPressNextSymbol();
 
- //removed by Mike, 20211004   	
+    
    	//added by Mike, 20210907
 		if (isAtMaxTextCharRow) {
 		

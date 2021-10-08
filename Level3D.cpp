@@ -741,8 +741,9 @@ void Level3D::openGLDrawTexture(float x, float y, float z, float textw, float te
 			glVertex3f(0 + textw, y, z + texth);
 
 		glEnd();
-
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+    
+    //removed by Mike, 20211008
+//		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
     
     glDisable(GL_TEXTURE_2D);
     

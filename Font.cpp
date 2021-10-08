@@ -97,6 +97,10 @@ Font::Font(float fWindowWidth, float fWindowHeight)
 }
 
 
+Font::Font(float xPos, float yPos, float zPos, float fWindowWidth, float fWindowHeight): MyDynamicObject(xPos,yPos,0.0f, fWindowWidth, fWindowHeight)
+{
+}
+
 /*****************************************************************************/
 
 /* text drawing */
