@@ -111,7 +111,7 @@ Font::Font(float xPos, float yPos, float zPos, float fWindowWidth, float fWindow
 
 /* text drawing */
 
-void Font::draw_char(GLuint glIFontTexture, float x, float y, float z, char c)
+void Font::draw_charPrev(GLuint glIFontTexture, float x, float y, float z, char c)
 {
     //added by Mike, 20211005; removed by Mike, 20211008
 	//glLoadIdentity();
@@ -763,7 +763,48 @@ void Font::draw_stringCharOutputOK(GLuint glIFontTexture, GLfloat xInput, GLfloa
 }
 
 //added by Mike, 20211009
-void Font::draw_string(GLuint glIFontTexture, GLfloat xInput, GLfloat yInput, GLfloat zInput, char *string)
+void Font::draw_string(GLuint glIFontTexture, GLfloat x, GLfloat y, GLfloat z, char *string)
+{
+    
+    //    printf(">>string: %s\n",string);
+    //    printf(">>string's c: %c\n",string[0]);
+    
+    GLfloat origX=x;
+    
+    //added by Mike, 20210905
+    int iStringCharCount=0;
+    
+    //edited by Mike, 20210905
+    while (string[0] != 0)
+        //    while (string[iStringCharCount] != 0)
+    {
+        //        printf(">>string's c: %c\n",string[0]);
+        
+        glPushMatrix();
+            draw_char(glIFontTexture, x, y, z, string[0]);
+        glPopMatrix();
+        
+        
+        /* advance 10 pixels after each character */
+        //TO-DO: -update: this
+        //edited by Mike, 20211005
+        //        x += 20.0f; //(20.0f*1.2f); //(20.0f*1.5f); //40.0f;
+        
+        //edited by Mike, 20211009
+//        	        x += 0.1f;
+        //        x += 0.03f;
+        x += 0.035f; //Level3D
+
+        /* go to the next character in the string */
+        string++;
+        //        iStringCharCount++;
+    }
+}
+
+
+//added by Mike, 20211009; edited by Mike, 20211009
+//void Font::draw_string(GLuint glIFontTexture, GLfloat xInput, GLfloat yInput, GLfloat zInput, char *string)
+void Font::draw_char(GLuint glIFontTexture, float xInput, float yInput, float zInput, char c)
 {
     //added by Mike, 20211005
     glLoadIdentity();
@@ -786,12 +827,17 @@ void Font::draw_string(GLuint glIFontTexture, GLfloat xInput, GLfloat yInput, GL
     float windowHeight=myUsbongUtils->autoConvertFromPixelToVertexGridTileHeight(fMyWindowHeight);
     
     //bottom-center
-    x=x+windowWidth/2+textw/2;
+    //edited by Mike, 20211009
+    //x=x+windowWidth/2+textw/2 +xInput;
+    x=0-windowWidth/2+textw*1.3 +xInput;
+
     //note: /4, instead of 2 due to scale again by 0.5f
     //edited by Mike, 20211008
     //	y=0+windowHeight-texth/4; //-texth/2;
     //    y=0+windowHeight-texth/2; //-texth/4;
-    y=0+windowHeight-texth; //-texth/4;
+    //edited by Mike, 20211009
+    //y=0+windowHeight-texth +yInput; //-texth/4;
+    y=0+windowHeight/2-texth*1.2 +yInput; //-texth/4;
     
     //added by Mike, 20211004
     glTranslatef(x,y,0.0f);
@@ -799,7 +845,9 @@ void Font::draw_string(GLuint glIFontTexture, GLfloat xInput, GLfloat yInput, GL
     //add scale COMMAND after translate COMMAND for auto-computed positions to be correct
     //use correct width x height ratio; window 10x18; row x column
     glScalef(0.20f, 0.35f, 0.0f);
-    glScalef(0.5f, 0.5f, 0.0f); //added by Mike, 20211005
+    //edited by Mike, 20211009
+//    glScalef(0.5f, 0.5f, 0.0f); //added by Mike, 20211005
+    glScalef(0.7f, 0.7f, 0.0f);
     
     x=0;
     y=0;
@@ -822,8 +870,9 @@ void Font::draw_string(GLuint glIFontTexture, GLfloat xInput, GLfloat yInput, GL
      glVertex3f(x, y+texth, 0.0f);
      glEnd();
      */
-    
-    char c='A';
+ 
+    //removed by Mike, 20211009
+//    char c='A';
     
     GLfloat tx, ty, tz;
     
@@ -877,7 +926,8 @@ void Font::draw_string(GLuint glIFontTexture, GLfloat xInput, GLfloat yInput, GL
     glScalef(1.0f, 1.0f, 1.0f);
     glTranslatef(-x,-y,0.0f);
     
-    //	glDisable(GL_TEXTURE_2D);
+    //added by Mike, 20211009
+    glDisable(GL_TEXTURE_2D);
     
     //reset
     glColor3f(1.0f,1.0f,1.0f); //white

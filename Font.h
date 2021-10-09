@@ -75,7 +75,10 @@ public:
         void draw_stringCharOutputOK(GLuint glIFontTexture, GLfloat x, GLfloat y, GLfloat z, char *string);
     
         void draw_char(GLuint glIFontTexture, GLfloat x, GLfloat y, GLfloat z, char c);
-		
+    
+        //added by Mike, 20211009
+        void draw_charPrev(GLuint glIFontTexture, GLfloat x, GLfloat y, GLfloat z, char c);
+
 		//edited by Mike, 20211005
 		void draw_charRedSquareOK(GLuint glIFontTexture, GLfloat x, GLfloat y, GLfloat z, char c);
 		void draw_charBuggy(GLuint glIFontTexture, GLfloat x, GLfloat y, GLfloat z, char c);

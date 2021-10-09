@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20200926
- * @date updated: 20211008
+ * @date updated: 20211009
  * @website address: http://www.usbong.ph
  *
  * Reference:
@@ -510,7 +510,9 @@ void Text::drawPressNextSymbol()
     //edited by Mike, 20211008
 //	y=0+windowHeight-texth/4; //-texth/2;
 //    y=0+windowHeight-texth/2; //-texth/4;
-    y=0+windowHeight-texth; //-texth/4;
+    //edited by Mike, 20211009
+//    y=0+windowHeight-texth; //-texth/4;
+    y=0+windowHeight-texth/1.7; //-texth/4;
 
 	//added by Mike, 20211004
 	glTranslatef(x,y,0.0f);
@@ -2051,8 +2053,11 @@ void Text::openGLDrawTexture(float x, float y, float textw, float texth)
 			y=0;
 
 			//set position to be at bottom center
-			glScalef(4.0f, 4.0f, 0.0f);
-			glTranslatef(0.0f,-texth/2,0.0f);			
+            //edited by Mike, 20211009
+//            glScalef(4.0f, 4.0f, 0.0f);
+            glScalef(4.0f, 3.0f, 0.0f);
+    
+			glTranslatef(0.0f,-texth/2,0.0f);
 			
 				//note: texture positions inverted
 				//set vertex clock-wise
