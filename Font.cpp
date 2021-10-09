@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B. 
  * @date created: 20201010
- * @date updated: 20211008
+ * @date updated: 20211009
  *
  * Acknowledgments:
  * 1) "Bulalakaw Wars" Team (2007): 
@@ -642,20 +642,140 @@ glColor3f(1.0f,1.0f,1.0f); //white
 }
 
 //edited by Mike, 20211008
-//auto-draws arrow, e.g. right-most of textbox's background, only at select times
-//cause by myXPos, et cetera NOT yet set in memory to have value
-//TO-DO: -add: Font image for input string
-void Font::draw_string(GLuint glIFontTexture, GLfloat xInput, GLfloat yInput, GLfloat zInput, char *string)
+void Font::draw_stringCharOutputOK(GLuint glIFontTexture, GLfloat xInput, GLfloat yInput, GLfloat zInput, char *string)
 {    
     //added by Mike, 20211005
     glLoadIdentity();
     
-    /* //removed by Mike, 20211004
-     glBindTexture(GL_TEXTURE_2D, openGLITexture); //textureId);
-     glEnable(GL_TEXTURE_2D);
-     */
+    //added by Mike, 20211009
+    glBindTexture(GL_TEXTURE_2D, glIFontTexture);
+    glEnable(GL_TEXTURE_2D);
+
+/*
     glDisable(GL_TEXTURE_2D);
     glColor3f(1.0f,0.0f,0.0f); //red
+ */
+    
+    float x=myUsbongUtils->autoConvertFromPixelToVertexPointX(myXPos);
+    float y=myUsbongUtils->autoConvertFromPixelToVertexPointY(myYPos);
+    float textw=myUsbongUtils->autoConvertFromPixelToVertexGridTileWidth(myWidth);
+    float texth=myUsbongUtils->autoConvertFromPixelToVertexGridTileHeight(myHeight);
+    
+    float windowWidth=myUsbongUtils->autoConvertFromPixelToVertexGridTileWidth(fMyWindowWidth);
+    float windowHeight=myUsbongUtils->autoConvertFromPixelToVertexGridTileHeight(fMyWindowHeight);
+    
+    //bottom-center
+    x=x+windowWidth/2+textw/2;
+    //note: /4, instead of 2 due to scale again by 0.5f
+    //edited by Mike, 20211008
+    //	y=0+windowHeight-texth/4; //-texth/2;
+    //    y=0+windowHeight-texth/2; //-texth/4;
+    y=0+windowHeight-texth; //-texth/4;
+    
+    //added by Mike, 20211004
+    glTranslatef(x,y,0.0f);
+    
+    //add scale COMMAND after translate COMMAND for auto-computed positions to be correct
+    //use correct width x height ratio; window 10x18; row x column
+    glScalef(0.20f, 0.35f, 0.0f);
+    glScalef(0.5f, 0.5f, 0.0f); //added by Mike, 20211005
+    
+    x=0;
+    y=0;
+  
+/* //edited by Mike, 20211009
+    //counter-clockwise sequence to auto-draw front face
+    //note: origin TOP-LEFT
+    glBegin(GL_TRIANGLES);
+    glVertex3f(x-textw,y,0.0f); //LEFT vertex
+    glVertex3f(x,y+texth,0.0f); //BOTTOM-CENTER vertex
+    glVertex3f(x+textw,y,0.0f); //RIGHT vertex
+    glEnd();
+*/
+/*
+    //red square OK
+    glBegin(GL_QUADS);              // Each set of 4 vertices form a quad
+      glVertex3f(x, y, 0.0f);
+      glVertex3f(x+textw, y, 0.0f);
+      glVertex3f(x+textw, y+texth, 0.0f);
+      glVertex3f(x, y+texth, 0.0f);
+    glEnd();
+*/
+    
+    char c='A';
+    
+    GLfloat tx, ty, tz;
+    
+    // check if the character is valid
+    if (c < ' ' || c > '~')
+        return;
+    
+    //subtract 32, since the first character in the font texture
+    //is the space (ascii value 32)
+    c = c - 32;
+    
+    //each character in the font texture image file
+    //has a width-height ratio of 10:16
+    tx = c % 12 * 0.078125f;
+    
+    //    printf(">>c: %i\n",c);
+    
+    ty = (c / 12 * 0.125f);
+    
+    //    printf(">>ty: %f\n",ty);
+    
+  
+/*
+    //added by Mike, 20210904
+    //note: each character in the font texture image file has a width-height ratio of 10:16
+    textw = 20*1.2f; //20*1.5f; //20*2; //20; //0.078125f;
+    texth = 32*1.2f; //32*1.5f; //32*2; //32; //0.125f;
+*/
+    
+    
+    //red square OK
+    glBegin(GL_QUADS);              // Each set of 4 vertices form a quad
+    glTexCoord2f(tx, ty);
+    glVertex3f(x, y, 0.0f);
+    
+    glTexCoord2f(tx + 0.078125f, ty);
+    glVertex3f(x+textw, y, 0.0f);
+    
+    glTexCoord2f(tx + 0.078125f, ty + 0.125f);
+    glVertex3f(x+textw, y+texth, 0.0f);
+    
+    glTexCoord2f(tx, ty + 0.125f);
+    glVertex3f(x, y+texth, 0.0f);
+    glEnd();
+
+ 
+ 
+    //added by Mike, 20211004
+    //reset
+    //			glTranslatef(0.0f,texth/2,0.0f);
+    glScalef(1.0f, 1.0f, 1.0f);
+    glTranslatef(-x,-y,0.0f);
+    
+    //	glDisable(GL_TEXTURE_2D);
+    
+    //reset
+    glColor3f(1.0f,1.0f,1.0f); //white
+}
+
+//added by Mike, 20211009
+void Font::draw_string(GLuint glIFontTexture, GLfloat xInput, GLfloat yInput, GLfloat zInput, char *string)
+{
+    //added by Mike, 20211005
+    glLoadIdentity();
+    
+    //added by Mike, 20211009
+    glBindTexture(GL_TEXTURE_2D, glIFontTexture);
+    glEnable(GL_TEXTURE_2D);
+    
+    /*
+     glDisable(GL_TEXTURE_2D);
+     glColor3f(1.0f,0.0f,0.0f); //red
+     */
     
     float x=myUsbongUtils->autoConvertFromPixelToVertexPointX(myXPos);
     float y=myUsbongUtils->autoConvertFromPixelToVertexPointY(myYPos);
@@ -684,13 +804,72 @@ void Font::draw_string(GLuint glIFontTexture, GLfloat xInput, GLfloat yInput, GL
     x=0;
     y=0;
     
-    //counter-clockwise sequence to auto-draw front face
-    //note: origin TOP-LEFT
-    glBegin(GL_TRIANGLES);
-    glVertex3f(x-textw,y,0.0f); //LEFT vertex
-    glVertex3f(x,y+texth,0.0f); //BOTTOM-CENTER vertex
-    glVertex3f(x+textw,y,0.0f); //RIGHT vertex
+    /* //edited by Mike, 20211009
+     //counter-clockwise sequence to auto-draw front face
+     //note: origin TOP-LEFT
+     glBegin(GL_TRIANGLES);
+     glVertex3f(x-textw,y,0.0f); //LEFT vertex
+     glVertex3f(x,y+texth,0.0f); //BOTTOM-CENTER vertex
+     glVertex3f(x+textw,y,0.0f); //RIGHT vertex
+     glEnd();
+     */
+    /*
+     //red square OK
+     glBegin(GL_QUADS);              // Each set of 4 vertices form a quad
+     glVertex3f(x, y, 0.0f);
+     glVertex3f(x+textw, y, 0.0f);
+     glVertex3f(x+textw, y+texth, 0.0f);
+     glVertex3f(x, y+texth, 0.0f);
+     glEnd();
+     */
+    
+    char c='A';
+    
+    GLfloat tx, ty, tz;
+    
+    // check if the character is valid
+    if (c < ' ' || c > '~')
+        return;
+    
+    //subtract 32, since the first character in the font texture
+    //is the space (ascii value 32)
+    c = c - 32;
+    
+    //each character in the font texture image file
+    //has a width-height ratio of 10:16
+    tx = c % 12 * 0.078125f;
+    
+    //    printf(">>c: %i\n",c);
+    
+    ty = (c / 12 * 0.125f);
+    
+    //    printf(">>ty: %f\n",ty);
+    
+    
+    /*
+     //added by Mike, 20210904
+     //note: each character in the font texture image file has a width-height ratio of 10:16
+     textw = 20*1.2f; //20*1.5f; //20*2; //20; //0.078125f;
+     texth = 32*1.2f; //32*1.5f; //32*2; //32; //0.125f;
+     */
+    
+    
+    //red square OK
+    glBegin(GL_QUADS);              // Each set of 4 vertices form a quad
+    glTexCoord2f(tx, ty);
+    glVertex3f(x, y, 0.0f);
+    
+    glTexCoord2f(tx + 0.078125f, ty);
+    glVertex3f(x+textw, y, 0.0f);
+    
+    glTexCoord2f(tx + 0.078125f, ty + 0.125f);
+    glVertex3f(x+textw, y+texth, 0.0f);
+    
+    glTexCoord2f(tx, ty + 0.125f);
+    glVertex3f(x, y+texth, 0.0f);
     glEnd();
+    
+    
     
     //added by Mike, 20211004
     //reset

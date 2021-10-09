@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B. 
  * @date created: 20201010
- * @date updated: 2021008
+ * @date updated: 20211009
  *
  * Acknowledgments:
  * 1) "Bulalakaw Wars" Team (2007): 
@@ -70,7 +70,9 @@ public:
 		void draw_string(GLuint glIFontTexture, GLfloat x, GLfloat y, GLfloat z, char *string);
         //added by Mike, 20211008
         void draw_stringBuggy(GLuint glIFontTexture, GLfloat x, GLfloat y, GLfloat z, char *string);
-        void draw_stringOKDrawsRedTriangle(GLuint glIFontTexture, GLfloat x, GLfloat y, GLfloat z, char *string);    
+        void draw_stringOKDrawsRedTriangle(GLuint glIFontTexture, GLfloat x, GLfloat y, GLfloat z, char *string);
+        //added by Mike, 20211009; TO-DO: -update: to use string and char
+        void draw_stringCharOutputOK(GLuint glIFontTexture, GLfloat x, GLfloat y, GLfloat z, char *string);
     
         void draw_char(GLuint glIFontTexture, GLfloat x, GLfloat y, GLfloat z, char c);
 		
