@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20200926
- * @date updated: 20211008
+ * @date updated: 20211011
  * @website address: http://www.usbong.ph
  *
  * Reference:
@@ -563,25 +563,35 @@ void Level3D::openGLDrawTexture(float x, float y, float z, float textw, float te
 	//added by Mike, 20210918
 	glColor3f(1.0f, 1.0f, 1.0f); // white
 //	glColor3f(0.0f, 0.0f, 1.0f); // blue
-	
-    //without isometric view instructions, displayed output equal with Level2D
+
+    //added by Mike, 20211011
+/*
+    glRotatef(30,1.0f,0.0f,0.0f);
+    glRotatef(30,1.0f,1.0f,0.0f);
+*/
+    //TO-DO: -reverify: スーパーマリオ３Dランド
+    //TO-DO: -reverify: Pocky & Rocky
+    glRotatef(45,1.0f,1.0f,0.0f);
+ 
+    
     
 /*
+    //without isometric view instructions, displayed output equal with Level2D
+    
 //--------------------
 	//isometric view of auto-drawn objects; with rotating cubes
 	//Recommended Reference: Newsletter 2020-09;
 	//https://www.usbong.ph/excel/excel-2020-09; last accessed: 20210929
     
- 
 	//added by Mike, 20211002; put collision detection box at center of grid tile
 	//This instruction removes object pop-up in y-axis
 	glTranslatef(0.0f,0.0f+texth,0.0f);
 
  //edited by Mike, 20211002
 	//isometric view
-       glRotatef(30,1.0f,0.0f,0.0f);
-	glRotatef(60,0.0f,0.0f,1.0f);
-
+    glRotatef(30,1.0f,0.0f,0.0f);
+    glRotatef(60,0.0f,0.0f,1.0f);
+ 
 	glRotatef(fKahonRotation, 0.0f, 0.0f, 1.0f);
 
 	fKahonRotation+=1;//10;

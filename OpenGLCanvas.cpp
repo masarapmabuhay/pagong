@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20200926
- * @date updated: 20211008
+ * @date updated: 20211011
  * @website address: http://www.usbong.ph
  *
  * References:
@@ -881,10 +881,12 @@ void OpenGLCanvas::render()
     //due to removed its glLoadIdentity();	COMMAND inside
     //TO-DO: -reverify: display output
     //isometric view
-//    glRotatef(30,1.0f,0.0f,0.0f);
-//    glRotatef(60,0.0f,0.0f,1.0f);
+    glRotatef(30,1.0f,0.0f,0.0f);
+    glRotatef(60,0.0f,0.0f,1.0f);
 */
-    
+    //added by Mike, 20211011; TO-DO: -reverify: this
+//    glRotatef(45,1.0f,1.0f,0.0f);
+
 	//solves problem with quad face image texture merging
 	glEnable(GL_CULL_FACE);
     
