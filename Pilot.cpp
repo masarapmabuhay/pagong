@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B. 
  * @date created: 20200930
- * @date updated: 20211007
+ * @date updated: 20211011
  * @website address: http://www.usbong.ph
  *
  * Reference: 
@@ -245,6 +245,10 @@ void Pilot::openGLDrawTexture(float x, float y, float textw, float texth)
 	//added by Mike, 20210918
 	glColor3f(1.0f, 1.0f, 1.0f); // white
 
+    //added by Mike, 20211011
+    //TO-DO: -reverify: スーパーマリオ３Dランド
+    //TO-DO: -reverify: Pocky & Rocky
+    glRotatef(45,1.0f,1.0f,0.0f);
 		
 		//edited by Mike, 20210901
     if ((currentFacingState==FACING_RIGHT) ||

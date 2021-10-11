@@ -569,11 +569,15 @@ void Level3D::openGLDrawTexture(float x, float y, float z, float textw, float te
     glRotatef(30,1.0f,0.0f,0.0f);
     glRotatef(30,1.0f,1.0f,0.0f);
 */
+
+    //This instruction removes object pop-up in y-axis
+//    glTranslatef(0.0f,0.0f+texth,0.0f);
+
     //TO-DO: -reverify: スーパーマリオ３Dランド
     //TO-DO: -reverify: Pocky & Rocky
     glRotatef(45,1.0f,1.0f,0.0f);
- 
     
+ 
     
 /*
     //without isometric view instructions, displayed output equal with Level2D
@@ -619,28 +623,19 @@ void Level3D::openGLDrawTexture(float x, float y, float z, float textw, float te
       glEnd();
 */
   }
-  else {
-/*    
-    //note: 3rd quadrant; counter clock-wise
-    glBegin(GL_QUADS); // Each set of 4 vertices form a quad
-    	glVertex3f(0.0f, 0.0f, 0.0f);   	
-    	glVertex3f(0.0f-myWidth, 0.0f, 0.0f);    	
-    	glVertex3f(0.0f-myWidth, 0.0f-myHeight, 0.0f);    	
-    	glVertex3f(0.0f, 0.0f-myHeight, 0.0f);
-   	glEnd();
+/*
+  else if (sTileId.compare("2-0") == 0) { //True
+      glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+  }
 */
-/*   	  
- //removed by Mike, 20210928
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-    //note: 1st quadrant; clock-wise
-    glBegin(GL_QUADS); // Each set of 4 vertices form a quad
-    	glVertex3f(0.0f, 0.0f, 0.0f);   	
-    	glVertex3f(0.0f, 0.0f+texth, 0.0f);
-    	glVertex3f(0.0f+textw, 0.0f+texth, 0.0f);    	
-    	glVertex3f(0.0f+textw, 0.0f, 0.0f);    	
-   	glEnd();
-*/   	
- 	}
+/*
+  else if (sTileId.compare("1-0") == 0) { //True
+      glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+  }
+*/ 
+  else {
+      glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+  }
 
 		//set vertex clock-wise; 1st quadrant; NOT inverted Y-axis;
 		//texture position clock-wise
@@ -663,7 +658,8 @@ void Level3D::openGLDrawTexture(float x, float y, float z, float textw, float te
 */
 		//note: wire line NOT all sides auto-drawn
 //		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+        //removed by Mike, 20211011
+//		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
 		glBegin(GL_QUADS);
 		
@@ -1170,6 +1166,13 @@ void Level3D::drawGrid() {
      glDisable(GL_TEXTURE_2D);
      glBindTexture(GL_TEXTURE_2D, 0);
      */
+
+/* //TO-DO: -reverify: this
+    //added by Mike, 20211011
+//    glRotatef(45,1.0f,1.0f,0.0f);
+    glRotatef(30,0.0f,0.0f,1.0f);
+    glRotatef(10,0.0f,1.0f,0.0f);
+*/
     
      //---------------------
      //part 1: draw tile grid

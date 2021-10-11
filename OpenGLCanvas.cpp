@@ -890,16 +890,15 @@ void OpenGLCanvas::render()
 	//solves problem with quad face image texture merging
 	glEnable(GL_CULL_FACE);
     
-  glPushMatrix();
-    myLevel3D->drawLevelMapInViewPort(myPilot->getX(),myPilot->getY(),myPilot->getZ());
-    myLevel3D->drawGrid();
-  glPopMatrix();
-
+    glPushMatrix();
+        myLevel3D->drawLevelMapInViewPort(myPilot->getX(),myPilot->getY(),myPilot->getZ());
+        myLevel3D->drawGrid();
+    glPopMatrix();
 
 	//edited by Mike, 20210902
  	glPushMatrix();
 		myPilot->draw();
-  glPopMatrix();
+    glPopMatrix();
 	
     //added by Mike, 20210903
     glPushMatrix();
