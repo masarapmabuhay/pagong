@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20200926
- * @date updated: 20211011
+ * @date updated: 20211012
  * @website address: http://www.usbong.ph
  *
  * Reference:
@@ -573,9 +573,13 @@ void Level3D::openGLDrawTexture(float x, float y, float z, float textw, float te
     //This instruction removes object pop-up in y-axis
 //    glTranslatef(0.0f,0.0f+texth,0.0f);
 
+/*  //removed by Mike, 20211012
+    //TO-DO: -fix: overlap between cubes
+
     //TO-DO: -reverify: スーパーマリオ３Dランド
     //TO-DO: -reverify: Pocky & Rocky
     glRotatef(45,1.0f,1.0f,0.0f);
+*/
     
  
     
