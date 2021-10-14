@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B. 
  * @date created: 20200930
- * @date updated: 20211012
+ * @date updated: 20211014
  * @website address: http://www.usbong.ph
  *
  * Reference: 
@@ -368,10 +368,10 @@ void Pilot::setup()
 	//edited by Mike, 20210827
 //	openGLITexture = openGLLoadTexture((char*)"textures/imageSpriteExampleMikeWithoutBG.png", &iTextureWidth, &iTextureHeight);	
 	//TO-DO: -update: myWidth and myHeight to quickly identify as float
-	//edited by Mike, 20210831
-//	openGLITexture = openGLLoadTexture((char*)"textures/imageSpriteExampleMikeWithoutBG.png", &myWidth, &myHeight);	
-	openGLITexture = openGLLoadTexture((char*)"textures/imageSpriteExampleMikeWithoutBG.png", myWidth, myHeight);	
-
+    
+    //edited by Mike, 20211014; TO-DO: -update: Robot.cpp, et cetera; set width and height to be x2 of Pilot's...
+    //	openGLITexture = openGLLoadTexture((char*)"textures/imageSpriteExampleMikeWithoutBG.png", myWidth, myHeight);
+    openGLITexture = openGLLoadTexture((char*)"textures/imageSpriteExampleRoboWithoutBG.png", myWidth, myHeight);
 }
 
 //added by Mike, 20210522
