@@ -1,6 +1,17 @@
 # Usbong Pagong
 Set of computer instructions with reusable component parts
 
+## Objective
+Continue to increase know-how to build Electronic Book Readers with Human-Computer Interactivity<br/>
+<br/>
+<b>Usbong History Examples:</b><br/> 
+--> [UsbongSearchEngine: Newsletters](https://github.com/usbong/newsletters)<br/>
+--> [UsbongLikhaApp (mobile): "Nasaan ang Langit?"](https://github.com/usbong/newsletters)<br/>
+
+<b>Recommended Action:</b><br/>
+--> verify: [CAPCOM GHOSTS'N GOBLINS (G'NG) Year 1985 Family Computer](https://github.com/usbong/documentation/blob/master/Usbong/R%26D/Notes/ComputerInteractiveLessonsLearned/GHOSTS'N%20GOBLINS.md)<br/>
+--> verify: [SQUARE-ENIX ドラゴンクエストVI (Dragonquest VI) Year 1995 Super Family Computer](https://www.youtube.com/watch?v=JhmzfASks18&list=PLI8ZR1QHHvPKZYGbMufQGFqdEovK1vD5p)
+
 # 1. Examples
 ## 1.1. Text Input/Output
 <img src="https://github.com/usbong/pagong/blob/main/screenshots/usbongPagongWithTextActionV20210907T1155.jpg" width="80%">
