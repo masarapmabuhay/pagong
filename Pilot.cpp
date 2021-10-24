@@ -911,20 +911,31 @@ void Pilot::drawPilotObject()
     									myUsbongUtils->autoConvertFromPixelToVertexGridTileWidth(myWidth), 
     									myUsbongUtils->autoConvertFromPixelToVertexGridTileHeight(myHeight));
 */
-/*  //edited by Mike, 20211024
+    //edited by Mike, 20211024
     //note: if myWidth/2, instead of myUsbongUtils->autoConvertFromPixelToVertexGridTileWidth(myWidth)/2
     //no change; TO-DO: -reverify: cause
     openGLDrawTexture(0.0f,
                       0.0f,
                       myUsbongUtils->autoConvertFromPixelToVertexGridTileWidth(myWidth)/2,
                       myUsbongUtils->autoConvertFromPixelToVertexGridTileHeight(myHeight)/2);
-*/
+
+/*
+    //added by Mike, 20211024
+    //TO-DO: -add: town, e.g. Marikina City
+    //TO-DO: -add: island ruins, e.g. Crash Bandicoot?
+    //TO-DO: -add: Robot techniques, e.g. night vision, thermal vision, speed, strength, armor against cold, heat (natural disasters), wireless wave...
+    //TO-DO: -add: shields as defense, 合気道（aikidou）?
+    //TO-DO: -add: Robot has no gun weapon
+    //TO-DO: -add: kalaban, e.g. teroristang komunista (who misuse wireless broadcasting technology to cause physical injury)
+    //TO-DO: -add: multiplayer network; Final Fantasy Adventure Gameboy version PLUS?
+
+    //removed by Mike, 20211024; increase width and height due to increased strength? Crysis?
     //note: use instructions with Robot.cpp; Robot with talking Kaluluwa... Magic Knight Rayearth?
     openGLDrawTexture(0.0f,
                       0.0f,
                       myUsbongUtils->autoConvertFromPixelToVertexGridTileWidth(myWidth),
                       myUsbongUtils->autoConvertFromPixelToVertexGridTileHeight(myHeight));
-    
+*/
 }
 
 //added by Mike, 20210727
