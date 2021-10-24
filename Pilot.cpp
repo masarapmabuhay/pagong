@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B. 
  * @date created: 20200930
- * @date updated: 20211014
+ * @date updated: 20211024
  * @website address: http://www.usbong.ph
  *
  * Reference: 
@@ -481,9 +481,14 @@ Pilot::Pilot(float xPos, float yPos, float zPos, float fWindowWidth, float fWind
 		//added by Mike, 20210831
 		//we NOW use floating-point numbers, instead of integers, i.e. whole numbers
  		//edited by Mike, 20211004
+//edited by Mike, 20211024
     myWidth=fGridSquareWidth;
     myHeight=fGridSquareHeight;
-
+/*
+    myWidth=fGridSquareWidth*2;
+    myHeight=fGridSquareHeight*2;
+*/
+    
     //edited by Mike 20211007
 /*
     //note: shall need to update collision detection computation; TO-DO: -reverify: cause
@@ -906,13 +911,19 @@ void Pilot::drawPilotObject()
     									myUsbongUtils->autoConvertFromPixelToVertexGridTileWidth(myWidth), 
     									myUsbongUtils->autoConvertFromPixelToVertexGridTileHeight(myHeight));
 */
+/*  //edited by Mike, 20211024
     //note: if myWidth/2, instead of myUsbongUtils->autoConvertFromPixelToVertexGridTileWidth(myWidth)/2
     //no change; TO-DO: -reverify: cause
     openGLDrawTexture(0.0f,
                       0.0f,
                       myUsbongUtils->autoConvertFromPixelToVertexGridTileWidth(myWidth)/2,
                       myUsbongUtils->autoConvertFromPixelToVertexGridTileHeight(myHeight)/2);
-    
+*/
+    //note: use instructions with Robot.cpp; Robot with talking Kaluluwa... Magic Knight Rayearth?
+    openGLDrawTexture(0.0f,
+                      0.0f,
+                      myUsbongUtils->autoConvertFromPixelToVertexGridTileWidth(myWidth),
+                      myUsbongUtils->autoConvertFromPixelToVertexGridTileHeight(myHeight));
     
 }
 
