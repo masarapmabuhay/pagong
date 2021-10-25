@@ -1732,13 +1732,26 @@ void OpenGLCanvas::update()
 					}
         }
         else {
-					myRobotship->move(iArrayPilotKeyDownHistoryContainer[iPilotKeyDownCount-1]);
-            
-                    //added by Mike, 20211025
+
+/*            //edited by Mike, 20211026
+            myRobotship->move(iArrayPilotKeyDownHistoryContainer[iPilotKeyDownCount-1]);
             printf(">>value: %i; \n",iArrayPilotKeyDownHistoryContainer[iPilotKeyDownCount-1]);
-
             iArrayPilotKeyDownHistoryContainer[iPilotKeyDownCount-1]=-1;
-
+ */
+        //TO-DO: -reverify: this
+            
+//            iDelayExecuteKeyDownMovementMax=myPilot->getStepX(); //note: reverify: using floating-point number
+            iDelayExecuteKeyDownMovementMax=1; //note: reverify: using floating-point number
+            
+            if (iDelayExecuteKeyDownMovement<iDelayExecuteKeyDownMovementMax) {
+                iDelayExecuteKeyDownMovement++;
+            }
+            else {
+                myRobotship->move(iArrayPilotKeyDownHistoryContainer[iPilotKeyDownCount-1]);
+                printf(">>value: %i; \n",iArrayPilotKeyDownHistoryContainer[iPilotKeyDownCount-1]);
+                iArrayPilotKeyDownHistoryContainer[iPilotKeyDownCount-1]=-1;
+                iDelayExecuteKeyDownMovement=0;
+            }
         }
         
       

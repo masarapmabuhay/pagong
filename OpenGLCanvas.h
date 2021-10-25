@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20200929
- * @date updated: 20211025
+ * @date updated: 20211026
  * @website address: http://www.usbong.ph
  *
  * Acknowledgments:
@@ -164,7 +164,7 @@
 #define FACING_RIGHT_AND_DOWN 7
 
 //added by Mike, 20211025
-#define MAX_PILOT_KEY_DOWN_HISTORY 5
+#define MAX_PILOT_KEY_DOWN_HISTORY 100 //5
 
 //added by Mike, 20210827
 class Level2D;
@@ -221,6 +221,8 @@ private:
     //added by Mike, 20211025
     int iArrayPilotKeyDownHistoryContainer[MAX_PILOT_KEY_DOWN_HISTORY];
     int iPilotKeyDownCount;
+    int iDelayExecuteKeyDownMovement;
+    int iDelayExecuteKeyDownMovementMax;
     
 
 /* //removed by Mike, 20210825
