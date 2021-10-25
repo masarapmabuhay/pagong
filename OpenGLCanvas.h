@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20200929
- * @date updated: 20210925
+ * @date updated: 20211025
  * @website address: http://www.usbong.ph
  *
  * Acknowledgments:
@@ -172,10 +172,11 @@ class Level3D;
 class Pilot;
 class Text; //added by Mike, 20210902
 
+class Robotship; //added by Mike, 20211025
+
 /* //removed by Mike, 20210825
 class MyDynamicObject; //added by Mike, 20201213
 
-class RobotShip;
 
 //added by Mike, 20210514
 class Button;
@@ -208,9 +209,10 @@ private:
     
     //added by Mike, 20210925
     Level3D *myLevel3D;
-    
-    
+        
     Pilot *myPilot;
+    Robotship *myRobotship; //added by Mike, 20211025
+    
     Text *myText; //added by Mike, 20210902
 
 /* //removed by Mike, 20210825

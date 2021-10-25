@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20200926
- * @date updated: 20211011
+ * @date updated: 20211025
  * @website address: http://www.usbong.ph
  *
  * References:
@@ -112,10 +112,11 @@
 //added by Mike, 20210902
 #include "Text.h"
 
+//added by Mike, 20211025
+#include "Robotship.h"
+
 
 /* //removed by Mike, 20210825
-//added by Mike, 20201001
-#include "RobotShip.h"
 
 //added by Mike, 20201207
 
@@ -483,10 +484,18 @@ bool OpenGLCanvas::init(int myWindowWidthAsPixelInput, int myWindowHeightAsPixel
     myPilot->setOpenGLCanvas(this, fGridSquareWidth, fGridSquareHeight);    
     myPilot->setAsPlayer1(); //added by Mike, 20210601    
     
-  //removed by Mike, 20210925
     //added by Mike, 20210830
     myPilot->setLevel2D(myLevel2D);
     myPilot->setLevel3D(myLevel3D);
+
+		//added by Mike, 20211025
+    myRobotship = new Robotship(0.0f,0.0f,0.0f,myWindowWidthAsPixel,myWindowHeightAsPixel);
+    myRobotship->setOpenGLCanvas(this, fGridSquareWidth, fGridSquareHeight);    
+    myRobotship->setAsPlayer1(); //added by Mike, 20210601    
+    
+    myRobotship->setLevel2D(myLevel2D);
+    myRobotship->setLevel3D(myLevel3D);
+    //--		
 
 
     //added by Mike, 20210911; edited by Mike, 20210929
@@ -662,7 +671,7 @@ void OpenGLCanvas::keyUp(int keyCode)
 /* //removed by Mike, 20210826    
     //added by Mike, 20201226; edited by Mike, 20210423;
     //added by Mike, 20210507
-    myRobotShip->keyUp(keyCode);
+    myRobotshipShip->keyUp(keyCode);
 */
     
     myPilot->keyUp(keyCode);
@@ -899,6 +908,12 @@ void OpenGLCanvas::render()
  	glPushMatrix();
 		myPilot->draw();
     glPopMatrix();
+    
+    
+	//added by Mike, 20210902
+ 	glPushMatrix();
+		myRobotship->draw();
+  glPopMatrix();    
 	
     //added by Mike, 20210903
     glPushMatrix();
@@ -919,19 +934,26 @@ void OpenGLCanvas::update()
  //removed by Mike, 20210825
 				//added by Mike, 20210807
         myPilot->update(1); //dt
+				
+				//added by Mike, 20211025
+        myRobotship->update(1); //dt
+        
+        //TO-DO: -add: record Pilot movement, e.g. previous step; 
+        //myRobotship executes movement when Pilot executes next step
+				//TO-DO: -add: Talk Action with Tauhan in Daigdig
 
         
 /* //removed by Mike, 20210825       
         //edited by Mike, 20201014
         //        for(i=0; i<MAX_BEAMS; i++) {
         for(int i=0; i<MAX_BEAMS; i++) {
-            if ( (myRobotShip->getState()!=ROBOTSHIP_INITIALIZING_STATE) &&
+            if ( (myRobotshipShip->getState()!=ROBOTSHIP_INITIALIZING_STATE) &&
                 (myBeam[i]->isActive()) ){
                 //edited by Mike, 20210322
                 //            myBeam[i]->update(1);
                 //TO-DO: reverify: cause of myCanvasPosX, etc does not move
                 //            myBeam[i]->update(myCanvasPosX,myCanvasPosY,myCanvasPosZ);
-                myBeam[i]->update(myRobotShip->getX(),myRobotShip->getY(),myRobotShip->getZ());
+                myBeam[i]->update(myRobotshipShip->getX(),myRobotshipShip->getY(),myRobotshipShip->getZ());
                 
                 //check collisions
                 //myBeam[i]->collideWith(myEnemy);
@@ -948,11 +970,11 @@ void OpenGLCanvas::update()
             //if (myBeam[i]->isActive())
             myAsteroid[i]->update(1);
             //removed by Mike, 20201016
-            //            myAsteroid[i]->collideWith(myRobotShip);
+            //            myAsteroid[i]->collideWith(myRobotshipShip);
             
             //added by Mike, 20210219
-            if (myRobotShip->getIsExecutingPunch()) {
-                myAsteroid[i]->collideWith(myRobotShip);
+            if (myRobotshipShip->getIsExecutingPunch()) {
+                myAsteroid[i]->collideWith(myRobotshipShip);
             }
         }
 */        
@@ -973,7 +995,7 @@ void OpenGLCanvas::update()
         if (iKeyCount==iNumOfKeyTypes) {
 /* //removed by Mike, 20210825        
             //TO-DO: -update: this
-            myRobotShip->move(-1); //IDLE_MOVING_STATE
+            myRobotshipShip->move(-1); //IDLE_MOVING_STATE
 */            
             //added by Mike, 20210423
             myPilot->move(-1);
@@ -984,7 +1006,7 @@ void OpenGLCanvas::update()
         if(myKeysDown[KEY_H] == TRUE)
         {
 /* //removed by Mike, 20210825        
-            myRobotShip->move(KEY_H);
+            myRobotshipShip->move(KEY_H);
 */
             myPilot->move(KEY_H);                                    
         }
@@ -994,7 +1016,7 @@ void OpenGLCanvas::update()
        	//robotship; punch command
         if(myKeysDown[KEY_U] == TRUE)
         {
-            myRobotShip->move(KEY_U);
+            myRobotshipShip->move(KEY_U);
         }
 */
         
@@ -1033,15 +1055,15 @@ void OpenGLCanvas::update()
             myLevel3D->move(KEY_S, myPilot);
         
             //edited by Mike, 20201115; edited again by Mike, 20210128
-            //myRobotShip->move(KEY_DOWN);
+            //myRobotshipShip->move(KEY_DOWN);
             //removed by Mike, 20210502
-            //            myRobotShip->move(KEY_S);
+            //            myRobotshipShip->move(KEY_S);
         }
        
         if (myKeysDown[KEY_D] == TRUE)
         {
 /* //removed by Mike, 20210825        
-            myRobotShip->move(KEY_D);
+            myRobotshipShip->move(KEY_D);
 */                        
             //added by Mike, 20210423
             myPilot->move(KEY_D);
@@ -1093,8 +1115,8 @@ void OpenGLCanvas::update()
             //added by Mike, 20201001
             //edited by Mike, 20201115
             //edited by Mike, 20210129
-            //            myRobotShip->move(KEY_LEFT);            
-            myRobotShip->move(KEY_A);
+            //            myRobotshipShip->move(KEY_LEFT);            
+            myRobotshipShip->move(KEY_A);
 */            
             //added by Mike, 20210423
             myPilot->move(KEY_A);
@@ -1147,17 +1169,17 @@ void OpenGLCanvas::update()
             static int i = 0;
             
             //added by Mike, 20210112
-            if (!myRobotShip->getIsExecuteWithWeaponReady()) {
+            if (!myRobotshipShip->getIsExecuteWithWeaponReady()) {
                 return;
             }
             
             //edited by Mike, 20201218
-            //myRobotShip->move(KEY_LEFT);
-            myRobotShip->move(KEY_I);
+            //myRobotshipShip->move(KEY_LEFT);
+            myRobotshipShip->move(KEY_I);
             
             //edited by Mike, 20210207
-            //myRobotShip->setCurrentFacingState(FACING_UP);
-            myRobotShip->setCurrentFacingState(FACING_RIGHT_AND_UP);
+            //myRobotshipShip->setCurrentFacingState(FACING_UP);
+            myRobotshipShip->setCurrentFacingState(FACING_RIGHT_AND_UP);
             
             for(i=0; i<MAX_BEAMS; i++) {
                 if (!myBeam[i]->isActive()) {
@@ -1168,8 +1190,8 @@ void OpenGLCanvas::update()
                     rotationAngle=225;
                     
                     //added by Mike, 20210112
-                    float *beamPosXyz = {myRobotShip->getXYZPos()};
-                    //				float *beamPosXyz[3] = {myRobotShip->getXYZPos()};
+                    float *beamPosXyz = {myRobotshipShip->getXYZPos()};
+                    //				float *beamPosXyz[3] = {myRobotshipShip->getXYZPos()};
                     //edited by Mike, 20210207
                     //				beamPosXyz[0]+=2.0f; //center
                     //				beamPosXyz[0]+=0.0f; //left arm
@@ -1196,17 +1218,17 @@ void OpenGLCanvas::update()
             static int i = 0;
             
             //added by Mike, 20210112
-            if (!myRobotShip->getIsExecuteWithWeaponReady()) {
+            if (!myRobotshipShip->getIsExecuteWithWeaponReady()) {
                 return;
             }
             
             //edited by Mike, 20201218
-            //myRobotShip->move(KEY_LEFT);
-            myRobotShip->move(KEY_I);
+            //myRobotshipShip->move(KEY_LEFT);
+            myRobotshipShip->move(KEY_I);
             
             //edited by Mike, 20210207
-            //myRobotShip->setCurrentFacingState(FACING_UP);
-            myRobotShip->setCurrentFacingState(FACING_LEFT_AND_UP);
+            //myRobotshipShip->setCurrentFacingState(FACING_UP);
+            myRobotshipShip->setCurrentFacingState(FACING_LEFT_AND_UP);
             
             for(i=0; i<MAX_BEAMS; i++) {
                 if (!myBeam[i]->isActive()) {
@@ -1217,8 +1239,8 @@ void OpenGLCanvas::update()
                     //				rotationAngle=225; //RIGHT AND UP
                     
                     //added by Mike, 20210112
-                    float *beamPosXyz = {myRobotShip->getXYZPos()};
-                    //				float *beamPosXyz[3] = {myRobotShip->getXYZPos()};
+                    float *beamPosXyz = {myRobotshipShip->getXYZPos()};
+                    //				float *beamPosXyz[3] = {myRobotshipShip->getXYZPos()};
                     //edited by Mike, 20210207
                     //				beamPosXyz[0]+=2.0f; //center
                     //				beamPosXyz[0]+=0.0f; //left arm
@@ -1246,17 +1268,17 @@ void OpenGLCanvas::update()
             static int i = 0;
             
             //added by Mike, 20210112
-            if (!myRobotShip->getIsExecuteWithWeaponReady()) {
+            if (!myRobotshipShip->getIsExecuteWithWeaponReady()) {
                 return;
             }
             
             //edited by Mike, 20201218
-            //myRobotShip->move(KEY_LEFT);
-            myRobotShip->move(KEY_I);
+            //myRobotshipShip->move(KEY_LEFT);
+            myRobotshipShip->move(KEY_I);
             
             //edited by Mike, 20210207
-            //myRobotShip->setCurrentFacingState(FACING_UP);
-            myRobotShip->setCurrentFacingState(FACING_LEFT_AND_DOWN);
+            //myRobotshipShip->setCurrentFacingState(FACING_UP);
+            myRobotshipShip->setCurrentFacingState(FACING_LEFT_AND_DOWN);
             
             for(i=0; i<MAX_BEAMS; i++) {
                 if (!myBeam[i]->isActive()) {
@@ -1269,8 +1291,8 @@ void OpenGLCanvas::update()
                     
                     
                     //added by Mike, 20210112
-                    float *beamPosXyz = {myRobotShip->getXYZPos()};
-                    //				float *beamPosXyz[3] = {myRobotShip->getXYZPos()};
+                    float *beamPosXyz = {myRobotshipShip->getXYZPos()};
+                    //				float *beamPosXyz[3] = {myRobotshipShip->getXYZPos()};
                     //edited by Mike, 20210207
                     //				beamPosXyz[0]+=2.0f; //center
                     //				beamPosXyz[0]+=0.0f; //left arm
@@ -1299,17 +1321,17 @@ void OpenGLCanvas::update()
             static int i = 0;
             
             //added by Mike, 20210112
-            if (!myRobotShip->getIsExecuteWithWeaponReady()) {
+            if (!myRobotshipShip->getIsExecuteWithWeaponReady()) {
                 return;
             }
             
             //edited by Mike, 20201218
-            //myRobotShip->move(KEY_LEFT);
-            myRobotShip->move(KEY_I);
+            //myRobotshipShip->move(KEY_LEFT);
+            myRobotshipShip->move(KEY_I);
             
             //edited by Mike, 20210207
-            //myRobotShip->setCurrentFacingState(FACING_UP);
-            myRobotShip->setCurrentFacingState(FACING_RIGHT_AND_DOWN);
+            //myRobotshipShip->setCurrentFacingState(FACING_UP);
+            myRobotshipShip->setCurrentFacingState(FACING_RIGHT_AND_DOWN);
             
             for(i=0; i<MAX_BEAMS; i++) {
                 if (!myBeam[i]->isActive()) {
@@ -1322,8 +1344,8 @@ void OpenGLCanvas::update()
                     rotationAngle=-45; //RIGHT AND DOWN
                     
                     //added by Mike, 20210112
-                    float *beamPosXyz = {myRobotShip->getXYZPos()};
-                    //				float *beamPosXyz[3] = {myRobotShip->getXYZPos()};
+                    float *beamPosXyz = {myRobotshipShip->getXYZPos()};
+                    //				float *beamPosXyz[3] = {myRobotshipShip->getXYZPos()};
                     //edited by Mike, 20210207
                     //				beamPosXyz[0]+=2.0f; //center
                     //				beamPosXyz[0]+=0.0f; //left arm
@@ -1356,16 +1378,16 @@ void OpenGLCanvas::update()
             //            myBall->move(KEY_J);
             
             //added by Mike, 20210112
-            if (!myRobotShip->getIsExecuteWithWeaponReady()) {
+            if (!myRobotshipShip->getIsExecuteWithWeaponReady()) {
                 return;
             }
             
             //edited by Mike, 20201218
-            //myRobotShip->move(KEY_LEFT);
+            //myRobotshipShip->move(KEY_LEFT);
             //TO-DO: -update: this; we use KEY_I for now
-            //myRobotShip->move(KEY_J);
-            myRobotShip->move(KEY_I);
-            myRobotShip->setCurrentFacingState(FACING_LEFT); //added by Mike, 20210102
+            //myRobotshipShip->move(KEY_J);
+            myRobotshipShip->move(KEY_I);
+            myRobotshipShip->setCurrentFacingState(FACING_LEFT); //added by Mike, 20210102
             
             for(i=0; i<MAX_BEAMS; i++) {
                 if (!myBeam[i]->isActive()) {
@@ -1373,19 +1395,19 @@ void OpenGLCanvas::update()
                     rotationAngle=90;
                     
                     //added by Mike, 20210112
-                    float *beamPosXyz = {myRobotShip->getXYZPos()};
-                    //				float beamPosXyz[3] = myRobotShip->getXYZPos();
+                    float *beamPosXyz = {myRobotshipShip->getXYZPos()};
+                    //				float beamPosXyz[3] = myRobotshipShip->getXYZPos();
                     
                     //edited by Mike, 20201225
-                    //              myBeam[i]->move(rotationAngle, myRobotShip->getXYZPos());
+                    //              myBeam[i]->move(rotationAngle, myRobotshipShip->getXYZPos());
                     //note: when held, beam particles move in waves
                     //note: move beams based on direction where robot faces
                     if (i%2==0) {
-                        //                	myBeam[i]->move(rotationAngle+4, myRobotShip->getXYZPos());
+                        //                	myBeam[i]->move(rotationAngle+4, myRobotshipShip->getXYZPos());
                         myBeam[i]->move(rotationAngle+4, beamPosXyz);
                     }
                     else {
-                        //                	myBeam[i]->move(rotationAngle, myRobotShip->getXYZPos());
+                        //                	myBeam[i]->move(rotationAngle, myRobotshipShip->getXYZPos());
                         myBeam[i]->move(rotationAngle, beamPosXyz);
                     }
                     
@@ -1404,16 +1426,16 @@ void OpenGLCanvas::update()
             static int i = 0;
             
             //added by Mike, 20210112
-            if (!myRobotShip->getIsExecuteWithWeaponReady()) {
+            if (!myRobotshipShip->getIsExecuteWithWeaponReady()) {
                 return;
             }
             
             //edited by Mike, 20201218
-            //myRobotShip->move(KEY_LEFT);
+            //myRobotshipShip->move(KEY_LEFT);
             //TO-DO: -update: this; we use KEY_I for now
-            //myRobotShip->move(KEY_J);
-            myRobotShip->move(KEY_I);
-            myRobotShip->setCurrentFacingState(FACING_RIGHT);  //added by Mike, 20210102
+            //myRobotshipShip->move(KEY_J);
+            myRobotshipShip->move(KEY_I);
+            myRobotshipShip->setCurrentFacingState(FACING_RIGHT);  //added by Mike, 20210102
             
             for(i=0; i<MAX_BEAMS; i++) {
                 if (!myBeam[i]->isActive()) {
@@ -1422,8 +1444,8 @@ void OpenGLCanvas::update()
                     rotationAngle=-90;
                     
                     //added by Mike, 20210112
-                    float *beamPosXyz = {myRobotShip->getXYZPos()};
-                    //				float *beamPosXyz[3] = {myRobotShip->getXYZPos()};
+                    float *beamPosXyz = {myRobotshipShip->getXYZPos()};
+                    //				float *beamPosXyz[3] = {myRobotshipShip->getXYZPos()};
                     //edited by Mike, 20210118
                     //				beamPosXyz[2]+=2.0f;
                     beamPosXyz[2]+=1.5f;
@@ -1449,14 +1471,14 @@ void OpenGLCanvas::update()
             static int i = 0;
             
             //added by Mike, 20210112
-            if (!myRobotShip->getIsExecuteWithWeaponReady()) {
+            if (!myRobotshipShip->getIsExecuteWithWeaponReady()) {
                 return;
             }
             
             //edited by Mike, 20201218
-            //myRobotShip->move(KEY_LEFT);
-            myRobotShip->move(KEY_I);
-            myRobotShip->setCurrentFacingState(FACING_UP);
+            //myRobotshipShip->move(KEY_LEFT);
+            myRobotshipShip->move(KEY_I);
+            myRobotshipShip->setCurrentFacingState(FACING_UP);
             
             for(i=0; i<MAX_BEAMS; i++) {
                 if (!myBeam[i]->isActive()) {
@@ -1464,20 +1486,20 @@ void OpenGLCanvas::update()
                     rotationAngle=180;
                     
                     //added by Mike, 20210112
-                    float *beamPosXyz = {myRobotShip->getXYZPos()};
-                    //				float *beamPosXyz[3] = {myRobotShip->getXYZPos()};
+                    float *beamPosXyz = {myRobotshipShip->getXYZPos()};
+                    //				float *beamPosXyz[3] = {myRobotshipShip->getXYZPos()};
                     beamPosXyz[0]+=2.0f;
                     
                     //edited by Mike, 20201225
-                    //              myBeam[i]->move(rotationAngle, myRobotShip->getXYZPos());
+                    //              myBeam[i]->move(rotationAngle, myRobotshipShip->getXYZPos());
                     //note: when held, beam particles move in waves
                     //note: move beams based on direction where robot faces
                     if (i%2==0) {
-                        //                	myBeam[i]->move(rotationAngle+4, myRobotShip->getXYZPos());
+                        //                	myBeam[i]->move(rotationAngle+4, myRobotshipShip->getXYZPos());
                         myBeam[i]->move(rotationAngle+4,/home/unit_member/Documents/USBONG/pagong-main beamPosXyz);
                     }
                     else {
-                        //                	myBeam[i]->move(rotationAngle, myRobotShip->getXYZPos());
+                        //                	myBeam[i]->move(rotationAngle, myRobotshipShip->getXYZPos());
                         myBeam[i]->move(rotationAngle, beamPosXyz);
                     }
                     
@@ -1496,19 +1518,19 @@ void OpenGLCanvas::update()
             static int i = 0;
             
             //added by Mike, 20210112
-            if (!myRobotShip->getIsExecuteWithWeaponReady()) {
+            if (!myRobotshipShip->getIsExecuteWithWeaponReady()) {
                 return;
             }
             
             //edited by Mike, 20201218
-            //myRobotShip->move(KEY_LEFT);
-            myRobotShip->move(KEY_I);
-            myRobotShip->setCurrentFacingState(FACING_DOWN);
+            //myRobotshipShip->move(KEY_LEFT);
+            myRobotshipShip->move(KEY_I);
+            myRobotshipShip->setCurrentFacingState(FACING_DOWN);
             
             for(i=0; i<MAX_BEAMS; i++) {
                 if (!myBeam[i]->isActive()) {
                     //edited by Mike, 20201013
-                    //                myBeam[i]->move(myRobotShip->getRotationAngle(), myRobotShip->getXYZPos());
+                    //                myBeam[i]->move(myRobotshipShip->getRotationAngle(), myRobotshipShip->getXYZPos());
                     
                     //TO-DO: -update: to immediately move a beam if only single press, i.e. not held
                     //TO-DO: -update: to move beam in curve
@@ -1518,19 +1540,19 @@ void OpenGLCanvas::update()
                     
                     //added by Mike, 20210112
                     //TO-DO: -reverify: if causes memory leak problem
-                    float *beamPosXyz = {myRobotShip->getXYZPos()};
-                    //				float *beamPosXyz[3] = {myRobotShip->getXYZPos()};
+                    float *beamPosXyz = {myRobotshipShip->getXYZPos()};
+                    //				float *beamPosXyz[3] = {myRobotshipShip->getXYZPos()};
                     
                     //edited by Mike, 20201225
-                    //              myBeam[i]->move(rotationAngle, myRobotShip->getXYZPos());
+                    //              myBeam[i]->move(rotationAngle, myRobotshipShip->getXYZPos());
                     //note: when held, beam particles move in waves
                     //note: move beams based on direction where robot faces
                     if (i%2==0) {
-                        //                	myBeam[i]->move(rotationAngle+4, myRobotShip->getXYZPos());
+                        //                	myBeam[i]->move(rotationAngle+4, myRobotshipShip->getXYZPos());
                         myBeam[i]->move(rotationAngle+4, beamPosXyz);
                     }
                     else {
-                        //                	myBeam[i]->move(rotationAngle, myRobotShip->getXYZPos());
+                        //                	myBeam[i]->move(rotationAngle, myRobotshipShip->getXYZPos());
                         myBeam[i]->move(rotationAngle, beamPosXyz);
                     }
                     
@@ -1673,7 +1695,7 @@ void OpenGLCanvas::gameReset(){
     /*	//removed by Mike, 20200929
      score=0;
      scoreBeforeBonus=0;
-     myRobotShip->reset();
+     myRobotshipShip->reset();
      rest=MAX_LIFE;
      resetDynamicObjects();
      changeState(GAME_SCREEN);
