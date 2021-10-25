@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B. 
  * @date created: 20200930
- * @date updated: 20211024
+ * @date updated: 20211025
  * @website address: http://www.usbong.ph
  *
  * Reference: 
@@ -370,8 +370,9 @@ void Pilot::setup()
 	//TO-DO: -update: myWidth and myHeight to quickly identify as float
     
     //edited by Mike, 20211014; TO-DO: -update: Robot.cpp, et cetera; set width and height to be x2 of Pilot's...
-    //	openGLITexture = openGLLoadTexture((char*)"textures/imageSpriteExampleMikeWithoutBG.png", myWidth, myHeight);
-    openGLITexture = openGLLoadTexture((char*)"textures/imageSpriteExampleRoboWithoutBG.png", myWidth, myHeight);
+    openGLITexture = openGLLoadTexture((char*)"textures/imageSpriteExampleMikeWithoutBG.png", myWidth, myHeight);
+    //added by Mike, 20211025; TO-DO: -update: Robot.cpp
+//    openGLITexture = openGLLoadTexture((char*)"textures/imageSpriteExampleRoboWithoutBG.png", myWidth, myHeight);
 }
 
 //added by Mike, 20210522
@@ -3390,12 +3391,15 @@ void Pilot::move(int key)
             
              }
 */
+/* //edited by Mike, 20211025
 								 if (getIsPlayer1()) { //Player1: Unit Chief
             					myYPos+=-stepY;
          					}
          					else {
             					myYPos+=-stepY;
          					}
+*/
+            					myYPos+=-stepY;
 
 
 		 				bHasHitWall=false;
@@ -3450,6 +3454,8 @@ void Pilot::move(int key)
          					if ((bHasHitWall) and (getCurrentFacingState()==FACING_DOWN)) {
          		  			return;
          					}
+
+/* //edited by Mike, 20211025         					
         					if (getIsPlayer1()) { //Player1: Unit Chief
              					//edited by Mike, 20210830
             					//myYPosAsPixel+=stepY;        					
@@ -3467,6 +3473,9 @@ void Pilot::move(int key)
 //										myYPos+=(-stepY/2);
             									
         					}
+*/
+            					myYPos+=stepY; 
+       					
                                 }
 
  				if ((bIsExecutingDashArray[KEY_S])) {
@@ -3540,6 +3549,8 @@ void Pilot::move(int key)
 										myXPosAsPixel+=-stepX;
 									}
 */									
+
+/* //edited by Mike, 20211025
          					if (getIsPlayer1()) { //Player1: Unit Chief
              					//edited by Mike, 20210830         					
 //            					myXPosAsPixel+=-stepX;
@@ -3550,6 +3561,9 @@ void Pilot::move(int key)
 //            					myXPosAsPixel+=-stepX;
             					myXPos+=-stepX;
          					}
+*/
+            					myXPos+=-stepX;
+         					
 
 /* //removed by Mike, 20210917; TO-DO: -add: this																											
          					if (bIsExecutingDashArray[KEY_A]) {
@@ -3592,7 +3606,7 @@ void Pilot::move(int key)
                   prevFacingState=currentFacingState;
               }
 
-              //added by Mike, 20210502
+              //added by Mike, 20210502/home/unit_member/Documents/USBONG/pagong-main
               currentFacingState=FACING_LEFT;
 		  }
 
@@ -3649,7 +3663,8 @@ void Pilot::move(int key)
 								//edited by Mike, 20210527
 								myXPosAsPixel+=stepX;
 							}		
-*/							
+*/
+/* //edited by Mike, 20211025							
          			if (getIsPlayer1()) { //Player1: Unit Chief
              			//edited by Mike, 20210830								
 //            			myXPosAsPixel+=stepX;
@@ -3660,6 +3675,9 @@ void Pilot::move(int key)
 //            			myXPosAsPixel+=stepX;
             			myXPos+=stepX; 
          			}
+*/
+            			myXPos+=stepX;          			
+         			
 					
 /* //removed by Mike, 20210917; TO-DO: -add: this																																
          			if (bIsExecutingDashArray[KEY_D]) {
@@ -4220,6 +4238,8 @@ void Pilot::moveSideScrollView(int key)
          					if ((bHasHitWall) and (getCurrentFacingState()==FACING_DOWN)) {
          		  			return;
          					}
+         					
+/* //edited by Mike, 20211025         					
         					if (getIsPlayer1()) { //Player1: Unit Chief
              					//edited by Mike, 20210830
             					//myYPosAsPixel+=stepY;        					
@@ -4237,8 +4257,11 @@ void Pilot::moveSideScrollView(int key)
 //										myYPos+=(-stepY/2);
             									
         					}
+*/
+           					myYPos+=stepY;        					
                                 }
-
+                                
+/* //removed by Mike, 20211025
  if ((bIsExecutingDashArray[KEY_S])) {
              			//edited by Mike, 20210830
 //            			myYPosAsPixel+=stepY*2;
@@ -4246,6 +4269,8 @@ void Pilot::moveSideScrollView(int key)
 						myYPos+=stepY*2;
 //						myYPos+=(-(stepY*2));             			
 					}
+*/					
+					
 							bHasHitWall=false;
 				}
 	      //added by Mike, 20201201; edited by Mike, 20201225
