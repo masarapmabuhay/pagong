@@ -2077,7 +2077,9 @@ void Pilot::drawAccelerationEffectAsQuadWithTexture()
 
     glPushMatrix();
     
+/* //removed by Mike, 20211025
     printf("drawAccelerationEffectAsQuadWithTexture\n");
+*/
     
     //TO-DO: -update: this
 /*    
@@ -2187,9 +2189,10 @@ void Pilot::drawAccelerationEffectAsQuadWithTexture()
     printf("myWindowHeight: %i\n",myWindowHeight); //example output: 768
 */    
     //		glScalef(0.56f, 1.0f, 1.0f);
+/* //removed by Mike, 20211025
     printf("fMyWindowWidth: %f\n",fMyWindowWidth); //example output: 1366
     printf("fMyWindowHeight: %f\n",fMyWindowHeight); //example output: 768
-
+*/
     
     //TO-DO: -add: auto-identify if computer monitor rectangle, i.e. NOT square;
     //AND which side is longer

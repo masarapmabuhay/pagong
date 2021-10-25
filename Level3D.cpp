@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20200926
- * @date updated: 20211012
+ * @date updated: 20211025
  * @website address: http://www.usbong.ph
  *
  * Reference:
@@ -440,14 +440,17 @@ void Level3D::openGLDrawTextureQuadOKNotYetCube(float x, float y, float textw, f
     
     //added by Mike, 20210725; removed by Mike, 20210725
     //sTileId="0-0";
+/* //removed by Mike, 20211025
     std::cout << "sTileId: " << sTileId << "\n";
-	
-	  fTx = 0.0f+0.0625f*(myUsbongUtils->autoIdentifyColumnInputInLevelMapContainer(sTileId)); //column
+*/
+    
+	fTx = 0.0f+0.0625f*(myUsbongUtils->autoIdentifyColumnInputInLevelMapContainer(sTileId)); //column
     fTy = 0.0f+0.0625f*(myUsbongUtils->autoIdentifyRowInputInLevelMapContainer(sTileId)); //row    
 	
+/* //removed by Mike, 20211025
     std::cout << "fTx: " << fTx << "\n";
     std::cout << "fTy: " << fTy << "\n";
-	
+*/
 
 	//added by Mike, 20210928
 	//note: updated: texture and vertex positions to be clock-wise 1st quadrant
@@ -545,14 +548,16 @@ void Level3D::openGLDrawTexture(float x, float y, float z, float textw, float te
     
     //added by Mike, 20210725; removed by Mike, 20210725
     //sTileId="0-0";
+/* //removed by Mike, 20211025
     std::cout << "sTileId: " << sTileId << "\n";
-	
+*/
 	  fTx = 0.0f+0.0625f*(myUsbongUtils->autoIdentifyColumnInputInLevelMapContainer(sTileId)); //column
     fTy = 0.0f+0.0625f*(myUsbongUtils->autoIdentifyRowInputInLevelMapContainer(sTileId)); //row    
-	
+
+    /* //removed by Mike, 20211025
     std::cout << "fTx: " << fTx << "\n";
     std::cout << "fTy: " << fTy << "\n";
-	
+*/	
 
 	//added by Mike, 20210928
 	//note: updated: texture and vertex positions to be clock-wise 1st quadrant
@@ -1611,13 +1616,14 @@ void Level3D::drawLevelMapInViewPort(float fX, float fY, float fZ)
     printf(">>getStepX(): %f\n",getStepX()); //added by Mike, 20210922
 */
 
-
+/* //removed by Mike, 20211025
 	  printf(">>fMyCanvasPosPrevY: %f; fMyCanvasPosY: %f\n",fMyCanvasPosPrevY,fMyCanvasPosY);
     printf(">>fY: %f\n",fY);    
 //    printf(">>fMyWindowWidth/2: %f\n",fMyWindowWidth/2);    		
     printf(">>fMyWindowHeight/2-getHeight(): %f\n",fMyWindowHeight/2-getHeight());    		
     printf(">>getStepY(): %f\n",getStepY()); //added by Mike, 20210922
-
+*/
+    
 		
 		//edited by Mike, 20210924
 //		if (fX==(fMyWindowWidth/2-getWidth())) {
@@ -1663,7 +1669,8 @@ void Level3D::drawLevelMapInViewPort(float fX, float fY, float fZ)
     }
     
 
-    		std::cout << "fMovementGridX: " << fMovementGridX << "\n";
+//removed by Mike, 20211025
+//    		std::cout << "fMovementGridX: " << fMovementGridX << "\n";
 		
 				
     		iCurrentLevelMapContainerOffsetX += (int) fMovementGridX;
@@ -1702,8 +1709,11 @@ void Level3D::drawLevelMapInViewPort(float fX, float fY, float fZ)
     std::cout << ">>>>fX: " << fX << "\n";
 */
 
+/* //removed by Mike, 20211025
 		printf("getFMyCanvasPosX: %f\n",getFMyCanvasPosX());    
 		printf("fX: %f\n",fX);    
+*/
+        
 /*
 		//notes:
 >>fMyCanvasPosPrevX: 607.111023; fMyCanvasPosX: 607.111023
@@ -1796,8 +1806,9 @@ getFMyCanvasPosX: 614.699890 //macOS: 554.666687
     }
     
 
+/*//removed by Mike, 20211025
     std::cout << "fMovementGridY: " << fMovementGridY << "\n";
-
+*/
 		
     iCurrentLevelMapContainerOffsetY += (int) fMovementGridY;
                    

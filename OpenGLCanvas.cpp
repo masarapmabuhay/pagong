@@ -1009,14 +1009,15 @@ void OpenGLCanvas::update()
             
             //added by Mike, 20211025
 						myRobotship->move(-1);
-            
+
+/*  //removed by Mike, 20211025
             //added by Mike, 20211025
             iArrayPilotKeyDownHistoryContainer[iPilotKeyDownCount]=-1;
             iPilotKeyDownCount++;
 						if (iPilotKeyDownCount>=MAX_PILOT_KEY_DOWN_HISTORY) {
             	iPilotKeyDownCount=0;						
 						}            
-            
+*/
         }
 
        	//added by Mike, 20210111; edited by Mike, 20210121
@@ -1046,7 +1047,8 @@ void OpenGLCanvas::update()
         		//removed by Mike, 20210901; added by Mike, 20210921
             myPilot->move(KEY_W);       
 
-						//added by Mike, 20211025
+/*
+            //added by Mike, 20211025; removed by Mike, 20211025
 						if (myPilot->getY()<=0) {
 						}
 						else {
@@ -1057,16 +1059,17 @@ void OpenGLCanvas::update()
 							//added by Mike, 20211025
 							myRobotship->setXPos(myPilot->getX());
 						}
-
+*/
             
-/* //removed by Mike, 20211026            
+            
+ //removed by Mike, 20211026
             //added by Mike, 20211025
             iArrayPilotKeyDownHistoryContainer[iPilotKeyDownCount]=KEY_W;
             iPilotKeyDownCount++;
 						if (iPilotKeyDownCount>=MAX_PILOT_KEY_DOWN_HISTORY) {
             	iPilotKeyDownCount=0;						
 						}        
-*/						
+						
             
             //added by Mike, 20210921; edited by Mike, 20210923
 //            myCanvasPosY-=myPilot->getStepY();
@@ -1087,24 +1090,25 @@ void OpenGLCanvas::update()
         		//removed by Mike, 20210901; added by Mike, 20210921        
             myPilot->move(KEY_S);            
 
-						//added by Mike, 20211025
+/*
+            //added by Mike, 20211025; removed by Mike, 20211025
 						//TO-DO: -update: to be based on iPangkatFormationCount
 						myRobotship->setYPos(myPilot->getY()-myPilot->getHeight());
 						myRobotship->move(KEY_S);            
 
 						//added by Mike, 20211025
 						myRobotship->setXPos(myPilot->getX());
-
+*/
 
             
-/* //removed by Mike, 20211025            
+//removed by Mike, 20211025
             //added by Mike, 20211025
             iArrayPilotKeyDownHistoryContainer[iPilotKeyDownCount]=KEY_S;
             iPilotKeyDownCount++;
 						if (iPilotKeyDownCount>=MAX_PILOT_KEY_DOWN_HISTORY) {
             	iPilotKeyDownCount=0;						
 						}               
-*/
+
                 
             //added by Mike, 20210921; edited by Mike, 20210923
 //            myCanvasPosY+=myPilot->getStepY();
@@ -1127,22 +1131,24 @@ void OpenGLCanvas::update()
             //added by Mike, 20210423
             myPilot->move(KEY_D);
 
-						//added by Mike, 20211025
+            
+/*						//added by Mike, 20211025; removed by Mike, 20211025
 						myRobotship->setXPos(myPilot->getX()-myPilot->getWidth());
 						myRobotship->move(KEY_D);
 
 						//added by Mike, 20211025
 						myRobotship->setYPos(myPilot->getY());
+*/
+            
 
-
-/* //removed by Mike, 20211025
+ //removed by Mike, 20211025
             //added by Mike, 20211025
             iArrayPilotKeyDownHistoryContainer[iPilotKeyDownCount]=KEY_D;
             iPilotKeyDownCount++;
 						if (iPilotKeyDownCount>=MAX_PILOT_KEY_DOWN_HISTORY) {
             	iPilotKeyDownCount=0;						
 						}
-*/
+
 
 /*
 						//added by Mike, 20210910            
@@ -1196,8 +1202,9 @@ void OpenGLCanvas::update()
 */            
             //added by Mike, 20210423
             myPilot->move(KEY_A);
-            
-						//added by Mike, 20211025
+
+/*
+            //added by Mike, 20211025; removed by Mike, 20211025
 						if (myPilot->getX()<=0) {
 						}
 						else {
@@ -1208,16 +1215,17 @@ void OpenGLCanvas::update()
             
 						//added by Mike, 20211025
 						myRobotship->setYPos(myPilot->getY());
+*/
             
             
-/*	//removed by Mike, 20211025
+	//removed by Mike, 20211025
             //added by Mike, 20211025
             iArrayPilotKeyDownHistoryContainer[iPilotKeyDownCount]=KEY_A;
             iPilotKeyDownCount++;
 						if (iPilotKeyDownCount>=MAX_PILOT_KEY_DOWN_HISTORY) {
             	iPilotKeyDownCount=0;						
 						}                   
-*/
+
 
 /*	//edited by Mike, 20210910
 						//added by Mike, 20210910            
@@ -1702,22 +1710,37 @@ void OpenGLCanvas::update()
         }
 */
 
-/* //removed by Mike, 20211025; reuse to execute computer intelligence?
+//removed by Mike, 20211025; reuse to execute computer intelligence?
         //added by Mike, 20211025        
+//        printf(">>iPilotKeyDownCount: %i\n",iPilotKeyDownCount);
+        printf(">>iPilotKeyDownCount: %i; ",iPilotKeyDownCount);
+        
+        //TO-DO: -reverify: this
+
         if (iPilotKeyDownCount==0) {
-        	int iCurrentPilotKeyDownCountValue=iArrayPilotKeyDownHistoryContainer[MAX_PILOT_KEY_DOWN_HISTORY-2];
+        	int iCurrentPilotKeyDownCountValue=iArrayPilotKeyDownHistoryContainer[MAX_PILOT_KEY_DOWN_HISTORY-1];
 
 					//note: default value = -1
 					if (iCurrentPilotKeyDownCountValue!=-1) {
 						myRobotship->move(iArrayPilotKeyDownHistoryContainer[iCurrentPilotKeyDownCountValue]);
+                        
+                        //added by Mike, 20211025
+                        printf(">>value: %i; \n",iArrayPilotKeyDownHistoryContainer[iCurrentPilotKeyDownCountValue]);
+
+                        iArrayPilotKeyDownHistoryContainer[iCurrentPilotKeyDownCountValue]=-1;
+
 					}
         }
         else {
-					myRobotship->move(iArrayPilotKeyDownHistoryContainer[iPilotKeyDownCount-2]);
-					
-//        	printf(">>iPilotKeyDownCount: %i\n",iPilotKeyDownCount);					
-        }       
-*/         
+					myRobotship->move(iArrayPilotKeyDownHistoryContainer[iPilotKeyDownCount-1]);
+            
+                    //added by Mike, 20211025
+            printf(">>value: %i; \n",iArrayPilotKeyDownHistoryContainer[iPilotKeyDownCount-1]);
+
+            iArrayPilotKeyDownHistoryContainer[iPilotKeyDownCount-1]=-1;
+
+        }
+        
       
         //TO-DO: -update: to use container for collision detection; to include companions
         
