@@ -163,6 +163,9 @@
 #define FACING_LEFT_AND_DOWN 6
 #define FACING_RIGHT_AND_DOWN 7
 
+//added by Mike, 20211025
+#define MAX_PILOT_KEY_DOWN_HISTORY 5
+
 //added by Mike, 20210827
 class Level2D;
 
@@ -214,6 +217,11 @@ private:
     Robotship *myRobotship; //added by Mike, 20211025
     
     Text *myText; //added by Mike, 20210902
+    
+    //added by Mike, 20211025
+    int iArrayPilotKeyDownHistoryContainer[MAX_PILOT_KEY_DOWN_HISTORY];
+    int iPilotKeyDownCount;
+    
 
 /* //removed by Mike, 20210825
     Pilot *myPilotPartner; //added by Mike, 20210530
@@ -246,7 +254,7 @@ private:
     //removed by Mike, 20201013
     //        Enemy *myEnemy;
     
-    Beam *myBeam[MAX_BEAMS];
+    Beam *myBeam[MAX_BEAMS];iPilotKeyDownCount
     
     //added by Mike, 20201014
     Asteroid *myAsteroid[MAX_ASTEROID];

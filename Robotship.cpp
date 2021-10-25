@@ -3884,12 +3884,16 @@ void Robotship::move(int key)
         	if (myXPos<(fMyWindowWidth/2-getWidth())) {
 					}
 					else {
-          	myXPos=fMyWindowWidth/2-getWidth();
+							//edited by Mike, 20211025s
+//          	myXPos=fMyWindowWidth/2-getWidth();
+          	myXPos=fMyWindowWidth/2-getWidth()*2; //TO-DO: -update: to make 2 based on iPangkatFormationCount
 					}
 				}							
 		}
 		else {
-            myXPos=fMyWindowWidth/2-getWidth();
+							//edited by Mike, 20211025s
+//          	myXPos=fMyWindowWidth/2-getWidth();
+          	myXPos=fMyWindowWidth/2-getWidth()*2; //TO-DO: -update: to make 2 based on iPangkatFormationCount
     }
 				
 		//edited by Mike, 20210923
@@ -3922,12 +3926,16 @@ void Robotship::move(int key)
         	if (myYPos<(fMyWindowHeight/2-getHeight())) {
 					}
 					else {
-          	myYPos=fMyWindowHeight/2-getHeight();
+							//edited by Mike, 20211025s
+          		//myYPos=fMyWindowHeight/2-getHeight();
+          	          	myYPos=fMyWindowHeight/2-getHeight()*2; //TO-DO: -update: to make 2 based on iPangkatFormationCount
 					}
 				}
 		}
 		else {
-			myYPos=fMyWindowHeight/2-getHeight();
+			//edited by Mike, 20211025s
+      //myYPos=fMyWindowHeight/2-getHeight();
+      myYPos=fMyWindowHeight/2-getHeight()*2; //TO-DO: -update: to make 2 based on iPangkatFormationCount
 		}
 
 /* //removed by Mike, 20210921

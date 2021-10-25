@@ -243,10 +243,12 @@ public:
 
     //added by Mike, 20210925
     Level3D *myLevel3D;
-
     
     //added by Mike, 202105023
     UsbongUtils *myUsbongUtils;
+    
+    //added by Mike, 20211025; TO-DO: -add: this as setting in Daigdig
+    int iPangkatFormationCount;    
     
     //added by Mike, 20210517
     int currentState;
