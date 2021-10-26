@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20200926
- * @date updated: 20211025
+ * @date updated: 20211026
  * @website address: http://www.usbong.ph
  *
  * References:
@@ -1047,7 +1047,7 @@ void OpenGLCanvas::update()
         		//removed by Mike, 20210901; added by Mike, 20210921
             myPilot->move(KEY_W);       
 
-/*
+
             //added by Mike, 20211025; removed by Mike, 20211025
 						if (myPilot->getY()<=0) {
 						}
@@ -1059,7 +1059,6 @@ void OpenGLCanvas::update()
 							//added by Mike, 20211025
 							myRobotship->setXPos(myPilot->getX());
 						}
-*/
             
             
  //removed by Mike, 20211026
@@ -1090,7 +1089,7 @@ void OpenGLCanvas::update()
         		//removed by Mike, 20210901; added by Mike, 20210921        
             myPilot->move(KEY_S);            
 
-/*
+
             //added by Mike, 20211025; removed by Mike, 20211025
 						//TO-DO: -update: to be based on iPangkatFormationCount
 						myRobotship->setYPos(myPilot->getY()-myPilot->getHeight());
@@ -1098,7 +1097,7 @@ void OpenGLCanvas::update()
 
 						//added by Mike, 20211025
 						myRobotship->setXPos(myPilot->getX());
-*/
+
 
             
 //removed by Mike, 20211025
@@ -1131,23 +1130,65 @@ void OpenGLCanvas::update()
             //added by Mike, 20210423
             myPilot->move(KEY_D);
 
-            
-/*						//added by Mike, 20211025; removed by Mike, 20211025
-						myRobotship->setXPos(myPilot->getX()-myPilot->getWidth());
-						myRobotship->move(KEY_D);
+/* //removed by Mike, 20211026            
+						//added by Mike, 20211025; removed by Mike, 20211025						
+						printf(">>>>>myPilot->getCurrentFacing(): %i",myPilot->getCurrentFacing());
+						
+						if (myPilot->getCurrentFacing()==FACING_LEFT) {
+							myRobotship->setXPos(myPilot->getX()); //+myPilot->getWidth());
+						}
+						else {
+							myRobotship->setXPos(myPilot->getX()-myPilot->getWidth());
+            }
 
-						//added by Mike, 20211025
-						myRobotship->setYPos(myPilot->getY());
+							myRobotship->move(KEY_D);
+	
+							//added by Mike, 20211025
+							myRobotship->setYPos(myPilot->getY());
 */
-            
 
- //removed by Mike, 20211025
+/*
+ //removed by Mike, 20211026
             //added by Mike, 20211025
             iArrayPilotKeyDownHistoryContainer[iPilotKeyDownCount]=KEY_D;
             iPilotKeyDownCount++;
 						if (iPilotKeyDownCount>=MAX_PILOT_KEY_DOWN_HISTORY) {
             	iPilotKeyDownCount=0;						
 						}
+*/						
+
+						//TO-DO: -update: when x position reaches right-most of Level map
+/*
+						if (myPilot->getX()+myPilot->getWidth()>=myLevel3D->getWidth()) {
+						}
+						else {						
+*/						
+								myRobotship->move(KEY_D);	
+
+								if (myPilot->getCurrentFacing()==FACING_LEFT) {
+										myRobotship->setXPos(myPilot->getX()+myPilot->getWidth());
+								}
+								else {
+								  if (myRobotship->getX()+myRobotship->getWidth() < myPilot->getX()) {
+										myRobotship->setXPos(myPilot->getX()-myRobotship->getWidth()-myRobotship->getStepX());
+								  }
+								  else {
+										myRobotship->setCurrentFacing(FACING_LEFT);
+
+										//TO-DO: -increase: LEFT movement when at left-most of canvas 
+									
+								  	myRobotship->move(KEY_A);	
+//								  	myRobotship->move(KEY_A);	
+								  }
+            		}
+/*            											
+						}
+*/            
+						//added by Mike, 20211025
+						myRobotship->setYPos(myPilot->getY());
+
+
+
 
 
 /*
@@ -1192,30 +1233,32 @@ void OpenGLCanvas::update()
         //edited by Mike, 20201014
         //else if(myKeysDown[KEY_A] == TRUE)
         if(myKeysDown[KEY_A] == TRUE)
-        {
-/* //removed by Mike, 20210825                
-            //added by Mike, 20201001
-            //edited by Mike, 20201115
-            //edited by Mike, 20210129
-            //            myRobotshipShip->move(KEY_LEFT);            
-            myRobotshipShip->move(KEY_A);
-*/            
+        {  
             //added by Mike, 20210423
             myPilot->move(KEY_A);
 
-/*
             //added by Mike, 20211025; removed by Mike, 20211025
 						if (myPilot->getX()<=0) {
 						}
-						else {
-							//TO-DO: -update: to be based on iPangkatFormationCount
-							myRobotship->setXPos(myPilot->getX()+myPilot->getWidth());
-							myRobotship->move(KEY_A);
+						else {						
+								  myRobotship->move(KEY_A);	
+
+								if (myPilot->getCurrentFacing()==FACING_RIGHT) {
+									myRobotship->setXPos(myPilot->getX()-myRobotship->getWidth());
+								}
+								else {
+								  if (myRobotship->getX() > myPilot->getX() +myPilot->getWidth() ) {
+										myRobotship->setXPos(myPilot->getX()+myPilot->getWidth()+myRobotship->getStepX());
+								  }
+								  else {
+										myRobotship->setCurrentFacing(FACING_RIGHT);
+								  	myRobotship->move(KEY_D);	
+								  }
+            		}												
 						}
             
 						//added by Mike, 20211025
 						myRobotship->setYPos(myPilot->getY());
-*/
             
             
 	//removed by Mike, 20211025
@@ -1710,6 +1753,7 @@ void OpenGLCanvas::update()
         }
 */
 
+/*
 //removed by Mike, 20211025; reuse to execute computer intelligence?
         //added by Mike, 20211025        
 //        printf(">>iPilotKeyDownCount: %i\n",iPilotKeyDownCount);
@@ -1733,11 +1777,11 @@ void OpenGLCanvas::update()
         }
         else {
 
-/*            //edited by Mike, 20211026
-            myRobotship->move(iArrayPilotKeyDownHistoryContainer[iPilotKeyDownCount-1]);
-            printf(">>value: %i; \n",iArrayPilotKeyDownHistoryContainer[iPilotKeyDownCount-1]);
-            iArrayPilotKeyDownHistoryContainer[iPilotKeyDownCount-1]=-1;
- */
+//           //edited by Mike, 20211026
+////            myRobotship->move(iArrayPilotKeyDownHistoryContainer[iPilotKeyDownCount-1]);
+////            printf(">>value: %i; \n",iArrayPilotKeyDownHistoryContainer[iPilotKeyDownCount-1]);
+////            iArrayPilotKeyDownHistoryContainer[iPilotKeyDownCount-1]=-1;
+
         //TO-DO: -reverify: this
             
 //            iDelayExecuteKeyDownMovementMax=myPilot->getStepX(); //note: reverify: using floating-point number
@@ -1753,7 +1797,7 @@ void OpenGLCanvas::update()
                 iDelayExecuteKeyDownMovement=0;
             }
         }
-        
+*/        
       
         //TO-DO: -update: to use container for collision detection; to include companions
         

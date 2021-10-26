@@ -418,6 +418,11 @@ public:
         currentFacingState=prevFacingState;
     }
     
+    //added by Mike, 20211026
+    void setCurrentFacing(int c) {
+        currentFacingState=c;
+    }
+        
     //added by Mike, 20210613
     virtual bool getIsMovingDown() {
         return bIsMovingDown;
