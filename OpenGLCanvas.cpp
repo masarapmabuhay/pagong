@@ -911,16 +911,41 @@ void OpenGLCanvas::render()
         myLevel3D->drawGrid();
     glPopMatrix();
 
-	//edited by Mike, 20210902
- 	glPushMatrix();
+/*
+    //due to Unit members near, facing up movement, causes Unit member#2's head to be overlapped by Unit member#1's feet
+    //note: draw last, Unit member #1 in sequence
+    //added by Mike, 20210902
+    glPushMatrix();
+        myRobotship->draw();
+    glPopMatrix();
+
+    //edited by Mike, 20210902
+    glPushMatrix();
 		myPilot->draw();
     glPopMatrix();
+ */
+    if (myPilot->getCurrentFacing()==FACING_UP) {
+        glPushMatrix();
+            myPilot->draw();
+        glPopMatrix();
+
+        glPushMatrix();
+            myRobotship->draw();
+        glPopMatrix();
+    }
+    else {
+        //note: draw last, Unit member #1 in sequence
+        //added by Mike, 20210902
+        glPushMatrix();
+            myRobotship->draw();
+        glPopMatrix();
+        
+        //edited by Mike, 20210902
+        glPushMatrix();
+            myPilot->draw();
+        glPopMatrix();
+    }
     
-    
-	//added by Mike, 20210902
- 	glPushMatrix();
-		myRobotship->draw();
-  glPopMatrix();    
 	
     //added by Mike, 20210903
     glPushMatrix();
@@ -995,6 +1020,88 @@ void OpenGLCanvas::update()
        	int iKeyCount;
        	for (iKeyCount=0; iKeyCount<iNumOfKeyTypes; iKeyCount++) {
             if (myKeysDown[iKeyCount]==TRUE) {
+                //added by Mike, 20211026
+                int iPrevPilotKeyDown=-1;
+                if (iPilotKeyDownCount-1<0) {
+                    iPrevPilotKeyDown=iArrayPilotKeyDownHistoryContainer[MAX_PILOT_KEY_DOWN_HISTORY-1];
+                }
+                else {
+                    iPrevPilotKeyDown=iArrayPilotKeyDownHistoryContainer[iPilotKeyDownCount-1];
+                }
+ 
+/* //horizontal, vertical position movement NOT yet OK
+                //note: Robo's distance notioceably near with Pilot
+                switch (iPrevPilotKeyDown) {
+                    case FACING_UP:
+                        myRobotship->setYPos(myPilot->getY()+myPilot->getHeight()*0.5f);
+                        myRobotship->setXPos(myPilot->getX());
+                        break;
+                    case FACING_DOWN:
+                        myRobotship->setYPos(myPilot->getY()-myRobotship->getHeight()*0.5f);
+                        myRobotship->setXPos(myPilot->getX());
+                        break;
+                    case FACING_LEFT:
+//                        myRobotship->setXPos(myPilot->getX()+myPilot->getWidth()+myRobotship->getStepX()*2);
+                        myRobotship->setXPos(myPilot->getX()-myRobotship->getWidth()*0.5f);//-myRobotship->getStepX());
+                        myRobotship->setYPos(myPilot->getY());
+                        break;
+                    case FACING_RIGHT:
+//                        myRobotship->setXPos(myPilot->getX()-myRobotship->getWidth()-myRobotship->getStepX()*2);
+                        myRobotship->setXPos(myPilot->getX()+myPilot->getWidth()*0.5f);//+myRobotship->getStepX());
+                        myRobotship->setYPos(myPilot->getY());
+                        break;
+                }
+*/
+
+                //TO-DO: -fix: movement when Canvas Position X NOT anymore zero
+                //TO-DO: -fix: movement when Canvas Position Y NOT anymore zero
+                //TO-DO: -verify: adding more Unit members, total 4+1...
+                
+                //note: Robo's distance notioceably near with Pilot
+                switch (iPrevPilotKeyDown) {
+                    case FACING_UP:
+                        if ((myRobotship->getCurrentFacing()==FACING_LEFT) || (myRobotship->getCurrentFacing()==FACING_RIGHT)) {
+                            myRobotship->setYPos(myPilot->getY());
+                        }
+                        else {
+                            myRobotship->setYPos(myPilot->getY()+myPilot->getHeight()*0.5f);
+                        }
+                        myRobotship->setXPos(myPilot->getX());
+                        break;
+                    case FACING_DOWN:
+                        if ((myRobotship->getCurrentFacing()==FACING_LEFT) || (myRobotship->getCurrentFacing()==FACING_RIGHT)) {
+                            myRobotship->setYPos(myPilot->getY());
+                        }
+                        else {
+                            myRobotship->setYPos(myPilot->getY()-myRobotship->getHeight()*0.5f);
+                        }
+                        myRobotship->setXPos(myPilot->getX());
+                        break;
+                    case FACING_LEFT:
+                        if ((myRobotship->getCurrentFacing()==FACING_UP) || (myRobotship->getCurrentFacing()==FACING_DOWN)) {
+                            myRobotship->setXPos(myPilot->getX());
+                        }
+                        else {
+                            myRobotship->setXPos(myPilot->getX()-myRobotship->getWidth()*0.5f);
+                        }
+                        myRobotship->setYPos(myPilot->getY());
+                        break;
+                    case FACING_RIGHT:
+                        if ((myRobotship->getCurrentFacing()==FACING_UP) || (myRobotship->getCurrentFacing()==FACING_DOWN)) {
+                            myRobotship->setXPos(myPilot->getX());
+                        }
+                        else {
+                            myRobotship->setXPos(myPilot->getX()+myPilot->getWidth()*0.5f);
+                        }
+                        myRobotship->setYPos(myPilot->getY());
+                        break;
+                }
+                
+                
+                //note: -1 default value; no directional movement
+                myRobotship->move(iPrevPilotKeyDown);
+                //                myRobotship->move(iPrevPilotKeyDown);
+
                 break;
             }
         }
@@ -1069,7 +1176,7 @@ void OpenGLCanvas::update()
 							}	
 						}
 */						
-            //added by Mike, 20211025
+            /* //removed by Mike, 20211026
 						if (myPilot->getY()<=0) {
 						}
 						else {
@@ -1094,9 +1201,8 @@ void OpenGLCanvas::update()
 						}
       
 						myRobotship->setXPos(myPilot->getX());
-
+*/
             
- //removed by Mike, 20211026
             //added by Mike, 20211025
             iArrayPilotKeyDownHistoryContainer[iPilotKeyDownCount]=KEY_W;
             iPilotKeyDownCount++;
@@ -1124,7 +1230,7 @@ void OpenGLCanvas::update()
         		//removed by Mike, 20210901; added by Mike, 20210921        
             myPilot->move(KEY_S);            
 
-
+            /* //removed by Mike, 20211026
             //added by Mike, 20211025; removed by Mike, 20211025
 						//TO-DO: -update: to be based on iPangkatFormationCount
 						myRobotship->setYPos(myPilot->getY()-myPilot->getHeight());
@@ -1132,10 +1238,7 @@ void OpenGLCanvas::update()
 
 						//added by Mike, 20211025
 						myRobotship->setXPos(myPilot->getX());
-
-
-            
-//removed by Mike, 20211025
+*/
             //added by Mike, 20211025
             iArrayPilotKeyDownHistoryContainer[iPilotKeyDownCount]=KEY_S;
             iPilotKeyDownCount++;
@@ -1182,22 +1285,20 @@ void OpenGLCanvas::update()
 							myRobotship->setYPos(myPilot->getY());
 */
 
-/*
- //removed by Mike, 20211026
             //added by Mike, 20211025
             iArrayPilotKeyDownHistoryContainer[iPilotKeyDownCount]=KEY_D;
             iPilotKeyDownCount++;
 						if (iPilotKeyDownCount>=MAX_PILOT_KEY_DOWN_HISTORY) {
             	iPilotKeyDownCount=0;						
 						}
-*/						
 
 						//TO-DO: -update: when x position reaches right-most of Level map
 /*
 						if (myPilot->getX()+myPilot->getWidth()>=myLevel3D->getWidth()) {
 						}
 						else {						
-*/						
+*/
+/* //removed by Mike, 20211026
 								myRobotship->move(KEY_D);	
 
 								if (myPilot->getCurrentFacing()==FACING_LEFT) {
@@ -1216,12 +1317,12 @@ void OpenGLCanvas::update()
 //								  	myRobotship->move(KEY_A);	
 								  }
             		}
-/*            											
-						}
-*/            
+ 
+//						}
+        
 						//added by Mike, 20211025
 						myRobotship->setYPos(myPilot->getY());
-
+*/
 
 
 
@@ -1272,6 +1373,7 @@ void OpenGLCanvas::update()
             //added by Mike, 20210423
             myPilot->move(KEY_A);
 
+/* //removed by Mike, 20211026
             //added by Mike, 20211025; removed by Mike, 20211025
 						if (myPilot->getX()<=0) {
 						}
@@ -1294,16 +1396,27 @@ void OpenGLCanvas::update()
             
 						//added by Mike, 20211025
 						myRobotship->setYPos(myPilot->getY());
-            
-            
-	//removed by Mike, 20211025
+*/
+/*
+            //added by Mike, 20211026
+            int iPrevPilotKeyDown=-1;
+            if (iPilotKeyDownCount-1<0) {
+                iPrevPilotKeyDown=iArrayPilotKeyDownHistoryContainer[MAX_PILOT_KEY_DOWN_HISTORY-1];
+            }
+            else {
+                iPrevPilotKeyDown=iArrayPilotKeyDownHistoryContainer[iPilotKeyDownCount-1];
+            }
+            //note: -1 default value; no directional movement
+            myRobotship->move(iPrevPilotKeyDown);
+*/
             //added by Mike, 20211025
             iArrayPilotKeyDownHistoryContainer[iPilotKeyDownCount]=KEY_A;
             iPilotKeyDownCount++;
-						if (iPilotKeyDownCount>=MAX_PILOT_KEY_DOWN_HISTORY) {
+            if (iPilotKeyDownCount>=MAX_PILOT_KEY_DOWN_HISTORY) {
             	iPilotKeyDownCount=0;						
-						}                   
+			}
 
+            
 
 /*	//edited by Mike, 20210910
 						//added by Mike, 20210910            
