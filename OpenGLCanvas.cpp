@@ -1045,21 +1045,56 @@ void OpenGLCanvas::update()
         if (myKeysDown[KEY_W] == TRUE)
         {
         		//removed by Mike, 20210901; added by Mike, 20210921
-            myPilot->move(KEY_W);       
+            myPilot->move(KEY_W);
 
-
+/* 	//TO-DO: -update: this
             //added by Mike, 20211025; removed by Mike, 20211025
 						if (myPilot->getY()<=0) {
 						}
 						else {
 							//TO-DO: -update: to be based on iPangkatFormationCount
-							myRobotship->setYPos(myPilot->getY()+myPilot->getHeight());
-							myRobotship->move(KEY_W);	
+//							myRobotship->setYPos(myPilot->getY()+myPilot->getHeight());
 							
-							//added by Mike, 20211025
-							myRobotship->setXPos(myPilot->getX());
+							if (myPilot->getCurrentFacing()==FACING_DOWN) {
+//									myRobotship->setYPos(myPilot->getY());
+//									myRobotship->setYPos(myPilot->getY()-myPilot->getHeight());
+//									myRobotship->setCurrentFacing(FACING_DOWN);									
+							}
+							else {							
+								myRobotship->move(KEY_S);	
+
+								if (myRobotship->getY() >= myPilot->getY()+myPilot->getHeight()) {
+									myRobotship->setYPos(myPilot->getY()+myPilot->getHeight());
+								}
+							}	
 						}
-            
+*/						
+            //added by Mike, 20211025
+						if (myPilot->getY()<=0) {
+						}
+						else {
+							//TO-DO: -update: to be based on iPangkatFormationCount
+//							myRobotship->setYPos(myPilot->getY()+myPilot->getHeight());
+							
+							if (myRobotship->getCurrentFacing()==FACING_DOWN) {
+									myRobotship->setYPos(myPilot->getY());
+									myRobotship->setCurrentFacing(FACING_UP);			
+							}
+							else {							
+//								myRobotship->setYPos(myPilot->getY());
+
+//								myRobotship->move(KEY_S);	
+//								myRobotship->move(KEY_W);	
+
+								if (myRobotship->getY() > myPilot->getY()+myPilot->getHeight()) {
+									myRobotship->setYPos(myPilot->getY()+myPilot->getHeight());
+									myRobotship->move(KEY_W);	
+								}
+							}	
+						}
+      
+						myRobotship->setXPos(myPilot->getX());
+
             
  //removed by Mike, 20211026
             //added by Mike, 20211025
