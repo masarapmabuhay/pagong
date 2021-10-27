@@ -1163,7 +1163,7 @@ printf(">>>myRobotshipContainer[%i]'s iPrevPilotKeyDownContainer[%i]: %i\n",iInd
 
                 //note: Robo's distance notioceably near with Pilot
                 switch (iPrevPilotKeyDownContainer[iIndexCount]) {
-                    case FACING_UP:
+                    case KEY_W://FACING_UP:
 /*                    
                         if ((myRobotshipContainer[iIndexCount]->getCurrentFacing()==FACING_LEFT) || (myRobotshipContainer[iIndexCount]->getCurrentFacing()==FACING_RIGHT)) {
                             myRobotshipContainer[iIndexCount]->setYPos(myPilot->getY());
@@ -1174,7 +1174,7 @@ printf(">>>myRobotshipContainer[%i]'s iPrevPilotKeyDownContainer[%i]: %i\n",iInd
                         myRobotshipContainer[iIndexCount]->setXPos(myPilot->getX());
 */                        
                         break;
-                    case FACING_DOWN:
+                    case KEY_S: //FACING_DOWN:
 /*                    
                         if ((myRobotshipContainer[iIndexCount]->getCurrentFacing()==FACING_LEFT) || (myRobotshipContainer[iIndexCount]->getCurrentFacing()==FACING_RIGHT)) {
                             myRobotshipContainer[iIndexCount]->setYPos(myPilot->getY());
@@ -1185,7 +1185,7 @@ printf(">>>myRobotshipContainer[%i]'s iPrevPilotKeyDownContainer[%i]: %i\n",iInd
                         myRobotshipContainer[iIndexCount]->setXPos(myPilot->getX());
 */                        
                         break;
-                    case FACING_LEFT:
+                    case KEY_A: //FACING_LEFT:
 /*                    
                         if ((myRobotshipContainer[iIndexCount]->getCurrentFacing()==FACING_UP) || (myRobotshipContainer[iIndexCount]->getCurrentFacing()==FACING_DOWN)) {
                             myRobotshipContainer[iIndexCount]->setXPos(myPilot->getX());
@@ -1196,7 +1196,7 @@ printf(">>>myRobotshipContainer[%i]'s iPrevPilotKeyDownContainer[%i]: %i\n",iInd
                         myRobotshipContainer[iIndexCount]->setYPos(myPilot->getY());
 */                        
                         break;
-                    case FACING_RIGHT:                                        
+                    case KEY_D: //FACING_RIGHT:                                        
 /*                    
                         if ((myRobotshipContainer[iIndexCount]->getCurrentFacing()==FACING_UP) || (myRobotshipContainer[iIndexCount]->getCurrentFacing()==FACING_DOWN)) {
                             myRobotshipContainer[iIndexCount]->setXPos(myPilot->getX());
@@ -1206,6 +1206,8 @@ printf(">>>myRobotshipContainer[%i]'s iPrevPilotKeyDownContainer[%i]: %i\n",iInd
                         }
                         myRobotshipContainer[iIndexCount]->setYPos(myPilot->getY());
 */                        
+
+printf(">>DITO\n");
 
 											myRobotshipContainer[iIndexCount]->setXPos(myPilot->getX()+myPilot->getWidth()*0.2f-myRobotshipContainer[iIndexCount]->getWidth()*0.8f*(iIndexCount+1));
 
@@ -1217,9 +1219,16 @@ printf(">>>myRobotshipContainer[%i]'s iPrevPilotKeyDownContainer[%i]: %i\n",iInd
 
                         break;
                 }
-
+/*
+								//edited by Mike, 20211027
                 //note: -1 default value; no directional movement
                 myRobotshipContainer[iIndexCount]->move(iPrevPilotKeyDownContainer[iIndexCount]);
+*/
+								if ((iPrevPilotKeyDownContainer[iIndexCount]>=0) && (iPrevPilotKeyDownContainer[iIndexCount]<MAX_ROBOTSHIP_COUNT)) {
+                	//note: -1 default value; no directional movement
+                	myRobotshipContainer[iIndexCount]->move(iPrevPilotKeyDownContainer[iIndexCount]);	
+								}
+
             }
 
                 break;
