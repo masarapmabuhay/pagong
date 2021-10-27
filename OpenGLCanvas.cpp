@@ -488,11 +488,16 @@ bool OpenGLCanvas::init(int myWindowWidthAsPixelInput, int myWindowHeightAsPixel
     myPilot->setLevel2D(myLevel2D);
     myPilot->setLevel3D(myLevel3D);
     
+    //added by Mike, 20211027
+    myPilot->setCurrentFacing(FACING_RIGHT);
+    
     //added by Mike, 20211025
 		for(int iCount=0; iCount<MAX_PILOT_KEY_DOWN_HISTORY; iCount++) {
 			iArrayPilotKeyDownHistoryContainer[iCount]=-1;
 		}    
     iPilotKeyDownCount=0;
+    
+    
     
 /* //edited by Mike, 20211027
 		//added by Mike, 20211025
@@ -512,8 +517,12 @@ bool OpenGLCanvas::init(int myWindowWidthAsPixelInput, int myWindowHeightAsPixel
         
         myRobotshipContainer[iCount]->setLevel2D(myLevel2D);
         myRobotshipContainer[iCount]->setLevel3D(myLevel3D);
-    }
-    
+
+				//added by Mike, 20211027
+        myRobotshipContainer[iCount]->setCurrentFacing(myPilot->getCurrentFacing());
+                
+        iPrevPilotKeyDownContainer[iCount]=-1;        
+    }      
     
     //added by Mike, 20210911; edited by Mike, 20210929
     myLevel2D->setPilotStep(myPilot->getStepX(), myPilot->getStepY(), myPilot->getStepZ());
@@ -1131,14 +1140,20 @@ void OpenGLCanvas::update()
                 }
 */
 
+printf(">>>KEY DOWN = TRUE\n");
+
             int iIndexCount=0;                
             for(iIndexCount=0; iIndexCount<MAX_ROBOTSHIP_COUNT; iIndexCount++) {
                 if (iPilotKeyDownCount-(1-iIndexCount)<0) {
                     iPrevPilotKeyDownContainer[iIndexCount]=iArrayPilotKeyDownHistoryContainer[MAX_PILOT_KEY_DOWN_HISTORY-1-iIndexCount];
                 }
                 else {
+                    //iPrevPilotKeyDownContainer[iIndexCount]=-1;
                     iPrevPilotKeyDownContainer[iIndexCount]=iArrayPilotKeyDownHistoryContainer[iPilotKeyDownCount-1-iIndexCount];
                 }
+                
+                
+printf(">>>myRobotshipContainer[%i]'s iPrevPilotKeyDownContainer[%i]: %i\n",iIndexCount,iPilotKeyDownCount-1-iIndexCount,iPrevPilotKeyDownContainer[iIndexCount]);                
  
                 //TO-DO: -fix: movement when Canvas Position X NOT anymore zero
                 //TO-DO: -fix: movement when Canvas Position Y NOT anymore zero
@@ -1181,7 +1196,7 @@ void OpenGLCanvas::update()
                         myRobotshipContainer[iIndexCount]->setYPos(myPilot->getY());
 */                        
                         break;
-                    case FACING_RIGHT:
+                    case FACING_RIGHT:                                        
 /*                    
                         if ((myRobotshipContainer[iIndexCount]->getCurrentFacing()==FACING_UP) || (myRobotshipContainer[iIndexCount]->getCurrentFacing()==FACING_DOWN)) {
                             myRobotshipContainer[iIndexCount]->setXPos(myPilot->getX());
@@ -1191,7 +1206,15 @@ void OpenGLCanvas::update()
                         }
                         myRobotshipContainer[iIndexCount]->setYPos(myPilot->getY());
 */                        
-//												myRobotshipContainer[iIndexCount]->setXPos(myPilot->getX()+myPilot->getWidth()*0.5f-myRobotshipContainer[iIndexCount]->getWidth()*0.5f*(iIndexCount+1));
+
+											myRobotshipContainer[iIndexCount]->setXPos(myPilot->getX()+myPilot->getWidth()*0.2f-myRobotshipContainer[iIndexCount]->getWidth()*0.8f*(iIndexCount+1));
+
+
+//											myRobotshipContainer[iIndexCount]->setXPos(myPilot->getX()-myRobotshipContainer[iIndexCount]->getWidth()*0.8f*(iIndexCount+1));
+
+//												myRobotshipContainer[iIndexCount]->setXPos(myPilot->getX()+myPilot->getWidth()*0.5f-myRobotshipContainer[iIndexCount]->getWidth()*(iIndexCount+1));
+
+
                         break;
                 }
 
@@ -1372,6 +1395,9 @@ void OpenGLCanvas::update()
 */                        
             //added by Mike, 20210423
             myPilot->move(KEY_D);
+            
+//            printf(">>KEY_D\n");
+            
 
 /* //removed by Mike, 20211026            
 						//added by Mike, 20211025; removed by Mike, 20211025						
