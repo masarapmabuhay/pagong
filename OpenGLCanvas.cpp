@@ -1143,7 +1143,10 @@ void OpenGLCanvas::update()
 printf(">>>KEY DOWN = TRUE\n");
 
             int iIndexCount=0;                
-            for(iIndexCount=0; iIndexCount<MAX_ROBOTSHIP_COUNT; iIndexCount++) {
+            int iCurrentMaxUnitMemberCount=MAX_ROBOTSHIP_COUNT; //1;
+//            for(iIndexCount=0; iIndexCount<MAX_ROBOTSHIP_COUNT; iIndexCount++) {
+            for(iIndexCount=0; iIndexCount<iCurrentMaxUnitMemberCount; iIndexCount++) {
+
                 if (iPilotKeyDownCount-(1-iIndexCount)<0) {
                     iPrevPilotKeyDownContainer[iIndexCount]=iArrayPilotKeyDownHistoryContainer[MAX_PILOT_KEY_DOWN_HISTORY-1-iIndexCount];
                 }
@@ -1195,8 +1198,52 @@ printf(">>>myRobotshipContainer[%i]'s iPrevPilotKeyDownContainer[%i]: %i\n",iInd
                         }
                         myRobotshipContainer[iIndexCount]->setYPos(myPilot->getY());
 */                        
-											myRobotshipContainer[iIndexCount]->setXPos(myPilot->getX()-myPilot->getWidth()*0.2f+myRobotshipContainer[iIndexCount]->getWidth()*0.8f*(iIndexCount+1));
+													//edited by Mike, 20211027
+//											myRobotshipContainer[iIndexCount]->setXPos(myPilot->getX()-myPilot->getWidth()*0.2f+myRobotshipContainer[iIndexCount]->getWidth()*0.8f*(iIndexCount+1));
 
+												//verify previous Unit member's position based on Pilot's previous key down history
+/* //buggy												
+												if ((iIndexCount>0) && (iIndexCount<MAX_PILOT_KEY_DOWN_HISTORY) && (iPrevPilotKeyDownContainer[iIndexCount+1]!=KEY_A)) {
+												
+printf(">>HALLO\n");												
+												
+													myRobotshipContainer[iIndexCount]->setXPos(myPilot->getX()-myPilot->getWidth()*0.2f-myRobotshipContainer[iIndexCount]->getWidth()*0.8f*(iIndexCount));													
+												}
+												else {
+													myRobotshipContainer[iIndexCount]->setXPos(myPilot->getX()-myPilot->getWidth()*0.2f+myRobotshipContainer[iIndexCount]->getWidth()*0.8f*(iIndexCount+1));
+												}
+*/												
+
+												myRobotshipContainer[iIndexCount]->setXPos(myPilot->getX()-myPilot->getWidth()*0.2f+myRobotshipContainer[iIndexCount]->getWidth()*0.8f*(iIndexCount+1));
+
+
+/* //TO-DO: -reverify: this; move each Unit member still at left of Unit Chief 
+	//nearer to Unit Chief's left
+												if (iIndexCount>0) {												
+printf(">>1\n");												
+													//if still at left side of Unit Chief, e.g. Pilot
+													if (myRobotshipContainer[iIndexCount-1]->getX()+myRobotshipContainer[iIndexCount-1]->getWidth() < myPilot->getX()-myPilot->getWidth()*0.2f) {
+printf(">>2\n");												
+
+											myRobotshipContainer[iIndexCount-1]->setXPos(myPilot->getX()+myPilot->getWidth()*0.2f-myRobotshipContainer[iIndexCount-1]->getWidth()*0.8f*(iIndexCount));
+													}
+												}
+*/
+
+
+/* //NOT YET OK
+													myRobotshipContainer[iIndexCount]->setXPos(myPilot->getX()-myPilot->getWidth()*0.2f+myRobotshipContainer[iIndexCount]->getWidth()*0.8f*(iIndexCount+1));
+
+												//move the remaining Unit members
+												for (int iUnitMemberCount=(iIndexCount+1); iUnitMemberCount<MAX_ROBOTSHIP_COUNT; iUnitMemberCount++) {
+											
+											printf(">>>>>>>>>>> LOOB\n");	
+												
+//													myRobotshipContainer[iUnitMemberCount]->setXPos(myPilot->getX()+myPilot->getWidth()*0.2f-myRobotshipContainer[iUnitMemberCount]->getWidth()*0.4f*(iUnitMemberCount-1));
+													myRobotshipContainer[iUnitMemberCount]->setXPos(myPilot->getX()+myPilot->getWidth()*0.2f);
+
+												}
+*/												
                         break;
                     case KEY_D: //FACING_RIGHT:                                        
 /*                    
