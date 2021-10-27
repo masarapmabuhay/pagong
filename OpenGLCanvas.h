@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20200929
- * @date updated: 20211026
+ * @date updated: 20211027
  * @website address: http://www.usbong.ph
  *
  * Acknowledgments:
@@ -166,6 +166,9 @@
 //added by Mike, 20211025
 #define MAX_PILOT_KEY_DOWN_HISTORY 100 //5
 
+//added by Mike, 20211027
+#define MAX_ROBOTSHIP_COUNT 3
+
 //added by Mike, 20210827
 class Level2D;
 
@@ -215,6 +218,11 @@ private:
         
     Pilot *myPilot;
     Robotship *myRobotship; //added by Mike, 20211025
+
+    Robotship *myRobotshipContainer[MAX_ROBOTSHIP_COUNT]; //added by Mike, 20211025
+    //added by Mike, 20211027
+    int iPrevPilotKeyDownContainer[MAX_ROBOTSHIP_COUNT];
+    
     
     Text *myText; //added by Mike, 20210902
     
