@@ -1199,36 +1199,75 @@ printf(">>>myRobotshipContainer[%i]'s iPrevPilotKeyDownContainer[%i]: %i\n",iInd
                         myRobotshipContainer[iIndexCount]->setYPos(myPilot->getY());
 */                        
 
+/* //OK; shifting of Unit member at Unit Chief's left side NOT yet
 myRobotshipContainer[iIndexCount]->setXPos(myPilot->getX()+myPilot->getWidth()*0.6f+myRobotshipContainer[iIndexCount]->getWidth()*0.8f*(iIndexCount));
+*/
 
+											//identify if current Unit member still to the LEFT of Unit Chief
+												//identify if current Unit member immediately to the LEFT of Unit Chief
+												//--> move to the RIGHT of Unit Chief based on index
+												//else
+												//--> move 1 tile to the RIGHT, but still LEFT of Unit Chief
+											//else
+											//--> move to the RIGHT of Unit Chief based on index
+											
+											if (myRobotshipContainer[iIndexCount]->getX()+myRobotshipContainer[iIndexCount]->getWidth() < myPilot->getX()) {
+//												if (myRobotshipContainer[iIndexCount]->getX()+myRobotshipContainer[iIndexCount]->getWidth() -myRobotshipContainer[iIndexCount]->getStepX()*4 < myPilot->getX()) {
+										
+										printf(">>>>>\n");
+										
+												//intersection
+//												if (myRobotshipContainer[iIndexCount]->getX()+myRobotshipContainer[iIndexCount]->getWidth()+myRobotshipContainer[iIndexCount]->getStepX()>=myPilot->getX()) {
+												if (myRobotshipContainer[iIndexCount]->getX()+myRobotshipContainer[iIndexCount]->getWidth()>=myPilot->getX()) {
+//												if (myRobotshipContainer[iIndexCount]->getX()+myRobotshipContainer[iIndexCount]->getWidth()+myRobotshipContainer[iIndexCount]->getStepX()*4>=myPilot->getX()) {
 
-/*
-//TO-DO: -reverify: this; move each Unit member still at left of Unit Chief 
-
-											//verify if current Unit member's position is already to the right of Unit Chief
-											if (myRobotshipContainer[iIndexCount]->getX() > myPilot->getX()+myPilot->getWidth()*0.2f)
-											{
-												//put to the right of Unit Chief
-												myRobotshipContainer[iIndexCount]->setXPos(myPilot->getX()+myPilot->getWidth()*0.6f+myRobotshipContainer[iIndexCount]->getWidth()*0.8f*(iIndexCount));																				
+													//--> move to the RIGHT of Unit Chief based on index
+													myRobotshipContainer[iIndexCount]->setXPos(myPilot->getX()+myPilot->getWidth()*0.6f+myRobotshipContainer[iIndexCount]->getWidth()*0.8f*(iIndexCount));	
+												}
+												//--> move 1 tile to the RIGHT, but still LEFT of Unit Chief
+												else {
+													myRobotshipContainer[iIndexCount]->setXPos(myRobotshipContainer[iIndexCount]->getX()+myRobotshipContainer[iIndexCount]->getWidth()*0.8f*(iIndexCount)); //1
+													//myRobotshipContainer[iIndexCount]->setXPos(myRobotshipContainer[iIndexCount]->getX()+myRobotshipContainer[iIndexCount]->getWidth()*0.8f*(iIndexCount)+myRobotshipContainer[iIndexCount]->getStepX()); //1
+													
+													printf(">>DITO\n");													
+												}
 											}
 											else {
-													if (iIndexCount==0) {
-															//put to the right of Unit Chief
-															myRobotshipContainer[iIndexCount]->setXPos(myPilot->getX()+myPilot->getWidth()*0.6f+myRobotshipContainer[iIndexCount]->getWidth()*0.8f*(iIndexCount));			
+													printf(">>HALLO\n");													
+
+												myRobotshipContainer[iIndexCount]->setXPos(myPilot->getX()+myPilot->getWidth()*0.6f+myRobotshipContainer[iIndexCount]->getWidth()*0.8f*(iIndexCount));
+
+/*												
+												//added by Mike, 20211028
+												if (iIndexCount==0) { //first to change; from key RIGHT to LEFT
+													//next Unit member, if exists
+													//--> move 1 tile to the RIGHT, but still LEFT of Unit Chief
+													if (MAX_ROBOTSHIP_COUNT>1) {
+													
+													printf(">>>>2\n");													
+													
+														myRobotshipContainer[iIndexCount+1]->setXPos(myRobotshipContainer[iIndexCount+1]->getX()+myRobotshipContainer[iIndexCount+1]->getWidth()*0.8f*(iIndexCount+1));
 													}
-													else if (iIndexCount>0) {
-														//verify if previous Unit member's position is to the right of Unit Chief
-														if (myRobotshipContainer[iIndexCount-1]->getX() > myPilot->getX()+myPilot->getWidth()*0.2f) {									
-															//put nearer to the left of Unit Chief					
-															myRobotshipContainer[iIndexCount]->setXPos(myPilot->getX()+myPilot->getWidth()*0.2f-myRobotshipContainer[iIndexCount]->getWidth()*0.8f*(iIndexCount-1));
+												}												
+*/
+
+													if (iIndexCount==0) { //first to change; from key RIGHT to LEFT
+														//next Unit member, if exists
+														//--> move 1 tile to the RIGHT, but still LEFT of Unit Chief
+														for (int iCount=1; iCount<MAX_ROBOTSHIP_COUNT; iCount++) {														
+															//if Unit Member is changing direction to move from RIGHT to LEFT
+															if (iPrevPilotKeyDownContainer[iCount]==KEY_D) {			
+														printf(">>>>2\n");														
+
+//																myRobotshipContainer[iIndexCount+iCount]->setXPos(myRobotshipContainer[iIndexCount+iCount]->getX()+myRobotshipContainer[iIndexCount+iCount]->getWidth()*0.8f/4.0f*(iIndexCount+iCount));
+
+																myRobotshipContainer[iIndexCount+iCount]->setXPos(myRobotshipContainer[iIndexCount+iCount]->getX()+myRobotshipContainer[iIndexCount+iCount]->getWidth()/3.5f*(iIndexCount+iCount+1));
+																}
 														}
-														else {														
-															//put to the right of Unit Chief
-															myRobotshipContainer[iIndexCount]->setXPos(myPilot->getX()+myPilot->getWidth()*0.6f+myRobotshipContainer[iIndexCount]->getWidth()*0.8f*(iIndexCount));			
-														}																																	
-													}								
+													}																												
+//												}
+												
 											}
-*/	
                         break;
                     case KEY_D: //FACING_RIGHT:                                        
 /*                    
@@ -1242,8 +1281,16 @@ myRobotshipContainer[iIndexCount]->setXPos(myPilot->getX()+myPilot->getWidth()*0
 */                        
 
 //printf(">>DITO\n");
+											//edited by Mike, 20211028
+//											myRobotshipContainer[iIndexCount]->setXPos(myPilot->getX()+myPilot->getWidth()*0.2f-myRobotshipContainer[iIndexCount]->getWidth()*0.8f*(iIndexCount+1));
+												
+												//if Unit Member#1 changed direction to move to the LEFT
+												if (iPrevPilotKeyDownContainer[0]==KEY_A) {													
+												}
+												else {
+													myRobotshipContainer[iIndexCount]->setXPos(myPilot->getX()+myPilot->getWidth()*0.2f-myRobotshipContainer[iIndexCount]->getWidth()*0.8f*(iIndexCount+1));
+												}
 
-											myRobotshipContainer[iIndexCount]->setXPos(myPilot->getX()+myPilot->getWidth()*0.2f-myRobotshipContainer[iIndexCount]->getWidth()*0.8f*(iIndexCount+1));
                         break;
                 }
 
