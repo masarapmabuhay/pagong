@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20200926
- * @date updated: 20211028
+ * @date updated: 20211029
  * @website address: http://www.usbong.ph
  *
  * References:
@@ -1233,9 +1233,13 @@ myRobotshipContainer[iIndexCount]->setXPos(myPilot->getX()+myPilot->getWidth()*0
 												}
 											}
 											else {
-													printf(">>HALLO\n");													
-
+													printf(">>HALLO\n");		
+																								
+												//edited by Mike, 20211029
 												myRobotshipContainer[iIndexCount]->setXPos(myPilot->getX()+myPilot->getWidth()*0.6f+myRobotshipContainer[iIndexCount]->getWidth()*0.8f*(iIndexCount));
+
+//												myRobotshipContainer[iIndexCount]->setXPos(myPilot->getX()+myPilot->getWidth()*0.8f+myRobotshipContainer[iIndexCount]->getWidth()*0.8f*(iIndexCount));
+
 
 /*												
 												//added by Mike, 20211028
@@ -1261,7 +1265,10 @@ myRobotshipContainer[iIndexCount]->setXPos(myPilot->getX()+myPilot->getWidth()*0
 
 //																myRobotshipContainer[iIndexCount+iCount]->setXPos(myRobotshipContainer[iIndexCount+iCount]->getX()+myRobotshipContainer[iIndexCount+iCount]->getWidth()*0.8f/4.0f*(iIndexCount+iCount));
 
+																//edited by Mike, 20211029
 																myRobotshipContainer[iIndexCount+iCount]->setXPos(myRobotshipContainer[iIndexCount+iCount]->getX()+myRobotshipContainer[iIndexCount+iCount]->getWidth()/3.5f*(iIndexCount+iCount+1));
+																//myRobotshipContainer[iIndexCount+iCount]->setXPos(myRobotshipContainer[iIndexCount+iCount]->getX()+myRobotshipContainer[iIndexCount+iCount]->getWidth()/3.6f*(iIndexCount+iCount+1));
+
 																}
 														}
 													}																												
@@ -1288,7 +1295,14 @@ myRobotshipContainer[iIndexCount]->setXPos(myPilot->getX()+myPilot->getWidth()*0
 												if (iPrevPilotKeyDownContainer[0]==KEY_A) {													
 												}
 												else {
-													myRobotshipContainer[iIndexCount]->setXPos(myPilot->getX()+myPilot->getWidth()*0.2f-myRobotshipContainer[iIndexCount]->getWidth()*0.8f*(iIndexCount+1));
+													//edited by Mike, 20211029
+//													myRobotshipContainer[iIndexCount]->setXPos(myPilot->getX()+myPilot->getWidth()*0.2f-myRobotshipContainer[iIndexCount]->getWidth()*0.8f*(iIndexCount+1));
+//													myRobotshipContainer[iIndexCount]->setXPos(myPilot->getX()+myPilot->getStepX()/2.0f-myRobotshipContainer[iIndexCount]->getWidth()*0.8f*(iIndexCount+1));
+
+													//TO-DO: -reverify: noticeable movement to be nearer Unit Chief when half of window reached
+
+													myRobotshipContainer[iIndexCount]->setXPos(myPilot->getX()-myRobotshipContainer[iIndexCount]->getWidth()*0.8f*(iIndexCount+1));
+
 												}
 
                         break;

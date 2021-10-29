@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B. 
  * @date created: 20200930
- * @date updated: 20211026
+ * @date updated: 20211029
  * @website address: http://www.usbong.ph
  *
  * Reference: 
@@ -3861,84 +3861,101 @@ void Robotship::move(int key)
 	}
 */
 		
-		//TO-DO: -delete: excess instructions; OpenGLCanvas.cpp, Level2D.cpp, Pilot.cpp
-    //TO-DO: -reverify: this; incorrect output when with as input DASH Command
-		//TO-DO: -update: if received as input DASH Command
-		//edited by Mike, 20210923
-//		if (myLevel3D->getFMyCanvasPosX()-fGridSquareWidth<=0) {
-		//edited by Mike, 20210923
-//		if (myLevel3D->getFMyCanvasPosX()<=0) {
-		//edited by Mike, 20210924
-//		if (myLevel3D->getFMyCanvasPosX()<0) {
-		if (myXPos<0) {	
-						//added by Mike, 20210923
-            myXPos=0;
-    }
-		//edited by Mike, 20210923
-		//TO-DO: -reverify: this
-		else if (myLevel3D->getFMyCanvasPosX()<(fMyWindowWidth/2-getWidth())) {
-//			printf(">>>>Pilot myXPos: %f",myXPos); 
-				if ((currentFacingState==FACING_LEFT) &&
-						(currentMovingState==WALKING_MOVING_STATE)) {
-  						//TO-DO: -reverify: this due to still has excess acceleration        
-							myXPos=myXPos+stepX/2;
-				}
-				else {
-        	if (myXPos<(fMyWindowWidth/2-getWidth())) {
+		//edited by Mike, 20211029
+		//TO-DO: -add: bIsPlayer1 container in MyDynamicObject.h
+		if (bIsPlayer1) {
+			
+			//TO-DO: -delete: excess instructions; OpenGLCanvas.cpp, Level2D.cpp, Pilot.cpp
+    	//TO-DO: -reverify: this; incorrect output when with as input DASH Command
+			//TO-DO: -update: if received as input DASH Command
+			//edited by Mike, 20210923
+	//		if (myLevel3D->getFMyCanvasPosX()-fGridSquareWidth<=0) {
+			//edited by Mike, 20210923
+	//		if (myLevel3D->getFMyCanvasPosX()<=0) {
+			//edited by Mike, 20210924
+	//		if (myLevel3D->getFMyCanvasPosX()<0) {
+			if (myXPos<0) {	
+							//added by Mike, 20210923
+            	myXPos=0;
+    	}
+			//edited by Mike, 20210923
+			//TO-DO: -reverify: this
+			else if (myLevel3D->getFMyCanvasPosX()<(fMyWindowWidth/2-getWidth())) {
+	//			printf(">>>>Pilot myXPos: %f",myXPos); 
+					if ((currentFacingState==FACING_LEFT) &&
+							(currentMovingState==WALKING_MOVING_STATE)) {
+  							//TO-DO: -reverify: this due to still has excess acceleration        
+								myXPos=myXPos+stepX/2;
 					}
 					else {
-							//edited by Mike, 20211025s
-//          	myXPos=fMyWindowWidth/2-getWidth();
-          	myXPos=fMyWindowWidth/2-getWidth()*2; //TO-DO: -update: to make 2 based on iPangkatFormationCount
-					}
-				}							
-		}
-		else {
-							//edited by Mike, 20211025s
-//          	myXPos=fMyWindowWidth/2-getWidth();
-          	myXPos=fMyWindowWidth/2-getWidth()*2; //TO-DO: -update: to make 2 based on iPangkatFormationCount
-    }
-				
-		//edited by Mike, 20210923
-//		if (myLevel3D->getFMyCanvasPosY()-fGridSquareHeight<=0) {
-		//edited by Mike, 20210923
-//		if (myLevel3D->getFMyCanvasPosY()<=0) {
-		//edited by Mike, 20210924
-//		if (myLevel3D->getFMyCanvasPosY()<0) {
-		if (myYPos<0) {
-						//added by Mike, 20210923
-            myYPos=0;
-    }				
-		//edited by Mike, 20210921
-		//TO-DO: -reverify: excess acceleration when Pilot and Canvas both move
-//		else if (myLevel3D->getFMyCanvasPosY()<=(fMyWindowHeight/2-getHeight())) {
-		else if (myLevel3D->getFMyCanvasPosY()<(fMyWindowHeight/2-getHeight())) {
-//		else if (myLevel3D->getFMyCanvasPosY()<=fMyWindowHeight/2) {
-//		else if (myLevel3D->getFMyCanvasPosY()<=(fMyWindowHeight/2-getHeight()-stepY)) {
-
-//			printf(">>>>Pilot myYPos: %f",myYPos);
-
-//      myYPos=fMyWindowHeight/2-getHeight();
-
-				if ((currentFacingState==FACING_UP) &&
-						(currentMovingState==WALKING_MOVING_STATE)) {
-						myYPos=myYPos+stepY/2;
-//							myYPos=myYPos+stepY; //shall not move upward
-				}
-				else {
-        	if (myYPos<(fMyWindowHeight/2-getHeight())) {
+        		if (myXPos<(fMyWindowWidth/2-getWidth())) {
+						}
+						else {
+								//edited by Mike, 20211025s
+	//          	myXPos=fMyWindowWidth/2-getWidth();
+          		myXPos=fMyWindowWidth/2-getWidth()*2; //TO-DO: -update: to make 2 based on iPangkatFormationCount
+						}
+					}							
+			}
+			else {
+								//edited by Mike, 20211025s
+	//          	myXPos=fMyWindowWidth/2-getWidth();
+          		myXPos=fMyWindowWidth/2-getWidth()*2; //TO-DO: -update: to make 2 based on iPangkatFormationCount
+    	}
+					
+			//edited by Mike, 20210923
+	//		if (myLevel3D->getFMyCanvasPosY()-fGridSquareHeight<=0) {
+			//edited by Mike, 20210923
+	//		if (myLevel3D->getFMyCanvasPosY()<=0) {
+			//edited by Mike, 20210924
+	//		if (myLevel3D->getFMyCanvasPosY()<0) {
+			if (myYPos<0) {
+							//added by Mike, 20210923
+            	myYPos=0;
+    	}				
+			//edited by Mike, 20210921
+			//TO-DO: -reverify: excess acceleration when Pilot and Canvas both move
+	//		else if (myLevel3D->getFMyCanvasPosY()<=(fMyWindowHeight/2-getHeight())) {
+			else if (myLevel3D->getFMyCanvasPosY()<(fMyWindowHeight/2-getHeight())) {
+	//		else if (myLevel3D->getFMyCanvasPosY()<=fMyWindowHeight/2) {
+	//		else if (myLevel3D->getFMyCanvasPosY()<=(fMyWindowHeight/2-getHeight()-stepY)) {
+	
+	//			printf(">>>>Pilot myYPos: %f",myYPos);
+	
+	//      myYPos=fMyWindowHeight/2-getHeight();
+	
+					if ((currentFacingState==FACING_UP) &&
+							(currentMovingState==WALKING_MOVING_STATE)) {
+							myYPos=myYPos+stepY/2;
+	//							myYPos=myYPos+stepY; //shall not move upward
 					}
 					else {
-							//edited by Mike, 20211025s
-          		//myYPos=fMyWindowHeight/2-getHeight();
-          	          	myYPos=fMyWindowHeight/2-getHeight()*2; //TO-DO: -update: to make 2 based on iPangkatFormationCount
+        		if (myYPos<(fMyWindowHeight/2-getHeight())) {
+						}
+						else {
+								//edited by Mike, 20211025s
+          			//myYPos=fMyWindowHeight/2-getHeight();
+          	          		myYPos=fMyWindowHeight/2-getHeight()*2; //TO-DO: -update: to make 2 based on iPangkatFormationCount
+						}
 					}
-				}
+			}
+			else {
+				//edited by Mike, 20211025s
+      	//myYPos=fMyWindowHeight/2-getHeight();
+      	myYPos=fMyWindowHeight/2-getHeight()*2; //TO-DO: -update: to make 2 based on iPangkatFormationCount
+			}
+	  //added by Mike, 20211029
 		}
+		//TO-DO: -add: if max at canvas's x position
+		//TO-DO: -add: if max at canvas's y position
 		else {
-			//edited by Mike, 20211025s
-      //myYPos=fMyWindowHeight/2-getHeight();
-      myYPos=fMyWindowHeight/2-getHeight()*2; //TO-DO: -update: to make 2 based on iPangkatFormationCount
+					if (myXPos<0) {	
+            	myXPos=0;
+    			}
+    			
+					if (myYPos<0) {
+            	myYPos=0;
+    			}
 		}
 
 /* //removed by Mike, 20210921
