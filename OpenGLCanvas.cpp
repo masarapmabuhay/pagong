@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20200926
- * @date updated: 20211029
+ * @date updated: 20211030
  * @website address: http://www.usbong.ph
  *
  * References:
@@ -519,10 +519,13 @@ bool OpenGLCanvas::init(int myWindowWidthAsPixelInput, int myWindowHeightAsPixel
         myRobotshipContainer[iCount]->setLevel3D(myLevel3D);
 
 				//added by Mike, 20211027
-        myRobotshipContainer[iCount]->setCurrentFacing(myPilot->getCurrentFacing());
-                
-        iPrevPilotKeyDownContainer[iCount]=-1;        
+        myRobotshipContainer[iCount]->setCurrentFacing(myPilot->getCurrentFacing());                
     }      
+
+		//added by Mike, 20211030
+    for(int iCount=0; iCount<iNumOfKeyTypes; iCount++) {
+        iPrevPilotKeyDownContainer[iCount]=-1;
+		}
     
     //added by Mike, 20210911; edited by Mike, 20210929
     myLevel2D->setPilotStep(myPilot->getStepX(), myPilot->getStepY(), myPilot->getStepZ());
@@ -1157,12 +1160,14 @@ printf(">>>KEY DOWN = TRUE\n");
                 
                 
 printf(">>>myRobotshipContainer[%i]'s iPrevPilotKeyDownContainer[%i]: %i\n",iIndexCount,iPilotKeyDownCount-1-iIndexCount,iPrevPilotKeyDownContainer[iIndexCount]);                
+
+								//edited by Mike, 20211030
  
-                //TO-DO: -fix: movement when Canvas Position X NOT anymore zero
-                //TO-DO: -fix: movement when Canvas Position Y NOT anymore zero
+                //TO-DO: -reverify: movement when Canvas Position X NOT anymore zero
+                //TO-DO: -reverify: movement when Canvas Position Y NOT anymore zero
                 //TO-DO: -verify: adding more Unit members, total 4+1...
 
-								//TO-DO: -update: this
+								//TO-DO: -add: instructions when movement is from horizontal to vertical, et cetera
 
                 //note: Robo's distance notioceably near with Pilot
                 switch (iPrevPilotKeyDownContainer[iIndexCount]) {
@@ -1174,8 +1179,64 @@ printf(">>>myRobotshipContainer[%i]'s iPrevPilotKeyDownContainer[%i]: %i\n",iInd
                         else {
                             myRobotshipContainer[iIndexCount]->setYPos(myPilot->getY()+myPilot->getHeight()*0.5f);
                         }
+*/ 
                         myRobotshipContainer[iIndexCount]->setXPos(myPilot->getX());
-*/                        
+                       												
+												//added by Mike, 20211030
+												//if Unit Member#1 changed direction to move to the BOTTOM
+												if (iPrevPilotKeyDownContainer[0]==KEY_S) {													
+												}
+												else {
+
+											//identify if current Unit member still ABOVE of Unit Chief
+												//identify if current Unit member immediately ABOVE of Unit Chief
+												//--> move to BOTTOM of Unit Chief based on index
+												//else
+												//--> move 1 step to BOTTOM, but still ABOVE of Unit Chief
+											//else
+											//--> move to BOTTOM of Unit Chief based on index
+											
+											if (myRobotshipContainer[iIndexCount]->getY()+myRobotshipContainer[iIndexCount]->getHeight() < myPilot->getY()) {
+										printf(">>>>>\n");
+										
+												//intersection
+												if (myRobotshipContainer[iIndexCount]->getY()+myRobotshipContainer[iIndexCount]->getHeight()>=myPilot->getY()) {
+													//--> move to the BOTTOM of Unit Chief based on index
+													myRobotshipContainer[iIndexCount]->setYPos(myPilot->getY()+myPilot->getHeight()*0.6f+myRobotshipContainer[iIndexCount]->getHeight()*0.8f*(iIndexCount));	
+												}
+												//--> move 1 tile ABOVE, but still BOTTOM of Unit Chief
+												else {
+													myRobotshipContainer[iIndexCount]->setYPos(myRobotshipContainer[iIndexCount]->getY()+myRobotshipContainer[iIndexCount]->getHeight()*0.8f*(iIndexCount)); //1
+
+													printf(">>DITO\n");													
+												}
+											}
+											else {
+													printf(">>HALLO\n");		
+																								
+												//edited by Mike, 20211029
+												myRobotshipContainer[iIndexCount]->setYPos(myPilot->getY()+myPilot->getHeight()*0.6f+myRobotshipContainer[iIndexCount]->getHeight()*0.8f*(iIndexCount));
+
+													if (iIndexCount==0) { //first to change; from key BOTTOM to ABOVE
+														//next Unit member, if exists
+														//--> move 1 tile to the BOTTOM, but still ABOVE of Unit Chief
+														for (int iCount=1; iCount<MAX_ROBOTSHIP_COUNT; iCount++) {														
+															//if Unit Member is changing direction to move from BOTTOM to ABOVE
+															if (iPrevPilotKeyDownContainer[iCount]==KEY_S) {			
+														printf(">>>>2\n");														
+
+																//edited by Mike, 20211029
+																myRobotshipContainer[iIndexCount+iCount]->setYPos(myRobotshipContainer[iIndexCount+iCount]->getY()+myRobotshipContainer[iIndexCount+iCount]->getHeight()/3.5f*(iIndexCount+iCount+1));
+																}
+														}
+													}																																								
+											}
+											
+											//added by Mike, 20211029
+											}
+
+
+
                         break;
                     case KEY_S: //FACING_DOWN:
 /*                    
@@ -1185,8 +1246,63 @@ printf(">>>myRobotshipContainer[%i]'s iPrevPilotKeyDownContainer[%i]: %i\n",iInd
                         else {
                             myRobotshipContainer[iIndexCount]->setYPos(myPilot->getY()-myRobotshipContainer[iIndexCount]->getHeight()*0.5f);
                         }
+*/
                         myRobotshipContainer[iIndexCount]->setXPos(myPilot->getX());
-*/                        
+                        
+
+												//added by Mike, 20211030
+												//if Unit Member#1 changed direction to move to the BOTTOM
+												if (iPrevPilotKeyDownContainer[0]==KEY_W) {													
+												}
+												else {
+											//identify if current Unit member still BOTTOM of Unit Chief
+												//identify if current Unit member immediately BOTTOM of Unit Chief
+												//--> move to ABOVE of Unit Chief based on index
+												//else
+												//--> move 1 step to ABOVE, but still BOTTOM of Unit Chief
+											//else
+											//--> move ABOVE of Unit Chief based on index
+											
+											if (myRobotshipContainer[iIndexCount]->getY() > myPilot->getY()+myPilot->getHeight()) {
+										printf(">>>>>\n");
+										
+												//intersection
+												if (myRobotshipContainer[iIndexCount]->getY()+myRobotshipContainer[iIndexCount]->getHeight()<=myPilot->getY()) {
+													//--> move ABOVE of Unit Chief based on index
+													myRobotshipContainer[iIndexCount]->setYPos(myPilot->getY()-myRobotshipContainer[iIndexCount]->getHeight()*0.8f*(iIndexCount));	
+												}
+												//--> move 1 tile BOTTOM, but still ABOVE of Unit Chief
+												else {
+													myRobotshipContainer[iIndexCount]->setYPos(myRobotshipContainer[iIndexCount]->getY()+myRobotshipContainer[iIndexCount]->getHeight()*0.8f*(iIndexCount)); //1
+
+													printf(">>DITO\n");													
+												}
+											}
+											else {
+													printf(">>HALLO\n");		
+																								
+												//edited by Mike, 20211029
+//												myRobotshipContainer[iIndexCount]->setYPos(myPilot->getY()-myRobotshipContainer[iIndexCount]->getHeight()*0.8f*(iIndexCount));
+
+												myRobotshipContainer[iIndexCount]->setYPos(myPilot->getY()-myRobotshipContainer[iIndexCount]->getHeight()*0.8f*(iIndexCount+1));
+
+
+													if (iIndexCount==0) { //first to change; from key BOTTOM to ABOVE
+														//next Unit member, if exists
+														//--> move 1 tile to the BOTTOM, but still ABOVE of Unit Chief
+														for (int iCount=1; iCount<MAX_ROBOTSHIP_COUNT; iCount++) {														
+															//if Unit Member is changing direction to move from BOTTOM to ABOVE
+															if (iPrevPilotKeyDownContainer[iCount]==KEY_W) {			
+														printf(">>>>2\n");														
+
+																//edited by Mike, 20211029
+																myRobotshipContainer[iIndexCount+iCount]->setYPos(myRobotshipContainer[iIndexCount+iCount]->getY()-myRobotshipContainer[iIndexCount+iCount]->getHeight()/3.5f*(iIndexCount+iCount+1));
+																}
+														}
+													}																																								
+											}
+																							}
+
                         break;
                     case KEY_A: //FACING_LEFT:                    
 /*
@@ -1196,8 +1312,8 @@ printf(">>>myRobotshipContainer[%i]'s iPrevPilotKeyDownContainer[%i]: %i\n",iInd
                         else {
                             myRobotshipContainer[iIndexCount]->setXPos(myPilot->getX()-myRobotshipContainer[iIndexCount]->getWidth()*0.5f);
                         }
-                        myRobotshipContainer[iIndexCount]->setYPos(myPilot->getY());
-*/                        
+*/
+                        myRobotshipContainer[iIndexCount]->setYPos(myPilot->getY());                        
 
 /* //OK; shifting of Unit member at Unit Chief's left side NOT yet
 myRobotshipContainer[iIndexCount]->setXPos(myPilot->getX()+myPilot->getWidth()*0.6f+myRobotshipContainer[iIndexCount]->getWidth()*0.8f*(iIndexCount));
@@ -1264,8 +1380,8 @@ myRobotshipContainer[iIndexCount]->setXPos(myPilot->getX()+myPilot->getWidth()*0
                         else {
                             myRobotshipContainer[iIndexCount]->setXPos(myPilot->getX()+myPilot->getWidth()*0.5f);
                         }
-                        myRobotshipContainer[iIndexCount]->setYPos(myPilot->getY());
-*/                        
+*/
+                        myRobotshipContainer[iIndexCount]->setYPos(myPilot->getY());                        
 
 												//if Unit Member#1 changed direction to move to the LEFT
 												if (iPrevPilotKeyDownContainer[0]==KEY_A) {													
