@@ -1349,6 +1349,12 @@ printf(">>>>>>> RIGHT TO DOWN KEYS\n");
 //													myRobotshipContainer[iIndexCount]->setXPos(myRobotshipContainer[iIndexCount]->getX()+myRobotshipContainer[iIndexCount]->getWidth()*0.8f*(iIndexCount)); //1
 
 													printf(">>>>>>>DITO\n");				
+
+myRobotshipContainer[iIndexCount]->setXPos(myPilot->getX());
+
+
+												//myRobotshipContainer[iIndexCount]->setXPos(myPilot->getX()-myRobotshipContainer[iIndexCount]->getWidth());
+
 													
 													//TO-DO: -reverify this
 /*
@@ -1377,30 +1383,16 @@ printf(">>>>>>> RIGHT TO DOWN KEYS\n");
 											
 											else {
 													printf(">>>>>>>>>>>>>HALLO\n");		
-														
-/*														
-														//added after above the Unit Chief
-														for (int iCount=1; iCount<MAX_ROBOTSHIP_COUNT; iCount++) {	
-printf(">>>>>>>>>>2\n");								
-
-															myRobotshipContainer[iCount]->setXPos(myPilot->getX()-myRobotshipContainer[iCount]->getStepX()*(iCount));
-															
-															if (myRobotshipContainer[iCount]->getX()+myRobotshipContainer[iCount]->getWidth() >= myPilot->getX()) {
-//																myRobotshipContainer[iCount]->setXPos(myPilot->getX());
-															}															
-														}
-
-printf(">>>>>>>>>>3\n");								
-*/
-
-
+							
+												//TO-DO: -update: this
+											
 												myRobotshipContainer[iIndexCount]->setXPos(myPilot->getX()-myRobotshipContainer[iIndexCount]->getWidth()*0.8f*(iIndexCount));
 
 
-													if (iIndexCount==0) { //first to change; from key RIGHT to DOWN
+//													if (iIndexCount==0) { //first to change; from key RIGHT to DOWN
 														//next Unit member, if exists
 														//--> move 1 step to the RIGHT, but still LEFT of Unit Chief
-														for (int iCount=1; iCount<MAX_ROBOTSHIP_COUNT; iCount++) {														
+														for (int iCount=iIndexCount+1; iCount<MAX_ROBOTSHIP_COUNT; iCount++) {														
 															//if Unit Member is changing direction to move from RIGHT to DOWN
 															if (iPrevPilotKeyDownContainer[iCount]==KEY_D) {			
 printf(">>>>>>>>>>2\n");							
@@ -1409,33 +1401,20 @@ printf(">>>>>>>>>>2\n");
 																	//#1= Unit Chief
 //																	myRobotshipContainer[iIndexCount+iCount]->setXPos(myRobotshipContainer[iIndexCount+iCount]->getX()+myRobotshipContainer[iIndexCount+iCount]->getWidth()*1.58f*(iIndexCount+iCount));
 																	//OK
-																	myRobotshipContainer[iIndexCount+iCount]->setXPos(myRobotshipContainer[iIndexCount+iCount]->getX()+myRobotshipContainer[iIndexCount+iCount]->getWidth()*(iIndexCount+iCount)+myRobotshipContainer[iIndexCount+iCount]->getStepX()*12);
+																	myRobotshipContainer[iCount]->setXPos(myRobotshipContainer[iCount]->getX()+myRobotshipContainer[iCount]->getWidth()*(iCount)+myRobotshipContainer[iCount]->getStepX()*12);
+
+//																	myRobotshipContainer[iCount]->setXPos(myRobotshipContainer[iCount]->getX()+myRobotshipContainer[iCount]->getWidth()+myRobotshipContainer[iCount]->getStepX()*12);
+
 																}
 														}
-													}		
+//													}	
+	
+													
 printf(">>>>>>>>>>3\n");								
 
 													
 //											}
-
-
-/*
-													if (iIndexCount==0) { //first to change; from key RIGHT to BOTTOM
-														//next Unit member, if exists
-														//--> move 1 tile to the BOTTOM, but still ABOVE of Unit Chief
-														for (int iCount=1; iCount<MAX_ROBOTSHIP_COUNT; iCount++) {														
-															//if Unit Member is changing direction to move from RIGHT to BOTTOM
-															if (iPrevPilotKeyDownContainer[iCount]==KEY_D) {			
-														printf(">>>>>>>2\n");														
-
-																//edited by Mike, 20211029
-//																myRobotshipContainer[iIndexCount+iCount]->setXPos(myRobotshipContainer[iIndexCount+iCount]->getX()+myRobotshipContainer[iIndexCount+iCount]->getWidth()/3.5f*(iIndexCount+iCount-1)); //+1
-																myRobotshipContainer[iIndexCount+iCount]->setXPos(myRobotshipContainer[iIndexCount+iCount]->getX()+myRobotshipContainer[iIndexCount+iCount]->getWidth()*(iCount+2)); //+1
-
-																}
-														}
-													}		
-*/																																																			
+																								
 											}
 																							}																							
 																							
