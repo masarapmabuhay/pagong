@@ -1282,9 +1282,24 @@ printf(">>>myRobotshipContainer[%i]'s iPrevPilotKeyDownContainer[%i]: %i\n",iInd
 												//removed by Mike, 20211102
                         //myRobotshipContainer[iIndexCount]->setXPos(myPilot->getX());
 
-												//added by Mike, 20211103
-                        myRobotshipContainer[iIndexCount]->setXPos(myPilot->getX());
+												//TO-DO: -update: this
 
+												//added by Mike, 20211103
+												if (iPrevPilotKeyDownContainer[iIndexCount]==KEY_S) {			
+                        	myRobotshipContainer[iIndexCount]->setXPos(myPilot->getX());
+												}
+
+												//added by Mike, 20211103
+												if (iIndexCount>0) {
+													for (int iCount=iIndexCount-1; iCount<MAX_ROBOTSHIP_COUNT; iCount++) {
+														//if Unit Member is changing direction to move from RIGHT to DOWN
+														if (iPrevPilotKeyDownContainer[iCount]==KEY_D) {			
+													printf(">>>>>>>>>>>>LOOB\n");
+															myRobotshipContainer[iCount]->setXPos(myPilot->getX()-myRobotshipContainer[iCount]->getWidth()*(iCount));
+															}
+													}
+												}
+                    	
                         
 												//added by Mike, 20211030
 												//if Unit Member#1 changed direction to move to the BOTTOM
