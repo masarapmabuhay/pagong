@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20200926
- * @date updated: 20211102
+ * @date updated: 20211103
  * @website address: http://www.usbong.ph
  *
  * References:
@@ -1308,8 +1308,15 @@ printf(">>>myRobotshipContainer[%i]'s iPrevPilotKeyDownContainer[%i]: %i\n",iInd
 												if ((iPrevPilotKeyDownContainer[0]==KEY_A) || 
 														(iPrevPilotKeyDownContainer[0]==KEY_D)) {													
 */
+
 												//from movement to RIGHT, then DOWN
-												if (iPrevPilotKeyDownContainer[0]==KEY_D){
+												iPrevIndexCount = iIndexCount-1;
+												if (iPrevIndexCount<0) {
+													iPrevIndexCount=0;
+												}
+
+												//from movement to RIGHT, then DOWN
+												if (iPrevPilotKeyDownContainer[iPrevIndexCount]==KEY_D){
 												}
 												else {
 											//identify if current Unit member still BOTTOM of Unit Chief
@@ -1357,7 +1364,8 @@ printf(">>>>>>> RIGHT TO DOWN KEYS\n");
 */																										
 													//added after above the Unit Chief													
 														for (int iCount=1; iCount<MAX_ROBOTSHIP_COUNT; iCount++) {	
-															myRobotshipContainer[iCount]->setXPos(myPilot->getX()-myRobotshipContainer[iCount]->getStepX()*(iCount-1));
+															
+															//myRobotshipContainer[iCount]->setXPos(myPilot->getX()-myRobotshipContainer[iCount]->getStepX()*(iCount-1));
 															
 															if (myRobotshipContainer[iCount]->getX()+myRobotshipContainer[iCount]->getWidth() >= myPilot->getX()) {
 //																myRobotshipContainer[iCount]->setXPos(myPilot->getX());
@@ -1368,19 +1376,45 @@ printf(">>>>>>> RIGHT TO DOWN KEYS\n");
 											}
 											
 											else {
-													printf(">>>>>>>HALLO\n");		
-	
-	/*												
+													printf(">>>>>>>>>>>>>HALLO\n");		
+														
+/*														
 														//added after above the Unit Chief
 														for (int iCount=1; iCount<MAX_ROBOTSHIP_COUNT; iCount++) {	
-															myRobotshipContainer[iCount]->setXPos(myPilot->getX()-myRobotshipContainer[iCount]->getStepX()*(iCount+2));
+printf(">>>>>>>>>>2\n");								
+
+															myRobotshipContainer[iCount]->setXPos(myPilot->getX()-myRobotshipContainer[iCount]->getStepX()*(iCount));
 															
 															if (myRobotshipContainer[iCount]->getX()+myRobotshipContainer[iCount]->getWidth() >= myPilot->getX()) {
 //																myRobotshipContainer[iCount]->setXPos(myPilot->getX());
 															}															
 														}
+
+printf(">>>>>>>>>>3\n");								
 */
-printf(">>>>>>>>>>2\n");								
+
+
+												myRobotshipContainer[iIndexCount]->setXPos(myPilot->getX()-myRobotshipContainer[iIndexCount]->getWidth()*0.8f*(iIndexCount));
+
+
+													if (iIndexCount==0) { //first to change; from key RIGHT to DOWN
+														//next Unit member, if exists
+														//--> move 1 step to the RIGHT, but still LEFT of Unit Chief
+														for (int iCount=1; iCount<MAX_ROBOTSHIP_COUNT; iCount++) {														
+															//if Unit Member is changing direction to move from RIGHT to DOWN
+															if (iPrevPilotKeyDownContainer[iCount]==KEY_D) {			
+printf(">>>>>>>>>>2\n");							
+																	//edited by Mike, 20211103
+																	//OK; TO-DO: -update: to include next Unit members after #2 and #3; 
+																	//#1= Unit Chief
+//																	myRobotshipContainer[iIndexCount+iCount]->setXPos(myRobotshipContainer[iIndexCount+iCount]->getX()+myRobotshipContainer[iIndexCount+iCount]->getWidth()*1.58f*(iIndexCount+iCount));
+																	//OK
+																	myRobotshipContainer[iIndexCount+iCount]->setXPos(myRobotshipContainer[iIndexCount+iCount]->getX()+myRobotshipContainer[iIndexCount+iCount]->getWidth()*(iIndexCount+iCount)+myRobotshipContainer[iIndexCount+iCount]->getStepX()*12);
+																}
+														}
+													}		
+printf(">>>>>>>>>>3\n");								
+
 													
 //											}
 

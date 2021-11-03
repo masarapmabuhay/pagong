@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20200929
- * @date updated: 20211027
+ * @date updated: 20211103
  * @website address: http://www.usbong.ph
  *
  * Acknowledgments:
@@ -232,6 +232,8 @@ private:
     int iDelayExecuteKeyDownMovement;
     int iDelayExecuteKeyDownMovementMax;
     
+    //added by Mike, 20211103
+    int iPrevIndexCount;
 
 /* //removed by Mike, 20210825
     Pilot *myPilotPartner; //added by Mike, 20210530
