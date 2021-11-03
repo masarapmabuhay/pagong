@@ -1239,6 +1239,38 @@ printf(">>>myRobotshipContainer[%i]'s iPrevPilotKeyDownContainer[%i]: %i\n",iInd
 
                         break;
                     case KEY_S: //FACING_DOWN:
+                    		//TO-DO: identify: patterns to write correct Computer Commands
+                    		//to execute movement combinations, e.g. RIGHT, DOWN keys
+                    		//increase Tauhan image sprite to solve excess distance problem?
+                    		//when technique mastered, can reuse with battle formation? CHRONO TRIGGER?
+                    		//reminder: there already exists for-loop of each Unit member;
+                    		//multiple for-loops with each Unit member causes 
+                    		//incorrect outputs after computation
+                    		//sude ni suujitsu no jikan mo iretashi, 
+                    		//--> nilagyan ko na rin ng bilang na araw na panahon, 
+                    		//moto ni modosazu, tsudzukeru?
+                    		//--> hindi ibalik sa pinanggalian, ipagpatuloy?
+                    		//POCKY & ROCKY janaku, CHRONO TRIGGER?
+                    		//--> hindi POCKY & ROCKY, CHRONO TRIGGER?
+                    		//maruchipurei mo ii...
+                    		//--> ayos din ang multi-play...
+                    		//doragon kuesuto 6 no OPEN WORLD mitaini...
+                    		//--> tulad ng OPEN WORLD ng dragon quest 6...
+                    		//ke-tai ban ha mada dakedo, 
+                    		//--> wala pa nga lang uri sa madadala (e.g. telepono) 
+                    		//toriaezu, uru sa-bisu ni tsuiteru pasokon ni irete,
+                    		//--> pansamantala, ilagay sa kompyuter na kabilang sa ibinibentang serbisyo 
+                    		//firipin go de kaite aru to naraba,
+                    		//--> kapag may nakasulat sa wikang Filipino,
+                    		//kompyu-ta + jouhou ni kyoumi wo motsu you ni naru 
+                    		//--> sa kompyuter + balita, magkakaroon ng hilig 
+                    		//firipinjin ga ooku naru...
+                    		//--> ang mga Pinoy darami...
+                    		//robotto mo iru shi... CRYSIS no youna yoroi to naru?
+                    		//--> kailangan din ng robot... magiging nasusuot na kalasag tulad sa CRYSIS?                   												//		
+                    		//halimbawa, simulan sa sapatos? running shoes ng Adidas?
+                    		//PHP1000, humuhulma sa paa? Kahit size 11, umaakma sa size 10?
+                    		                    		
 /*                    
                         if ((myRobotshipContainer[iIndexCount]->getCurrentFacing()==FACING_LEFT) || (myRobotshipContainer[iIndexCount]->getCurrentFacing()==FACING_RIGHT)) {
                             myRobotshipContainer[iIndexCount]->setYPos(myPilot->getY());
@@ -1249,6 +1281,10 @@ printf(">>>myRobotshipContainer[%i]'s iPrevPilotKeyDownContainer[%i]: %i\n",iInd
 */
 												//removed by Mike, 20211102
                         //myRobotshipContainer[iIndexCount]->setXPos(myPilot->getX());
+
+												//added by Mike, 20211103
+                        myRobotshipContainer[iIndexCount]->setXPos(myPilot->getX());
+
                         
 												//added by Mike, 20211030
 												//if Unit Member#1 changed direction to move to the BOTTOM
@@ -1349,8 +1385,8 @@ printf(">>>>>>> RIGHT TO DOWN KEYS\n");
 //													myRobotshipContainer[iIndexCount]->setXPos(myRobotshipContainer[iIndexCount]->getX()+myRobotshipContainer[iIndexCount]->getWidth()*0.8f*(iIndexCount)); //1
 
 													printf(">>>>>>>DITO\n");				
-
-myRobotshipContainer[iIndexCount]->setXPos(myPilot->getX());
+//removed by Mike, 20211103
+//myRobotshipContainer[iIndexCount]->setXPos(myPilot->getX());
 
 
 												//myRobotshipContainer[iIndexCount]->setXPos(myPilot->getX()-myRobotshipContainer[iIndexCount]->getWidth());
@@ -1385,10 +1421,11 @@ myRobotshipContainer[iIndexCount]->setXPos(myPilot->getX());
 													printf(">>>>>>>>>>>>>HALLO\n");		
 							
 												//TO-DO: -update: this
-											
-												myRobotshipContainer[iIndexCount]->setXPos(myPilot->getX()-myRobotshipContainer[iIndexCount]->getWidth()*0.8f*(iIndexCount));
+												
+												//removed by Mike, 20211103
+												//myRobotshipContainer[iIndexCount]->setXPos(myPilot->getX()-myRobotshipContainer[iIndexCount]->getWidth()*0.8f*(iIndexCount));
 
-
+/*
 //													if (iIndexCount==0) { //first to change; from key RIGHT to DOWN
 														//next Unit member, if exists
 														//--> move 1 step to the RIGHT, but still LEFT of Unit Chief
@@ -1402,11 +1439,23 @@ printf(">>>>>>>>>>2\n");
 //																	myRobotshipContainer[iIndexCount+iCount]->setXPos(myRobotshipContainer[iIndexCount+iCount]->getX()+myRobotshipContainer[iIndexCount+iCount]->getWidth()*1.58f*(iIndexCount+iCount));
 																	//OK
 																	myRobotshipContainer[iCount]->setXPos(myRobotshipContainer[iCount]->getX()+myRobotshipContainer[iCount]->getWidth()*(iCount)+myRobotshipContainer[iCount]->getStepX()*12);
-
-//																	myRobotshipContainer[iCount]->setXPos(myRobotshipContainer[iCount]->getX()+myRobotshipContainer[iCount]->getWidth()+myRobotshipContainer[iCount]->getStepX()*12);
-
-																}
+															}
 														}
+*/														
+
+//														for (int iCount=iIndexCount+1; iCount<MAX_ROBOTSHIP_COUNT; iCount++) {														
+															//if Unit Member is changing direction to move from RIGHT to DOWN
+															if (iPrevPilotKeyDownContainer[iIndexCount+1]==KEY_D) {			
+printf(">>>>>>>>>>2\n");							
+//												myRobotshipContainer[iIndexCount+1]->setXPos(myPilot->getX()-myRobotshipContainer[iIndexCount+1]->getWidth()*0.8f*(iIndexCount+1));
+
+																	//OK
+//																	myRobotshipContainer[iIndexCount+1]->setXPos(myRobotshipContainer[iIndexCount+1]->getX()+myRobotshipContainer[iIndexCount+1]->getWidth()*(iIndexCount+1)+myRobotshipContainer[iIndexCount+1]->getStepX()*12);
+															}
+//														}
+
+
+														
 //													}	
 	
 													
