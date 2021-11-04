@@ -660,6 +660,9 @@ void OpenGLCanvas::keyDown(int keyCode)
 	myKeysDown[KEY_W] = FALSE;
 	myKeysDown[KEY_S] = FALSE;
 */
+		//added by Mike, 20211104
+		myKeysDown[KEY_K] = FALSE;
+
 
     myPilot->keyDown(keyCode);
 
@@ -1623,6 +1626,7 @@ myRobotshipContainer[iIndexCount]->setXPos(myPilot->getX()+myPilot->getWidth()*0
 
 								//edited by Mike, 20211027
 								if ((iPrevPilotKeyDownContainer[iIndexCount]>=0) && (iPrevPilotKeyDownContainer[iIndexCount]<iNumOfKeyTypes)) {
+
                 	//note: -1 default value; no directional movement
                 	myRobotshipContainer[iIndexCount]->move(iPrevPilotKeyDownContainer[iIndexCount]);	
 								}
