@@ -1146,7 +1146,7 @@ void OpenGLCanvas::update()
                 }
 */
 
-printf(">>>KEY DOWN = TRUE\n");
+//printf(">>>KEY DOWN = TRUE\n");
 
             int iIndexCount=0;                
             int iCurrentMaxUnitMemberCount=MAX_ROBOTSHIP_COUNT; //1;
@@ -1162,7 +1162,7 @@ printf(">>>KEY DOWN = TRUE\n");
                 }
                 
                 
-printf(">>>myRobotshipContainer[%i]'s iPrevPilotKeyDownContainer[%i]: %i\n",iIndexCount,iPilotKeyDownCount-1-iIndexCount,iPrevPilotKeyDownContainer[iIndexCount]);                
+//printf(">>>myRobotshipContainer[%i]'s iPrevPilotKeyDownContainer[%i]: %i\n",iIndexCount,iPilotKeyDownCount-1-iIndexCount,iPrevPilotKeyDownContainer[iIndexCount]);                
 
 								//edited by Mike, 20211030
  
@@ -1200,7 +1200,7 @@ printf(">>>myRobotshipContainer[%i]'s iPrevPilotKeyDownContainer[%i]: %i\n",iInd
 											//--> move to BOTTOM of Unit Chief based on index
 											
 											if (myRobotshipContainer[iIndexCount]->getY()+myRobotshipContainer[iIndexCount]->getHeight() < myPilot->getY()) {
-										printf(">>>>>\n");
+//										printf(">>>>>\n");
 										
 												//intersection
 												if (myRobotshipContainer[iIndexCount]->getY()+myRobotshipContainer[iIndexCount]->getHeight()>=myPilot->getY()) {
@@ -1211,11 +1211,11 @@ printf(">>>myRobotshipContainer[%i]'s iPrevPilotKeyDownContainer[%i]: %i\n",iInd
 												else {
 													myRobotshipContainer[iIndexCount]->setYPos(myRobotshipContainer[iIndexCount]->getY()+myRobotshipContainer[iIndexCount]->getHeight()*0.8f*(iIndexCount)); //1
 
-													printf(">>DITO\n");													
+//													printf(">>DITO\n");													
 												}
 											}
 											else {
-													printf(">>HALLO\n");		
+//													printf(">>HALLO\n");		
 																								
 												//edited by Mike, 20211029
 												myRobotshipContainer[iIndexCount]->setYPos(myPilot->getY()+myPilot->getHeight()*0.6f+myRobotshipContainer[iIndexCount]->getHeight()*0.8f*(iIndexCount));
@@ -1237,7 +1237,6 @@ printf(">>>myRobotshipContainer[%i]'s iPrevPilotKeyDownContainer[%i]: %i\n",iInd
 											
 											//added by Mike, 20211029
 											}
-
 
 
                         break;
@@ -1317,7 +1316,7 @@ printf(">>>myRobotshipContainer[%i]'s iPrevPilotKeyDownContainer[%i]: %i\n",iInd
 												else {
 											
 											if (myRobotshipContainer[iIndexCount]->getY() > myPilot->getY()+myPilot->getHeight()) {
-										printf(">>>>>\n");
+//										printf(">>>>>\n");
 										
 												//intersection
 												if (myRobotshipContainer[iIndexCount]->getY()+myRobotshipContainer[iIndexCount]->getHeight()<=myPilot->getY()) {
@@ -1328,11 +1327,11 @@ printf(">>>myRobotshipContainer[%i]'s iPrevPilotKeyDownContainer[%i]: %i\n",iInd
 												else {
 													myRobotshipContainer[iIndexCount]->setYPos(myRobotshipContainer[iIndexCount]->getY()+myRobotshipContainer[iIndexCount]->getHeight()*0.8f*(iIndexCount)); //1
 
-													printf(">>DITO\n");													
+//													printf(">>DITO\n");													
 												}
 											}
 											else {
-													printf(">>HALLO\n");		
+//													printf(">>HALLO\n");		
 																								
 												//edited by Mike, 20211029
 //												myRobotshipContainer[iIndexCount]->setYPos(myPilot->getY()-myRobotshipContainer[iIndexCount]->getHeight()*0.8f*(iIndexCount));
