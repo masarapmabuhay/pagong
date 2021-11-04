@@ -1204,9 +1204,19 @@ void OpenGLCanvas::update()
 										
 												//intersection
 												if (myRobotshipContainer[iIndexCount]->getY()+myRobotshipContainer[iIndexCount]->getHeight()>=myPilot->getY()) {
+                                                    
 													//--> move to the BOTTOM of Unit Chief based on index
-													myRobotshipContainer[iIndexCount]->setYPos(myPilot->getY()+myPilot->getHeight()*0.6f+myRobotshipContainer[iIndexCount]->getHeight()*0.8f*(iIndexCount));	
-												}
+													myRobotshipContainer[iIndexCount]->setYPos(myPilot->getY()+myPilot->getHeight()*0.6f+myRobotshipContainer[iIndexCount]->getHeight()*0.8f*(iIndexCount));
+  
+/* //removed by Mike, 20211104
+                                                    //added by Mike, 20211104
+                                                    if (myLevel3D->isLevel2DCollideWith(myRobotshipContainer[iIndexCount])) {
+                                                    }
+                                                    else {
+                                                        myRobotshipContainer[iIndexCount]->setYPos(myPilot->getY());
+                                                    }
+*/
+                                                }
 												//--> move 1 tile ABOVE, but still BOTTOM of Unit Chief
 												else {
 													myRobotshipContainer[iIndexCount]->setYPos(myRobotshipContainer[iIndexCount]->getY()+myRobotshipContainer[iIndexCount]->getHeight()*0.8f*(iIndexCount)); //1
@@ -1238,7 +1248,25 @@ void OpenGLCanvas::update()
 											//added by Mike, 20211029
 											}
 
-
+                        //added by Mike, 20211104
+                        //note: auto-set y position of Unit members farther from Chief do not hit Tile
+                        //TO-DO: -fix: this
+                        if (myLevel3D->isLevel2DCollideWith(myRobotshipContainer[iIndexCount])) {
+                            myRobotshipContainer[iIndexCount]->setYPos(myPilot->getY());
+                        }
+/* //removed by Mike, 20211104
+                        //added by Mike, 20211104
+                        for (int iCount=0; iCount<MAX_ROBOTSHIP_COUNT; iCount++) {
+                            //note: auto-set y position of Unit members farther from Chief do not hit Tile
+                            //TO-DO: -fix: this
+                            if (myLevel3D->isLevel2DCollideWith(myRobotshipContainer[iCount])) {
+                                myRobotshipContainer[iCount]->setYPos(myPilot->getY());
+                                
+                                //added by Mike, 20211104
+                                myRobotshipContainer[iCount]->move(KEY_W);
+                            }
+                        }
+ */
                         break;
                     case KEY_S: //FACING_DOWN:
                     		//TO-DO: identify: patterns to write correct Computer Commands
@@ -1648,6 +1676,26 @@ printf(">>>myRobotshipContainer[%i]'s iPrevPilotKeyDownContainer[%i]: %i\n",iInd
                 
                 switch (iPrevPilotKeyDownContainer[0]) {
                     case KEY_W://FACING_UP:
+/* //removed by Mike, 20211104
+                        //added by Mike, 20211104
+                        for (int iCount=0; iCount<MAX_ROBOTSHIP_COUNT; iCount++) {
+                          //note: auto-set y position of Unit members farther from Chief do not hit Tile
+                          //TO-DO: -fix: this
+                          if (myLevel3D->isLevel2DCollideWith(myRobotshipContainer[iCount])) {
+                            myRobotshipContainer[iCount]->setYPos(myPilot->getY());
+
+                            //added by Mike, 20211104
+                            myRobotshipContainer[iCount]->move(KEY_W);
+                          }
+                        }
+*/
+/* //removed by Mike, 20211104
+                        for (int iCount=0; iCount<MAX_ROBOTSHIP_COUNT; iCount++) {
+                            //added by Mike, 20211104
+                            //myRobotshipContainer[iCount]->move(KEY_W);
+                            myRobotshipContainer[iCount]->setCurrentFacingState(FACING_UP);
+                        }
+*/
                         break;
                     case KEY_S: //FACING_DOWN:                    
 												
@@ -1725,13 +1773,70 @@ printf(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> not yet above Unit Chief\n");
                         break;
                 }				
 				//-----        
-        
+    
+
+    //added by Mike, 20211104
+        //part 3
+/*
+        //added by Mike, 20211104
+    for (int iCount=0; iCount<MAX_ROBOTSHIP_COUNT; iCount++) {
+//      switch (myRobotshipContainer[iCount]->getCurrentFacing()) {
+        switch (myPilot->getCurrentFacing()) {
+
+            case FACING_UP: //KEY_W://FACING_UP:
+              
+              printf(">>>>>>>>>>>>>>>>>>>>>> FACING_UP\n");
+             //note: auto-set y position of Unit members farther from Chief do not hit Tile
+             //TO-DO: -fix: this
+             if (myLevel3D->isLevel2DCollideWith(myRobotshipContainer[iCount])) {
+               myRobotshipContainer[iCount]->setYPos(myPilot->getY());
+             
+               //added by Mike, 20211104
+               myRobotshipContainer[iCount]->move(KEY_W);
+             }
+            break;
+////        case KEY_S: //FACING_DOWN:
+////            break;
+////        case KEY_A: //FACING_LEFT:
+////            break;
+////        case KEY_D: //FACING_RIGHT:
+////            break;
+      }
+    }
+*/
+        for (int iCount=0; iCount<MAX_ROBOTSHIP_COUNT; iCount++) {
+                    //TO-DO: -fix: auto-set y position of Unit members farther from Chief do not hit Tile
+                    //TO-DO: -fix: slide up movement with Unit members#2 onward after hitting tile
+                    //note: during battle, to eliminate Artificial Intelligence (AI) movement problems,
+                    //use wide open areas, e.g. select stages in Pocky & Rocky?
+                    //where: AI is used, if no Human companion during multiplayer
+                    //battle with opponents, e.g. Teroristang Komunista, becomes the road blocks classified to be challenges?
+                if (myLevel3D->isLevel2DCollideWith(myRobotshipContainer[iCount])) {
+//                        if (myRobotshipContainer[iCount]->getCurrentFacing()==FACING_UP) {
+                        if (iPilotKeyDownCount==KEY_W) {
+                            /*
+                            if (iCount==1) {
+                              printf(">>>>>>>>>>>>>>>>>>>>>> FACING_UP\n");
+                            }
+*/
+                            myRobotshipContainer[iCount]->setYPos(myPilot->getY());
+                            myRobotshipContainer[iCount]->move(KEY_W);
+                        }
+                    }
+                    ////        case KEY_S: //FACING_DOWN:
+                    ////            break;
+                    ////        case KEY_A: //FACING_LEFT:
+                    ////            break;
+                    ////        case KEY_D: //FACING_RIGHT:
+                    ////            break;
+        }
+				//-----
         
         if (iKeyCount==iNumOfKeyTypes) {
 /* //removed by Mike, 20210825        
             //TO-DO: -update: this
             myRobotshipShip->move(-1); //IDLE_MOVING_STATE
-*/            
+*/
             //added by Mike, 20210423
             myPilot->move(-1);
             

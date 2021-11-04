@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20200930
- * @date updated: 20211029
+ * @date updated: 20211104
  * @website address: http://www.usbong.ph
  *
  * Acknowledgments:
@@ -457,7 +457,18 @@ public:
          */
     }
     virtual void setYPos(float fY) {
+        //edited by Mike, 20211104
         myYPos=fY;
+/*
+        if (myLevel3D!=NULL) {
+          //error: member access into incomplete type...
+          if (myLevel3D->isLevel2DCollideWith(this)) {
+          }
+          else {
+              myYPos=fY;
+          }
+        }
+*/
         //added by Mike, 20210604; removed by Mike, 20210605
         /*
          setCurrentMovingState(WALKING_MOVING_STATE);

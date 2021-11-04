@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20200926
- * @date updated: 20211025
+ * @date updated: 20211104
  * @website address: http://www.usbong.ph
  *
  * Reference:
@@ -2333,7 +2333,10 @@ bool Level3D::hitByAtTile(MyDynamicObject* mdo, std::string sTileId, int iTileXP
     }
     //ground/floor tile
 		else if ((sTileId.compare("1-0") == 0) ||
-    	 (sTileId.compare("2-0") == 0)) {				
+    	 (sTileId.compare("2-0") == 0)) {
+            
+            printf(">>>>>>>>>>>>>>>>>>hit sTileId\n");
+            
 				//edited by Mike, 20210830
 				//reminder: added: gravity to exist in world
 				//TO-DO: -add: container to store gravity value
