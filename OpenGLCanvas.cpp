@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20200926
- * @date updated: 20211104
+ * @date updated: 20211105
  * @website address: http://www.usbong.ph
  *
  * References:
@@ -1222,14 +1222,36 @@ void OpenGLCanvas::update()
 													myRobotshipContainer[iIndexCount]->setYPos(myRobotshipContainer[iIndexCount]->getY()+myRobotshipContainer[iIndexCount]->getHeight()*0.8f*(iIndexCount)); //1
 
 //													printf(">>DITO\n");													
-												}
+												}																		
 											}
 											else {
 //													printf(">>HALLO\n");		
 																								
-												//edited by Mike, 20211029
-												myRobotshipContainer[iIndexCount]->setYPos(myPilot->getY()+myPilot->getHeight()*0.6f+myRobotshipContainer[iIndexCount]->getHeight()*0.8f*(iIndexCount));
+												//edited by Mike, 20211105
+//												myRobotshipContainer[iIndexCount]->setYPos(myPilot->getY()+myPilot->getHeight()*0.6f+myRobotshipContainer[iIndexCount]->getHeight()*0.8f*(iIndexCount));
 
+
+/*													
+													if (iIndexCount>0) {
+															//TO-DO: -update: this
+															//if y position of Unit member is Pilot's height/1.8
+//															if (myRobotshipContainer[0]->getY()<=myPilot->getY()+myPilot->getHeight()/1.8f) {
+															if (myRobotshipContainer[0]->getY()<=myPilot->getY()+myPilot->getHeight()/2.0f) {
+																//set Unit member's y position to intersect with Pilot's 
+//																myRobotshipContainer[iIndexCount]->setYPos(myRobotshipContainer[0]->getY());
+																myRobotshipContainer[iIndexCount]->setYPos(myPilot->getY());
+	                          	}
+													}
+*/													
+													//TO-DO: -reverify: this due to y position of select Unit members
+													//are set by Computer to go beyond wall tile 
+													if (myRobotshipContainer[iIndexCount]->getY()<=myPilot->getY()+myPilot->getHeight()/2.0f) {
+															myRobotshipContainer[iIndexCount]->setYPos(myPilot->getY()+myPilot->getHeight()/1.5f);
+	                        }
+	                        else {
+														myRobotshipContainer[iIndexCount]->setYPos(myPilot->getY()+myPilot->getHeight()*0.6f+myRobotshipContainer[iIndexCount]->getHeight()*0.8f*(iIndexCount));
+	                        }
+	
 													if (iIndexCount==0) { //first to change; from key BOTTOM to ABOVE
 														//next Unit member, if exists
 														//--> move 1 tile to the BOTTOM, but still ABOVE of Unit Chief
@@ -1253,7 +1275,47 @@ void OpenGLCanvas::update()
                         //TO-DO: -fix: this
                         if (myLevel3D->isLevel2DCollideWith(myRobotshipContainer[iIndexCount])) {
                             myRobotshipContainer[iIndexCount]->setYPos(myPilot->getY());
+/*	//removed by Mike, 20211105
+                        	for (int iCount=iIndexCount; iCount<MAX_ROBOTSHIP_COUNT; iCount++) {
+                        			if (iCount>0) {
+                        				//if Unit member
+                        		  	if (myLevel3D->isLevel2DCollideWith(myRobotshipContainer[iCount-1])) {
+                            			myRobotshipContainer[iCount]->setYPos(myPilot->getY());
+                        				}	
+                        			}                        	
+													}	
+*/													
+
+/*
+     		printf(">>>>>>>>>>>>>>>>>>>>>> HIT!!!\n");
+
+
+														//added by Mike, 20211105
+	        								for (; iCount<MAX_ROBOTSHIP_COUNT; iCount++) {													
+                              		printf(">>>>>>>>>>>>>>>>>>>>>> NO HIT\n");
+
+                        		 if (iCount>0) {	
+                              		printf(">>>>>>>>>>>>>>>>>>>>>> NO HIT loob\n");
+                            				myRobotshipContainer[iCount]->setYPos(myRobotshipContainer[iCount-1]->getY());
+                        		  }	
+                        		}
+*/
+
                         }
+/*
+                        //added by Mike, 20211105
+                        else {
+                        	for (int iCount=iIndexCount; iCount<MAX_ROBOTSHIP_COUNT; iCount++) {
+                        			if (iCount>0) {
+                        				//if Unit member
+                        		  	if (myLevel3D->isLevel2DCollideWith(myRobotshipContainer[iCount-1])) {
+                            			myRobotshipContainer[iCount]->setYPos(myPilot->getY());
+                        				}	
+                        			}                        	
+													}	
+                        }
+*/													
+                        
 /* //removed by Mike, 20211104
                         //added by Mike, 20211104
                         for (int iCount=0; iCount<MAX_ROBOTSHIP_COUNT; iCount++) {
@@ -1762,7 +1824,7 @@ printf(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> not yet above Unit Chief\n");
 															if (myRobotshipContainer[iCount]->getX()+myRobotshipContainer[iCount]->getWidth()/2.0f > myPilot->getX()) {
 				myRobotshipContainer[iCount]->setXPos(myPilot->getX());
   }
-														}
+														}															
   												}
   												
 											}
@@ -1805,13 +1867,13 @@ printf(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> not yet above Unit Chief\n");
     }
 */
         for (int iCount=0; iCount<MAX_ROBOTSHIP_COUNT; iCount++) {
-                    //TO-DO: -fix: auto-set y position of Unit members farther from Chief do not hit Tile
+                    //TO-DO: -fix: auto-set y position of Unit members farther from Chief does not hit Tile
                     //TO-DO: -fix: slide up movement with Unit members#2 onward after hitting tile
                     //note: during battle, to eliminate Artificial Intelligence (AI) movement problems,
                     //use wide open areas, e.g. select stages in Pocky & Rocky?
                     //where: AI is used, if no Human companion during multiplayer
                     //battle with opponents, e.g. Teroristang Komunista, becomes the road blocks classified to be challenges?
-                if (myLevel3D->isLevel2DCollideWith(myRobotshipContainer[iCount])) {
+                		if (myLevel3D->isLevel2DCollideWith(myRobotshipContainer[iCount])) {
 //                        if (myRobotshipContainer[iCount]->getCurrentFacing()==FACING_UP) {
                         if (iPilotKeyDownCount==KEY_W) {
                             /*
@@ -1821,8 +1883,40 @@ printf(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> not yet above Unit Chief\n");
 */
                             myRobotshipContainer[iCount]->setYPos(myPilot->getY());
                             myRobotshipContainer[iCount]->move(KEY_W);
+
+
+/*
+                              		printf(">>>>>>>>>>>>>>>>>>>>>> HIT!!!\n");
+
+														//added by Mike, 20211105
+	        								for (; iCount<MAX_ROBOTSHIP_COUNT; iCount++) {													
+                              		printf(">>>>>>>>>>>>>>>>>>>>>> NO HIT\n");
+
+                        		 if (iCount>0) {	
+                              		printf(">>>>>>>>>>>>>>>>>>>>>> NO HIT loob\n");
+                            				myRobotshipContainer[iCount]->setYPos(myRobotshipContainer[iCount-1]->getY());
+                        		  }	
+                        		}
+*/                        		
                         }
                     }
+/*                    
+                    //added by Mike, 20211105
+                    else {
+                    
+                              printf(">>>>>>>>>>>>>>>>>>>>>> NO HIT\n");
+                    
+                        if (iCount>0) {
+//														if (myLevel3D->isLevel2DCollideWith(myRobotshipContainer[iCount-1])) {                                                                        
+														if (myRobotshipContainer[iCount]->isIntersectingRect(myRobotshipContainer[iCount],myRobotshipContainer[iCount-1])) {                                                                        
+
+                              printf(">>>>>>>>>>>>>>>>>>>>>> NO HIT loob\n");
+                            		myRobotshipContainer[iCount]->setYPos(myRobotshipContainer[iCount-1]->getY());
+                        		}                        	
+                        }
+                    }
+*/                    
+                    
                     ////        case KEY_S: //FACING_DOWN:
                     ////            break;
                     ////        case KEY_A: //FACING_LEFT:
