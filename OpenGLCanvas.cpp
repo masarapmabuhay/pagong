@@ -1243,13 +1243,35 @@ void OpenGLCanvas::update()
 	                          	}
 													}
 */													
-													//TO-DO: -reverify: this due to y position of select Unit members
-													//are set by Computer to go beyond wall tile 
-													if (myRobotshipContainer[iIndexCount]->getY()<=myPilot->getY()+myPilot->getHeight()/2.0f) {
-															myRobotshipContainer[iIndexCount]->setYPos(myPilot->getY()+myPilot->getHeight()/1.5f);
+                            //TO-DO: -reverify: this due to y position of select Unit members
+							//are set by Computer to go beyond wall tile
+                            if (myRobotshipContainer[iIndexCount]->getY()<=myPilot->getY()+myPilot->getHeight()/2.0f) {
+                                    myRobotshipContainer[iIndexCount]->setYPos(myPilot->getY()+myPilot->getHeight()/1.5f);
 	                        }
 	                        else {
-														myRobotshipContainer[iIndexCount]->setYPos(myPilot->getY()+myPilot->getHeight()*0.6f+myRobotshipContainer[iIndexCount]->getHeight()*0.8f*(iIndexCount));
+                                    //edited by Mike, 20211105
+//									myRobotshipContainer[iIndexCount]->setYPos(myPilot->getY()+myPilot->getHeight()*0.6f+myRobotshipContainer[iIndexCount]->getHeight()*0.8f*(iIndexCount));
+                                int iRobotshipCount;
+                                for(iRobotshipCount=0; iRobotshipCount<MAX_ROBOTSHIP_COUNT; iRobotshipCount++) {
+                                    //verify part1
+                                    if (myLevel3D->isLevel2DCollideWith(myRobotshipContainer[iRobotshipCount])) {
+                                        
+                                        printf(">>LOOB");
+                                        
+                                        myRobotshipContainer[iIndexCount]->setYPos(myPilot->getY()+myPilot->getHeight()*0.6f+myRobotshipContainer[iIndexCount]->getHeight()*0.8f*(iRobotshipCount));
+                                        break;
+                                    }
+                                }
+                                
+                                if (iRobotshipCount==MAX_ROBOTSHIP_COUNT) {
+                                    myRobotshipContainer[iIndexCount]->setYPos(myPilot->getY()+myPilot->getHeight()*0.6f+myRobotshipContainer[iIndexCount]->getHeight()*0.8f*(iIndexCount));
+
+                                    //TO-DO: -reverify: why last Unit member NOT classified to hit Wall tile
+                                    if (myLevel3D->isLevel2DCollideWith(myRobotshipContainer[iIndexCount])) {
+//                                        myRobotshipContainer[iIndexCount]->setYPos(myPilot->getY()+myPilot->getHeight()*0.6f+myRobotshipContainer[iIndexCount]->getHeight()*0.8f*(0)); //iRobotshipCount
+                                        myRobotshipContainer[iIndexCount]->setYPos(myPilot->getY());
+                                    }
+                                }
 	                        }
 	
 													if (iIndexCount==0) { //first to change; from key BOTTOM to ABOVE
