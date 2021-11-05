@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20200926
- * @date updated: 20210928
+ * @date updated: 20211106
  * @website address: http://www.usbong.ph
  *
  * References:
@@ -670,10 +670,14 @@ int main(int argc, char *argv[])
         
     //edited by Mike, 20210826
     //TO-DO: -add: auto-identify delay input based on computer processor speed
-    //edited by Mike, 20210915
+    //edited by Mike, 20211105
+    //TO-DO: -verify: add movement delay when using key combinations, e.g. right, down
 //		SDL_Delay(16);
 		SDL_Delay(32);
-//			SDL_Delay(1);
+//        SDL_Delay(64);
+//        SDL_Delay(42);
+
+        //			SDL_Delay(1);
     }
 
 	return 0;
