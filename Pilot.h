@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B. 
  * @date created: 20200930
- * @date updated: 20211029
+ * @date updated: 20211106
  * @website address: http://www.usbong.ph
  *
  * Acknowledgments:
@@ -280,12 +280,14 @@ private:
 	//int iInputWaitCount; //we use with dash
 	int iInputWaitCountArray[PILOT_MAX_DIRECTIONAL_KEY_DASH_COUNT]; //6
 
+/*  //removed to DynamicObject.h by Mike, 20211106
 	//added by Mike, 20210502; edited by Mike, 20210601
 	bool bIsPlayer1,
 			 bIsPlayer1Partner,
 			 bIsPlayer2,
 			 bIsPlayer2Partner;
-	
+*/
+    
     GLint tricount;
     GLint isMovingForward;
 

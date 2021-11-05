@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B. 
  * @date created: 20200930
- * @date updated: 20211104
+ * @date updated: 20211106
  * @website address: http://www.usbong.ph
  *
  * Reference: 
@@ -533,6 +533,13 @@ Robotship::Robotship(float xPos, float yPos, float zPos, float fWindowWidth, flo
 //    iOffsetYPosAsPixel=fGridSquareHeight*0.05;
  //   iOffsetYPosAsPixel=0;
 */
+    
+    //added by Mike, 20211106
+    //note: set this in OpenGLCanvas.cpp
+    bIsPlayer1=false;
+    bIsPlayer1Partner=false;
+    bIsPlayer2=false;
+    bIsPlayer2Partner=false;
     
 	//added by Mike, 20210728
 	bHasHitWall=false;

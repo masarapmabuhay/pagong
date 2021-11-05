@@ -2152,7 +2152,7 @@ printf(">>>> iCurrentLevelMapContainerOffsetMaxViewPortY: %i;",iCurrentLevelMapC
                 if (mdo->collideWithLevel2DTileRect(0.0f+fGridSquareWidth*(iColumnCount-iCurrentLevelMapContainerOffsetX-1)-fStepMovemenGridX,0.0f+fGridSquareHeight*(iRowCount-iCurrentLevelMapContainerOffsetY-1)-fStepMovemenGridY, fGridSquareWidth, fGridSquareHeight)) {
 */
                 if (mdo->collideWithLevel2DTileRect(0.0f+fGridSquareWidth*(iColumnCount-iCurrentLevelMapContainerOffsetX-1)-fStepMovemenGridX,0.0f+fGridSquareHeight*(iRowCount-iCurrentLevelMapContainerOffsetY-1)-fStepMovemenGridY, fGridSquareWidth, fGridSquareHeight)) {
-                    
+ 
 //                printf(">>>>> fGridSquareWidth: %f",fGridSquareWidth);
                    
 /* //edited by Mike, 20211007
@@ -2342,7 +2342,19 @@ bool Level3D::hitByAtTile(MyDynamicObject* mdo, std::string sTileId, int iTileXP
 				//TO-DO: -add: container to store gravity value
             //edited by Mike, 20211002
           //origin, i.e. 0,0, @TOP-LEFT
-        mdo->setYPos(mdo->getY()-mdo->getStepY());
+            //edited by Mike, 20211106
+//            mdo->setYPos(mdo->getY()-mdo->getStepY());
+
+            if (mdo->getIsPlayer1()) {
+              mdo->setYPos(mdo->getY()-mdo->getStepY());
+            }
+            else {
+              //note: auto-set y position of last Unit member is already outside the y position of wall tile
+              //with present computer instructions, use at least two (2) wall tiles in y position
+              //mdo->setYPos(iTileYPos-mdo->getStepY());
+              mdo->setYPos(mdo->getY()-mdo->getStepY()*5);
+            }
+            
 //            mdo->setYPos(mdo->getY()-mdo->getStepY()-1);
 //        mdo->setYPos(mdo->getY()+mdo->getStepY()); //note: use with wall for up movement
             

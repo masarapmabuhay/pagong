@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20200930
- * @date updated: 20211104
+ * @date updated: 20211106
  * @website address: http://www.usbong.ph
  *
  * Acknowledgments:
@@ -195,6 +195,12 @@ public:
 				
     //added by Mike, 20210527
     bool bIsMovingDown;
+    
+    //added by Mike, 20211106
+    bool bIsPlayer1,
+			 bIsPlayer1Partner,
+			 bIsPlayer2,
+			 bIsPlayer2Partner;
     
     //added by Mike, 20210528
     int iDirectionXAxis;
@@ -434,6 +440,12 @@ public:
     		return true;
     	}
     	return false;
+    }
+    
+    //added by Mike, 20210806
+    //TO-DO: error if NOT set to false during init
+    bool getIsPlayer1() {
+        return bIsPlayer1;
     }
     
     //added by Mike, 20201217
