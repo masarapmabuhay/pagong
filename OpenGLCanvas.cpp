@@ -1207,6 +1207,10 @@ void OpenGLCanvas::update()
                                                     
 													//--> move to the BOTTOM of Unit Chief based on index
 													myRobotshipContainer[iIndexCount]->setYPos(myPilot->getY()+myPilot->getHeight()*0.6f+myRobotshipContainer[iIndexCount]->getHeight()*0.8f*(iIndexCount));
+                                                    
+                                                    
+                                                    
+                                                    
   
 /* //removed by Mike, 20211104
                                                     //added by Mike, 20211104
@@ -1271,6 +1275,22 @@ void OpenGLCanvas::update()
 //                                        myRobotshipContainer[iIndexCount]->setYPos(myPilot->getY()+myPilot->getHeight()*0.6f+myRobotshipContainer[iIndexCount]->getHeight()*0.8f*(0)); //iRobotshipCount
                                         myRobotshipContainer[iIndexCount]->setYPos(myPilot->getY());
                                     }
+                                    
+                                    
+                                    //added by Mike, 20211106
+                                    //TO-DO: -reverify: this due to last Unit member's auto-set position is already outside wall tile x1
+                                    //In addition, after movement, previous Unit member does NOT anymore hit wall tile
+                                    if (iIndexCount==MAX_ROBOTSHIP_COUNT-1) {
+                                        if ((myLevel3D->isLevel2DCollideWith(myRobotshipContainer[iIndexCount-1])|| myLevel3D->isLevel2DCollideWith(myRobotshipContainer[iIndexCount]))) {
+                                            if (myRobotshipContainer[iIndexCount-1]->isIntersectingRect(myRobotshipContainer[iIndexCount-1],myPilot) &&
+                                                myRobotshipContainer[iIndexCount-1]->isIntersectingRect(myRobotshipContainer[iIndexCount-1],myRobotshipContainer[iIndexCount-2])
+                                                ) {
+                                                //                                        myRobotshipContainer[iIndexCount]->setYPos(myPilot->getY()+myPilot->getHeight()*0.6f+myRobotshipContainer[iIndexCount]->getHeight()*0.8f*(0)); //iRobotshipCount
+                                                myRobotshipContainer[iIndexCount]->setYPos(myRobotshipContainer[iIndexCount-1]->getY());
+                                            }
+                                        }
+                                    }
+                                    
                                 }
 	                        }
 	
