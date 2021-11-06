@@ -471,7 +471,6 @@ Pilot::Pilot(float xPos, float yPos, float zPos, float fWindowWidth, float fWind
     stepX=fGridSquareWidth/10;
     stepY=fGridSquareHeight/10;
     stepZ=fGridSquareWidth/10;
-
     
     //TO-DO: -reverify: gravity AND push down due to tile collision;
     //Pilot sinks in ground, e.g. 2-0 tile

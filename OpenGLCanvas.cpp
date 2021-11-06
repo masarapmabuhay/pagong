@@ -63,6 +63,9 @@
 
 //TO-DO: -update: instructions in auto-drawing of tiles due to lines between tiles are visible
 
+//TO-DO: -update: instructions to stop axis position movement after hitting wall tile
+//--> -add: shaking head animation sequence? CHRONO TRIGGER?
+
 //#include <SDL.h>
 //edited by Mike, 20200929
 
@@ -1247,7 +1250,10 @@ void OpenGLCanvas::update()
                                        if (myPilot->isIntersectingRect(myPilot,myRobotshipContainer[iIndexCount-1]))                                        
 
                                        {
-                                        	myRobotshipContainer[iIndexCount]->setYPos(myRobotshipContainer[0]->getY());
+                                       		//edited by Mike, 20211106
+//                                        	myRobotshipContainer[iIndexCount]->setYPos(myRobotshipContainer[0]->getY());
+//                                        	myRobotshipContainer[iIndexCount]->setYPos(myRobotshipContainer[1]->getY());
+                                        	myRobotshipContainer[iIndexCount]->setYPos(myRobotshipContainer[0]->getY()+myRobotshipContainer[1]->getStepY());
                                     	 }
                                     	 else {
 
@@ -1429,12 +1435,15 @@ void OpenGLCanvas::update()
 											}
 											else {
 //													printf(">>HALLO\n");		
+																						
 																								
 												//edited by Mike, 20211029
 //												myRobotshipContainer[iIndexCount]->setYPos(myPilot->getY()-myRobotshipContainer[iIndexCount]->getHeight()*0.8f*(iIndexCount));
 
 												myRobotshipContainer[iIndexCount]->setYPos(myPilot->getY()-myRobotshipContainer[iIndexCount]->getHeight()*0.8f*(iIndexCount+1));
 
+													//added by Mike, 20211106
+													//TO-DO: -reverify: this to execute NOKIA Snake Movement		
 
 													if (iIndexCount==0) { //first to change; from key BOTTOM to ABOVE
 														//next Unit member, if exists
@@ -1449,138 +1458,19 @@ void OpenGLCanvas::update()
 																}
 														}
 													}																																								
+														
+
 											}
 																							}
 																							
-																							
-												//added by Mike, 20211102										
-/*																									
-												if ((iPrevPilotKeyDownContainer[0]==KEY_A) || 
-														(iPrevPilotKeyDownContainer[0]==KEY_D)) {													
-*/
-
+	
+/*
 												//from movement to RIGHT, then DOWN
 												iPrevIndexCount = iIndexCount-1;
 												if (iPrevIndexCount<0) {
 													iPrevIndexCount=0;
 												}
-
-												//from movement to RIGHT, then DOWN
-												if (iPrevPilotKeyDownContainer[iPrevIndexCount]==KEY_D){
-												}
-												else {
-											//identify if current Unit member still BOTTOM of Unit Chief
-												//identify if current Unit member immediately BOTTOM of Unit Chief
-												//--> move to ABOVE of Unit Chief based on index
-												//else
-												//--> move 1 step to ABOVE, but still BOTTOM of Unit Chief
-											//else
-											//--> move ABOVE of Unit Chief based on index
-/*											
-											if (myRobotshipContainer[iIndexCount]->getY() > myPilot->getY()+myPilot->getHeight()) {
-										printf(">>>>>\n");
-*/										
-
-printf(">>>>>>> RIGHT TO DOWN KEYS\n");
-
-											if (myRobotshipContainer[iIndexCount]->getX()+myRobotshipContainer[iIndexCount]->getWidth() < myPilot->getX()) {
-										printf(">>>>>\n");
-
-												//intersection
-												if (myRobotshipContainer[iIndexCount]->getX()+myRobotshipContainer[iIndexCount]->getWidth()>=myPilot->getX()) {
-/*												
-													//--> move ABOVE of Unit Chief based on index
-													myRobotshipContainer[iIndexCount]->setYPos(myPilot->getY()-myRobotshipContainer[iIndexCount]->getHeight()*0.8f*(iIndexCount));	
-*/													
-												}
-												//--> move 1 tile RIGHT, but still LEFT of Unit Chief
-												else {
-														//removed by Mike, 20211102
-//													myRobotshipContainer[iIndexCount]->setXPos(myRobotshipContainer[iIndexCount]->getX()+myRobotshipContainer[iIndexCount]->getWidth()*0.8f*(iIndexCount)); //1
-
-													printf(">>>>>>>DITO\n");				
-//removed by Mike, 20211103
-//myRobotshipContainer[iIndexCount]->setXPos(myPilot->getX());
-
-
-												//myRobotshipContainer[iIndexCount]->setXPos(myPilot->getX()-myRobotshipContainer[iIndexCount]->getWidth());
-
-													
-													//TO-DO: -reverify this
-/*
-													//added after above the Unit Chief													
-													//causes curved/bending, i.e. NOT straight, formation
-														for (int iCount=1; iCount<MAX_ROBOTSHIP_COUNT; iCount++) {	
-															myRobotshipContainer[iCount]->setXPos(myPilot->getX()-myRobotshipContainer[iCount]->getStepX()*(iCount+2));
-															
-															if (myRobotshipContainer[iCount]->getX()+myRobotshipContainer[iCount]->getWidth() >= myPilot->getX()) {
-//																myRobotshipContainer[iCount]->setXPos(myPilot->getX());
-															}															
-														}	
-*/																										
-													//added after above the Unit Chief													
-														for (int iCount=1; iCount<MAX_ROBOTSHIP_COUNT; iCount++) {	
-															
-															//myRobotshipContainer[iCount]->setXPos(myPilot->getX()-myRobotshipContainer[iCount]->getStepX()*(iCount-1));
-															
-															if (myRobotshipContainer[iCount]->getX()+myRobotshipContainer[iCount]->getWidth() >= myPilot->getX()) {
-//																myRobotshipContainer[iCount]->setXPos(myPilot->getX());
-															}															
-														}	
-																					
-												}
-											}
-											
-											else {
-													printf(">>>>>>>>>>>>>HALLO\n");		
-							
-												//TO-DO: -update: this
-												
-												//removed by Mike, 20211103
-												//myRobotshipContainer[iIndexCount]->setXPos(myPilot->getX()-myRobotshipContainer[iIndexCount]->getWidth()*0.8f*(iIndexCount));
-
-/*
-//													if (iIndexCount==0) { //first to change; from key RIGHT to DOWN
-														//next Unit member, if exists
-														//--> move 1 step to the RIGHT, but still LEFT of Unit Chief
-														for (int iCount=iIndexCount+1; iCount<MAX_ROBOTSHIP_COUNT; iCount++) {														
-															//if Unit Member is changing direction to move from RIGHT to DOWN
-															if (iPrevPilotKeyDownContainer[iCount]==KEY_D) {			
-printf(">>>>>>>>>>2\n");							
-																	//edited by Mike, 20211103
-																	//OK; TO-DO: -update: to include next Unit members after #2 and #3; 
-																	//#1= Unit Chief
-//																	myRobotshipContainer[iIndexCount+iCount]->setXPos(myRobotshipContainer[iIndexCount+iCount]->getX()+myRobotshipContainer[iIndexCount+iCount]->getWidth()*1.58f*(iIndexCount+iCount));
-																	//OK
-																	myRobotshipContainer[iCount]->setXPos(myRobotshipContainer[iCount]->getX()+myRobotshipContainer[iCount]->getWidth()*(iCount)+myRobotshipContainer[iCount]->getStepX()*12);
-															}
-														}
-*/														
-
-//														for (int iCount=iIndexCount+1; iCount<MAX_ROBOTSHIP_COUNT; iCount++) {														
-															//if Unit Member is changing direction to move from RIGHT to DOWN
-															if (iPrevPilotKeyDownContainer[iIndexCount+1]==KEY_D) {			
-printf(">>>>>>>>>>2\n");							
-//												myRobotshipContainer[iIndexCount+1]->setXPos(myPilot->getX()-myRobotshipContainer[iIndexCount+1]->getWidth()*0.8f*(iIndexCount+1));
-
-																	//OK
-//																	myRobotshipContainer[iIndexCount+1]->setXPos(myRobotshipContainer[iIndexCount+1]->getX()+myRobotshipContainer[iIndexCount+1]->getWidth()*(iIndexCount+1)+myRobotshipContainer[iIndexCount+1]->getStepX()*12);
-															}
-//														}
-
-
-														
-//													}	
-	
-													
-printf(">>>>>>>>>>3\n");								
-
-													
-//											}
-																								
-											}
-																							}																							
-																							
+*/												
                         break;
                     case KEY_A: //FACING_LEFT:                    
 /*
@@ -1803,6 +1693,7 @@ printf(">>>myRobotshipContainer[%i]'s iPrevPilotKeyDownContainer[%i]: %i\n",iInd
 																		//added by Mike, 20211104
 																		myRobotshipContainer[iCount]->move(KEY_D);																		
 																}
+
   														}
   														else if (iCount==2) {
 printf(">>>>>>>>>>>>iCount==2\n");  														
