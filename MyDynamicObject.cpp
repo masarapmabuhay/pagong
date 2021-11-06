@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B. 
  * @date created: 20200930
- * @date updated: 20211007
+ * @date updated: 20211106
  * @website address: http://www.usbong.ph
  *
  * Acknowledgments:
@@ -193,11 +193,25 @@ bool MyDynamicObject::checkCollision(MyDynamicObject* mdo1, MyDynamicObject* mdo
     return false;
 }
 
+/*	//edited by Mike, 20211106
 bool MyDynamicObject::isIntersectingRect(MyDynamicObject* mdo1, MyDynamicObject* mdo2)
 {     
 	//TO-DO: -update: to use keyword for object size in z-axis, etc
     if (mdo2->getZ()+mdo2->getWidth() < mdo1->getZ() || //is the bottom of mdo2 above the top of mdo1?
         mdo2->getZ() > mdo1->getZ()+mdo1->getWidth() || //is the top of mdo2 below bottom of mdo1?
+        mdo2->getX()+mdo2->getWidth() < mdo1->getX()  || //is the right of mdo2 to the left of mdo1?
+        mdo2->getX() > mdo1->getX()+mdo1->getWidth()) {//is the left of mdo2 to the right of mdo1?
+        return false;
+	}
+	
+    return true;
+}
+*/
+bool MyDynamicObject::isIntersectingRect(MyDynamicObject* mdo1, MyDynamicObject* mdo2)
+{     
+	//TO-DO: -update: to use keyword for object size in z-axis, etc
+    if (mdo2->getY()+mdo2->getHeight() < mdo1->getY() || //is the bottom of mdo2 above the top of mdo1?
+        mdo2->getY() > mdo1->getY()+mdo1->getHeight() || //is the top of mdo2 below bottom of mdo1?
         mdo2->getX()+mdo2->getWidth() < mdo1->getX()  || //is the right of mdo2 to the left of mdo1?
         mdo2->getX() > mdo1->getX()+mdo1->getWidth()) {//is the left of mdo2 to the right of mdo1?
         return false;

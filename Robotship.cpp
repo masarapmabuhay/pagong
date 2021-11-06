@@ -521,7 +521,6 @@ Robotship::Robotship(float xPos, float yPos, float zPos, float fWindowWidth, flo
 */
     iOffsetXPosAsPixel=fGridSquareWidth*0.28*2.0f;
     iOffsetYPosAsPixel=fGridSquareHeight*0.15*4.0f; //note: divide Pilot height by 2.0f
-    
 
 /*  //note: if NOT set, CAN climb diagonal triangle tile; 
     //however, empty tile x1, Pilot does not fall through...
