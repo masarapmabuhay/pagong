@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20200926
- * @date updated: 20211107
+ * @date updated: 20211108
  * @website address: http://www.usbong.ph
  *
  * References:
@@ -1190,8 +1190,6 @@ void OpenGLCanvas::update()
                 //note: Robo's distance notioceably near with Pilot
                 switch (iPrevPilotKeyDownContainer[iIndexCount]) {
                     case KEY_W://FACING_UP:
-                        //added by Mike, 20211107
-                        //TO-DO: -update: instructions due to excess space after Pilot
                         
 /*                    
                         if ((myRobotshipContainer[iIndexCount]->getCurrentFacing()==FACING_LEFT) || (myRobotshipContainer[iIndexCount]->getCurrentFacing()==FACING_RIGHT)) {
@@ -1226,7 +1224,6 @@ void OpenGLCanvas::update()
 													//--> move to the BOTTOM of Unit Chief based on index
                                                     //edited by Mike, 20211107
 //													myRobotshipContainer[iIndexCount]->setYPos(myPilot->getY()+myPilot->getHeight()*0.6f+myRobotshipContainer[iIndexCount]->getHeight()*0.8f*(iIndexCount));
-
                                                     myRobotshipContainer[iIndexCount]->setYPos(myPilot->getY()+myPilot->getHeight()*0.6f+myRobotshipContainer[iIndexCount]->getHeight()*0.4f*(iIndexCount));
                                                     
                                                 }
@@ -1262,7 +1259,9 @@ void OpenGLCanvas::update()
                                 if (iRobotshipCount==MAX_ROBOTSHIP_COUNT) {
                                     //edited by Mike, 20211107
 //                                    myRobotshipContainer[iIndexCount]->setYPos(myPilot->getY()+myPilot->getHeight()*0.6f+myRobotshipContainer[iIndexCount]->getHeight()*0.8f*(iIndexCount));
-                                    myRobotshipContainer[iIndexCount]->setYPos(myPilot->getY()+myPilot->getHeight()*0.6f+myRobotshipContainer[iIndexCount]->getHeight()*0.4f*(iIndexCount+1));
+                                    //edited by Mike, 20211108
+//                                    myRobotshipContainer[iIndexCount]->setYPos(myPilot->getY()+myPilot->getHeight()*0.6f+myRobotshipContainer[iIndexCount]->getHeight()*0.4f*(iIndexCount+1));
+                                    myRobotshipContainer[iIndexCount]->setYPos(myPilot->getY()+myPilot->getHeight()*0.6f+myRobotshipContainer[iIndexCount]->getHeight()*0.4f*(iIndexCount));
                                    
                                     if (myLevel3D->isLevel2DCollideWith(myRobotshipContainer[iIndexCount])) {
                                         myRobotshipContainer[iIndexCount]->setYPos(myPilot->getY());
@@ -1279,8 +1278,11 @@ void OpenGLCanvas::update()
                                        		//edited by Mike, 20211106
 //                                        	myRobotshipContainer[iIndexCount]->setYPos(myRobotshipContainer[0]->getY());
 //                                        	myRobotshipContainer[iIndexCount]->setYPos(myRobotshipContainer[1]->getY());
-                                        	myRobotshipContainer[iIndexCount]->setYPos(myRobotshipContainer[0]->getY()+myRobotshipContainer[1]->getStepY());
-                                    	 }
+                                           //edited by Mike, 20211108
+                                        //	myRobotshipContainer[iIndexCount]->setYPos(myRobotshipContainer[0]->getY()+myRobotshipContainer[1]->getStepY());
+//                                           myRobotshipContainer[iIndexCount]->setYPos(myRobotshipContainer[2]->getY()+myRobotshipContainer[iIndexCount]->getStepY());
+                                           myRobotshipContainer[iIndexCount]->setYPos(myRobotshipContainer[iIndexCount]->getY()+myRobotshipContainer[iIndexCount]->getStepY());
+                                         }
                                     	 else {
                                             //edited by Mike, 20211107
 //                                    		myRobotshipContainer[iIndexCount]->setYPos(myPilot->getY()+myPilot->getHeight()*0.6f+myRobotshipContainer[iIndexCount]->getHeight()*0.8f*(iIndexCount));
