@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20200926
- * @date updated: 20211106
+ * @date updated: 20211107
  * @website address: http://www.usbong.ph
  *
  * References:
@@ -967,7 +967,19 @@ void OpenGLCanvas::render()
             glPushMatrix();
                 myRobotshipContainer[iCount]->draw();
             glPopMatrix();
-        }        
+        }
+    }
+    //added by Mike, 20211107
+    else if (myPilot->getCurrentFacing()==FACING_DOWN) {
+        for(int iCount=MAX_ROBOTSHIP_COUNT-1; iCount>=0; iCount--) {
+            glPushMatrix();
+                myRobotshipContainer[iCount]->draw();
+            glPopMatrix();
+        }
+
+        glPushMatrix();
+            myPilot->draw();
+        glPopMatrix();
     }
     else {
         //note: draw last, Unit member #1 in sequence
@@ -1440,7 +1452,9 @@ void OpenGLCanvas::update()
 												//edited by Mike, 20211029
 //												myRobotshipContainer[iIndexCount]->setYPos(myPilot->getY()-myRobotshipContainer[iIndexCount]->getHeight()*0.8f*(iIndexCount));
 
-												myRobotshipContainer[iIndexCount]->setYPos(myPilot->getY()-myRobotshipContainer[iIndexCount]->getHeight()*0.8f*(iIndexCount+1));
+                                                //edited by Mike, 20211107
+//												myRobotshipContainer[iIndexCount]->setYPos(myPilot->getY()-myRobotshipContainer[iIndexCount]->getHeight()*0.8f*(iIndexCount+1));
+                                                myRobotshipContainer[iIndexCount]->setYPos(myPilot->getY()-myRobotshipContainer[iIndexCount]->getHeight()*0.4f*(iIndexCount+1));
 
 													//added by Mike, 20211106
 													//TO-DO: -reverify: this to execute NOKIA Snake Movement		
@@ -1688,7 +1702,15 @@ printf(">>>myRobotshipContainer[%i]'s iPrevPilotKeyDownContainer[%i]: %i\n",iInd
   																if (myRobotshipContainer[iCount]->getY()+myRobotshipContainer[iCount]->getHeight() <= myPilot->getY()) {
   																}
   																else {
-																		myRobotshipContainer[iCount]->setXPos(myPilot->getX()-myRobotshipContainer[iCount]->getWidth()*iCount);
+                                                                    //added by Mike 20211107
+                                                                    int iCountPlus=0;
+                                                                    if (myRobotshipContainer[iCount-1]->getY()+myRobotshipContainer[iCount]->getHeight() <= myPilot->getY()) {
+                                                                        iCountPlus=1;
+                                                                        printf(">>>>>>>>>>>>iCountPlus\n");
+                                                                        
+                                                                    }
+                                                                    
+                                                                    myRobotshipContainer[iCount]->setXPos(myPilot->getX()-myRobotshipContainer[iCount]->getWidth()*0);//(iCount-iCountPlus));
 																		
 																		//added by Mike, 20211104
 																		myRobotshipContainer[iCount]->move(KEY_D);																		
