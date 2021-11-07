@@ -118,6 +118,9 @@
 //added by Mike, 20211005
 #include "Sound.h"
 
+//added by Mike, 20211107
+#include "Sdlwav.h"
+
 /*	//removed by Mike, 20210819
 //added by Mike, 20200930
 #include "OpenGLCanvas.h"
@@ -767,7 +770,16 @@ myWindowHeightAsPixel = static_cast<int>(GetSystemMetrics(SM_CYSCREEN));
 	sound->play_sound_clip(explosion);
 */
  
- 	//TO-DO: -add: instructions to use SDL Mixer
+ 	//instructions to use SDL Mixer
+
+ 	char **myArrayOfInputStrings = (char **)malloc(2 * sizeof(char *)); //for only 1 item
+ 	myArrayOfInputStrings[0] = (char *)"./sdlwav"; //add this, albeit NOT used; arg count 1 as filename used
+// 	myArrayOfInputStrings[1] = (char *)"sounds/SleepAway.mp3";
+ 	myArrayOfInputStrings[1] = (char *)"sounds/explosion.wav";
+// 	myArrayOfInputStrings[1] = (char *)"sounds/islands.mp3";
+	
+	//TO-DO: -reverify: cause of NO SOUND; .wav file; no error notifications
+	executeSDLWaveSound(2,myArrayOfInputStrings);//int argc, char **argv);
  
  
 	while (1)
@@ -876,11 +888,11 @@ myWindowHeightAsPixel = static_cast<int>(GetSystemMetrics(SM_CYSCREEN));
     DisableOpenGL (hWnd, hDC, hRC);
 */
 
-
+/*	//removed by Mike, 20211107
 	//added by Mike, 20211005
 	sound->unload_sound_clip(explosion);
     sound->sound_stop();
-
+*/
 
     /* destroy the window explicitly */
     DestroyWindow (hWnd);
