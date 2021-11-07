@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20200926
- * @date updated: 20211005
+ * @date updated: 20211107
  * @website address: http://www.usbong.ph
  *
  * References:
@@ -759,11 +759,16 @@ myWindowHeightAsPixel = static_cast<int>(GetSystemMetrics(SM_CYSCREEN));
  	//removed by Mike, 20210818
 	//atexit(cleanup);
 
+/* //edited by Mike, 20211107; Sound NOT yet from SDL_Mixer
 	//added by Mike, 20211005
     sound = new Sound();    
 	sound->sound_start();
 	explosion = sound->load_sound_clip((char*)EXPLOSIONSOUND);
 	sound->play_sound_clip(explosion);
+*/
+ 
+ 	//TO-DO: -add: instructions to use SDL Mixer
+ 
  
 	while (1)
 	{

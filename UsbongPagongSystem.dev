@@ -11,7 +11,7 @@ ResourceIncludes=
 MakeIncludes=
 Compiler=
 CppCompiler=
-Linker="C:/Program Files/Dev-Cpp/MinGW64/x86_64-w64-mingw32/lib32/libopengl32.a"_@@_"C:/Program Files/Dev-Cpp/MinGW64/x86_64-w64-mingw32/lib32/libglu32.a"_@@_"C:/Program Files/Dev-Cpp/MinGW64/x86_64-w64-mingw32/lib32/libglut32.a"_@@_"C:/Usbong/SDL2-2.0.12/lib/x86/SDL2.dll"_@@_"C:/Usbong/SDL2_image-2.0.5/lib/x86/SDL2_image.dll"_@@_"C:/Program Files/Dev-Cpp/MinGW64/x86_64-w64-mingw32/lib32/libgdi32.a"_@@_
+Linker="C:/Program Files/Dev-Cpp/MinGW64/x86_64-w64-mingw32/lib32/libopengl32.a"_@@_"C:/Program Files/Dev-Cpp/MinGW64/x86_64-w64-mingw32/lib32/libglu32.a"_@@_"C:/Program Files/Dev-Cpp/MinGW64/x86_64-w64-mingw32/lib32/libglut32.a"_@@_"C:/Usbong/SDL2-2.0.12/lib/x86/SDL2.dll"_@@_"C:/Usbong/SDL2_image-2.0.5/lib/x86/SDL2_image.dll"_@@_"C:/Program Files/Dev-Cpp/MinGW64/x86_64-w64-mingw32/lib32/libgdi32.a"_@@_C:/Usbong/SDL2_mixer-2.0.4/lib/x86/SDL2_mixer.dll_@@_C:/Usbong/SDL2_mixer-2.0.4/lib/x86/libFLAC-8.dll_@@_C:/Usbong/SDL2_mixer-2.0.4/lib/x86/libmodplug-1.dll_@@_C:/Usbong/SDL2_mixer-2.0.4/lib/x86/libmpg123-0.dll_@@_C:/Usbong/SDL2_mixer-2.0.4/lib/x86/libogg-0.dll_@@_C:/Usbong/SDL2_mixer-2.0.4/lib/x86/libopus-0.dll_@@_C:/Usbong/SDL2_mixer-2.0.4/lib/x86/libopusfile-0.dll_@@_C:/Usbong/SDL2_mixer-2.0.4/lib/x86/libvorbis-0.dll_@@_C:/Usbong/SDL2_mixer-2.0.4/lib/x86/libvorbisfile-3.dll_@@_
 IsCpp=1
 Icon=
 ExeOutput=output
@@ -19,17 +19,17 @@ ObjectOutput=
 LogOutput=
 LogOutputEnabled=0
 OverrideOutput=0
-OverrideOutputName=UsbongStorySystem.dll
+OverrideOutputName=UsbongPagongSystem.exe
 HostApplication=
 UseCustomMakefile=0
 CustomMakefile=
-CommandLine=
+CommandLine=sounds/explosion.wav
 Folders=
 IncludeVersionInfo=0
 SupportXPThemes=0
 CompilerSet=3
 CompilerSettings=0000000100000000001000000
-UnitCount=22
+UnitCount=24
 
 [VersionInfo]
 Major=1
@@ -261,7 +261,7 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit23]
-FileName=main.cpp
+FileName=sdlwav.cpp
 CompileCpp=1
 Folder=
 Compile=1
@@ -271,7 +271,7 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit24]
-FileName=Ball.cpp
+FileName=Robotship.cpp
 CompileCpp=1
 Folder=
 Compile=1

@@ -4,11 +4,11 @@
 CPP      = g++.exe -D__DEBUG__
 CC       = gcc.exe -D__DEBUG__
 WINDRES  = windres.exe
-OBJ      = main.o Font.o Level2D.o MyDynamicObject.o OpenGLCanvas.o Pilot.o PolygonUtils.o Text.o UsbongUtils.o
-LINKOBJ  = main.o Font.o Level2D.o MyDynamicObject.o OpenGLCanvas.o Pilot.o PolygonUtils.o Text.o UsbongUtils.o
-LIBS     = -L"C:/Program Files/Dev-Cpp/MinGW64/x86_64-w64-mingw32/lib32" -L"C:/Usbong/SDL2-2.0.12/lib/x86" -L"C:/Usbong/SDL2_image-2.0.5/lib/x86" -static-libgcc "C:/Program Files/Dev-Cpp/MinGW64/x86_64-w64-mingw32/lib32/libopengl32.a" "C:/Program Files/Dev-Cpp/MinGW64/x86_64-w64-mingw32/lib32/libglu32.a" "C:/Program Files/Dev-Cpp/MinGW64/x86_64-w64-mingw32/lib32/libglut32.a" "C:/Usbong/SDL2-2.0.12/lib/x86/SDL2.dll" "C:/Usbong/SDL2_image-2.0.5/lib/x86/SDL2_image.dll" "C:/Program Files/Dev-Cpp/MinGW64/x86_64-w64-mingw32/lib32/libgdi32.a" -m32 -g3
-INCS     = -I"C:/Program Files/Dev-Cpp/MinGW64/include" -I"C:/Program Files/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/Program Files/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include" -I"C:/Usbong/SDL2-2.0.12/include" -I"C:/Usbong/SDL2_image-2.0.5/include"
-CXXINCS  = -I"C:/Program Files/Dev-Cpp/MinGW64/include" -I"C:/Program Files/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/Program Files/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include" -I"C:/Program Files/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++" -I"C:/Usbong/SDL2-2.0.12/include" -I"C:/Usbong/SDL2_image-2.0.5/include" -I"D:/Usbong/R&D/Mecha/UsbongStory/story-main/pngpp"
+OBJ      = main.o Font.o Level2D.o MyDynamicObject.o OpenGLCanvas.o Pilot.o PolygonUtils.o Text.o UsbongUtils.o Level3D.o Sound.o sdlwav.o Robotship.o
+LINKOBJ  = main.o Font.o Level2D.o MyDynamicObject.o OpenGLCanvas.o Pilot.o PolygonUtils.o Text.o UsbongUtils.o Level3D.o Sound.o sdlwav.o Robotship.o
+LIBS     = -L"C:/Program Files/Dev-Cpp/MinGW64/x86_64-w64-mingw32/lib32" -L"C:/Usbong/SDL2-2.0.12/lib/x86" -L"C:/Usbong/SDL2_image-2.0.5/lib/x86" -L"C:/Usbong/SDL2_mixer-2.0.4/lib/x86" -static-libgcc "C:/Program Files/Dev-Cpp/MinGW64/x86_64-w64-mingw32/lib32/libopengl32.a" "C:/Program Files/Dev-Cpp/MinGW64/x86_64-w64-mingw32/lib32/libglu32.a" "C:/Program Files/Dev-Cpp/MinGW64/x86_64-w64-mingw32/lib32/libglut32.a" "C:/Usbong/SDL2-2.0.12/lib/x86/SDL2.dll" "C:/Usbong/SDL2_image-2.0.5/lib/x86/SDL2_image.dll" "C:/Program Files/Dev-Cpp/MinGW64/x86_64-w64-mingw32/lib32/libgdi32.a" C:/Usbong/SDL2_mixer-2.0.4/lib/x86/SDL2_mixer.dll C:/Usbong/SDL2_mixer-2.0.4/lib/x86/libFLAC-8.dll C:/Usbong/SDL2_mixer-2.0.4/lib/x86/libmodplug-1.dll C:/Usbong/SDL2_mixer-2.0.4/lib/x86/libmpg123-0.dll C:/Usbong/SDL2_mixer-2.0.4/lib/x86/libogg-0.dll C:/Usbong/SDL2_mixer-2.0.4/lib/x86/libopus-0.dll C:/Usbong/SDL2_mixer-2.0.4/lib/x86/libopusfile-0.dll C:/Usbong/SDL2_mixer-2.0.4/lib/x86/libvorbis-0.dll C:/Usbong/SDL2_mixer-2.0.4/lib/x86/libvorbisfile-3.dll -m32 -g3
+INCS     = -I"C:/Program Files/Dev-Cpp/MinGW64/include" -I"C:/Program Files/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/Program Files/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include" -I"C:/Usbong/SDL2-2.0.12/include" -I"C:/Usbong/SDL2_image-2.0.5/include" -I"C:/Usbong/SDL2_mixer-2.0.4/include"
+CXXINCS  = -I"C:/Program Files/Dev-Cpp/MinGW64/include" -I"C:/Program Files/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/Program Files/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include" -I"C:/Program Files/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++" -I"C:/Usbong/SDL2-2.0.12/include" -I"C:/Usbong/SDL2_image-2.0.5/include" -I"D:/Usbong/R&D/Mecha/UsbongStory/story-main/pngpp" -I"C:/Usbong/SDL2_mixer-2.0.4/include"
 BIN      = output/UsbongPagongSystem.exe
 CXXFLAGS = $(CXXINCS) -m32 -g3 -m32 -lmingw32 -lgdi32 -lopengl32 -lglu32  -lglut32 -mwindows
 CFLAGS   = $(INCS) -m32 -g3 -m32 -lmingw32 -lgdi32 -lopengl32 -lglu32  -lglut32 -mwindows
@@ -50,3 +50,15 @@ Text.o: Text.cpp
 
 UsbongUtils.o: UsbongUtils.cpp
 	$(CPP) -c UsbongUtils.cpp -o UsbongUtils.o $(CXXFLAGS)
+
+Level3D.o: Level3D.cpp
+	$(CPP) -c Level3D.cpp -o Level3D.o $(CXXFLAGS)
+
+Sound.o: Sound.cpp
+	$(CPP) -c Sound.cpp -o Sound.o $(CXXFLAGS)
+
+sdlwav.o: sdlwav.cpp
+	$(CPP) -c sdlwav.cpp -o sdlwav.o $(CXXFLAGS)
+
+Robotship.o: Robotship.cpp
+	$(CPP) -c Robotship.cpp -o Robotship.o $(CXXFLAGS)
