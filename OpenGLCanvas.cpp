@@ -665,7 +665,86 @@ void OpenGLCanvas::keyDown(int keyCode)
 */
 		//added by Mike, 20211104
 		myKeysDown[KEY_K] = FALSE;
-
+		
+		//added by Mike, 20211108
+		//no diagonal movement when NOT in active battle
+		if ((myKeysDown[KEY_A]) && (myKeysDown[KEY_W])) {
+/*
+        		myKeysDown[KEY_A]=FALSE;
+        		myKeysDown[KEY_W]=TRUE;
+*/
+						if (myKeysDown[KEY_A]) {
+        			myKeysDown[KEY_A]=TRUE;
+        			myKeysDown[KEY_W]=FALSE;
+						}
+						else {
+        			myKeysDown[KEY_A]=FALSE;
+        			myKeysDown[KEY_W]=TRUE;
+        		}        		        		
+		}
+		else if ((myKeysDown[KEY_D]) && (myKeysDown[KEY_W])) {
+/*
+        		myKeysDown[KEY_D]=FALSE;
+        		myKeysDown[KEY_W]=TRUE;
+*/        		
+						if (myKeysDown[KEY_D]) {
+        			myKeysDown[KEY_D]=TRUE;
+        			myKeysDown[KEY_W]=FALSE;	
+						}
+						else {
+        			myKeysDown[KEY_D]=FALSE;
+        			myKeysDown[KEY_W]=TRUE;
+        		}
+		}
+		else if ((myKeysDown[KEY_A]) && (myKeysDown[KEY_S])) {
+/*
+        		myKeysDown[KEY_A]=FALSE;
+        		myKeysDown[KEY_S]=TRUE;
+*/
+						if (myKeysDown[KEY_A]) {
+        			myKeysDown[KEY_A]=TRUE;
+        			myKeysDown[KEY_S]=FALSE;
+						}
+						else {
+        			myKeysDown[KEY_A]=FALSE;
+        			myKeysDown[KEY_S]=TRUE;
+        		}        		
+		}
+		else if ((myKeysDown[KEY_D]) && (myKeysDown[KEY_S])) {
+/*
+        		myKeysDown[KEY_D]=FALSE;
+        		myKeysDown[KEY_S]=TRUE;
+*/
+						if (myKeysDown[KEY_D]) {
+        			myKeysDown[KEY_D]=TRUE;
+        			myKeysDown[KEY_S]=FALSE;	
+						}
+						else {
+        			myKeysDown[KEY_D]=FALSE;
+        			myKeysDown[KEY_S]=TRUE;
+        		}
+		}		
+		//added by Mike, 20211108
+		else if ((myKeysDown[KEY_W]) && (myKeysDown[KEY_S])) {
+						if (myKeysDown[KEY_W]) {
+        			myKeysDown[KEY_W]=TRUE;
+        			myKeysDown[KEY_S]=FALSE;	
+						}
+						else {
+        			myKeysDown[KEY_W]=FALSE;
+        			myKeysDown[KEY_S]=TRUE;
+        		}
+		}		
+		else if ((myKeysDown[KEY_A]) && (myKeysDown[KEY_D])) {
+						if (myKeysDown[KEY_A]) {
+        			myKeysDown[KEY_A]=TRUE;
+        			myKeysDown[KEY_D]=FALSE;	
+						}
+						else {
+        			myKeysDown[KEY_A]=FALSE;
+        			myKeysDown[KEY_D]=TRUE;
+        		}
+		}		
 
     myPilot->keyDown(keyCode);
 
@@ -702,7 +781,7 @@ void OpenGLCanvas::keyDown(int keyCode)
 void OpenGLCanvas::keyUp(int keyCode)
 {
     myKeysDown[keyCode] = FALSE;
-    
+
 /* //removed by Mike, 20210826    
     //added by Mike, 20201226; edited by Mike, 20210423;
     //added by Mike, 20210507
@@ -1144,6 +1223,8 @@ void OpenGLCanvas::update()
             }
         }
 */
+
+				//TO-DO: -update: instructions when executing combination movements, e.g. right, down
         
         
         //added by Mike, 20201202
@@ -1200,6 +1281,12 @@ void OpenGLCanvas::update()
                         }
 */ 
                         myRobotshipContainer[iIndexCount]->setXPos(myPilot->getX());
+                       												
+                       	//added by Mike, 20211108
+                       	//if at top-most of canvas
+                       	if (myPilot->getY()<=0) {
+                       		myRobotshipContainer[iIndexCount]->setYPos(myPilot->getY()+myPilot->getHeight()*0.6f+myRobotshipContainer[iIndexCount]->getHeight()*0.4f*(iIndexCount));
+                       	}
                        												
 												//added by Mike, 20211030
 												//if Unit Member#1 changed direction to move to the BOTTOM

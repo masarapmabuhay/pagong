@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20200926
- * @date updated: 20211106
+ * @date updated: 20211108
  * @website address: http://www.usbong.ph
  *
  * References:
@@ -348,6 +348,7 @@ void initSDL(void)
 	SDL_GL_CreateContext(mySDLWindow);
 }
 
+/* //edited by Mike, 20211108; multiple directional button combinations OK
 void keyDown(SDL_KeyboardEvent *event)
 {
 	if (event->repeat == 0)
@@ -392,7 +393,58 @@ void keyDown(SDL_KeyboardEvent *event)
         }
 	}
 }
+*/
 
+//note: super family computer controller with button colors, 
+//OK with children in learning color's name identification
+//additional note: SNK's arcade buttons also use colors
+void keyDown(SDL_KeyboardEvent *event)
+{
+	if (event->repeat == 0)
+	{
+//		if (event->keysym.scancode == SDL_SCANCODE_UP)
+		if (event->keysym.scancode == SDL_SCANCODE_W)
+		{
+//			iPilotY-=4;
+			myKeysDown[KEY_W] = TRUE;		
+			myOpenGLCanvas->keyDown(KEY_W);			
+		}
+
+//		if (event->keysym.scancode == SDL_SCANCODE_DOWN)
+		else if (event->keysym.scancode == SDL_SCANCODE_S)
+		{
+//			iPilotY+=4;
+			myKeysDown[KEY_S] = TRUE;					
+			myOpenGLCanvas->keyDown(KEY_S);			
+		}
+
+//		if (event->keysym.scancode == SDL_SCANCODE_LEFT)
+		else if (event->keysym.scancode == SDL_SCANCODE_A)
+		{
+//			iPilotX-=4;
+			myKeysDown[KEY_A] = TRUE;					
+			myOpenGLCanvas->keyDown(KEY_A);			
+		}
+
+//		if (event->keysym.scancode == SDL_SCANCODE_RIGHT)
+		else if (event->keysym.scancode == SDL_SCANCODE_D)
+		{
+//			iPilotX+=4;
+			myKeysDown[KEY_D] = TRUE;					
+			myOpenGLCanvas->keyDown(KEY_D);			
+		}
+    
+    //can be pressed simultaneously with directional button
+    //added by Mike, 20210905
+    if (event->keysym.scancode == SDL_SCANCODE_K)
+    {
+        myKeysDown[KEY_K] = TRUE;
+        myOpenGLCanvas->keyDown(KEY_K);
+    }
+	}
+}
+
+/* //edited by Mike, 20211108
 void keyUp(SDL_KeyboardEvent *event)
 {
 	if (event->repeat == 0)
@@ -430,10 +482,54 @@ void keyUp(SDL_KeyboardEvent *event)
         {
             myKeysDown[KEY_K] = FALSE;
             myOpenGLCanvas->keyUp(KEY_K);
-        }
+        }        
+	}
+}
+*/
+
+
+void keyUp(SDL_KeyboardEvent *event)
+{
+	if (event->repeat == 0)
+	{
+//		if (event->keysym.scancode == SDL_SCANCODE_UP)
+		if (event->keysym.scancode == SDL_SCANCODE_W)
+		{
+			myKeysDown[KEY_W] = FALSE;		
+			myOpenGLCanvas->keyUp(KEY_W);									
+		}
+
+//		if (event->keysym.scancode == SDL_SCANCODE_DOWN)
+		else if (event->keysym.scancode == SDL_SCANCODE_S)
+		{
+			myKeysDown[KEY_S] = FALSE;					
+			myOpenGLCanvas->keyUp(KEY_S);									
+		}
+
+//		if (event->keysym.scancode == SDL_SCANCODE_LEFT)
+		else if (event->keysym.scancode == SDL_SCANCODE_A)
+		{
+			myKeysDown[KEY_A] = FALSE;					
+			myOpenGLCanvas->keyUp(KEY_A);									
+		}
+
+//		if (event->keysym.scancode == SDL_SCANCODE_RIGHT)
+		else if (event->keysym.scancode == SDL_SCANCODE_D)
+		{
+			myKeysDown[KEY_D] = FALSE;					
+			myOpenGLCanvas->keyUp(KEY_D);									
+		}
+        
+    //added by Mike, 20210905
+    if (event->keysym.scancode == SDL_SCANCODE_K)
+    {
+        myKeysDown[KEY_K] = FALSE;
+        myOpenGLCanvas->keyUp(KEY_K);
+    }
         
 	}
 }
+
 
 void doInput(void)
 {

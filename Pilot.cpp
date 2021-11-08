@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B. 
  * @date created: 20200930
- * @date updated: 20211106
+ * @date updated: 20211108
  * @website address: http://www.usbong.ph
  *
  * Reference: 
@@ -3020,8 +3020,8 @@ void Pilot::autoVerifyDashStateWithKeyDown() { //int keyCode) {
 }
 
 void Pilot::keyUp(int keyCode) {
-	//added by Mike, 20210127
-	autoVerifyDashStateWithKeyUp(keyCode);
+	//added by Mike, 20210127; removed by Mike, 20211108
+//	autoVerifyDashStateWithKeyUp(keyCode);
 
 	myKeysDown[keyCode] = FALSE;	
 }
