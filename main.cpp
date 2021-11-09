@@ -774,8 +774,8 @@ myWindowHeightAsPixel = static_cast<int>(GetSystemMetrics(SM_CYSCREEN));
 
  	char **myArrayOfInputStrings = (char **)malloc(2 * sizeof(char *)); //for only 1 item
  	myArrayOfInputStrings[0] = (char *)"./sdlwav"; //add this, albeit NOT used; arg count 1 as filename used
-// 	myArrayOfInputStrings[1] = (char *)"sounds/SleepAway.mp3";
- 	myArrayOfInputStrings[1] = (char *)"sounds/explosion.wav";
+ 	myArrayOfInputStrings[1] = (char *)"sounds/SleepAway.mp3";
+// 	myArrayOfInputStrings[1] = (char *)"sounds/explosion.wav";
 // 	myArrayOfInputStrings[1] = (char *)"sounds/islands.mp3";
 	
 	//TO-DO: -reverify: cause of NO SOUND; .wav file; no error notifications

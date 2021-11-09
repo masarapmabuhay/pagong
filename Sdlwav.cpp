@@ -384,8 +384,105 @@ int main(int argc, char **argv)
 }
 */
 
+//added by Mike, 2021110
+//Reference: https://stackoverflow.com/questions/55786004/play-one-sound-after-another-with-sdl-mixer;
+//last accessed: 2021110
+//answer by:  Nikos C., 20190421T1946
+void playAndWait(int channel, Mix_Chunk* chunk, int loops)
+{
+    channel = Mix_PlayChannel(channel, chunk, loops);
+    if (channel < 0) {
+        return; // error
+    }
+    while (Mix_Playing(channel) != 0) {
+        SDL_Delay(200);
+    }
+}
+
+//added by Mike, 2021110
+//OK; TO-DO: -add: free used memory 
+void playAndWaitMusic(Mix_Music* music, int loops)
+{
+    int output = Mix_PlayMusic(music, loops);
+    if (output < 0) {
+        return; // error
+    }
+    while (Mix_Playing(output) != 0) {
+        SDL_Delay(200);
+    }
+}
+
+
+//added by Mike, 2021110
+int executeSDLWaveSoundOKWithWAVFile(int argc, char **argv) {
+    int frequencia = 22050;
+    Uint16 formato = AUDIO_S16SYS;
+    int canal = 2; // 1 mono; 2 = stereo;
+    int buffer = 4096;
+    Mix_OpenAudio(frequencia, formato, canal, buffer);
+
+    Mix_Chunk* sound_1;
+/*    
+    Mix_Chunk* sound_2;
+    Mix_Chunk* sound_3;
+    Mix_Chunk* sound_4;
+*/
+    sound_1 = Mix_LoadWAV(argv[1]);
+/*
+    som_2 = Mix_LoadWAV("D:\\sound1.wav");
+    som_3 = Mix_LoadWAV("D:\\sound1.wav");
+    som_4 = Mix_LoadWAV("D:\\sound1.wav");
+*/
+
+/*
+    Mix_PlayChannel(-1, sound_1, 0);
+    Mix_PlayChannel(1, sound_2, 0);
+    Mix_PlayChannel(2, sound_3, 0);
+    Mix_PlayChannel(3, sound_4, 0);
+*/
+
+	playAndWait(-1, sound_1, 0);
+
+    return 0;
+}
+
+//added by Mike, 2021110
+int executeSDLWaveSound(int argc, char **argv) {
+    int frequencia = 22050;
+    Uint16 formato = AUDIO_S16SYS;
+    int canal = 2; // 1 mono; 2 = stereo;
+    int buffer = 4096;
+    Mix_OpenAudio(frequencia, formato, canal, buffer);
+
+    Mix_Music* sound_1;
+/*    
+    Mix_Chunk* sound_2;
+    Mix_Chunk* sound_3;
+    Mix_Chunk* sound_4;
+*/
+	
+    sound_1 = Mix_LoadMUS(argv[1]);
+/*
+    som_2 = Mix_LoadWAV("D:\\sound1.wav");
+    som_3 = Mix_LoadWAV("D:\\sound1.wav");
+    som_4 = Mix_LoadWAV("D:\\sound1.wav");
+*/
+
+/*
+    Mix_PlayChannel(-1, sound_1, 0);
+    Mix_PlayChannel(1, sound_2, 0);
+    Mix_PlayChannel(2, sound_3, 0);
+    Mix_PlayChannel(3, sound_4, 0);
+*/
+
+	playAndWaitMusic(sound_1, 0);
+
+    return 0;
+}
+
+
 //added by Mike, 20211107
-int executeSDLWaveSound(int argc, char **argv)
+int executeSDLWaveSoundPrev(int argc, char **argv)
 {
 	int audio_rate,audio_channels;
 	Uint16 audio_format;
