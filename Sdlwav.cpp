@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B. 
  * @date created: 20211107
- * @date updated: 20211107
+ * @date updated: 20211110
  * @website address: http://www.usbong.ph
  *
  * Reference:
@@ -23,6 +23,8 @@
  * --> https://www.libsdl.org/projects/SDL_mixer/docs/index.html
  * --> https://www.libsdl.org/projects/SDL_mixer/docs/demos/
  * --> all last accessed: 20211107
+ * --> https://www.libsdl.org/projects/SDL_mixer/docs/SDL_mixer.html;
+ * --> last accessed: 2021110
  *
  * Acknowledgments:
  * 1) "Bulalakaw Wars" Team (2007): 
@@ -429,6 +431,13 @@ int executeSDLWaveSound(int argc, char **argv)
 	black=SDL_MapRGB(s->format,0,0,0);
 */
 	
+	//added by Mike, 20211110
+	//reference: https://stackoverflow.com/questions/44186167/sdl-2-on-windows-works-incorrectly-with-audio-device;
+	//last accessed: 20211005
+	//answer by: Bartlomiej Lewandowski, 20170525T1951
+	//TO-DO: -reverify: with non-Windows, e.g. Linux, machine
+	putenv("SDL_AUDIODRIVER=DirectSound");
+	
 	// initialize sdl mixer, open up the audio device
 	if(Mix_OpenAudio(44100,MIX_DEFAULT_FORMAT,2,BUFFER)<0)
 		cleanExit("Mix_OpenAudio");
@@ -504,13 +513,70 @@ int executeSDLWaveSound(int argc, char **argv)
 
 		printf(">>>>> 2\n");
 		
-		
-		
-/*		
+	if(Mix_PlayMusic(music, -1)<0){
+		printf("Mix_PlayMusic: %s\n", Mix_GetError());
+	    printf("error playing music \n");
+	}		
+
+/*				
 	//while((Mix_PlayingMusic() || Mix_PausedMusic()) && !done)
 	while(Mix_PlayingMusic())	
 	{
-		printf(">>>>> 2.5\n");		
+		printf(">>>>> 2.5\n");
+	}
+*/
+
+	//TO-DO: -reverify: cause to close audio, et cetera 
+	//immediately when the music finishes; otherwise, error
+	//note: no audible sound output yet
+	
+	int iCount=0;
+//	while (Mix_PlayingMusic() ){
+	while (iCount<27){
+//	    printf("playing music \n");
+//   	SDL_Delay(100);
+    	
+		// check if music is playing
+		printf("%i: music is%s playing.\n", iCount, Mix_PlayingMusic()?"":" not");
+		iCount++;    	
+	}
+
+
+/* //TO-DO: -reverify: this
+//Reference: https://www.libsdl.org/projects/SDL_mixer/docs/SDL_mixer.html#SEC30;
+//last accessed: 20211110
+// fade out music to finish 3 seconds from now
+while(!Mix_FadeOutMusic(3000) && Mix_PlayingMusic()) {
+	printf("playing music \n");
+
+    // wait for any fades to complete
+    SDL_Delay(100);
+}
+*/
+
+/*
+	SDL_Event e;
+	int iDone=0;
+	while(!iDone){	
+	    while (SDL_PollEvent(&e)){
+	    	switch(e.type)
+			{
+				case SDL_KEYDOWN:
+					switch(e.key.keysym.sym)
+					{
+						case SDLK_ESCAPE:
+							iDone=1;
+							break;
+					}
+			}
+	    }
+
+//		printf(">>HALLO!\n");
+
+		// the postmix processor tells us when there's new data to draw
+		if(need_refresh) {
+			refresh();
+		}
 	}
 */
 	
@@ -619,5 +685,6 @@ int executeSDLWaveSound(int argc, char **argv)
 */
 	return(0);
 }
+
 
 

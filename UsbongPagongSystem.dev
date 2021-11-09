@@ -260,18 +260,8 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit23]
-FileName=sdlwav.cpp
-CompileCpp=1
-Folder=
-Compile=1
-Link=1
-Priority=1000
-OverrideBuildCmd=0
-BuildCmd=
-
 [Unit24]
-FileName=Robotship.cpp
+FileName=Sdlwav.cpp
 CompileCpp=1
 Folder=
 Compile=1
@@ -352,6 +342,16 @@ BuildCmd=
 
 [Unit1]
 FileName=main.cpp
+CompileCpp=1
+Folder=
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit23]
+FileName=Robotship.cpp
 CompileCpp=1
 Folder=
 Compile=1
