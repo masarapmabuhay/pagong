@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20200926
- * @date updated: 20211106
+ * @date updated: 20211110
  * @website address: http://www.usbong.ph
  *
  * Reference:
@@ -2201,27 +2201,27 @@ bool Level3D::hitByAtTile(MyDynamicObject* mdo, std::string sTileId, int iTileXP
 
     float fStepDashMultiplier=1.0f; //0.0f;
     
-    //edited by Mike, 20210803
+    //edited by Mike, 20211110
 		//TO-DO: -set: all tiles in row 0, classifed as wall collision?
+		//TO-DO: -update: collision detection and set action of non-chief Unit members
+		//wall tile
     if (sTileId.compare("0-0") == 0) {//True 
+				printf(">>>>>>>>>>>>>>>>>>hit WALL TILE\n");
+        
+        if (mdo->getCurrentFacing()==FACING_DOWN) {            
+          if (mdo->getIsPlayer1()) {
+            mdo->setYPos(mdo->getY()-mdo->getStepY());
+          }
+          else {
+            //note: auto-set y position of last Unit member is already outside the y position of wall tile
+            //with present computer instructions, use at least two (2) wall tiles in y position
+            //mdo->setYPos(iTileYPos-mdo->getStepY());
+            mdo->setYPos(mdo->getY()-mdo->getStepY()*5);
+          }
+        }
+		
+      	return false;      
   	}
-/* //removed by Mike, 20210901  	
-    //ground/floor tile
-	else if ((sTileId.compare("1-0") == 0) ||
-    	 (sTileId.compare("2-0") == 0)) {				
-				//edited by Mike, 20210830
-				//reminder: added: gravity to exist in world
-				//TO-DO: -add: container to store gravity value
-//        mdo->setYPosAsPixel(mdo->getYAsPixel()-mdo->getStepY());
-				//edited by Mike, 20210831
-        mdo->setYPos(mdo->getY()-mdo->getStepY());
-//        mdo->setYPos(mdo->getY()-mdo->getStepY()*2);
-				
-				//edited by Mike, 20210901
-//        return true;//false;
-        return false;      
-    }
-*/    
     //TO-DO: -update: this; use Trigonometry; triangle with 90degrees angle
     else if (sTileId.compare("0-2") == 0) {//True
         
@@ -2376,7 +2376,6 @@ bool Level3D::hitByAtTile(MyDynamicObject* mdo, std::string sTileId, int iTileXP
         return false;      
     }
 
-    
     return false;
     
         //removed by Mike, 20201001
