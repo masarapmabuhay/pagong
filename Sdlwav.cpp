@@ -60,6 +60,8 @@
 #include <string.h>
 #include <stdio.h>
 
+//TO-DO: -reverify: this if necessary
+
 /* set this to any of 512,1024,2048,4096              */
 /* the lower it is, the more FPS shown and CPU needed */
 #define BUFFER 1024
@@ -76,6 +78,9 @@ SDL_Surface *s=NULL;
 Uint32 flips=0;
 Uint32 black,white;
 float dy;
+
+Mix_Music* sound_1; //added by Mike, 20211110
+
 
 /******************************************************************************/
 /* some simple exit and error routines                                        */
@@ -453,8 +458,14 @@ int executeSDLWaveSound(int argc, char **argv) {
     int canal = 2; // 1 mono; 2 = stereo;
     int buffer = 4096;
     Mix_OpenAudio(frequencia, formato, canal, buffer);
+	
+	//added by Mike, 2021110
+	int volume=SDL_MIX_MAXVOLUME;
+	Mix_VolumeMusic(volume);
 
-    Mix_Music* sound_1;
+	//removed by Mike, 20211110
+//    Mix_Music* sound_1;
+
 /*    
     Mix_Chunk* sound_2;
     Mix_Chunk* sound_3;
@@ -480,6 +491,12 @@ int executeSDLWaveSound(int argc, char **argv) {
     return 0;
 }
 
+//added by Mike, 20211110
+void freeAndCloseSDLWaveSound() {
+	// free & close
+	Mix_FreeMusic(sound_1);
+	Mix_CloseAudio();
+}
 
 //added by Mike, 20211107
 int executeSDLWaveSoundPrev(int argc, char **argv)

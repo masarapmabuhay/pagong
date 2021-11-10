@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B. 
  * @date created: 20211107
- * @date updated: 20211107
+ * @date updated: 20211110
  * @website address: http://www.usbong.ph
  *
  * Reference:
@@ -42,6 +42,7 @@ class Sdlwav {
 };
 */
 
+//Mix_Music* sound_1;
 
 void errorv(char *str, va_list ap);
 void cleanExit(char *str,...);
@@ -49,4 +50,5 @@ static void postmix(void *udata, Uint8 *_stream, int _len);
 void refresh();
 void print_init_flags(int flags);
 int executeSDLWaveSound(int argc, char **argv);
+void freeAndCloseSDLWaveSound(); //added by Mike, 20211110
 
