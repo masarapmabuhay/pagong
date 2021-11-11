@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20200926
- * @date updated: 20211110
+ * @date updated: 20211111
  * @website address: http://www.usbong.ph
  *
  * Reference:
@@ -2208,7 +2208,7 @@ bool Level3D::hitByAtTile(MyDynamicObject* mdo, std::string sTileId, int iTileXP
     if (sTileId.compare("0-0") == 0) {//True 
 				printf(">>>>>>>>>>>>>>>>>>hit WALL TILE\n");
         
-        if (mdo->getCurrentFacing()==FACING_DOWN) {            
+//        if (mdo->getCurrentFacing()==FACING_DOWN) {            
           if (mdo->getIsPlayer1()) {
             mdo->setYPos(mdo->getY()-mdo->getStepY());
           }
@@ -2216,9 +2216,11 @@ bool Level3D::hitByAtTile(MyDynamicObject* mdo, std::string sTileId, int iTileXP
             //note: auto-set y position of last Unit member is already outside the y position of wall tile
             //with present computer instructions, use at least two (2) wall tiles in y position
             //mdo->setYPos(iTileYPos-mdo->getStepY());
+            //edited by Mike, 20211111
             mdo->setYPos(mdo->getY()-mdo->getStepY()*5);
+//            mdo->setYPos(mdo->getY()-mdo->getStepY()*8);
           }
-        }
+//        }
 		
       	return false;      
   	}

@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20200926
- * @date updated: 20211110
+ * @date updated: 20211111
  * @website address: http://www.usbong.ph
  *
  * References:
@@ -46,6 +46,11 @@
  * Syson, M., Camacho, R., Gonzales, D., Del Rosario, R., Vidal, E., et al.
  *
  */
+ 
+//added by Mike, 20211111
+//TO-DO: -reverify: with macOS, Wall Tile collision detection and action 
+//--> due to at select executions output is correct, caused by using incorrect container in memory? 
+ 
  
 //added by Mike, 20210825
 //TO-DO: -reuse: with SDL + GL Commands, e.g. SDL_GL_CreateContext(...)
@@ -1338,7 +1343,10 @@ void OpenGLCanvas::update()
  
                                         //edited by Mike, 20211107
 //                                        myRobotshipContainer[iIndexCount]->setYPos(myPilot->getY()+myPilot->getHeight()*0.6f+myRobotshipContainer[iIndexCount]->getHeight()*0.8f*(iRobotshipCount));
-                                        myRobotshipContainer[iIndexCount]->setYPos(myPilot->getY()+myPilot->getHeight()*0.6f+myRobotshipContainer[iIndexCount]->getHeight()*0.4f*(iRobotshipCount));
+																				//edited by Mike, 20211111
+//                                        myRobotshipContainer[iIndexCount]->setYPos(myPilot->getY()+myPilot->getHeight()*0.6f+myRobotshipContainer[iIndexCount]->getHeight()*0.4f*(iRobotshipCount));
+                                        myRobotshipContainer[iRobotshipCount]->setYPos(myPilot->getY()+myPilot->getHeight()*0.6f+myRobotshipContainer[iRobotshipCount]->getHeight()*0.4f*(iRobotshipCount));
+
                                         break;
                                     }
                                 }
@@ -1348,7 +1356,10 @@ void OpenGLCanvas::update()
 //                                    myRobotshipContainer[iIndexCount]->setYPos(myPilot->getY()+myPilot->getHeight()*0.6f+myRobotshipContainer[iIndexCount]->getHeight()*0.8f*(iIndexCount));
                                     //edited by Mike, 20211108
 //                                    myRobotshipContainer[iIndexCount]->setYPos(myPilot->getY()+myPilot->getHeight()*0.6f+myRobotshipContainer[iIndexCount]->getHeight()*0.4f*(iIndexCount+1));
+																		//edited by Mike, 20211111
                                     myRobotshipContainer[iIndexCount]->setYPos(myPilot->getY()+myPilot->getHeight()*0.6f+myRobotshipContainer[iIndexCount]->getHeight()*0.4f*(iIndexCount));
+//                                    myRobotshipContainer[iIndexCount]->setYPos(myPilot->getY()+myPilot->getHeight()*0.6f+myRobotshipContainer[iIndexCount]->getHeight()*0.4f*(0));
+//                                    myRobotshipContainer[iIndexCount]->setYPos(myPilot->getY()+myPilot->getHeight()*0.6f+myRobotshipContainer[iIndexCount]->getHeight()*0.2f*(iIndexCount));
                                    
                                     if (myLevel3D->isLevel2DCollideWith(myRobotshipContainer[iIndexCount])) {
                                         myRobotshipContainer[iIndexCount]->setYPos(myPilot->getY());
@@ -1359,8 +1370,7 @@ void OpenGLCanvas::update()
                                     
 //                                    printf(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> REVERIFY");
                                     
-                                       if (myPilot->isIntersectingRect(myPilot,myRobotshipContainer[iIndexCount-1]))                                        
-
+                                       if (myPilot->isIntersectingRect(myPilot,myRobotshipContainer[iIndexCount-1]))
                                        {
                                        		//edited by Mike, 20211106
 //                                        	myRobotshipContainer[iIndexCount]->setYPos(myRobotshipContainer[0]->getY());
@@ -1368,12 +1378,18 @@ void OpenGLCanvas::update()
                                            //edited by Mike, 20211108
                                         //	myRobotshipContainer[iIndexCount]->setYPos(myRobotshipContainer[0]->getY()+myRobotshipContainer[1]->getStepY());
 //                                           myRobotshipContainer[iIndexCount]->setYPos(myRobotshipContainer[2]->getY()+myRobotshipContainer[iIndexCount]->getStepY());
+                                            //edited by Mike, 20211111
                                            myRobotshipContainer[iIndexCount]->setYPos(myRobotshipContainer[iIndexCount]->getY()+myRobotshipContainer[iIndexCount]->getStepY());
+//                                           myRobotshipContainer[iIndexCount]->setYPos(myRobotshipContainer[iIndexCount]->getY()-myRobotshipContainer[iIndexCount]->getStepY()*2);
                                          }
                                     	 else {
                                             //edited by Mike, 20211107
 //                                    		myRobotshipContainer[iIndexCount]->setYPos(myPilot->getY()+myPilot->getHeight()*0.6f+myRobotshipContainer[iIndexCount]->getHeight()*0.8f*(iIndexCount));
+                                            //edited by Mike, 20211111
                                              myRobotshipContainer[iIndexCount]->setYPos(myPilot->getY()+myPilot->getHeight()*0.6f+myRobotshipContainer[iIndexCount]->getHeight()*0.4f*(iIndexCount+1));
+//                                             myRobotshipContainer[iIndexCount]->setYPos(myPilot->getY()+myPilot->getHeight()*0.6f+myRobotshipContainer[iIndexCount]->getHeight()*0.4f*(iIndexCount));                                             
+//                                             myRobotshipContainer[iIndexCount]->setYPos(myPilot->getY()+myPilot->getHeight()*0);
+
                                          }
 																			}
                                     }
@@ -1389,8 +1405,9 @@ void OpenGLCanvas::update()
 															if (iPrevPilotKeyDownContainer[iCount]==KEY_S) {			
 														printf(">>>>2\n");														
 
-																//edited by Mike, 20211029
-																myRobotshipContainer[iIndexCount+iCount]->setYPos(myRobotshipContainer[iIndexCount+iCount]->getY()+myRobotshipContainer[iIndexCount+iCount]->getHeight()/3.5f*(iIndexCount+iCount+1));
+																//edited by Mike, 20211111
+//																myRobotshipContainer[iIndexCount+iCount]->setYPos(myRobotshipContainer[iIndexCount+iCount]->getY()+myRobotshipContainer[iIndexCount+iCount]->getHeight()/3.5f*(iIndexCount+iCount+1));
+																myRobotshipContainer[iIndexCount+iCount]->setYPos(myRobotshipContainer[iIndexCount+iCount]->getY()+myRobotshipContainer[iIndexCount+iCount]->getHeight()/3.0f*(iIndexCount+iCount+1));
 																}
 														}
 													}																																								
@@ -1404,17 +1421,16 @@ void OpenGLCanvas::update()
                         //TO-DO: -fix: this
                         if (myLevel3D->isLevel2DCollideWith(myRobotshipContainer[iIndexCount])) {
                             myRobotshipContainer[iIndexCount]->setYPos(myPilot->getY());
-/*	//removed by Mike, 20211105
-                        	for (int iCount=iIndexCount; iCount<MAX_ROBOTSHIP_COUNT; iCount++) {
+/*
+                        	for (int iCount=iIndexCount+1; iCount<MAX_ROBOTSHIP_COUNT; iCount++) {
                         			if (iCount>0) {
                         				//if Unit member
-                        		  	if (myLevel3D->isLevel2DCollideWith(myRobotshipContainer[iCount-1])) {
+                        		  	if (myLevel3D->isLevel2DCollideWith(myRobotshipContainer[iCount])) {
                             			myRobotshipContainer[iCount]->setYPos(myPilot->getY());
                         				}	
                         			}                        	
 													}	
-*/													
-
+*/
 /*
      		printf(">>>>>>>>>>>>>>>>>>>>>> HIT!!!\n");
 
