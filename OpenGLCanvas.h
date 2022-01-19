@@ -1,5 +1,5 @@
 /*
- * Copyright 2020~2021 SYSON, MICHAEL B.
+ * Copyright 2020~2022 SYSON, MICHAEL B.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20200929
- * @date updated: 20211103
+ * @date updated: 20220119; from 20211103
  * @website address: http://www.usbong.ph
  *
  * Acknowledgments:
@@ -485,6 +485,7 @@ public:
     void renderPrev(); //edited by Mike, 20210825    
     void render();
     void update();
+    void updateBuggy(); //added by Mike, 20220119
     
     void addScore(int s);
     void loseLife();

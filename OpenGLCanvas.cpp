@@ -1,5 +1,5 @@
 /*
- * Copyright 2020~2021 SYSON, MICHAEL B.
+ * Copyright 2020~2022 SYSON, MICHAEL B.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20200926
- * @date updated: 20211111
+ * @date updated: 20220119; from 20211111
  * @website address: http://www.usbong.ph
  *
  * References:
@@ -45,7 +45,11 @@
  * 1) "Bulalakaw Wars" Team (2007):
  * Syson, M., Camacho, R., Gonzales, D., Del Rosario, R., Vidal, E., et al.
  *
- */
+ */ 
+ 
+//added by Mike, 20220119
+//note: ROBOT ARMOR FIGHTER; Objective: Identify BEST DEFENSE, et cetera
+
  
 //added by Mike, 20211111
 //TO-DO: -reverify: with macOS, Wall Tile collision detection and action 
@@ -1051,7 +1055,7 @@ void OpenGLCanvas::render()
             glPushMatrix();
                 myRobotshipContainer[iCount]->draw();
             glPopMatrix();
-        }
+        }        
     }
     //added by Mike, 20211107
     else if (myPilot->getCurrentFacing()==FACING_DOWN) {
@@ -1095,9 +1099,382 @@ void OpenGLCanvas::render()
     
 }
 
+//added by Mike, 20220119
+void OpenGLCanvas::update()
+{
+    if (currentState==GAME_SCREEN) {
+        //added by Mike, 20210606
+        //TO-DO: -add: goal defender, e.g. animal as nature?
+ //removed by Mike, 20210825
+				//added by Mike, 20210807
+        myPilot->update(1); //dt
+			
+				//TO-DO: -update: instructions when executing combination movements, e.g. right, down
+                
+        //added by Mike, 20201202
+       	//verify if no keys are pressed down
+       	int iKeyCount;
+       	for (iKeyCount=0; iKeyCount<iNumOfKeyTypes; iKeyCount++) {
+            if (myKeysDown[iKeyCount]==TRUE) {
+
+//printf(">>>KEY DOWN = TRUE\n");
+
+            int iIndexCount=0;                
+            int iCurrentMaxUnitMemberCount=MAX_ROBOTSHIP_COUNT; //1;
+//            for(iIndexCount=0; iIndexCount<MAX_ROBOTSHIP_COUNT; iIndexCount++) {
+            for(iIndexCount=0; iIndexCount<iCurrentMaxUnitMemberCount; iIndexCount++) {
+
+                
+//printf(">>>myRobotshipContainer[%i]'s iPrevPilotKeyDownContainer[%i]: %i\n",iIndexCount,iPilotKeyDownCount-1-iIndexCount,iPrevPilotKeyDownContainer[iIndexCount]);                
+
+								//edited by Mike, 20211030
+ 
+                //TO-DO: -reverify: movement when Canvas Position X NOT anymore zero
+                //TO-DO: -reverify: movement when Canvas Position Y NOT anymore zero
+                //TO-DO: -verify: adding more Unit members, total 4+1...
+
+								//TO-DO: -add: instructions when movement is from horizontal to vertical, et cetera
+
+                //note: Robo's distance notioceably near with Pilot
+                switch (iPrevPilotKeyDownContainer[iIndexCount]) {
+                    case KEY_W://FACING_UP:
+                        break;
+                    case KEY_S: //FACING_DOWN:
+                    		//TO-DO: identify: patterns to write correct Computer Commands
+                    		//to execute movement combinations, e.g. RIGHT, DOWN keys
+                    		//increase Tauhan image sprite to solve excess distance problem?
+                    		//when technique mastered, can reuse with battle formation? CHRONO TRIGGER?
+                    		//reminder: there already exists for-loop of each Unit member;
+                    		//multiple for-loops with each Unit member causes 
+                    		//incorrect outputs after computation
+                    		//sude ni suujitsu no jikan mo iretashi, 
+                    		//--> nilagyan ko na rin ng bilang na araw na panahon, 
+                    		//moto ni modosazu, tsudzukeru?
+                    		//--> hindi ibalik sa pinanggalian, ipagpatuloy?
+                    		//POCKY & ROCKY janaku, CHRONO TRIGGER?
+                    		//--> hindi POCKY & ROCKY, CHRONO TRIGGER?
+                    		//maruchipurei mo ii...
+                    		//--> ayos din ang multi-play...
+                    		//doragon kuesuto 6 no OPEN WORLD mitaini...
+                    		//--> tulad ng OPEN WORLD ng dragon quest 6...
+                    		//ke-tai ban ha mada dakedo, 
+                    		//--> wala pa nga lang uri sa madadala (e.g. telepono) 
+                    		//toriaezu, uru sa-bisu ni tsuiteru pasokon ni irete,
+                    		//--> pansamantala, ilagay sa kompyuter na kabilang sa ibinibentang serbisyo 
+                    		//firipin go de kaite aru to naraba,
+                    		//--> kapag may nakasulat sa wikang Filipino,
+                    		//kompyu-ta + jouhou ni kyoumi wo motsu you ni naru 
+                    		//--> sa kompyuter + balita, magkakaroon ng hilig 
+                    		//firipinjin ga ooku naru...
+                    		//--> ang mga Pinoy darami...
+                    		//robotto mo iru shi... CRYSIS no youna yoroi to naru?
+                    		//--> kailangan din ng robot... magiging nasusuot na kalasag tulad sa CRYSIS?                   												//		
+                    		//halimbawa, simulan sa sapatos? running shoes ng Adidas?
+                    		//PHP1000, humuhulma sa paa? Kahit size 11, umaakma sa size 10?
+                    		
+                        break;
+                    case KEY_A: //FACING_LEFT:                    
+                        break;
+                    case KEY_D: //FACING_RIGHT:                                        
+                        break;
+                }
+
+								//edited by Mike, 20211027
+								if ((iPrevPilotKeyDownContainer[iIndexCount]>=0) && (iPrevPilotKeyDownContainer[iIndexCount]<iNumOfKeyTypes)) {
+
+                	//note: -1 default value; no directional movement
+                	myRobotshipContainer[iIndexCount]->move(iPrevPilotKeyDownContainer[iIndexCount]);	
+								}
+            }
+
+                break;
+            }
+        }
+                
+                //TO-DO: -add: idle Tauhan animation sequences, e.g. head searching? CHRONO TRIGGER?
+                //TO-DO: -reverify: cause why select times Unit members do NOT move nearer to Unit Chief
+                //TO-DO: -add: Unit Member can be set to be Unit Chief
+                
+                switch (iPrevPilotKeyDownContainer[0]) {
+                    case KEY_W://FACING_UP:
+                        break;
+                    case KEY_S: //FACING_DOWN:                    												
+                        break;
+                    case KEY_A: //FACING_LEFT:                    
+                        break;
+                    case KEY_D: //FACING_RIGHT:                                        
+                        break;
+                }				
+				//-----        
+  
+        for (int iCount=0; iCount<MAX_ROBOTSHIP_COUNT; iCount++) {
+                    //TO-DO: -fix: auto-set y position of Unit members farther from Chief does not hit Tile
+                    //TO-DO: -fix: slide up movement with Unit members#2 onward after hitting tile
+                    //note: during battle, to eliminate Artificial Intelligence (AI) movement problems,
+                    //use wide open areas, e.g. select stages in Pocky & Rocky?
+                    //where: AI is used, if no Human companion during multiplayer
+                    //battle with opponents, e.g. Teroristang Komunista, becomes the road blocks classified to be challenges?
+                		if (myLevel3D->isLevel2DCollideWith(myRobotshipContainer[iCount])) {
+//                        if (myRobotshipContainer[iCount]->getCurrentFacing()==FACING_UP) {
+                        if (iPilotKeyDownCount==KEY_W) {
+                            /*
+                            if (iCount==1) {
+                              printf(">>>>>>>>>>>>>>>>>>>>>> FACING_UP\n");
+                            }
+*/
+                            myRobotshipContainer[iCount]->setYPos(myPilot->getY());
+                            myRobotshipContainer[iCount]->move(KEY_W);
+                   		
+                        }
+                    }
+     
+                    
+                    ////        case KEY_S: //FACING_DOWN:
+                    ////            break;
+                    ////        case KEY_A: //FACING_LEFT:
+                    ////            break;
+                    ////        case KEY_D: //FACING_RIGHT:
+                    ////            break;
+        }
+				//-----
+        
+        if (iKeyCount==iNumOfKeyTypes) {
+/* //removed by Mike, 20210825        
+            //TO-DO: -update: this
+            myRobotshipShip->move(-1); //IDLE_MOVING_STATE
+*/
+            //added by Mike, 20210423
+            myPilot->move(-1);
+            
+/*	//edited by Mike, 20211027            
+            //added by Mike, 20211025
+						myRobotship->move(-1);
+*/
+
+    for(int iCount=0; iCount<MAX_ROBOTSHIP_COUNT; iCount++) {
+        myRobotshipContainer[iCount]->move(-1);
+		}
+
+
+        }
+
+       	//added by Mike, 20210111; edited by Mike, 20210121
+       	//robotship; defend command
+        if(myKeysDown[KEY_H] == TRUE)
+        {
+/* //removed by Mike, 20210825        
+            myRobotshipShip->move(KEY_H);
+*/
+            myPilot->move(KEY_H);                                    
+        }
+
+        
+       	//edited by Mike, 20201013; edited again by Mike, 20210128
+       	//edited by Mike, 20210130
+        //    	if ((myKeysDown[KEY_UP] == TRUE) || (myKeysDown[KEY_W] == TRUE))
+        if (myKeysDown[KEY_W] == TRUE)
+        {
+        		//removed by Mike, 20210901; added by Mike, 20210921
+            myPilot->move(KEY_W);
+
+            
+            //added by Mike, 20211025
+            iArrayPilotKeyDownHistoryContainer[iPilotKeyDownCount]=KEY_W;
+            iPilotKeyDownCount++;
+						if (iPilotKeyDownCount>=MAX_PILOT_KEY_DOWN_HISTORY) {
+            	iPilotKeyDownCount=0;						
+						}        
+						
+            
+            //added by Mike, 20210921; edited by Mike, 20210923
+//            myCanvasPosY-=myPilot->getStepY();
+//            myLevel2D->move(KEY_W);
+						//edited by Mike, 20210925
+//            myLevel2D->move(KEY_W, myPilot);
+            myLevel3D->move(KEY_W, myPilot);
+            						
+            //removed by Mike, 20200929
+            //			sound->play_sound_clip(thrust);
+        }
+       	//edited by Mike, 20201013
+        //else if(myKeysDown[KEY_DOWN] == TRUE)myWindowWidthAsPixel
+        //edited by Mike, 20201014
+        if(myKeysDown[KEY_S] == TRUE)
+            //    	else if(myKeysDown[KEY_S] == TRUE)
+        {
+        		//removed by Mike, 20210901; added by Mike, 20210921        
+            myPilot->move(KEY_S);            
+
+            /* //removed by Mike, 20211026
+            //added by Mike, 20211025; removed by Mike, 20211025
+						//TO-DO: -update: to be based on iPangkatFormationCount
+						myRobotship->setYPos(myPilot->getY()-myPilot->getHeight());
+						myRobotship->move(KEY_S);            
+
+						//added by Mike, 20211025
+						myRobotship->setXPos(myPilot->getX());
+*/
+            //added by Mike, 20211025
+            iArrayPilotKeyDownHistoryContainer[iPilotKeyDownCount]=KEY_S;
+            iPilotKeyDownCount++;
+						if (iPilotKeyDownCount>=MAX_PILOT_KEY_DOWN_HISTORY) {
+            	iPilotKeyDownCount=0;						
+						}               
+
+                
+            //added by Mike, 20210921; edited by Mike, 20210923
+//            myCanvasPosY+=myPilot->getStepY();
+//            myLevel2D->move(KEY_S);            
+						//edited by Mike, 20210925
+//            myLevel2D->move(KEY_S, myPilot);
+            myLevel3D->move(KEY_S, myPilot);
+        
+            //edited by Mike, 20201115; edited again by Mike, 20210128
+            //myRobotshipShip->move(KEY_DOWN);
+            //removed by Mike, 20210502
+            //            myRobotshipShip->move(KEY_S);
+        }
+       
+        if (myKeysDown[KEY_D] == TRUE)
+        {
+/* //removed by Mike, 20210825        
+            myRobotshipShip->move(KEY_D);
+*/                        
+            //added by Mike, 20210423
+            myPilot->move(KEY_D);
+            
+//            printf(">>KEY_D\n");
+
+            //added by Mike, 20211025
+            iArrayPilotKeyDownHistoryContainer[iPilotKeyDownCount]=KEY_D;
+            iPilotKeyDownCount++;
+						if (iPilotKeyDownCount>=MAX_PILOT_KEY_DOWN_HISTORY) {
+            	iPilotKeyDownCount=0;						
+						}
+
+            //edited by Mike, 20210923
+//						myCanvasPosX+=myPilot->getStepX();
+//            myLevel2D->move(KEY_D);
+						//edited by Mike, 20210925
+//            myLevel2D->move(KEY_D, myPilot);
+            myLevel3D->move(KEY_D, myPilot);
+            
+            //removed by Mike, 20200929
+            //			sound->play_sound_clip(thrust);
+        }
+        
+        //added by Mike, 20210130
+        //note: +reverified due to sequence if-then instructions causes RobotShip to not execute rapid fire down with move up-left, etc
+        //using Windows Machine
+        //verified: problem does not occur using Linux Machine (with external USB keyboard)
+        //added by Mike, 20210131
+        //note: add use of external USB keyboard solves the problem
+        
+       	//edited by Mike, 20201013
+        //else if(myKeysDown[KEY_LEFT] == TRUE)
+        //edited by Mike, 20201014
+        //else if(myKeysDown[KEY_A] == TRUE)
+        if(myKeysDown[KEY_A] == TRUE)
+        {  
+            //added by Mike, 20210423
+            myPilot->move(KEY_A);
+
+            //added by Mike, 20211025
+            iArrayPilotKeyDownHistoryContainer[iPilotKeyDownCount]=KEY_A;
+            iPilotKeyDownCount++;
+            if (iPilotKeyDownCount>=MAX_PILOT_KEY_DOWN_HISTORY) {
+            	iPilotKeyDownCount=0;						
+			}
+
+            
+
+/*	//edited by Mike, 20210910
+						//added by Mike, 20210910            
+						//move left
+						//Reference: https://community.khronos.org/t/moving-an-object-with-respect-to-the-camera/40968;
+						//last accessed: 20201026
+						//answer by: Bob, 200002
+						myCanvasPosY+=cos(myCanvasLookAtAngle)*myCanvasStepY;
+						myCanvasPosX-=sin(myCanvasLookAtAngle)*myCanvasStepX;            
+*/
+			//edited by Mike, 20210923
+//            myCanvasPosX-=myPilot->getStepX();
+//            myLevel2D->move(KEY_A);
+						//edited by Mike, 20210925
+//            myLevel2D->move(KEY_A, myPilot);
+            myLevel3D->move(KEY_A, myPilot);
+		
+        }
+      
+        //TO-DO: -update: to use container for collision detection; to include companions
+        
+        //note: we verify if we continue with step, hit collision
+        //if so, we do not add step to position
+        //edited by Mike, 20210923
+        if (myPilot->getX() -myPilot->getStepX() < 0) {
+//        if (myPilot->getX() < 0) {
+        //edited by Mike, 20210923
+//            myPilot->setXPos(0+myPilot->getStepX());
+            myPilot->setXPos(0);
+//         myPilot->setXPos(0-myPilot->getStepX());
+
+/*	//removed by Mike, 20211025
+						//added by Mike, 20211025
+						myRobotship->setXPos(0+myPilot->getWidth());
+						myRobotship->move(KEY_A);
+*/						
+        }
+        
+        //max movement with set
+        else if (myPilot->getX()+myPilot->getWidth() +myPilot->getStepX() > myWindowWidth) {
+            myPilot->setXPos(myWindowWidth-myPilot->getWidth()-myPilot->getStepX());
+
+/*	//removed by Mike, 20211025
+						//added by Mike, 20211025
+						myRobotship->setXPos(myPilot->getX()-myPilot->getWidth());
+						myRobotship->move(KEY_D);
+*/						
+        }
+        
+        
+				//added by Mike, 20210727
+        //note: we use y-axis in Level2D; instead of z-axis (Level3D)
+        //TO-DO: -reverify: to use z-axis in Level2D
+        if (myPilot->getY() -myPilot->getStepY() < 0) { //max movement with set
+        		//edited by Mike, 20210921
+//            myPilot->setYPos(0+myPilot->getStepY());
+            myPilot->setYPos(0);            
+        }
+        //max movement with set
+        else if (myPilot->getY()+myPilot->getHeight() +myPilot->getStepY() > myWindowHeight) {
+            myPilot->setYPos(myWindowHeight-myPilot->getHeight()-myPilot->getStepY());
+        }
+        
+    }
+    else if (currentState==TITLE_SCREEN)
+    {
+    }
+    else if (currentState==CONTROLS_SCREEN)
+    {
+    }
+    else if (currentState==HIGHSCORE_SCREEN)
+    {
+    }
+    else if (currentState==GAMEOVER_SCREEN)
+    {
+        /*		//removed by Mike, 20200929
+         if(myKeysDown[KEY_SPACE] == TRUE)
+         {
+         gameReset();
+         }
+         */
+    }
+}
+
 //added by Mike, 20210510
 //TO-DO: -update: this
-void OpenGLCanvas::update()
+//edited by Mike, 20220119; TO-DO: -reverify: computer instructions to execute movement sequence as with NOKIA SNAKE
+void OpenGLCanvas::updateBuggy()
 {
     if (currentState==GAME_SCREEN) {
         //added by Mike, 20210606
@@ -1111,10 +1488,11 @@ void OpenGLCanvas::update()
         myRobotship->update(1); //dt
 */
 
+/* //removed by Mike, 20220119; TO-DO: -reverify: computer instructions to execute movement sequence as with NOKIA SNAKE
         for(int iCount=0; iCount<MAX_ROBOTSHIP_COUNT; iCount++) {
           myRobotshipContainer[iCount]->update(1);
         }
-                
+*/                
         //TO-DO: -add: record Pilot movement, e.g. previous step; 
         //myRobotship executes movement when Pilot executes next step
 				//TO-DO: -add: Talk Action with Tauhan in Daigdig
