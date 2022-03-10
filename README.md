@@ -61,10 +61,26 @@ Library: set of reusable instructions
 ## 3.1. Simple Directmedia Layer (SDL): SDL version 2.0 & SDL Image
 https://www.libsdl.org/download-2.0.php; last accessed: 20210922<br/>
 --> <b>Recommendation:</b> Reuse Image Compression instructions, e.g. loading .png image files  
-
+d Apr 25, 2018 at 19:40
+Amir
+47911 gold badge88 silver badges1919 bronze badges
+answered Jul 19, 2017 at 3:35
+A-Sharabiani
+90788 silver badges12
 ## 3.2. Open Graphics Library (OpenGL)
 https://www.opengl.org/; last accessed: 20210922<br/>
 --> <b>Recommendation:</b> Not to add OpenGL instructions for computer machines with classification: 32-bit Operating System (OS) without 3-D Graphic Acceleration Card
+
+### 3.2.1. Installation Instructions:
+Enter the following COMMANDS in the Terminal Window:<br/>
+<b>sudo apt-get install mesa-utils</b><br/>
+<b>sudo apt-get install freeglut3-dev</b><br/>
+<br/>
+<b>Reference:</b><br/>
+https://askubuntu.com/questions/96087/how-to-install-opengl-glut-libraries;<br/>
+last accessed: 20220310<br/>
+answer by: A-Sharabiani, 20170719T1535<br/>
+edited by: Amir, 20180425T1940<br/>
 
 # 4. Add-on Software Tools
 ## 4.1. [LibreOffice Calc: Spreadsheet](https://www.libreoffice.org/discover/calc/)<br/>
@@ -77,7 +93,7 @@ https://www.opengl.org/; last accessed: 20210922<br/>
 --> <b>Note:</b> Quick Single-layered Image Editing Tool
 
 # 5. Open Source Software License
-Copyright 2021 SYSON, MICHAEL B.
+Copyright 2021~2022 SYSON, MICHAEL B.
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at
 
