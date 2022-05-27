@@ -2,7 +2,10 @@
 Set of computer instructions with reusable component parts
 
 ### keyphrase:
-Simple Directmedia Layer (SDL) <b>AND</b> Open Graphics Library (OpenGL)
+Simple Directmedia Layer (SDL) <b>AND</b> Open Graphics Library (OpenGL)<br/>
+<br/>
+where: SDL : compression techniques<br/>
+OpenGL : 3D Graphics techniques
 
 ## Objective
 Continue to increase know-how to build Electronic Book Readers with Human-Computer Interactivity<br/>
