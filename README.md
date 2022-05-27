@@ -1,6 +1,9 @@
 # Usbong Pagong
 Set of computer instructions with reusable component parts
 
+### keyphrase:
+Simple Directmedia Layer (SDL) <b>AND</b> Open Graphics Library (OpenGL)
+
 ## Objective
 Continue to increase know-how to build Electronic Book Readers with Human-Computer Interactivity<br/>
 <br/>
